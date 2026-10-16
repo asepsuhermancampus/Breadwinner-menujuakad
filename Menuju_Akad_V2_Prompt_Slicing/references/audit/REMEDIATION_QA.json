@@ -1,0 +1,125 @@
+{
+  "document": "Menuju_Akad_v2.pen",
+  "phase": "authorized_design_remediation",
+  "scope": "Batch 01-07 and Batch Ekspansi; no Batch 08",
+  "claims": {
+    "canvasDesignRevised": true,
+    "backendImplemented": false,
+    "executablePrototypeVerified": false,
+    "runtimeUATExecuted": false,
+    "wcagCertified": false,
+    "productionFeaturesActivated": false,
+    "transactionsOrBankTransfersPerformed": false,
+    "messagesSentOrContentPublished": false
+  },
+  "inventory": {
+    "baselineRoots": 151,
+    "newRoots": 29,
+    "newDesignStateOrHandoffFrames": 27,
+    "newAreaMarkers": 1,
+    "newAuditStatusBoards": 1,
+    "finalRoots": 180,
+    "finalDesignLibraryStateOrHandoffFrames": 167,
+    "finalAreaMarkers": 9,
+    "finalAuditBoards": 4,
+    "authorizedTouchedBaselineRoots": 35,
+    "protectedUntouchedBaselineRoots": 116,
+    "activeResolvedNodes": 27208,
+    "activeTextNodes": 11468
+  },
+  "geometry": {
+    "instancesResolved": true,
+    "disabledSubtreesExcludedFromActiveChecks": true,
+    "overflowTolerancePixels": 0.05,
+    "collapsedNonemptyTextThresholdPixels": 0.1,
+    "overflow": [],
+    "collapsedText": [],
+    "rootOverlaps": [],
+    "remainingPlaceholders": [],
+    "missingBaselineRoots": []
+  },
+  "sourceProtection": {
+    "method": "FNV-1a of JSON-serialized schema subtrees, compared to pre-remediation baseline; non-cryptographic change detection",
+    "checked": 116,
+    "unchanged": 116,
+    "unexpectedChanges": []
+  },
+  "financeInspectorWidthsPixels": [480, 480, 480],
+  "samplePhoneDimensionsPixels": [375, 812],
+  "visualReview": {
+    "representativeUniqueFramesReviewed": 13,
+    "frames": ["KyFHp", "tQXWQ", "I7adT5", "W214ws", "USpKE", "YDHrr", "TzrQC", "mkFcs", "AsgIs", "dXzYX", "RB5cT", "PFaIp", "w7nKVL"],
+    "note": "Screenshot review is sampled design evidence, not functional or accessibility runtime validation. Final geometry was checked across the whole document."
+  },
+  "fixtureArithmetic": {
+    "checks": 37,
+    "passed": 37,
+    "failed": [],
+    "note": "Arithmetic on illustrative UI fixtures, not real provider/account data or backend unit tests.",
+    "currentEventIDR": {
+      "contributions": 112500000,
+      "expenses": 57500000,
+      "allocatedEventFundsRemaining": 55000000,
+      "plannedBudget": 150000000,
+      "plannedRemainderNotAutomaticallyDebt": 92500000,
+      "BCAAndiAllocation": 10000000,
+      "MandiriRisaAllocation": 30500000,
+      "JagoSharedAllocation": 14500000,
+      "existingInternalTransferNotIncome": 9000000
+    },
+    "sandboxBundleIDR": {
+      "total": 35000000,
+      "downPayment": 10500000,
+      "remaining": 24500000,
+      "laterInstallments": [14000000, 10500000],
+      "addedToCurrentEventLedger": false
+    }
+  },
+  "canonicalDesignSchedule": {
+    "couple": "Andi Ramadhan & Risa Pratiwi",
+    "date": "2027-02-14",
+    "timezone": "Asia/Jakarta",
+    "venue": "Bumi Samami, Bandung",
+    "akad": ["08:00", "09:00"],
+    "reception": ["10:00", "14:00"],
+    "latestInvitationUsedAsDesignDefault": true,
+    "ownerVerificationRequiredBeforeRealPublication": true,
+    "unrelatedAppointmentsAndLamaranUnchanged": true
+  },
+  "releaseSafety": {
+    "activeRelease": 43,
+    "vendor": "Hidden",
+    "brandAmbassador": "Hidden",
+    "catering": "Coming Soon",
+    "weddingKit": "Maintenance",
+    "domain": "Hidden/internal",
+    "giftsOnActiveInvitation": "Inactive",
+    "newMarketplace": "Preset 3 sandbox preview only",
+    "actualEntitlement": "Premium"
+  },
+  "findingDisposition": {
+    "P0-01": "Addressed in design; production activation not performed",
+    "P0-02": "Addressed in design; payment/runtime validation pending",
+    "P0-03": "Addressed in design; manual ledger semantics made explicit",
+    "P1-01": "Canonical design schedule aligned",
+    "P1-02": "Accounts, opening cut-off, transfer and linked correction designed",
+    "P1-03": "Ledger actual read-only; simulator does not post deposits",
+    "P1-04": "Design evidence and acceptance criteria added; runtime accessibility NOT RUN",
+    "P1-05": "Owner dispute intake designed; not an automatic refund",
+    "P1-06": "Verified-payment entitlement and delivery recovery designed",
+    "P1-07": "Import selection, repair, compare, source mapping and legibility revised",
+    "P1-08": "Navigation/action/permission/state handoff prepared; server enforcement/UAT NOT RUN",
+    "P2-01": "Optional-feature inventory and inactive-state fallbacks prepared",
+    "P2-02": "Inspector, date/select and target consistency revised",
+    "P2-03": "Duplicate metrics reduced; sensitive safeguards preserved"
+  },
+  "pendingRuntimeValidation": {
+    "functionalSecurityPaymentPrivacyCases": 24,
+    "accessibilityResilienceCases": 6,
+    "executed": 0,
+    "source": "REMEDIATION_HANDOFF_MENUJU_AKAD_V2.md section 11"
+  },
+  "currentStatusBoard": "TzrQC",
+  "handoffBoard": "HDg7g",
+  "newRootIds": ["AsgIs", "I1fa2", "Q8dVnf", "zynG1", "mkFcs", "VKRRC", "y39xp", "KQuvx", "RB5cT", "p1hIw", "PFaIp", "c1GHr", "sCDXm", "f9tDH", "I7adT5", "CyKZk", "YDHrr", "EudS2", "c6ReWy", "fyvrX", "tQXWQ", "JVyCP", "KyFHp", "W214ws", "USpKE", "IdxPj", "HDg7g", "TzrQC", "dXzYX"]
+}

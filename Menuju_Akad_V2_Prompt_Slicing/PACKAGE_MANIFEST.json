@@ -1,0 +1,66 @@
+{
+  "provenance": {
+    "sourceFile": "Menuju_Akad_v2.pen",
+    "sourceSha256": "005991f0834e246eb007b577881466ceb047915e32fa2a4a498e29ae43fd8d14",
+    "portableSnapshotSha256": "f99f7c036ca67ffd3ed27681e3dd4bc37488ad16dcb345cb936c8f8f8cb17b85",
+    "sourceNotModified": true,
+    "portableChanges": "Only successfully cached remote image fill URLs were localized; UI geometry/content/flags unchanged."
+  },
+  "promptFiles": [
+    {
+      "batch": "01",
+      "file": "BATCH_01_FONDASI_AUTH_AKUN.md",
+      "frames": 19,
+      "bytes": 17249
+    },
+    {
+      "batch": "02",
+      "file": "BATCH_02_PERENCANAAN.md",
+      "frames": 18,
+      "bytes": 17295
+    },
+    {
+      "batch": "03",
+      "file": "BATCH_03_KEUANGAN.md",
+      "frames": 21,
+      "bytes": 19335
+    },
+    {
+      "batch": "04",
+      "file": "BATCH_04_CRM_MARKETPLACE_CHECKOUT.md",
+      "frames": 36,
+      "bytes": 22445
+    },
+    {
+      "batch": "05",
+      "file": "BATCH_05_PENGALAMAN_TAMU.md",
+      "frames": 16,
+      "bytes": 17384
+    },
+    {
+      "batch": "06",
+      "file": "BATCH_06_STUDIO_EDITOR.md",
+      "frames": 13,
+      "bytes": 18128
+    },
+    {
+      "batch": "07",
+      "file": "BATCH_07_VENDOR_BA_ADMIN.md",
+      "frames": 30,
+      "bytes": 21305
+    },
+    {
+      "batch": "Ekspansi",
+      "file": "BATCH_EKSPANSI_ROLE_FEATURE_FLAGS.md",
+      "frames": 14,
+      "bytes": 18488
+    }
+  ],
+  "globalContract": "00_KONTRAK_GLOBAL_AGENT.md",
+  "guide": "README.md",
+  "designFrameCoverage": 167,
+  "totalRoots": 180,
+  "previewCount": 12,
+  "uncachedRemoteAssetCount": 0,
+  "canvasModified": false
+}

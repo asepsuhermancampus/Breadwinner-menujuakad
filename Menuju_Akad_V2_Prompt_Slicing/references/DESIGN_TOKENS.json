@@ -1,0 +1,149 @@
+{
+  "variables": {
+    "bg-canvas": {
+      "type": "color",
+      "value": "#FBFBF9"
+    },
+    "bg-surface": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "bg-subtle": {
+      "type": "color",
+      "value": "#F4F4F0"
+    },
+    "bg-glass": {
+      "type": "color",
+      "value": "#FFFFFFD1"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#141413"
+    },
+    "text-secondary": {
+      "type": "color",
+      "value": "#5E5D59"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#96948E"
+    },
+    "accent-primary": {
+      "type": "color",
+      "value": "#1E3F32"
+    },
+    "accent-primary-hover": {
+      "type": "color",
+      "value": "#183429"
+    },
+    "status-success": {
+      "type": "color",
+      "value": "#166534"
+    },
+    "status-success-bg": {
+      "type": "color",
+      "value": "#F0FDF4"
+    },
+    "status-warning": {
+      "type": "color",
+      "value": "#9A5B13"
+    },
+    "status-warning-bg": {
+      "type": "color",
+      "value": "#FEFCE8"
+    },
+    "status-danger": {
+      "type": "color",
+      "value": "#BE123C"
+    },
+    "status-danger-bg": {
+      "type": "color",
+      "value": "#FFF1F2"
+    },
+    "font-serif": {
+      "type": "string",
+      "value": "Instrument Serif"
+    },
+    "font-sans": {
+      "type": "string",
+      "value": "Plus Jakarta Sans"
+    },
+    "font-mono": {
+      "type": "string",
+      "value": "Geist Mono"
+    },
+    "space-unit": {
+      "type": "number",
+      "value": 4
+    },
+    "radius-control": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-card": {
+      "type": "number",
+      "value": 16
+    },
+    "accent-gold": {
+      "type": "color",
+      "value": "#C9A66B"
+    },
+    "accent-rose": {
+      "type": "color",
+      "value": "#B86B5A"
+    },
+    "border-subtle": {
+      "type": "color",
+      "value": "#EAE9E4"
+    },
+    "action-primary": {
+      "type": "color",
+      "value": "#141413"
+    },
+    "dock-expanded-width": {
+      "type": "number",
+      "value": 272
+    },
+    "dock-collapsed-width": {
+      "type": "number",
+      "value": 68
+    },
+    "shell-inset": {
+      "type": "number",
+      "value": 12
+    },
+    "shell-radius": {
+      "type": "number",
+      "value": 20
+    },
+    "status-maintenance": {
+      "type": "color",
+      "value": "#B45309"
+    },
+    "status-maintenance-bg": {
+      "type": "color",
+      "value": "#FEF3C7"
+    },
+    "accent-rose-strong": {
+      "type": "color",
+      "value": "#914F43"
+    },
+    "space-page": {
+      "type": "number",
+      "value": 32
+    },
+    "space-section": {
+      "type": "number",
+      "value": 24
+    },
+    "height-control": {
+      "type": "number",
+      "value": 44
+    },
+    "height-topbar": {
+      "type": "number",
+      "value": 76
+    }
+  },
+  "themes": {}
+}

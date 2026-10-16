@@ -1,0 +1,121 @@
+{
+  "provenance": {
+    "sourceFile": "Menuju_Akad_v2.pen",
+    "sourceSha256": "005991f0834e246eb007b577881466ceb047915e32fa2a4a498e29ae43fd8d14",
+    "portableSnapshotSha256": "f99f7c036ca67ffd3ed27681e3dd4bc37488ad16dcb345cb936c8f8f8cb17b85",
+    "sourceNotModified": true,
+    "portableChanges": "Only successfully cached remote image fill URLs were localized; UI geometry/content/flags unchanged."
+  },
+  "assets": [
+    {
+      "originalUrl": "images/generated.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated.png",
+      "bytes": 906267,
+      "sha256": "091f6e009c1998c706f7424fb6f32a948099a24f93019f7c03d09163935eb859"
+    },
+    {
+      "originalUrl": "images/partner-qr.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/partner-qr.png",
+      "bytes": 2394,
+      "sha256": "500af3c2554ededde8413dabb5cd744fbeabaa5953dd9040f147884aaeda38d9"
+    },
+    {
+      "originalUrl": "images/generated-1.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-1.png",
+      "bytes": 640596,
+      "sha256": "923718ca3d586677f3ea580cdc82ca3d6ae2052097a42afac772cdf38f55c731"
+    },
+    {
+      "originalUrl": "images/generated-5.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-5.png",
+      "bytes": 622981,
+      "sha256": "dd61e146174dccec48dc3542c698d2053456e31cf2d087d90658364b43878887"
+    },
+    {
+      "originalUrl": "images/generated-7.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-7.png",
+      "bytes": 696943,
+      "sha256": "35afed01250ad295f09db77aa6d0cd107d0eee24a781cde6545106e7806e4824"
+    },
+    {
+      "originalUrl": "images/generated-4.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-4.png",
+      "bytes": 787479,
+      "sha256": "ed66daa5700259693ae8ca85c3f245ed489dc6862a191d67942d6d057037541c"
+    },
+    {
+      "originalUrl": "images/generated-3.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-3.png",
+      "bytes": 575741,
+      "sha256": "2229ed9ab03a209ca18b21cbf2de2c50695bb4e1129d38e72917be2485aa6630"
+    },
+    {
+      "originalUrl": "images/generated-2.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-2.png",
+      "bytes": 797503,
+      "sha256": "5d2c82753c216f30e6919bcdba7530a2bd41b4a91e0a39bce353028dfe9e42c9"
+    },
+    {
+      "originalUrl": "images/generated-6.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/generated-6.png",
+      "bytes": 968480,
+      "sha256": "a9f84c53bb2851e80c0e0f9b7d250dda22a21f9ba6b0d7c5d452254674492688"
+    },
+    {
+      "originalUrl": "images/guest-pass-qr.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/guest-pass-qr.png",
+      "bytes": 695,
+      "sha256": "417cd7145a6a30184259c9fb43e40aab3540826fd934de9b9dac2b2e724a910f"
+    },
+    {
+      "originalUrl": "https://images.unsplash.com/photo-1554047310-ab6170fc7b10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMDUyMDd8&ixlib=rb-4.1.0&q=80&w=1080",
+      "kind": "remote",
+      "cached": true,
+      "portableUrl": "images/stock-photo-1554047310-ab6170fc7b10.jpg",
+      "bytes": 108840,
+      "sha256": "bdd276bd5ddc874170f57cf56bb187939fe10e67294c2368cfcc1551a8760b80"
+    },
+    {
+      "originalUrl": "https://images.unsplash.com/photo-1630164182887-042eed0019d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMDUyMDd8&ixlib=rb-4.1.0&q=80&w=1080",
+      "kind": "remote",
+      "cached": true,
+      "portableUrl": "images/stock-photo-1630164182887-042eed0019d1.jpg",
+      "bytes": 142291,
+      "sha256": "27ae97a9880248dfe75d2656e5f711b7a531d6811726d1ba58c49904a7fc6d82"
+    },
+    {
+      "originalUrl": "images/SR9iY.png",
+      "kind": "local",
+      "exists": true,
+      "portableUrl": "images/SR9iY.png",
+      "bytes": 12041,
+      "sha256": "ea78518221964905a0c7647018354e99b300877644528dc145e19371759109b9"
+    }
+  ],
+  "notes": [
+    "Guest/partner QR are demonstrations, not production credentials.",
+    "SR9iY.png is schematic, not a verified venue map.",
+    "Unused heritage/texture assets are intentionally not copied.",
+    "Verify usage rights/attribution before production."
+  ]
+}
