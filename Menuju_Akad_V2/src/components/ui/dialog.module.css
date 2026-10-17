@@ -1,0 +1,32 @@
+.dialog {
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 24px;
+  overflow: auto;
+  color: var(--foreground);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 24px 96px #14141320;
+}
+.dialog::backdrop {
+  background: #14141366;
+  backdrop-filter: blur(4px);
+}
+.drawer {
+  width: min(480px, 100%);
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0 0 0 auto;
+  border-radius: 20px 0 0 20px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+@media (max-width: 600px) {
+  .dialog {
+    padding: 20px;
+  }
+  .drawer {
+    border-radius: 0;
+  }
+}

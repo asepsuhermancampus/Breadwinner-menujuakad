@@ -1,0 +1,120 @@
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+.card[data-plan="lifetime"] {
+  background: var(--subtle);
+  border-color: var(--champagne);
+}
+
+.title {
+  align-items: center;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 2rem;
+}
+
+.badge {
+  background: var(--subtle);
+  border-radius: 0.5rem;
+  color: var(--primary);
+  font-size: 0.6875rem;
+  padding: 0.375rem 0.625rem;
+}
+
+.price {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(1.3rem, 2vw, 1.625rem);
+  letter-spacing: -0.07em;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.copy {
+  color: var(--secondary);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.features {
+  display: grid;
+  flex: 1;
+  font-size: 0.75rem;
+  gap: 1.25rem;
+  line-height: 1.65;
+  margin: 2rem 0;
+}
+
+.features li {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.features li::before {
+  color: var(--primary);
+  content: "✓";
+}
+
+.notice {
+  background: var(--subtle);
+  border-radius: 0.875rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+
+.finePrint {
+  color: var(--secondary);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.history {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.invoice {
+  align-items: center;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 1050px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

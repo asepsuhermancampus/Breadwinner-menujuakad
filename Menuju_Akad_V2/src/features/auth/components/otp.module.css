@@ -1,0 +1,44 @@
+.digits {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.digits input {
+  min-width: 0;
+  height: 58px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--canvas);
+  text-align: center;
+  font-family: var(--font-geist), monospace;
+  font-size: 22px;
+}
+.digits input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--secondary);
+  font-size: 12px;
+}
+.info button {
+  min-height: 44px;
+  cursor: pointer;
+}
+.timer {
+  font-family: var(--font-geist), monospace;
+}
+@media (max-width: 767px) {
+  .digits {
+    gap: 6px;
+  }
+  .digits input {
+    height: 52px;
+    font-size: 20px;
+  }
+}

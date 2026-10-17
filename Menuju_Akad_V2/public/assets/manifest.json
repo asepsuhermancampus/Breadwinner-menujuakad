@@ -1,0 +1,48 @@
+[
+  {
+    "id": "auth-editorial",
+    "category": "images",
+    "path": "/assets/images/auth-editorial.png",
+    "mime": "image/png",
+    "bytes": 906267,
+    "sha256": "091f6e009c1998c706f7424fb6f32a948099a24f93019f7c03d09163935eb859",
+    "source": "../Menuju_Akad_V2_Prompt_Slicing/references/design/images/generated.png",
+    "license": "Aset sumber Pencil; izin produksi belum diverifikasi",
+    "alt": "Andi dan Risa dalam busana pernikahan, saling menatap di taman",
+    "width": 19660800,
+    "height": 4293597110
+  },
+  {
+    "id": "plus-jakarta-sans",
+    "category": "fonts",
+    "path": "/assets/fonts/plus-jakarta-sans/latin-variable.woff2",
+    "mime": "font/woff2",
+    "bytes": 27348,
+    "sha256": "153fc85b70298beeb1d61a5f723331649e7f23bb77302a66e61cb3e2fbdb5e79",
+    "source": "node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2",
+    "license": "SIL Open Font License 1.1",
+    "alt": ""
+  },
+  {
+    "id": "geist-mono",
+    "category": "fonts",
+    "path": "/assets/fonts/geist-mono/latin-variable.woff2",
+    "mime": "font/woff2",
+    "bytes": 23128,
+    "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+    "source": "node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2",
+    "license": "SIL Open Font License 1.1",
+    "alt": ""
+  },
+  {
+    "id": "instrument-serif",
+    "category": "fonts",
+    "path": "/assets/fonts/instrument-serif/latin-regular.woff2",
+    "mime": "font/woff2",
+    "bytes": 21032,
+    "sha256": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "source": "node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2",
+    "license": "SIL Open Font License 1.1",
+    "alt": ""
+  }
+]

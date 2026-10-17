@@ -1,0 +1,33 @@
+enum UserRole {
+  CLIENT
+  SUPERADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String?    @unique
+  phone        String?    @unique
+  name         String?
+  passwordHash String?
+  role         UserRole   @default(CLIENT)
+  status       UserStatus @default(ACTIVE)
+  sessions     Session[]
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime  @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([userId, expiresAt])
+}

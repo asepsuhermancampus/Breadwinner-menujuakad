@@ -13,6 +13,7 @@ Mode default: **frontend slicing dengan adapter data mock deterministik**. Imple
 2. Jika repository benar-benar kosong dan tidak ada stack yang ditentukan, fallback yang diusulkan adalah Next.js App Router + TypeScript + Tailwind; verifikasi kompatibilitas versi saat scaffold. Keputusan stack yang sudah diberikan pengguna selalu mengalahkan fallback ini.
 3. Gunakan komponen yang ada sebelum membuat baru. Pisahkan presentational UI, domain/state dan adapter API/mock. Jangan memasang dependency besar tanpa kebutuhan nyata.
 4. Default adapter tidak menghubungi payment gateway, bank, OTP, WA, DNS, storage publik atau endpoint produksi. Secrets tidak boleh ditaruh di client.
+   Gateway V2 dipilih **KlikQRIS**; label provider lama pada snapshot/inventaris bukan instruksi memakai Mayar/Midtrans/Xendit. Baca [panduan KlikQRIS](../Menuju_Akad_V2_Promt_Rules/07_KLIKQRIS_PAYMENT_GATEWAY.md); mode slicing tetap mock, bukan integrasi atau aktivasi produksi.
 5. Hasil akhir harus kode aplikasi, bukan screenshot statis atau halaman berisi instruksi. Laporkan perubahan, perintah yang benar-benar dijalankan, hasil test, dan integrasi yang belum tersedia. Jangan mengarang hasil test.
 
 ## Sumber desain dan prioritas
@@ -107,7 +108,7 @@ Frames: executive `f5KPKj`, master calendar `X5XMjO`, KYB `SiDny`, moderation `g
 - KYB341v3 bank revision,9 queue/4 shown. Moderation6 pending/4 shown; rules4.2, captionv7/M401. Contact scanner signal, **human verdict**. `20×30cm` false positive tidak boleh auto reject. Decision perlu version/reason/audit; captionv8 memerlukan review baru.
 
 ### Reconciliation dan idempotency
-- TX8421 Midtrans4,5 jt match; TX8422 Xendit6 jt match/duplicate no-op; TX8423 Mayar2 jt providerSettled/internalWaiting; TX8424 Midtrans1,5 jt expired/unpaid, bukan captured.
+- Override provider implementasi: seluruh baris memakai **KlikQRIS**, menggantikan label historis pada snapshot. TX8421 4,5 jt match; TX8422 6 jt match/duplicate no-op; TX8423 2 jt providerSettled/internalWaiting; TX8424 1,5 jt expired/unpaid, bukan captured. Nilai dan state fixture dipertahankan; bukan transaksi KlikQRIS nyata.
 - Provider 12,5 jt−internal 10,5 jt=2 jt **status difference**, bukan otomatis uang hilang atau payment baru.
 - Webhook example TX8423v17, signature/key/reason/ack. Provider payload harus diverifikasi server, amount/order/currency/status cocok; unknown/invalid/out-of-order tidak disamakan sukses.
 - Retry reconciliation berarti periksa/replay aman sesuai contract, bukan charge ulang. Unique provider event/payment/state key; duplicate verified event no-op.

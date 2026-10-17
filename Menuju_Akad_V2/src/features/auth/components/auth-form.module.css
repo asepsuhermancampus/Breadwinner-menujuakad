@@ -1,0 +1,158 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.intro {
+  margin-bottom: 24px;
+}
+.intro h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  line-height: 1.3;
+}
+.intro p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.google {
+  width: 100%;
+  gap: 10px;
+}
+.googleMark {
+  font-size: 19px;
+  font-weight: 600;
+}
+.divider {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--secondary);
+  font-size: 12px;
+}
+.divider::before,
+.divider::after {
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+  content: "";
+}
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--subtle);
+}
+.tabs button {
+  min-height: 44px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 12px;
+  color: var(--secondary);
+}
+.tabs button[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+.tabs button:disabled {
+  cursor: wait;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+}
+.check {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.check input {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+.row a,
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.secret {
+  position: relative;
+}
+.secret input {
+  padding-right: 54px;
+}
+.reveal {
+  position: absolute;
+  right: 6px;
+  top: 28px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+.small {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.center {
+  text-align: center;
+}
+.back {
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--secondary);
+}
+.strength {
+  display: flex;
+  gap: 6px;
+  height: 3px;
+  margin-top: -8px;
+}
+.strength span {
+  flex: 1;
+  border-radius: 4px;
+  background: var(--border);
+}
+.strength span[data-active="true"] {
+  background: var(--primary);
+}
+.security {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  background: var(--subtle);
+  color: var(--secondary);
+}
+.error {
+  color: var(--danger);
+  font-size: 12px;
+  margin: -8px 0 0;
+}
+@media (max-width: 767px) {
+  .intro h1 {
+    font-size: 26px;
+  }
+}

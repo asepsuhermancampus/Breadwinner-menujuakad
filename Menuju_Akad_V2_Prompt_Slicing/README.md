@@ -2,6 +2,8 @@
 
 Paket ini dibuat dari canvas **setelah remediasi 3 P0, 8 P1 dan 3 P2**, bukan dari baseline sebelum perbaikan. Tersedia satu prompt untuk setiap Batch 01–07 serta **Batch Ekspansi terpisah**, tanpa membuat Batch 08.
 
+**Pembaruan pembayaran, 17 Oktober 2026:** gateway V2 adalah **KlikQRIS**. Keputusan ini menggantikan label Mayar/Midtrans/Xendit pada desain lama. Baca [panduan KlikQRIS](../Menuju_Akad_V2_Promt_Rules/07_KLIKQRIS_PAYMENT_GATEWAY.md) dan [dokumentasi resmi](https://klikqris.com/dokumentasi-api). Slicing tetap mock; integrasi nyata menunggu implementasi dan bukti sandbox. Snapshot, inventaris, PNG dan QA desain tetap historis.
+
 ## Cara memakai
 1. Ekstrak ZIP. Buka repository aplikasi target pada agent coding Anda.
 2. Baca [00_KONTRAK_GLOBAL_AGENT.md](00_KONTRAK_GLOBAL_AGENT.md), lalu kirim **satu file batch** sebagai instruksi agent. Prompt batch juga menyertakan kontrak global sehingga dapat dipakai sendiri.

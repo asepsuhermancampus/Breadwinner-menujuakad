@@ -1,0 +1,49 @@
+:root {
+  --font-editorial: var(--font-instrument);
+  --canvas: #fbfbf9;
+  --surface: #ffffff;
+  --subtle: #f4f4f0;
+  --foreground: #141413;
+  --secondary: #5e5d59;
+  --muted: #96948e;
+  --primary: #1e3f32;
+  --primary-hover: #183429;
+  --champagne: #c9a66b;
+  --rose: #914f43;
+  --border: #eae9e4;
+  --success: #166534;
+  --success-bg: #f0fdf4;
+  --warning: #9a5b13;
+  --warning-bg: #fefce8;
+  --danger: #be123c;
+  --danger-bg: #fff1f2;
+  --maintenance: #b45309;
+  --maintenance-bg: #fef3c7;
+}
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-champagne: var(--champagne);
+  --color-rose: var(--rose);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-maintenance: var(--maintenance);
+  --color-maintenance-bg: var(--maintenance-bg);
+  --font-sans: var(--font-jakarta), sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+  --font-mono: var(--font-geist), monospace;
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --radius-shell: 20px;
+}

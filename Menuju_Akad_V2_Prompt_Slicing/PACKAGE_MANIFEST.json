@@ -11,49 +11,49 @@
       "batch": "01",
       "file": "BATCH_01_FONDASI_AUTH_AKUN.md",
       "frames": 19,
-      "bytes": 17249
+      "bytes": 17529
     },
     {
       "batch": "02",
       "file": "BATCH_02_PERENCANAAN.md",
       "frames": 18,
-      "bytes": 17295
+      "bytes": 17575
     },
     {
       "batch": "03",
       "file": "BATCH_03_KEUANGAN.md",
       "frames": 21,
-      "bytes": 19335
+      "bytes": 19615
     },
     {
       "batch": "04",
       "file": "BATCH_04_CRM_MARKETPLACE_CHECKOUT.md",
       "frames": 36,
-      "bytes": 22445
+      "bytes": 22725
     },
     {
       "batch": "05",
       "file": "BATCH_05_PENGALAMAN_TAMU.md",
       "frames": 16,
-      "bytes": 17384
+      "bytes": 17664
     },
     {
       "batch": "06",
       "file": "BATCH_06_STUDIO_EDITOR.md",
       "frames": 13,
-      "bytes": 18128
+      "bytes": 18408
     },
     {
       "batch": "07",
       "file": "BATCH_07_VENDOR_BA_ADMIN.md",
       "frames": 30,
-      "bytes": 21305
+      "bytes": 21740
     },
     {
       "batch": "Ekspansi",
       "file": "BATCH_EKSPANSI_ROLE_FEATURE_FLAGS.md",
       "frames": 14,
-      "bytes": 18488
+      "bytes": 18768
     }
   ],
   "globalContract": "00_KONTRAK_GLOBAL_AGENT.md",
