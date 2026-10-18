@@ -65,6 +65,7 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Tabungan & Anggaran",
         icon: "wallet",
+        href: "/planner/finance",
         detail: "Dana dan anggaran acara tetap terpisah.",
         badge: "75%",
       },
@@ -82,18 +83,21 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "CRM Tamu & WhatsApp",
         icon: "users",
+        href: "/planner/guests",
         detail: "Kelola daftar tamu dan izin komunikasi.",
         badge: "350",
       },
       {
         label: "Studio Undangan",
         icon: "studio",
+        href: "/planner/invitations",
         detail: "Ruang untuk undangan personal kalian.",
         badge: "",
       },
       {
         label: "Wedding Kit",
         icon: "gift",
+        href: "/planner/wedding-kit",
         detail: "Maintenance. Data pembelian lama tetap aman.",
         badge: "",
       },
@@ -103,6 +107,12 @@ export const navigationGroups: NavigationGroup[] = [
 
 export const commands = [
   { label: "Ringkasan & kesiapan (Dashboard)", href: "/dashboard", icon: "calendar" },
+  { label: "CRM Tamu & WhatsApp", href: "/planner/guests", icon: "users" },
+  { label: "Studio Undangan", href: "/planner/invitations", icon: "studio" },
+  { label: "Konsol Check-in Tamu", href: "/checkin", icon: "shield" },
+  { label: "Marketplace Vendor", href: "/marketplace", icon: "store" },
+  { label: "Racik Paket Jasa", href: "/marketplace/bundles", icon: "sparkles" },
+  { label: "Tabungan & anggaran (Keuangan)", href: "/planner/finance", icon: "wallet" },
   { label: "Checklist & tugas", href: "/planner/tasks", icon: "checklist" },
   { label: "Persyaratan KUA", href: "/planner/kua", icon: "documents" },
   { label: "Perlengkapan darurat Hari-H", href: "/planner/emergency", icon: "shield" },

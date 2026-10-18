@@ -1,0 +1,199 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+    gap: 2rem;
+  }
+}
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: space-between;
+}
+@media (min-width: 1024px) {
+  .headerRow {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--secondary);
+}
+.actionsGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.disclaimerCard {
+  background-color: var(--ux-dock);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 0.875rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--secondary);
+  line-height: 1.5;
+}
+.tabsContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+}
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-control);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--secondary);
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tabBtn:hover {
+  background-color: var(--ux-dock);
+  color: var(--foreground);
+}
+.tabBtnActive {
+  background-color: var(--primary);
+  color: var(--canvas) !important;
+}
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .metricsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.metricCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.metricLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary);
+  font-weight: 600;
+}
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.metricDetail {
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+.table th {
+  background: var(--ux-dock);
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+.table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+.table tr:hover td {
+  background-color: var(--canvas);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badgeDp {
+  background-color: var(--warning-bg);
+  color: var(--warning);
+}
+.badgeLunas {
+  background-color: var(--success-bg);
+  color: var(--success);
+}
+.badgeTerjadwal {
+  background-color: var(--ux-dock);
+  color: var(--secondary);
+}
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  right: 0;
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
