@@ -44,25 +44,17 @@ test.describe("Batch 05 — Multi-undangan & pengalaman tamu", () => {
 
     await slugInput.fill("andi-risa-14feb2027");
     await inspector.getByRole("button", { name: "Simpan draf alamat" }).click();
-    await expect(page.getByText("menujuakad.id/andi-risa-14feb2027").first()).toBeVisible();
+    await expect(page.getByText("Draf alamat: menujuakad.id/andi-risa-14feb2027")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "menujuakad.id/andi-risa", exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText("● TERBIT · V3")).toBeVisible();
   });
 
-  test("55: Domain & DNS Hidden — preview internal, tidak ada keberhasilan palsu", async ({
-    page,
-  }) => {
+  test("55: Domain & DNS Hidden — tidak menjadi entri pasangan", async ({ page }) => {
     await page.goto("/planner/invitations");
-    await page.getByRole("button", { name: "Domain · internal" }).click();
-
-    await expect(page.getByText("PREVIEW INTERNAL · DOMAIN HIDDEN")).toBeVisible();
-    await expect(page.getByLabel("Domain contoh")).toHaveValue("undangan.andi-risa.example");
-    await expect(page.getByText("Terdeteksi · simulasi").first()).toBeVisible();
-    await expect(page.getByText("Belum terdeteksi")).toBeVisible();
-    await expect(page.getByText("Kepemilikan TXT")).toBeVisible();
-    await expect(page.getByText("Belum diterbitkan")).toBeVisible();
-
-    // Simulation never grants production success
-    await page.getByRole("button", { name: "Simulasikan verifikasi" }).click();
-    await expect(page.getByText(/Domain tetap Hidden pada rilis aktif/i)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Domain · internal" })).toHaveCount(0);
+    await expect(page.getByLabel("Domain contoh")).toHaveCount(0);
   });
 
   test("56: Bandingkan tema — konten sama, pemilihan tidak mereset", async ({ page }) => {
@@ -114,7 +106,10 @@ test.describe("Batch 05 — Multi-undangan & pengalaman tamu", () => {
     const reject = page.getByRole("dialog").last();
     await reject.getByLabel(/Alasan/).fill("Konten tidak sesuai");
     await reject.getByRole("button", { name: "Sembunyikan kiriman" }).click();
-    await expect(page.getByText("Disembunyikan").first()).toBeVisible();
+    await expect(page.getByText("11", { exact: true })).toBeVisible();
+    await expect(page.getByText("8 ucapan · 3 foto")).toBeVisible();
+    await page.getByText("Jejak keputusan lokal").click();
+    await expect(page.getByText(/v2 · Konten tidak sesuai/)).toBeVisible();
   });
 
   test("66: Tindak lanjut CRM — 4 dari 42, tanpa penggandaan kampanye", async ({ page }) => {
@@ -182,6 +177,8 @@ test.describe("Batch 05 — Multi-undangan & pengalaman tamu", () => {
     await expect(page.getByRole("button", { name: "Kirim ucapan" })).toBeDisabled();
     await page.getByRole("checkbox").check();
     await expect(page.getByRole("button", { name: "Kirim ucapan" })).toBeEnabled();
+    await page.getByRole("button", { name: "Kirim ucapan" }).click();
+    await expect(page.getByText(/Ucapan masuk antrean moderasi/)).toBeVisible();
 
     // Moments: photo queued for moderation, not auto-published
     await page.getByRole("button", { name: "← Kembali" }).click();
@@ -191,10 +188,11 @@ test.describe("Batch 05 — Multi-undangan & pengalaman tamu", () => {
     await page.getByRole("button", { name: "Kirim untuk moderasi" }).click();
     await expect(page.getByText(/Foto masuk antrean moderasi/i)).toBeVisible();
 
-    // Gifts inactive: masked accounts, no QRIS
+    // Gifts inactive: hidden account data must not reach the public page
     await page.getByRole("button", { name: "← Kembali" }).click();
     await page.getByRole("button", { name: /Hadiah \(nonaktif\)/ }).click();
-    await expect(page.getByText("•••• 4821")).toBeVisible();
+    await expect(page.getByText("•••• 4821")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /Salin nomor|Minta alamat/ })).toHaveCount(0);
     await expect(page.getByText(/Tidak ada QRIS aktif/i)).toBeVisible();
 
     // Guide: schematic disclaimer, no auto-geolocation

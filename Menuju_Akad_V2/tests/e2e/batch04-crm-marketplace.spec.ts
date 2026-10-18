@@ -38,15 +38,15 @@ test.describe("Batch 04 — CRM, Studio, Undangan, Check-in, Marketplace & Check
     await expect(page.getByRole("heading", { name: "Studio Undangan" })).toBeVisible();
     await expect(page.getByText(/Draf v4/i).first()).toBeVisible();
 
-    // Theme gallery tab
-    await page.getByRole("button", { name: "Galeri Tema" }).click();
+    // Existing theme configuration is now inside the complete visual studio.
+    await page.getByRole("button", { name: "RSVP & Privasi (Draf)" }).click();
+    await page.getByText("Galeri Tema", { exact: true }).click();
     await expect(page.getByText("Editorial Light").first()).toBeVisible();
     await expect(page.getByText("Cypress Modern").first()).toBeVisible();
 
     // Publish review modal
-    await page.getByRole("button", { name: "RSVP & Privasi (Draf)" }).click();
     await page.getByRole("button", { name: /Publikasikan Draf/i }).click();
-    await expect(page.getByText(/Konfirmasi Publikasi Undangan/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Tinjau snapshot v4" })).toBeVisible();
   });
 
   test("4B: Public personal invitation at /i/[token] and ticket QR", async ({ page }) => {

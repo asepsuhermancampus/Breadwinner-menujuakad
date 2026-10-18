@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { guestGuideTexts } from "@/features/guest-experience/content/experience-content";
+import { downloadGuestCalendar } from "../domain/calendar";
 
 export function GuestGuideSection({ onBack }: { onBack: () => void }) {
   const t = guestGuideTexts;
@@ -10,7 +11,7 @@ export function GuestGuideSection({ onBack }: { onBack: () => void }) {
       <button
         type="button"
         onClick={onBack}
-        className="flex w-fit items-center gap-1.5 text-xs font-semibold text-secondary hover:text-foreground"
+        className="flex min-h-11 w-fit items-center gap-1.5 text-xs font-semibold text-secondary hover:text-foreground"
       >
         ← Kembali
       </button>
@@ -27,7 +28,12 @@ export function GuestGuideSection({ onBack }: { onBack: () => void }) {
         <p className="mt-1 text-xs text-secondary">
           Akad 08.00 WIB · Resepsi 10.00–14.00 WIB. Bumi Samami, Bandung.
         </p>
-        <Button variant="secondary" size="small" className="mt-3 w-full">
+        <Button
+          variant="secondary"
+          size="small"
+          className="mt-3 w-full"
+          onClick={downloadGuestCalendar}
+        >
           Tambahkan ke kalender
         </Button>
       </div>
@@ -41,7 +47,17 @@ export function GuestGuideSection({ onBack }: { onBack: () => void }) {
         <figcaption className="text-center text-[11px] text-muted">{t.mapDisclaimer}</figcaption>
       </figure>
 
-      <Button className="w-full">Buka navigasi eksternal ↗</Button>
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=Bumi+Samami+Bandung"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex min-h-11 items-center justify-center rounded-control bg-primary px-4 text-sm font-semibold text-white"
+      >
+        Cari venue di peta eksternal ↗
+      </a>
+      <p className="text-center text-xs text-secondary">
+        Pencarian nama venue; pastikan titik tujuan dengan pengirim. Lokasi perangkat tidak diminta.
+      </p>
 
       <div className="grid gap-3">
         <h3 className="text-center font-serif text-xl text-foreground">{t.dressHeading}</h3>
@@ -65,12 +81,12 @@ export function GuestGuideSection({ onBack }: { onBack: () => void }) {
         <p className="mt-1 text-xs text-secondary">{t.transportBody}</p>
       </div>
 
-      <div className="grid gap-1.5">
-        <Button variant="secondary" className="w-full">
+      <details className="rounded-control border border-border p-3">
+        <summary className="flex min-h-11 cursor-pointer items-center text-xs font-semibold">
           {t.faqQuestion}
-        </Button>
-        <p className="text-center text-[11px] text-muted">{t.faqAnswer}</p>
-      </div>
+        </summary>
+        <p className="text-xs text-secondary">{t.faqAnswer}</p>
+      </details>
     </section>
   );
 }

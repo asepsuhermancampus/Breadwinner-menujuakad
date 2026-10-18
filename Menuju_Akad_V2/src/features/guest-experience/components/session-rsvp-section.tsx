@@ -2,21 +2,25 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  rsvpExpiryText,
-  rsvpSessionsFixture,
-} from "@/features/guest-experience/content/experience-content";
-import { uniquePeopleNote, validateSessionRsvp } from "../domain/session-rsvp";
+import { rsvpExpiryText } from "@/features/guest-experience/content/experience-content";
+import { createSessionRsvpAdapter, uniquePeopleNote } from "../domain/session-rsvp";
 import type { RsvpSession } from "../types/experience";
 
-function nowIso() {
-  return "2026-10-25T10:00:00+07:00";
-}
-
-export function SessionRsvpSection({ onBack }: { onBack: () => void }) {
-  const [sessions, setSessions] = useState<RsvpSession[]>(rsvpSessionsFixture);
+export function SessionRsvpSection({
+  onBack,
+  adapter,
+  now = () => new Date(),
+}: {
+  onBack: () => void;
+  adapter: ReturnType<typeof createSessionRsvpAdapter>;
+  now?: () => Date;
+}) {
+  const [initial] = useState(() => adapter.read());
+  const [sessions, setSessions] = useState<RsvpSession[]>(initial.sessions);
+  const [version, setVersion] = useState(initial.version);
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const dirty = JSON.stringify(sessions) !== JSON.stringify(adapter.read().sessions);
 
   function update(id: string, patch: Partial<RsvpSession>) {
     setSessions((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
@@ -25,26 +29,38 @@ export function SessionRsvpSection({ onBack }: { onBack: () => void }) {
   }
 
   function handleSave() {
-    const result = validateSessionRsvp(sessions, nowIso());
+    if (!navigator.onLine) {
+      setError("Anda sedang offline. Jawaban belum disimpan; coba lagi saat terhubung.");
+      return;
+    }
+    const result = adapter.save(sessions, version, now().toISOString());
     if (!result.ok) {
       setError(
         result.reason === "deadline"
           ? "Batas perubahan sudah lewat."
           : result.reason === "quota"
             ? "Kuota sesi diperiksa ulang saat disimpan; periksa jumlah orang."
-            : "Jawaban tidak valid.",
+            : result.reason === "revoked"
+              ? "Akses undangan telah dicabut. Hubungi pengirim undangan."
+              : result.reason === "stale"
+                ? "Jawaban berubah di sesi lain. Muat jawaban terbaru sebelum mencoba lagi."
+                : "Jawaban tidak valid.",
       );
       return;
     }
-    setSavedAt(new Date().toISOString());
+    setVersion(adapter.read().version);
+    setSavedAt(now().toISOString());
   }
 
   return (
     <section className="grid gap-5 px-5 py-6" aria-label="RSVP per sesi">
       <button
         type="button"
-        onClick={onBack}
-        className="flex w-fit items-center gap-1.5 text-xs font-semibold text-secondary hover:text-foreground"
+        onClick={() => {
+          if (dirty && !window.confirm("Tinggalkan perubahan RSVP yang belum disimpan?")) return;
+          onBack();
+        }}
+        className="flex min-h-11 w-fit items-center gap-1.5 text-xs font-semibold text-secondary hover:text-foreground"
       >
         ← Kembali
       </button>
@@ -71,13 +87,15 @@ export function SessionRsvpSection({ onBack }: { onBack: () => void }) {
               <Button
                 size="small"
                 variant={s.status === "ATTENDING" ? "primary" : "secondary"}
+                aria-pressed={s.status === "ATTENDING"}
                 onClick={() => update(s.id, { status: "ATTENDING", pax: s.pax < 1 ? 1 : s.pax })}
               >
                 Hadir
               </Button>
               <Button
                 size="small"
-                variant={s.status === "DECLINED" ? "secondary" : "secondary"}
+                variant={s.status === "DECLINED" ? "primary" : "secondary"}
+                aria-pressed={s.status === "DECLINED"}
                 onClick={() => update(s.id, { status: "DECLINED", pax: 0 })}
               >
                 Berhalangan
@@ -118,17 +136,31 @@ export function SessionRsvpSection({ onBack }: { onBack: () => void }) {
         <p className="mt-1 text-xs text-secondary">{uniquePeopleNote(sessions)}</p>
       </div>
 
-      <Button className="w-full" onClick={handleSave}>
+      <Button className="w-full" disabled={Boolean(savedAt)} onClick={handleSave}>
         Simpan jawaban per sesi
       </Button>
 
       {error && (
-        <p
-          role="alert"
-          className="rounded-control border border-danger/30 bg-danger-bg p-3 text-xs text-danger"
-        >
-          {error}
-        </p>
+        <div className="grid gap-2">
+          <p
+            role="alert"
+            className="rounded-control border border-danger/30 bg-danger-bg p-3 text-xs text-danger"
+          >
+            {error}
+          </p>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              const latest = adapter.read();
+              setSessions(latest.sessions);
+              setVersion(latest.version);
+              setError(null);
+              setSavedAt(null);
+            }}
+          >
+            Muat jawaban terbaru
+          </Button>
+        </div>
       )}
       {savedAt && (
         <p

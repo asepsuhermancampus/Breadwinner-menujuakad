@@ -4,21 +4,23 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
-import type { FollowUpGuest } from "../types/followup";
+import type { FollowUpDispatchResult, FollowUpGuest } from "../types/followup";
 
 export function FollowUpReviewDialog({
   open,
   onClose,
   selected,
+  onDispatch,
 }: {
   open: boolean;
   onClose: () => void;
   selected: FollowUpGuest[];
+  onDispatch: () => FollowUpDispatchResult;
 }) {
-  const [dispatched, setDispatched] = useState<string[] | null>(null);
+  const [dispatched, setDispatched] = useState<FollowUpDispatchResult | null>(null);
 
   function handleDispatch() {
-    setDispatched(selected.map((g) => g.id));
+    setDispatched(onDispatch());
   }
 
   if (dispatched) {
@@ -29,17 +31,32 @@ export function FollowUpReviewDialog({
           setDispatched(null);
           onClose();
         }}
-        title="Pengingat terjadwal (simulasi)"
+        title="Hasil penjadwalan (simulasi)"
       >
         <div className="grid gap-3">
-          <p className="rounded-control border border-success/30 bg-success-bg p-3 text-xs font-semibold text-success">
-            ✓ {dispatched.length} pengingat masuk antrean simulasi. Tidak ada WhatsApp nyata yang
-            dikirim pada mode pratinjau.
+          <p
+            role="status"
+            className="rounded-control border border-border bg-canvas p-3 text-xs font-semibold text-foreground"
+          >
+            {dispatched.queuedIds.length} pengingat masuk antrean simulasi. Tidak ada WhatsApp nyata
+            yang dikirim pada mode pratinjau.
           </p>
           <p className="text-xs text-secondary">
-            Setiap penerima diperiksa ulang saat dispatch sungguhan: izin, nomor, jawaban terbaru,
-            dan jeda kirim. Tamu yang sudah menjawab otomatis dikeluarkan.
+            Izin, nomor, jawaban terbaru, jeda kirim, dan duplikasi kampanye diperiksa pada data
+            simulasi terbaru sebelum masuk antrean.
           </p>
+          {dispatched.excluded.length > 0 && (
+            <div className="grid gap-2 text-xs text-secondary">
+              <p className="font-semibold">{dispatched.excluded.length} pengingat dikecualikan</p>
+              <ul className="grid max-h-48 gap-2 overflow-auto">
+                {dispatched.excluded.map((guest, index) => (
+                  <li key={`${guest.id}-${index}`}>
+                    {guest.name}: {guest.reason}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <Button
             onClick={() => {
               setDispatched(null);

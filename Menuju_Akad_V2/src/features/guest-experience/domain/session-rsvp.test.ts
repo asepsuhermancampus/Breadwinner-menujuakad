@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateSessionRsvp, uniquePeopleNote } from "./session-rsvp";
+import { createSessionRsvpAdapter, validateSessionRsvp, uniquePeopleNote } from "./session-rsvp";
 import type { RsvpSession } from "../types/experience";
 
 function make(pax: number, status: RsvpSession["status"] = "ATTENDING", maxQuota = 2): RsvpSession {
@@ -35,5 +35,32 @@ describe("validateSessionRsvp", () => {
   it("does not present summed sessions as unique people", () => {
     const note = uniquePeopleNote([make(1), { ...make(2), id: "resepsi" }]);
     expect(note.startsWith("3 pax")).toBe(true);
+  });
+});
+
+describe("authoritative mock session adapter", () => {
+  it("does not trust a raised quota from the submitted draft", () => {
+    const adapter = createSessionRsvpAdapter([make(1)]);
+    expect(adapter.save([make(3, "ATTENDING", 99)], 1, before)).toMatchObject({
+      ok: false,
+      reason: "quota",
+    });
+    expect(adapter.read().sessions[0]!.pax).toBe(1);
+  });
+  it("rejects revoked permission and stale saves", () => {
+    const adapter = createSessionRsvpAdapter([make(1)]);
+    expect(adapter.save([make(2)], 1, before).ok).toBe(true);
+    expect(adapter.save([make(1)], 1, before)).toMatchObject({ ok: false, reason: "stale" });
+    adapter.revoke();
+    expect(adapter.save([make(1)], 2, before)).toMatchObject({ ok: false, reason: "revoked" });
+  });
+  it("rejects missing, duplicate, and unknown sessions", () => {
+    const adapter = createSessionRsvpAdapter([make(1)]);
+    for (const draft of [[], [make(1), make(1)], [{ ...make(1), id: "other" }]]) {
+      expect(adapter.save(draft, 1, before).ok).toBe(false);
+    }
+  });
+  it("rejects invalid clocks rather than bypassing the deadline", () => {
+    expect(validateSessionRsvp([make(1)], "invalid").ok).toBe(false);
   });
 });

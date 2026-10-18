@@ -1,71 +1,108 @@
-# Laporan Batch 05 — Multi-undangan dan Pengalaman Tamu
+# Laporan audit dan perbaikan Batch 05
 
-Tanggal: 19 Oktober 2026. Track increment: **UI_SLICING**, status: **UI_MOCK**.
-Batch 05 dinyatakan selesai setelah manajer multi-undangan, alamat/slug, domain & DNS internal (Hidden), perbandingan tema, analitik undangan, moderasi ucapan & foto, CRM tindak lanjut berizin, dan microsite editorial tamu (profil/cerita, panduan, galeri/lightbox, RSVP per sesi, ucapan, foto momen, hadiah nonaktif) berhasil dislice ke rute kanonikal produksi dan seluruh gate verifikasi hijau.
+Tanggal: 19 Oktober 2026. Mode **UI_MOCK** dengan adapter lokal deterministik.
+Audit mengikuti `BATCH_05_PENGALAMAN_TAMU.md`, kontrak global, inventaris frame,
+dan handoff remediasi. Frame aktif diperiksa melalui Pencil pada sesi gabungan
+Batch 05/06; file `.pen` tidak diedit. Inventaris menyebut sumber mobile 420 px;
+implementasi memakai lebar fluid, tanpa dock workspace pada undangan publik.
 
----
+## Temuan yang diperbaiki
 
-## Hasil Verifikasi
+- Menyimpan usulan slug sebelumnya mengganti slug aktif. `draftSlug` sekarang
+  terpisah; URL aktif, versi v3 dan tautan personal tetap sama.
+- Route microsite sebelumnya mengabaikan token dan selalu membuka sesi Budi.
+  Route server kini hanya menerima token fixture Budi yang cocok persis; token
+  asing, substring, kedaluwarsa dan dicabut mendapat layar tautan tidak tersedia.
+- RSVP sebelumnya memakai clock tetap dan mempercayai kuota dari draf. Adapter
+  memeriksa kuota otoritatif lokal, deadline, status, integer, ID sesi, izin dan
+  versi. Clock runtime dapat diinjeksi. Reload konflik dan retry offline tersedia;
+  jawaban tersimpan tetap ada saat berpindah bagian pada microsite yang sama.
+- Lightbox sebelumnya berupa div tanpa pengelolaan fokus. Kini memakai `Dialog`
+  bersama: focus trap/return, Escape, panah kiri/kanan dan caption per foto.
+  Media tidak autoplay; video/live yang belum tersedia memiliki fallback jujur.
+- Foto sebelumnya hanya mengganti nama berkas fixture. Kini ada pemilih JPG/PNG
+  lokal, validasi ukuran ≤10 MB, pratinjau privat, reset consent saat mengganti,
+  progres simulasi, retry offline, pencegahan submit ganda dan penarikan foto/izin.
+- Ucapan memeriksa consent pada aksi kirim, mencegah kirim ulang, menyediakan
+  penarikan ucapan/izin dan menjaga konten di antrean privat, bukan galeri publik.
+- Moderasi sebelumnya dapat menampilkan kiriman tanpa consent dan tidak mencatat
+  keputusan. Domain kini menolak publikasi tanpa izin dan keputusan versi lama,
+  mewajibkan alasan serta menyimpan aktor/waktu/versi/alasan pada audit lokal.
+  Metrik berubah setelah keputusan, dengan 4 baris tetap sampel dari 12 pending.
+- Follow-up sebelumnya langsung menyalin ID tanpa recheck. Adapter dispatch kini
+  memeriksa consent, nomor, jawaban dan cooldown 7 hari terbaru; dedup kampanye
+  berlaku per penerima dan nomor ternormalisasi. Search mempertahankan pilihan
+  eksplisit. Checkbox mixed memiliki semantik aksesibel dan target 44 px.
+- Analitik kini mempunyai rentang, loading/empty/offline/retry serta unduhan CSV
+  agregat. Denominator tetap 168/210 = 80%; sessions tidak disebut orang unik.
+- Simulasi DNS tidak lagi mengarang TXT/SSL sukses. Domain tetap internal/Hidden.
+  Halaman hadiah nonaktif tidak merender rekening, QRIS atau alamat tersembunyi.
+- Kalender menghasilkan berkas ICS; navigasi membuka pencarian venue tanpa
+  geolocation otomatis. Timeline dilabeli ilustratif; fitur IG/Wallet/media yang
+  belum tersedia mempunyai penjelasan dan alternatif, tanpa klaim integrasi.
 
-| Gate                    | Perintah                   | Hasil                                           |
-| ----------------------- | -------------------------- | ----------------------------------------------- |
-| Format                  | `npm run format:check`     | lulus, 100% Prettier code style                 |
-| Lint + batas arsitektur | `npm run lint`             | lulus, 307 modul, ≤200 baris/berkas, nol siklus |
-| Typecheck strict        | `npm run typecheck`        | lulus, 0 error                                  |
-| Prisma validate         | `npm run db:validate`      | lulus, skema valid 🚀                           |
-| Unit/integration        | `npm test`                 | 93 tes / 21 berkas lulus (tambah 3 berkas baru) |
-| Build produksi          | `npm run build`            | lulus, 33 rute kanonikal                        |
-| Browser E2E             | `CI=1 npx playwright test` | 67 tes lulus (regresi penuh, termasuk batch 04) |
+## Pemetaan 16 frame
 
----
+| Frame    | Implementasi/state                                                                  |
+| -------- | ----------------------------------------------------------------------------------- |
+| `DNjlJ`  | Kontrak privasi, exact token gate dan domain RSVP per sesi; bukan route library     |
+| `orG6X`  | `ManagerScreen` / `ProjectCard`; Pernikahan 350, VIP subset 12, Lamaran terpisah    |
+| `ej3Si`  | `AddressInspector`, `checkSlug`, field `draftSlug` terpisah dari aktif              |
+| `w10ww`  | `DomainPanel` internal; TXT missing dan SSL belum terbit tetap pending              |
+| `iybkq`  | `ThemeComparePanel`; dialog demo dengan konten sama dan tanpa reset RSVP            |
+| `oh4K3`  | `AnalyticsPanel` / `AnalyticsControls`, CSV agregat dan rekonsiliasi CRM            |
+| `LQOhS`  | `MicrositeScreen`; keluarga resmi dan timeline ilustratif                           |
+| `gb4IQ`  | `GuestGuideSection`; denah skematik, kalender, pencarian venue dan FAQ              |
+| `saA1w`  | `GuestGallerySection`; masonry, native modal, keyboard dan media fallback           |
+| `JLu7e`  | `SessionRsvpSection` / adapter; Akad 1/2, Resepsi 2/2, bukan 3 orang unik           |
+| `L5Awxn` | `WishesSection`; consent awal unchecked, antrean lokal dan penarikan                |
+| `Ll4xj`  | `MomentsSection` / hook privat / validasi berkas dan penarikan                      |
+| `E8d5oa` | `GiftsSection`; penjelasan nonaktif, tanpa data pembayaran tersembunyi              |
+| `MddxL`  | `ModerationPanel` / `ModerationDialog` / domain keputusan dan audit                 |
+| `Z5R5x`  | `FollowUpView`; 150/42/108 dan 4 pilihan eksplisit, recheck saat dispatch           |
+| `IdxPj`  | `OptionalFeaturesPanel` dan fallback media/guide/hadiah/domain; bukan route roadmap |
 
-## Rute Kanonikal
+## Verifikasi revisi ini
 
-| Rute                          | Fungsi                                                                             |
-| ----------------------------- | ---------------------------------------------------------------------------------- |
-| `/planner/invitations`        | Manajer multi-undangan (frame 53) + panel bandingkan tema/analitik/moderasi/domain |
-| `/planner/invitations/studio` | Studio Undangan Batch 04 (dipindah; tab CRM "Studio Undangan ↗" mengarah ke sini)  |
-| `/planner/guests`             | CRM Batch 04 + tab baru **Tindak Lanjut** (frame 66)                               |
-| `/i/[token]`                  | Undangan personal + tiket Batch 04 (tidak berubah)                                 |
-| `/i/[token]/acara`            | Microsite editorial tamu Batch 05, tanpa dock workspace                            |
+Task utama menjalankan verifikasi gabungan Batch 05/06 berikut. Subtask tidak
+mengulang suite secara terpisah. Hasil ini berasal dari sesi revisi saat ini.
 
----
+| Pemeriksaan                | Hasil aktual                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `npm test`                 | PASS — 31 berkas, 167 tes                                                                                     |
+| `npm run typecheck`        | PASS                                                                                                          |
+| `npm run lint`             | PASS — arsitektur 359 modul, batas ≤200 baris dan dependency/cycle; 12 warning nonfatal terkait gambar/unused |
+| `npm run format:check`     | PASS                                                                                                          |
+| `npm run db:validate`      | PASS                                                                                                          |
+| `npm run build`            | PASS — 33 route, termasuk build akhir setelah penyesuaian renderer                                            |
+| E2E terarah Batch 04/05/06 | 30 tes unik seluruhnya lulus setelah perbaikan selector dan rerun terarah                                     |
 
-## Pemetaan 16 Frame Desain
+Prettier pada berkas yang berubah dan `git diff --check` juga dijalankan tanpa
+error whitespace. Build akhir dan dua tes browser terakhir untuk upload foto serta
+inline edit/Visual/Form/recovery lulus. Suite penuh tidak diulang untuk selector.
 
-| ID Frame | Nama Sumber                                        | Implementasi Kode                                                                                 |
-| -------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `DNjlJ`  | 00H · Sistem Pengalaman Tamu — Privasi & sesi      | Kontrak domain `guest-experience/domain/session-rsvp.ts`; prinsip privasi diterapkan lintas seksi |
-| `orG6X`  | 53 · Multi-Undangan — Acara, varian & versi        | `ManagerScreen` + `ProjectCard` di `/planner/invitations`                                         |
-| `ej3Si`  | 54 · Alamat Undangan — Slug & konflik              | `AddressInspector` + `invitation-manager/domain/slug.ts` (conflict tidak membocorkan pemilik)     |
-| `w10ww`  | 55 · Domain & DNS — Preview internal / Hidden      | `DomainPanel` (panel state, bukan route publik; simulasi ≠ keberhasilan produksi)                 |
-| `iybkq`  | 56 · Bandingkan Tema — Akses, gerak & keterbacaan  | `ThemeComparePanel` (konten & RSVP sama, tidak direset)                                           |
-| `oh4K3`  | 57 · Analitik Undangan — Kunjungan & konversi RSVP | `AnalyticsPanel` (280/340/210/168·80%, rekonsiliasi CRM 150+18 / 20+12 = 170+30)                  |
-| `LQOhS`  | 58 · Profil & Cerita — Microsite editorial         | `MicrositeScreen` home (hero, keluarga resmi, milestone 2022/2025/2027)                           |
-| `gb4IQ`  | 59 · Panduan Tamu — Acara, denah & kenyamanan      | `GuestGuideSection` (denah skematik SR9iY.png + disclaimer, tanpa geolocation otomatis)           |
-| `saA1w`  | 60 · Galeri, Lightbox & Media — Pilihan tamu       | `GuestGallerySection` (masonry, lightbox Esc, video/musik opt-in eksplisit)                       |
-| `JLu7e`  | 61 · RSVP Per Sesi — Kuota & batas konfirmasi      | `SessionRsvpSection` + `validateSessionRsvp` (Akad 1/2, Resepsi 2/2, decline=0, deadline)         |
-| `L5Awxn` | 62 · Ucapan & Doa — Nama publik dan persetujuan    | `WishesSection` (consent unchecked default; submit disabled tanpa consent)                        |
-| `Ll4xj`  | 63 · Foto Momen — Izin, unggah & moderasi          | `MomentsSection` (JPG/PNG ≤10 MB, consent, masuk antrean moderasi)                                |
-| `E8d5oa` | 64 · Hadiah Opsional — Preview internal / nonaktif | `GiftsSection` (rekening disamarkan, tanpa QRIS aktif, alamat privat)                             |
-| `MddxL`  | 65 · Moderasi Ucapan & Foto — Persetujuan          | `ModerationPanel` (12 pending=8+4, 26 shown, 3 hidden; tolak wajib alasan)                        |
-| `Z5R5x`  | 66 · CRM Lanjutan — Sesi & tindak lanjut berizin   | `FollowUpView` di tab Tindak Lanjut (150/42/108; 4 sampel terpilih, recheck saat dispatch)        |
-| `IdxPj`  | 66A · Fitur opsional, statusnya terang             | Inventaris status opsional direfleksikan di panel domain/hadiah (Hidden/nonaktif, bukan live)     |
+Regresi ditambahkan untuk token yang tidak cocok, kuota draf yang dimanipulasi,
+izin/versi RSVP, consent/ukuran berkas, keputusan moderasi, ekspor agregat,
+eligibility/dedup follow-up dan pemilihan lintas filter. Browser coverage ada pada
+`batch05-guest-experience.spec.ts` dan `batch05-resilience.spec.ts`, termasuk
+keyboard/focus, offline/retry, withdrawal, dan lebar 375/768/1280 px.
 
----
+Run browser terarah mencakup `batch04-crm-marketplace.spec.ts`,
+`batch05-guest-experience.spec.ts`, `batch05-resilience.spec.ts`, dan
+`batch06-studio.spec.ts`. Kegagalan selector ditangani dengan pembatasan alert ke
+region `Foto momen` serta label tanggal yang cocok persis. Dua selector ambigu
+menyebabkan kegagalan awal; pemeriksaan berikutnya hanya mengulang tes terkait.
 
-## Keputusan Arsitektur
+## Integrasi yang belum tersedia
 
-- **Manajer vs Studio:** `/planner/invitations` kini manajer multi-undangan (frame 53); studio Batch 04 pindah ke `/planner/invitations/studio` — satu `goto` di `tests/e2e/batch04-crm-marketplace.spec.ts` disesuaikan; regresi batch 04 tetap hijau.
-- **Domain & DNS bukan route:** sesuai kontrak "Hidden tidak dapat diaktifkan lewat URL langsung", frame 55 diimplementasikan sebagai panel state di dalam manajer.
-- **Pemisahan content vs fixture:** konten demo dimiliki feature (`features/*/content/`); `src/preview/fixtures/*` hanya re-export untuk adapter preview — batas arsitektur (fitur tidak boleh mengimpor fixture) tetap terjaga.
-- **Domain logic typed:** `checkSlug` (slug registry deterministik, tanpa kebocoran identitas), `validateSessionRsvp` (deadline 7 Feb 2027 23.59 WIB, kuota per sesi, decline=0, pax integer positif), `recheckEligibility` (consent + jawaban + cooldown) — semua diuji vitest.
-- **Handoff Batch 06:** manajer memakai `InvitationProject` typed (state/version/slug/sourcePool) — schema document/project yang sama dipakai studio editor Batch 06; draf v4 vs aktif v3 tetap terpisah.
-
-## Batasan & Pembedaan Mode
-
-- Seluruh data (slug registry, analytics, moderasi, follow-up, microsite) adalah **mock deterministik Preset 3** — tidak ada WhatsApp nyata, DNS nyata, upload nyata, atau QRIS.
-- Domain tetap **Hidden**; simulasi verifikasi eksplisit menyatakan "Domain tetap Hidden pada rilis aktif — tidak tersedia untuk produksi".
-- Hadiah **nonaktif** pada undangan aktif: rekening contoh disamarkan (••••), tanpa QRIS, alamat pengiriman hanya via kanal privat.
-- Ucapan/foto tidak pernah tampil publik tanpa consent + moderasi pasangan; nama publik default "Tamu undangan".
-- Sesi RSVP tidak dijumlahkan sebagai orang unik; kuota per sesi diverifikasi ulang saat simpan (server enforcement ditandai pending).
+Tidak ada pengiriman WhatsApp, DNS/SSL nyata, pembayaran hadiah, storage publik,
+streaming, IG/Wallet/PWA, atau publikasi produksi. Token dan izin memakai registry
+mock yang sangat terbatas; server authorization dengan expiry/revocation nyata
+belum terhubung. Microsite hanya menyediakan fixture per sesi Budi; token tamu
+lain tidak boleh mewarisi data tersebut. Adapter RSVP dan antrean foto/ucapan
+lokal bukan sinkronisasi lintas tab/perangkat atau antrean moderasi backend.
+Sanitasi metadata, pemindaian isi, kebijakan retensi dan withdrawal server masih
+memerlukan backend. Domain internal hanya komponen referensi, bukan entrypoint
+untuk mengaktifkan produksi. Kesesuaian visual penuh dibuktikan melalui review
+Pencil dan screenshot gabungan task utama; laporan ini tidak mengklaim hasil
+pixel-diff yang belum dijalankan.

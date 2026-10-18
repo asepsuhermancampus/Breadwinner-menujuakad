@@ -1,4 +1,6 @@
 import { PreviewMicrosite } from "@/preview/components/preview-microsite";
+import { UnavailableLinkScreen } from "@/features/public-invitation/components/unavailable-link-screen";
+import { hasMicrositeAccess } from "@/features/guest-experience/domain/microsite-access";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +11,7 @@ export default async function GuestMicrositePage({
 }: {
   params: Promise<{ token: string }>;
 }) {
-  await params;
+  const { token } = await params;
+  if (!hasMicrositeAccess(token)) return <UnavailableLinkScreen />;
   return <PreviewMicrosite />;
 }

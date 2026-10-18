@@ -30,11 +30,18 @@ export function PreviewGuestCrm() {
   );
 }
 
-export function PreviewInvitationStudio() {
+export function PreviewInvitationStudio({
+  projectId = "inv-wedding-main",
+  previewActive = false,
+}: {
+  projectId?: string;
+  previewActive?: boolean;
+}) {
   return (
-    <ShellWrapper>
-      <StudioScreen />
-    </ShellWrapper>
+    <>
+      <PreviewNotice />
+      <StudioScreen projectId={projectId} previewActive={previewActive} />
+    </>
   );
 }
 

@@ -54,4 +54,4 @@ export type GuestExperienceContent = {
 };
 
 export type SessionValidation =
-  { ok: true } | { ok: false; reason: "deadline" | "quota" | "invalid" };
+  { ok: true } | { ok: false; reason: "deadline" | "quota" | "invalid" | "revoked" | "stale" };

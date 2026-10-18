@@ -1,26 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import {
-  moderationItems,
-  moderationSummary,
-} from "@/features/invitation-manager/content/moderation-content";
-import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
+import { moderationItems, moderationSummary } from "../content/moderation-content";
+import { decideModeration } from "../domain/moderation";
+import { ModerationDialog } from "./moderation-dialog";
 import type { ModerationItem } from "../types/manager";
 
 export function ModerationPanel() {
   const [items, setItems] = useState<ModerationItem[]>(moderationItems);
   const [active, setActive] = useState<ModerationItem | null>(null);
-  const [rejectOpen, setRejectOpen] = useState(false);
-  const [reason, setReason] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
+  const reviewed = items.filter((item) => item.status !== "Menunggu");
+  const pending = items.filter((item) => item.status === "Menunggu");
+  const pendingWishes =
+    moderationSummary.pendingWishes - reviewed.filter((item) => item.kind === "Ucapan").length;
+  const pendingPhotos =
+    moderationSummary.pendingPhotos - reviewed.filter((item) => item.kind === "Foto").length;
 
-  function decide(id: string, status: ModerationItem["status"]) {
-    setItems((prev) => prev.map((m) => (m.id === id ? { ...m, status } : m)));
+  function decide(status: "Ditampilkan" | "Disembunyikan", reason: string) {
+    const current = items.find((item) => item.id === active?.id);
+    if (!current || !active) return;
+    const result = decideModeration(current, active.version, status, reason);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    setItems((previous) => previous.map((item) => (item.id === current.id ? result.item : item)));
+    setNotice(
+      `${current.publicName}: ${status.toLowerCase()} (simulasi). Alasan dan versi ${result.item.version} dicatat.`,
+    );
     setActive(null);
   }
-
-  const pending = items.filter((m) => m.status === "Menunggu");
 
   return (
     <section className="grid gap-4" aria-label="Moderasi ucapan dan foto">
@@ -28,17 +39,23 @@ export function ModerationPanel() {
         {[
           {
             label: "Menunggu",
-            value: String(moderationSummary.pendingTotal),
-            note: `${moderationSummary.pendingWishes} ucapan · ${moderationSummary.pendingPhotos} foto`,
+            value: String(pendingWishes + pendingPhotos),
+            note: `${pendingWishes} ucapan · ${pendingPhotos} foto`,
           },
           {
             label: "Ditampilkan",
-            value: String(moderationSummary.shown),
+            value: String(
+              moderationSummary.shown +
+                reviewed.filter((item) => item.status === "Ditampilkan").length,
+            ),
             note: "Disetujui oleh pasangan",
           },
           {
             label: "Disembunyikan",
-            value: String(moderationSummary.hidden),
+            value: String(
+              moderationSummary.hidden +
+                reviewed.filter((item) => item.status === "Disembunyikan").length,
+            ),
             note: "Tidak terlihat publik",
           },
           {
@@ -46,149 +63,109 @@ export function ModerationPanel() {
             value: moderationSummary.mode,
             note: "Tidak otomatis menerbitkan unggahan",
           },
-        ].map((m) => (
-          <div key={m.label} className="rounded-card border border-border bg-surface p-4">
-            <p className="text-[10px] font-bold tracking-widest text-secondary">{m.label}</p>
-            <p className="mt-1 text-xl font-bold text-foreground">{m.value}</p>
-            <p className="mt-0.5 text-[11px] text-muted">{m.note}</p>
+        ].map((metric) => (
+          <div key={metric.label} className="rounded-card border border-border bg-surface p-4">
+            <p className="text-[10px] font-bold tracking-widest text-secondary">{metric.label}</p>
+            <p className="mt-1 text-xl font-bold">{metric.value}</p>
+            <p className="mt-0.5 text-xs text-secondary">{metric.note}</p>
           </div>
         ))}
       </div>
-
+      {notice && (
+        <p role="status" className="text-xs text-success">
+          {notice}
+        </p>
+      )}
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-card border border-border bg-surface">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="bg-canvas text-secondary">
-                <th className="p-3 font-semibold">Tamu</th>
-                <th className="p-3 font-semibold">Jenis</th>
-                <th className="p-3 font-semibold">Status</th>
-                <th className="p-3 font-semibold">Waktu</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((m) => (
-                <tr key={m.id} className="border-t border-border">
-                  <td className="p-3 font-semibold text-foreground">{m.guest}</td>
-                  <td className="p-3 text-secondary">{m.kind}</td>
-                  <td
-                    className={`p-3 font-semibold ${m.status === "Menunggu" ? "text-warning" : m.status === "Ditampilkan" ? "text-success" : "text-muted"}`}
-                  >
-                    {m.status}
-                  </td>
-                  <td className="p-3 font-mono text-secondary">{m.submittedAt}</td>
+        <div className="min-w-0 rounded-card border border-border bg-surface">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="bg-canvas text-secondary">
+                  {["Tamu", "Jenis", "Status", "Waktu"].map((label) => (
+                    <th key={label} scope="col" className="p-3 font-semibold">
+                      {label}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="border-t border-border p-3 text-[11px] text-muted">
-            {pending.length} dari {moderationSummary.pendingTotal} kiriman menunggu ditampilkan
-          </p>
-          <div className="border-t border-border p-4">
-            <p className="text-xs font-bold text-foreground">Persetujuan dapat ditarik</p>
-            <p className="mt-1 text-xs text-secondary">
-              Menyembunyikan konten bukan menghapus jejak keputusan. Penarikan foto ditangani sesuai
-              kebijakan retensi, bukan dipertahankan selamanya.
-            </p>
+              </thead>
+              <tbody>
+                {items.map((item) => (
+                  <tr key={item.id} className="border-t border-border">
+                    <th scope="row" className="p-3 font-semibold">
+                      {item.guest}
+                    </th>
+                    <td className="p-3">{item.kind}</td>
+                    <td className="p-3">{item.status}</td>
+                    <td className="p-3 font-mono">{item.submittedAt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+          <p className="border-t border-border p-3 text-xs text-secondary">
+            {pending.length} dari {pendingWishes + pendingPhotos} kiriman menunggu ditampilkan
+          </p>
+          <p className="border-t border-border p-3 text-xs text-secondary">
+            Empat baris adalah sampel. Persetujuan dapat ditarik; keputusan memiliki alasan, versi,
+            dan jejak audit lokal.
+          </p>
         </div>
-
         <div className="grid content-start gap-3 rounded-card border border-border bg-surface p-5">
-          <h3 className="text-sm font-bold text-foreground">Tinjau kiriman</h3>
-          {items
-            .filter((m) => m.status === "Menunggu")
-            .map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => setActive(m)}
-                className="flex items-center justify-between rounded-control border border-border bg-canvas px-3 py-2.5 text-left hover:bg-subtle"
-              >
-                <span>
-                  <span className="block text-xs font-semibold text-foreground">{m.guest}</span>
-                  <span className="text-[11px] text-secondary">
-                    {m.kind} · {m.submittedAt}
-                  </span>
+          <h3 className="text-sm font-bold">Tinjau kiriman</h3>
+          {pending.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => {
+                setActive(item);
+                setError(null);
+              }}
+              className="flex min-h-11 items-center justify-between gap-3 rounded-control border border-border bg-canvas p-3 text-left hover:bg-subtle"
+            >
+              <span>
+                <span className="block text-xs font-semibold">{item.guest}</span>
+                <span className="text-xs text-secondary">
+                  {item.kind} · {item.submittedAt}
                 </span>
-                <span className="text-xs font-bold text-primary">Tinjau →</span>
-              </button>
-            ))}
+              </span>
+              <span className="text-xs font-bold text-primary">Tinjau →</span>
+            </button>
+          ))}
           {pending.length === 0 && (
-            <p className="rounded-control border border-success/30 bg-success-bg p-3 text-xs text-success">
-              Semua kiriman sudah ditinjau pada pratinjau ini.
+            <p className="text-xs text-secondary">
+              Seluruh sampel sudah ditinjau. Delapan kiriman lainnya belum dimuat dalam simulasi
+              ini.
             </p>
           )}
         </div>
       </div>
-
-      <Dialog
-        open={Boolean(active)}
-        onClose={() => setActive(null)}
-        title={active ? `Kiriman dari ${active.guest}` : "Tinjau"}
-      >
-        {active && (
-          <div className="grid gap-3">
-            {active.photo && (
-              <img
-                src={active.photo}
-                alt={`Foto kiriman ${active.guest}`}
-                className="max-h-64 w-full rounded-control object-cover"
-              />
+      {reviewed.length > 0 && (
+        <details className="rounded-card border border-border bg-surface p-4">
+          <summary className="min-h-11 cursor-pointer text-xs font-semibold">
+            Jejak keputusan lokal
+          </summary>
+          <ul className="grid gap-2 text-xs">
+            {reviewed.flatMap((item) =>
+              item.audit.map((entry) => (
+                <li key={`${item.id}-${entry.version}`}>
+                  {item.publicName} · {entry.status} · v{entry.version} · {entry.reason} ·{" "}
+                  {entry.actor}
+                </li>
+              )),
             )}
-            {active.body && (
-              <p className="rounded-control bg-canvas p-3 text-sm text-foreground">
-                “{active.body}”
-              </p>
-            )}
-            <p className="text-xs text-secondary">Nama publik: {active.publicName}</p>
-            <p className="text-[11px] text-muted">{active.consentEvidence}</p>
-            <div className="flex flex-wrap justify-end gap-2 border-t border-border pt-3">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setRejectOpen(true);
-                }}
-              >
-                Tolak dengan alasan…
-              </Button>
-              <Button onClick={() => decide(active.id, "Ditampilkan")}>Setujui</Button>
-            </div>
-            <Dialog
-              open={rejectOpen}
-              onClose={() => setRejectOpen(false)}
-              title="Tolak dengan alasan"
-            >
-              <label className="grid gap-1.5">
-                <span className="text-xs font-semibold text-foreground">
-                  Alasan (dicatat pada audit)
-                </span>
-                <textarea
-                  rows={3}
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  className="rounded-control border border-border bg-canvas p-2.5 text-sm"
-                />
-              </label>
-              <div className="mt-3 flex justify-end gap-2">
-                <Button variant="ghost" onClick={() => setRejectOpen(false)}>
-                  Batal
-                </Button>
-                <Button
-                  variant="secondary"
-                  disabled={!reason.trim()}
-                  onClick={() => {
-                    decide(active.id, "Disembunyikan");
-                    setRejectOpen(false);
-                    setReason("");
-                  }}
-                >
-                  Sembunyikan kiriman
-                </Button>
-              </div>
-            </Dialog>
-          </div>
-        )}
-      </Dialog>
+          </ul>
+        </details>
+      )}
+      {active && (
+        <ModerationDialog
+          key={active.id}
+          item={active}
+          error={error}
+          onClose={() => setActive(null)}
+          onDecide={decide}
+        />
+      )}
     </section>
   );
 }

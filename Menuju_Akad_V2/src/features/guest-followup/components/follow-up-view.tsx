@@ -4,8 +4,11 @@ import { useMemo, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { FollowUpReviewDialog } from "./follow-up-review-dialog";
-import { recheckEligibility } from "../domain/recheck";
+import { FollowUpGuestTable } from "./follow-up-guest-table";
+import { followUpMockAdapter } from "../adapters/mock-followup";
+import { toggleVisibleSelection } from "../domain/selection";
 import {
+  followUpCampaignId,
   followUpContext,
   followUpFilters,
   followUpGuests as followUpFixture,
@@ -22,9 +25,7 @@ export function FollowUpView() {
     () => guests.filter((g) => g.name.toLowerCase().includes(query.trim().toLowerCase())),
     [guests, query],
   );
-  const selected = filtered.filter((g) => g.selected);
-  const allSelected = selected.length === filtered.length && filtered.length > 0;
-  const mixed = selected.length > 0 && !allSelected;
+  const selected = guests.filter((guest) => guest.selected);
 
   function toggle(id: string) {
     setGuests((prev) => prev.map((g) => (g.id === id ? { ...g, selected: !g.selected } : g)));
@@ -32,7 +33,10 @@ export function FollowUpView() {
 
   function toggleAll() {
     setGuests((prev) =>
-      prev.map((g) => (filtered.some((f) => f.id === g.id) ? { ...g, selected: !allSelected } : g)),
+      toggleVisibleSelection(
+        prev,
+        filtered.map((guest) => guest.id),
+      ),
     );
   }
 
@@ -105,65 +109,7 @@ export function FollowUpView() {
         </span>
       </div>
 
-      <div className="overflow-x-auto rounded-card border border-border bg-surface">
-        <table className="w-full min-w-[720px] text-left text-xs">
-          <thead>
-            <tr className="bg-canvas text-secondary">
-              <th className="w-11 p-2">
-                <button
-                  type="button"
-                  onClick={toggleAll}
-                  aria-label={allSelected ? "Kosongkan pilihan" : "Pilih semua tamu terlihat"}
-                  className={`grid size-5 place-items-center rounded border ${
-                    allSelected
-                      ? "bg-primary text-white"
-                      : mixed
-                        ? "border-primary bg-primary text-white"
-                        : "border-ux-control-border bg-surface"
-                  }`}
-                >
-                  {(allSelected || mixed) && <Icon name={mixed ? "filter" : "check"} size={12} />}
-                </button>
-              </th>
-              <th className="p-3 font-semibold">Nama</th>
-              <th className="p-3 font-semibold">Kategori</th>
-              <th className="p-3 font-semibold">Pihak</th>
-              <th className="p-3 font-semibold">Kuota</th>
-              <th className="p-3 font-semibold">WA terakhir</th>
-              <th className="p-3 font-semibold">Izin</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((g) => (
-              <tr key={g.id} className="border-t border-border">
-                <td className="p-2">
-                  <button
-                    type="button"
-                    onClick={() => toggle(g.id)}
-                    aria-pressed={g.selected}
-                    aria-label={`Pilih ${g.name}`}
-                    className={`grid size-5 place-items-center rounded border ${
-                      g.selected ? "bg-primary text-white" : "border-ux-control-border bg-surface"
-                    }`}
-                  >
-                    {g.selected && <Icon name="check" size={12} />}
-                  </button>
-                </td>
-                <td className="p-3 font-semibold text-foreground">{g.name}</td>
-                <td className="p-3 text-secondary">{g.category}</td>
-                <td className="p-3 text-secondary">{g.side}</td>
-                <td className="p-3 font-mono text-foreground">{g.quota}</td>
-                <td className="p-3 font-mono text-secondary">{g.lastWaDate}</td>
-                <td
-                  className={`p-3 font-semibold ${g.consent === "Diberikan" ? "text-success" : "text-warning"}`}
-                >
-                  {g.consent}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <FollowUpGuestTable guests={filtered} onToggle={toggle} onToggleAll={toggleAll} />
 
       <p className="text-xs text-secondary">
         {selected.length} dipilih dari {followUpContext.eligible} undangan yang memenuhi filter ·
@@ -175,11 +121,20 @@ export function FollowUpView() {
         <p className="mt-1 text-xs text-secondary">{followUpNote.body}</p>
       </div>
 
-      <FollowUpReviewDialog
-        open={reviewOpen}
-        onClose={() => setReviewOpen(false)}
-        selected={selected}
-      />
+      {reviewOpen && (
+        <FollowUpReviewDialog
+          open={reviewOpen}
+          onClose={() => setReviewOpen(false)}
+          selected={selected}
+          onDispatch={() =>
+            followUpMockAdapter.dispatch(
+              followUpCampaignId,
+              selected.map((guest) => guest.id),
+              guests,
+            )
+          }
+        />
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "./project-card";
 import { AddressInspector } from "./address-inspector";
@@ -9,9 +10,9 @@ import { ThemeComparePanel } from "./theme-compare-panel";
 import { AnalyticsPanel } from "./analytics-panel";
 import { ModerationPanel } from "./moderation-panel";
 import { checkSlug } from "../domain/slug";
+import { useManagedProjects } from "../hooks/use-managed-projects";
 import {
   invitationManagerSummary,
-  invitationProjects,
   managerNote,
 } from "@/features/invitation-manager/content/manager-content";
 import type { InvitationProject, SlugCheckResult } from "../types/manager";
@@ -19,16 +20,18 @@ import type { InvitationProject, SlugCheckResult } from "../types/manager";
 type View = "all" | "compare" | "analytics" | "moderation" | "domain";
 
 export function ManagerScreen() {
+  const router = useRouter();
   const [view, setView] = useState<View>("all");
-  const [projects, setProjects] = useState(invitationProjects);
+  const { projects, saveDraftSlug } = useManagedProjects();
   const [addressFor, setAddressFor] = useState<InvitationProject | null>(null);
   const [slugDraft, setSlugDraft] = useState("andi-risa-story");
   const [slugResult, setSlugResult] = useState<SlugCheckResult | null>(null);
 
   function openAddress(p: InvitationProject) {
     setAddressFor(p);
-    setSlugDraft("andi-risa-story");
-    setSlugResult(checkSlug("andi-risa-story"));
+    const proposed = p.draftSlug ?? "andi-risa-story";
+    setSlugDraft(proposed);
+    setSlugResult(checkSlug(proposed));
   }
 
   function draftSlug(slug: string) {
@@ -38,18 +41,13 @@ export function ManagerScreen() {
 
   function saveAddress() {
     if (addressFor && slugResult?.status === "AVAILABLE") {
-      setProjects((prev) =>
-        prev.map((p) =>
-          p.id === addressFor.id ? { ...p, slug: slugResult.slug, slugStatus: "NOT_PUBLISHED" } : p,
-        ),
-      );
+      saveDraftSlug(addressFor.id, slugResult.slug);
     }
     setAddressFor(null);
   }
 
   function continueDraft(p: InvitationProject) {
-    setView("all");
-    setProjects((prev) => prev.map((q) => (q.id === p.id ? q : q)));
+    router.push(`/planner/invitations/studio?project=${encodeURIComponent(p.id)}`);
   }
 
   return (
@@ -61,7 +59,13 @@ export function ManagerScreen() {
             Pernikahan, lamaran, dan setiap momen yang ingin Anda bagi.
           </p>
         </div>
-        <Button onClick={() => setView("all")}>Buat undangan</Button>
+        <Button
+          onClick={() => {
+            router.push(`/planner/invitations/studio?project=inv-new-${crypto.randomUUID()}`);
+          }}
+        >
+          Buat undangan
+        </Button>
       </div>
 
       <nav
@@ -74,7 +78,6 @@ export function ManagerScreen() {
             ["compare", "Bandingkan tema"],
             ["analytics", "Analitik"],
             ["moderation", "Moderasi"],
-            ["domain", "Domain · internal"],
           ] as [View, string][]
         ).map(([key, label]) => (
           <button
@@ -99,8 +102,8 @@ export function ManagerScreen() {
             {[
               {
                 label: "Undangan",
-                value: String(invitationManagerSummary.projectCount),
-                note: "1 terbit · 2 draf",
+                value: String(projects.length),
+                note: `${projects.filter((p) => p.state === "PUBLISHED").length} terbit · ${projects.filter((p) => p.state === "DRAFT").length} draf`,
               },
               {
                 label: "Data tamu Pernikahan",
@@ -134,10 +137,14 @@ export function ManagerScreen() {
                 onOpenAddress={openAddress}
                 onContinue={continueDraft}
                 onOpenStudio={() => {
-                  window.location.href = "/planner/invitations/studio";
+                  continueDraft(p);
                 }}
                 onPreview={() => {
-                  window.location.href = "/i/token-budi-a7c6";
+                  router.push(
+                    p.id === "inv-wedding-main"
+                      ? "/i/token-budi-a7c6"
+                      : `/planner/invitations/studio?project=${encodeURIComponent(p.id)}&view=active`,
+                  );
                 }}
               />
             ))}
@@ -153,13 +160,19 @@ export function ManagerScreen() {
       {view === "compare" && (
         <ThemeComparePanel
           onUseEditorial={() => {
-            window.location.href = "/planner/invitations/studio";
+            router.push("/planner/invitations/studio");
           }}
         />
       )}
       {view === "analytics" && <AnalyticsPanel />}
       {view === "moderation" && <ModerationPanel />}
       {view === "domain" && <DomainPanel />}
+      <details className="text-xs text-secondary">
+        <summary className="min-h-11 py-3">Pratinjau internal · data contoh</summary>
+        <Button size="small" variant="ghost" onClick={() => setView("domain")}>
+          Domain Hidden · simulasi DNS
+        </Button>
+      </details>
 
       <AddressInspector
         open={Boolean(addressFor)}

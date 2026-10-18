@@ -50,6 +50,11 @@ export function ProjectCard({
           ) : (
             <p className="mt-1 text-xs text-muted">Alamat belum diterbitkan</p>
           )}
+          {project.draftSlug && (
+            <p className="mt-1 break-all font-mono text-xs text-secondary">
+              Draf alamat: menujuakad.id/{project.draftSlug}
+            </p>
+          )}
           <div className="mt-3 flex flex-wrap gap-2">
             {published ? (
               <>

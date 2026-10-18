@@ -10,6 +10,7 @@ export type InvitationProject = {
   activeVersion: number | null;
   draftVersion: number | null;
   slug: string | null;
+  draftSlug?: string | null;
   slugStatus: "LIVE" | "NOT_PUBLISHED";
   sourcePool: string | null;
   thumbnail: string;
@@ -94,6 +95,9 @@ export type ModerationItem = {
   status: "Menunggu" | "Ditampilkan" | "Disembunyikan";
   publicName: string;
   consentEvidence: string;
+  publicationConsent: boolean;
+  version: number;
+  audit: { status: string; reason: string; version: number; at: string; actor: string }[];
   body?: string;
   photo?: string;
 };

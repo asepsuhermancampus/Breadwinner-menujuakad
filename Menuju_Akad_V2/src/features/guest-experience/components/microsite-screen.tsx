@@ -9,7 +9,12 @@ import { SessionRsvpSection } from "./session-rsvp-section";
 import { WishesSection } from "./wishes-section";
 import { MomentsSection } from "./moments-section";
 import { GiftsSection } from "./gifts-section";
-import { guestExperienceContent } from "@/features/guest-experience/content/experience-content";
+import { OptionalFeaturesPanel } from "./optional-features-panel";
+import {
+  guestExperienceContent,
+  rsvpSessionsFixture,
+} from "@/features/guest-experience/content/experience-content";
+import { createSessionRsvpAdapter } from "../domain/session-rsvp";
 import type { GuestSection } from "../types/experience";
 
 const NAV: { section: GuestSection; label: string; icon: string }[] = [
@@ -24,17 +29,17 @@ const NAV: { section: GuestSection; label: string; icon: string }[] = [
 
 export function MicrositeScreen() {
   const [section, setSection] = useState<GuestSection>("home");
-  const c = guestExperienceContent;
+  const [rsvpAdapter] = useState(() => createSessionRsvpAdapter(rsvpSessionsFixture));
   const back = () => setSection("home");
 
   return (
-    <div className="min-h-screen bg-canvas text-foreground">
+    <main id="main-content" className="min-h-screen bg-canvas text-foreground">
       <div className="mx-auto w-full max-w-[430px] bg-surface shadow-sm">
         {section === "home" && <HomeSection onNavigate={setSection} />}
 
         {section === "guide" && <GuestGuideSection onBack={back} />}
         {section === "gallery" && <GuestGallerySection onBack={back} />}
-        {section === "rsvp" && <SessionRsvpSection onBack={back} />}
+        {section === "rsvp" && <SessionRsvpSection onBack={back} adapter={rsvpAdapter} />}
         {section === "wishes" && <WishesSection onBack={back} />}
         {section === "moments" && <MomentsSection onBack={back} />}
         {section === "gifts" && <GiftsSection onBack={back} />}
@@ -45,7 +50,7 @@ export function MicrositeScreen() {
           </footer>
         )}
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -81,6 +86,9 @@ function HomeSection({ onNavigate }: { onNavigate: (s: GuestSection) => void }) 
           <h2 className="text-center font-serif text-2xl text-foreground">
             {"Sejak pertemuan\npertama."}
           </h2>
+          <p className="text-center text-xs text-secondary">
+            Linimasa ilustratif untuk pratinjau; bukan riwayat yang telah diverifikasi.
+          </p>
           {c.story.map((s) => (
             <div
               key={s.year}
@@ -106,6 +114,8 @@ function HomeSection({ onNavigate }: { onNavigate: (s: GuestSection) => void }) 
             </button>
           ))}
         </nav>
+
+        <OptionalFeaturesPanel onGallery={() => onNavigate("gallery")} />
 
         <div className="rounded-card border border-border bg-canvas p-4 text-center">
           <p className="text-xs font-bold text-foreground">{c.eventNote.title}</p>

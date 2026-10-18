@@ -14,6 +14,9 @@ export const moderationSummary: ModerationSummary = {
 export const moderationItems: ModerationItem[] = [
   {
     id: "mod-1",
+    publicationConsent: true,
+    version: 1,
+    audit: [],
     guest: "Budi & Partner",
     kind: "Foto",
     submittedAt: "10.22",
@@ -25,6 +28,9 @@ export const moderationItems: ModerationItem[] = [
   },
   {
     id: "mod-2",
+    publicationConsent: true,
+    version: 1,
+    audit: [],
     guest: "Nadia Putri",
     kind: "Ucapan",
     submittedAt: "10.20",
@@ -35,6 +41,9 @@ export const moderationItems: ModerationItem[] = [
   },
   {
     id: "mod-3",
+    publicationConsent: true,
+    version: 1,
+    audit: [],
     guest: "Fajar & keluarga",
     kind: "Ucapan",
     submittedAt: "10.14",
@@ -45,13 +54,16 @@ export const moderationItems: ModerationItem[] = [
   },
   {
     id: "mod-4",
+    publicationConsent: false,
+    version: 1,
+    audit: [],
     guest: "Gita Maharani",
     kind: "Ucapan",
     submittedAt: "10.08",
     status: "Menunggu",
     publicName: "Tamu undangan",
     consentEvidence:
-      "Consent publikasi tidak dicentang; tampil sebagai tamu undangan bila disetujui.",
+      "Consent publikasi tidak dicentang; kiriman tetap privat dan tidak dapat ditampilkan.",
     body: "Selamat Andi & Risa! Doa terbaik dari kami.",
   },
 ];

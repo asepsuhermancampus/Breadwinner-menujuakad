@@ -5,23 +5,10 @@ import { domainSetup } from "@/features/invitation-manager/content/manager-conte
 import type { DomainSetup } from "../types/manager";
 
 export function DomainPanel({ initialSetup = domainSetup }: { initialSetup?: DomainSetup }) {
-  const [setup, setSetup] = useState(initialSetup);
+  const setup = initialSetup;
   const [verified, setVerified] = useState(false);
 
   function simulateVerification() {
-    const records = setup.records.map((r) => ({
-      ...r,
-      detected: true,
-      note: "Terdeteksi · simulasi",
-    }));
-    const checks = setup.checks.map((c) =>
-      c.id === "TXT_OWNERSHIP"
-        ? { ...c, state: "Tercipta · simulasi" as const, pass: true }
-        : c.id === "HTTPS_CERT"
-          ? { ...c, state: "Terdeteksi · simulasi" as const, pass: true }
-          : c,
-    );
-    setSetup({ ...setup, records, checks });
     setVerified(true);
   }
 
@@ -36,7 +23,7 @@ export function DomainPanel({ initialSetup = domainSetup }: { initialSetup?: Dom
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-card border border-border bg-surface p-5">
+        <div className="min-w-0 rounded-card border border-border bg-surface p-5">
           <p className="text-[10px] font-bold tracking-widest text-muted">01 / ATUR RECORD DNS</p>
           <h3 className="mt-1 font-serif text-lg text-foreground">
             Hubungkan alamat pilihan Anda.
@@ -53,28 +40,30 @@ export function DomainPanel({ initialSetup = domainSetup }: { initialSetup?: Dom
               className="min-h-11 rounded-control border border-ux-control-border bg-canvas px-3 font-mono text-sm text-foreground"
             />
           </label>
-          <table className="mt-4 w-full text-left text-xs">
-            <thead>
-              <tr className="text-secondary">
-                <th className="py-1.5 font-semibold">Tipe</th>
-                <th className="py-1.5 font-semibold">Nama</th>
-                <th className="py-1.5 font-semibold">Nilai contoh</th>
-                <th className="py-1.5 font-semibold">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {setup.records.map((r) => (
-                <tr key={r.host} className="border-t border-border">
-                  <td className="py-2 font-mono font-semibold">{r.type}</td>
-                  <td className="py-2 font-mono">{r.host}</td>
-                  <td className="py-2 font-mono">{r.value}</td>
-                  <td className={`py-2 ${r.detected ? "text-success" : "text-warning"}`}>
-                    {r.note}
-                  </td>
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[520px] text-left text-xs">
+              <thead>
+                <tr className="text-secondary">
+                  <th className="py-1.5 font-semibold">Tipe</th>
+                  <th className="py-1.5 font-semibold">Nama</th>
+                  <th className="py-1.5 font-semibold">Nilai contoh</th>
+                  <th className="py-1.5 font-semibold">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {setup.records.map((r) => (
+                  <tr key={r.host} className="border-t border-border">
+                    <td className="py-2 font-mono font-semibold">{r.type}</td>
+                    <td className="py-2 font-mono">{r.host}</td>
+                    <td className="py-2 font-mono">{r.value}</td>
+                    <td className={`py-2 ${r.detected ? "text-success" : "text-warning"}`}>
+                      {r.note}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="grid content-start gap-2 rounded-card border border-border bg-surface p-5">
@@ -111,7 +100,7 @@ export function DomainPanel({ initialSetup = domainSetup }: { initialSetup?: Dom
         </button>
         <p className="text-xs text-secondary" role="status">
           {verified
-            ? "Verifikasi selesai (simulasi). Domain tetap Hidden pada rilis aktif — tidak tersedia untuk produksi."
+            ? "Pemeriksaan simulasi selesai: TXT masih belum terdeteksi dan HTTPS belum diterbitkan. Domain tetap Hidden pada rilis aktif — tidak tersedia untuk produksi."
             : "Simulasi hanya untuk pratinjau internal; tidak ada DNS atau issuance nyata."}
         </p>
       </div>
