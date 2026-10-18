@@ -11,6 +11,14 @@ const assets = [
     license: "Aset sumber Pencil; izin produksi belum diverifikasi",
     alt: "Andi dan Risa dalam busana pernikahan, saling menatap di taman",
   },
+  ...[1, 2, 3, 4, 5, 6, 7].map((num) => ({
+    id: `editorial-${num}`,
+    category: "images",
+    source: `../Menuju_Akad_V2_Prompt_Slicing/references/design/images/generated-${num}.png`,
+    path: `public/assets/images/editorial-${num}.png`,
+    license: "Aset sumber Pencil; izin produksi belum diverifikasi",
+    alt: `Foto editorial tema ${num}`,
+  })),
   ...[
     [
       "plus-jakarta-sans",

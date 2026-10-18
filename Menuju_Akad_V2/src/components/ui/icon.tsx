@@ -42,6 +42,15 @@ import {
   Flower2,
   Map,
   Info,
+  Upload,
+  Download,
+  AlertCircle,
+  Clock,
+  ExternalLink,
+  FileText,
+  Trash2,
+  RefreshCw,
+  Filter,
   type LucideIcon,
 } from "lucide-react";
 
@@ -90,6 +99,15 @@ const icons: Record<string, LucideIcon> = {
   info: Info,
   "check-square": CheckSquare,
   "lock-key": Lock,
+  upload: Upload,
+  download: Download,
+  "alert-circle": AlertCircle,
+  clock: Clock,
+  "external-link": ExternalLink,
+  "file-text": FileText,
+  trash: Trash2,
+  refresh: RefreshCw,
+  filter: Filter,
 };
 export function Icon({
   name,

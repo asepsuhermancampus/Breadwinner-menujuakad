@@ -60,20 +60,41 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
               )}
               {group.items.map((item) => (
                 <div key={item.label} className={styles.navItem}>
-                  <button
-                    className={cn(styles.navButton, compact && styles.iconButton)}
-                    aria-label={item.label}
-                    aria-describedby={compact ? `tip-${item.icon}-${item.label.length}` : undefined}
-                    onClick={() => setNotice(item.label)}
-                  >
-                    <Icon name={item.icon} size={17} />
-                    {!compact && (
-                      <>
-                        <span>{item.label}</span>
-                        {item.badge && <small>{item.badge}</small>}
-                      </>
-                    )}
-                  </button>
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={cn(styles.navButton, compact && styles.iconButton)}
+                      aria-label={item.label}
+                      aria-describedby={
+                        compact ? `tip-${item.icon}-${item.label.length}` : undefined
+                      }
+                    >
+                      <Icon name={item.icon} size={17} />
+                      {!compact && (
+                        <>
+                          <span>{item.label}</span>
+                          {item.badge && <small>{item.badge}</small>}
+                        </>
+                      )}
+                    </Link>
+                  ) : (
+                    <button
+                      className={cn(styles.navButton, compact && styles.iconButton)}
+                      aria-label={item.label}
+                      aria-describedby={
+                        compact ? `tip-${item.icon}-${item.label.length}` : undefined
+                      }
+                      onClick={() => setNotice(item.label)}
+                    >
+                      <Icon name={item.icon} size={17} />
+                      {!compact && (
+                        <>
+                          <span>{item.label}</span>
+                          {item.badge && <small>{item.badge}</small>}
+                        </>
+                      )}
+                    </button>
+                  )}
                   {compact && (
                     <span
                       role="tooltip"
@@ -82,7 +103,9 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
                     >
                       <strong>{item.label}</strong>
                       <span>{item.detail}</span>
-                      <small>Pratinjau navigasi · batch berikutnya</small>
+                      <small>
+                        {item.href ? "Buka halaman fitur" : "Pratinjau navigasi · batch berikutnya"}
+                      </small>
                     </span>
                   )}
                 </div>

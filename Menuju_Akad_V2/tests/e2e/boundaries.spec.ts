@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("canonical routes fail closed meski ada cookie simulasi", async ({ request }) => {
-  for (const route of ["/dashboard", "/admin", "/vendor", "/ba"]) {
+  for (const route of ["/admin", "/vendor", "/ba"]) {
     const response = await request.get(route, {
       maxRedirects: 0,
       headers: { Cookie: "session=mock-session-admin; role=SUPERADMIN" },

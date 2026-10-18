@@ -8,7 +8,7 @@ test("dock272/68, tooltip keyboard, command palette trap dan focus return", asyn
   await expect.poll(async () => (await dock.boundingBox())?.width).toBe(272);
   await page.getByRole("button", { name: "Ringkas navigasi" }).click();
   await expect.poll(async () => (await dock.boundingBox())?.width).toBe(68);
-  await dock.getByRole("button", { name: "Persyaratan KUA", exact: true }).focus();
+  await dock.getByRole("link", { name: "Persyaratan KUA", exact: true }).focus();
   await expect(page.getByRole("tooltip").filter({ hasText: "5 dari 7" })).toBeVisible();
   await page.getByRole("button", { name: "Perluas navigasi" }).click();
   const search = page.getByRole("button", { name: "Cari halaman, Ctrl atau Command K" });

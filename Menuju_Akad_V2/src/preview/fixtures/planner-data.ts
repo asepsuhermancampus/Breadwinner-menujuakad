@@ -1,0 +1,130 @@
+import type { KuaDocumentItem } from "@/features/kua-documents/types/kua";
+import type { EmergencyBag } from "@/features/emergency-checklist/types/emergency";
+
+export const kuaDocumentsFixture: KuaDocumentItem[] = [
+  {
+    id: "kua-1",
+    name: "Surat pengantar RT / RW",
+    requirement: "Wajib",
+    statusAndi: "Lengkap",
+    statusRisa: "Lengkap",
+    updatedAt: "15 Okt 2026",
+  },
+  {
+    id: "kua-2",
+    name: "Surat N1 (Keterangan nikah dari kelurahan)",
+    requirement: "Wajib",
+    statusAndi: "Lengkap",
+    statusRisa: "Lengkap",
+    updatedAt: "18 Okt 2026",
+  },
+  {
+    id: "kua-3",
+    name: "Surat N2 & N4 (Persetujuan & asal-usul)",
+    requirement: "Wajib",
+    statusAndi: "Lengkap",
+    statusRisa: "Lengkap",
+    updatedAt: "18 Okt 2026",
+  },
+  {
+    id: "kua-4",
+    name: "Fotokopi KTP & Kartu Keluarga",
+    requirement: "Wajib",
+    statusAndi: "Lengkap",
+    statusRisa: "Lengkap",
+    updatedAt: "25 Okt 2026",
+  },
+  {
+    id: "kua-5",
+    name: "Pasfoto 2x3 & 4x6 latar belakang biru",
+    requirement: "Wajib",
+    statusAndi: "Lengkap",
+    statusRisa: "Lengkap",
+    updatedAt: "20 Okt 2026",
+  },
+  {
+    id: "kua-6",
+    name: "Sertifikat Elsimil & surat sehat",
+    requirement: "Wajib",
+    statusAndi: "Perlu revisi",
+    statusRisa: "Lengkap",
+    updatedAt: "24 Okt 2026",
+    notesAndi: "Pemeriksaan HB dan sertifikat Elsimil perlu diunggah ulang.",
+  },
+  {
+    id: "kua-7",
+    name: "Surat rekomendasi nikah KUA asal (N8)",
+    requirement: "Wajib",
+    statusAndi: "Perlu revisi",
+    statusRisa: "Lengkap",
+    updatedAt: "24 Okt 2026",
+    notesAndi: "Cap basah dari KUA kecamatan asal belum terlihat jelas.",
+  },
+];
+
+export const emergencyBagsFixture: EmergencyBag[] = [
+  {
+    id: "bag-bride",
+    name: "Tas mempelai wanita",
+    pic: "Risa · cek H–1",
+    lastChecked: "13 Feb 2027",
+    items: [
+      { id: "eb-1", name: "Tisu kering & tisu basah", ready: true },
+      { id: "eb-2", name: "Bedak tabur & lipstik touch up", ready: true },
+      { id: "eb-3", name: "Jarum pentul & peniti cadangan", ready: true },
+      { id: "eb-4", name: "Sandal selop santai", ready: true },
+      { id: "eb-5", name: "Minyak kayu putih", ready: false },
+      { id: "eb-6", name: "Permen pelega tenggorokan", ready: false },
+    ],
+  },
+  {
+    id: "bag-groom",
+    name: "Tas mempelai pria",
+    pic: "Andi",
+    lastChecked: "14 Feb 2027",
+    items: [
+      { id: "eb-7", name: "Peci cadangan", ready: true },
+      { id: "eb-8", name: "Kaus kaki hitam polos cadangan", ready: true },
+      { id: "eb-9", name: "Sisir & pomade", ready: true },
+      { id: "eb-10", name: "Deodorant spray", ready: false },
+    ],
+  },
+  {
+    id: "bag-firstaid",
+    name: "P3K & obat pribadi",
+    pic: "Ibu Siti",
+    lastChecked: "13 Feb 2027",
+    items: [
+      { id: "eb-11", name: "Obat sakit kepala & paracetamol", ready: true },
+      { id: "eb-12", name: "Obat maag & antasida", ready: true },
+      { id: "eb-13", name: "Plester luka transparan", ready: true },
+      { id: "eb-14", name: "Tetes mata steril", ready: false },
+    ],
+  },
+  {
+    id: "bag-repair",
+    name: "Jahit & makeup touch-up",
+    pic: "MUA Nadia",
+    lastChecked: "14 Feb 2027",
+    items: [
+      { id: "eb-15", name: "Benang jahit warna senada & jarum", ready: true },
+      { id: "eb-16", name: "Gunting kecil serbaguna", ready: true },
+      { id: "eb-17", name: "Lem bulu mata cadangan", ready: true },
+      { id: "eb-18", name: "Kipas angin portable mini", ready: true },
+      { id: "eb-19", name: "Kapas & cotton bud", ready: true },
+      { id: "eb-20", name: "Double-sided tape busana", ready: false },
+    ],
+  },
+  {
+    id: "bag-docs",
+    name: "Dokumen fisik & mahar",
+    pic: "Bapak Budi",
+    lastChecked: "14 Feb 2027",
+    items: [
+      { id: "eb-21", name: "Kotak mahar & cincin kawin", ready: true },
+      { id: "eb-22", name: "Map berkas KUA asli", ready: true },
+      { id: "eb-23", name: "KTP asli kedua mempelai & saksi", ready: true },
+      { id: "eb-24", name: "Amplop honor penghulu & saksi", ready: false },
+    ],
+  },
+];
