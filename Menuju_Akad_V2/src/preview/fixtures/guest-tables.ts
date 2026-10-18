@@ -1,0 +1,58 @@
+import type { TableSeating } from "@/features/guest-crm/types/guest";
+
+export const initialTablesFixture: TableSeating[] = [
+  {
+    id: "t-01",
+    number: "01",
+    name: "Meja 01",
+    category: "Reguler",
+    capacity: 10,
+    assignedCount: 10,
+    assignedGuests: [],
+  },
+  {
+    id: "t-02",
+    number: "02",
+    name: "Meja 02",
+    category: "Reguler",
+    capacity: 10,
+    assignedCount: 7,
+    assignedGuests: [],
+  },
+  {
+    id: "t-03",
+    number: "03",
+    name: "Meja 03",
+    category: "Reguler",
+    capacity: 10,
+    assignedCount: 9,
+    assignedGuests: [],
+  },
+  {
+    id: "t-04",
+    number: "04",
+    name: "Meja 04",
+    category: "VIP",
+    capacity: 10,
+    assignedCount: 8,
+    assignedGuests: [],
+  },
+  {
+    id: "t-05",
+    number: "05",
+    name: "Meja 05",
+    category: "VIP",
+    capacity: 10,
+    assignedCount: 5,
+    assignedGuests: [],
+  },
+  {
+    id: "t-06",
+    number: "06",
+    name: "Meja 06",
+    category: "Reguler",
+    capacity: 10,
+    assignedCount: 6,
+    assignedGuests: [],
+  },
+];
