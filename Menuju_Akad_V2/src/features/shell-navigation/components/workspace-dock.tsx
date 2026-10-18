@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import { navigationGroups } from "../config/navigation";
 import styles from "./workspace-dock.module.css";
@@ -25,8 +26,17 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
         aria-label="Navigasi ruang bersama"
       >
         <div className="flex items-center justify-between">
-          <Link href="/account" className="flex min-h-11 items-center font-serif text-xl">
-            {compact ? "ma" : "menuju akad"}
+          <Link
+            href="/dashboard"
+            className="flex min-h-11 items-center gap-2.5"
+            aria-label="Menuju Akad"
+          >
+            <BrandLogo variant="cypress" width={compact ? 32 : 40} height={compact ? 15 : 19} />
+            {!compact && (
+              <span className="font-sans text-base font-semibold tracking-[-0.6px] text-primary">
+                menuju akad
+              </span>
+            )}
           </Link>
           {!compact && (
             <Button variant="ghost" size="icon" aria-label="Ringkas navigasi" onClick={toggle}>
@@ -40,16 +50,21 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
           </Button>
         ) : (
           <button
-            className="grid gap-1 rounded-card border border-border bg-surface p-3 text-left"
+            className="grid gap-1 rounded-control bg-primary text-white p-3 border border-primary text-left transition-opacity hover:opacity-95"
             onClick={() => setRoles(true)}
             aria-haspopup="dialog"
           >
-            <span className="flex items-center justify-between text-[10px] tracking-widest text-secondary">
-              PASANGAN
-              <Icon name="chevron-down" size={14} />
-            </span>
-            <strong className="text-sm">Andi & Risa</strong>
-            <span className="text-xs text-secondary">Ruang rencana bersama</span>
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-champagne">
+                <span className="flex size-5 items-center justify-center rounded-full bg-white/10 text-canvas">
+                  <Icon name="users" size={11} />
+                </span>
+                PASANGAN
+              </span>
+              <Icon name="chevron-down" size={14} className="text-white/70" />
+            </div>
+            <strong className="text-base text-canvas font-medium mt-0.5">Andi & Risa</strong>
+            <span className="text-xs text-ux-on-dark">Ruang rencana bersama</span>
           </button>
         )}
         <nav className={styles.navigation}>
@@ -114,29 +129,39 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
           ))}
         </nav>
         {!compact && (
-          <div className="grid gap-2 rounded-card bg-surface p-3 text-xs">
-            <span className="flex justify-between">
-              Siap menuju akad <span className="font-mono">84%</span>
-            </span>
-            <div className="h-1 rounded-full bg-subtle">
+          <div className="grid gap-2 rounded-control bg-canvas p-3 border border-ux-border text-xs">
+            <div className="flex justify-between items-center">
+              <span className="font-medium text-primary text-xs">Siap menuju akad</span>
+              <span className="font-mono text-xs font-semibold text-primary">84%</span>
+            </div>
+            <span className="text-[11px] text-secondary">Perubahan tersinkronisasi</span>
+            <div className="h-1 rounded-full bg-ux-dock overflow-hidden">
               <div className="h-1 w-[84%] rounded-full bg-primary" />
             </div>
-            <div className="flex justify-between">
-              <span className="text-secondary">Premium</span>
-              <Link href="/account/plans">Upgrade Lifetime ↗</Link>
+            <div className="flex justify-between items-center text-xs pt-1">
+              <span className="font-semibold text-ux-gold-ink text-[11px]">Premium</span>
+              <Link
+                href="/account/plans"
+                className="text-secondary hover:text-primary transition-colors text-[11px]"
+              >
+                Upgrade Lifetime ↗
+              </Link>
             </div>
           </div>
         )}
         <Link href="/account" className={cn(styles.account, compact && styles.iconButton)}>
-          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/15 text-sm">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ux-dock text-xs font-bold text-primary">
             R
           </span>
           {!compact && (
-            <span>
-              <strong className="block text-xs">{name}</strong>
-              <small className="text-white/75">Pasangan · Premium</small>
+            <span className="truncate flex-1">
+              <strong className="block text-xs font-semibold text-foreground truncate">
+                {name}
+              </strong>
+              <small className="text-secondary text-[11px]">Pasangan · Premium</small>
             </span>
           )}
+          {!compact && <Icon name="settings" size={15} className="text-secondary shrink-0" />}
         </Link>
       </aside>
       <Dialog open={Boolean(notice)} onClose={() => setNotice("")} title={notice || "Navigasi"}>

@@ -66,7 +66,9 @@ export function TasksScreen({ initialTasks }: Props) {
       <header className={styles.header}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="font-serif text-3xl text-foreground">Checklist & tugas</h1>
+            <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+              Checklist & tugas
+            </h1>
             <p className="text-sm text-secondary">
               Bagi tanggung jawab. Selesaikan satu hal pada satu waktu.
             </p>
@@ -81,11 +83,11 @@ export function TasksScreen({ initialTasks }: Props) {
       <div className={styles.summaryCard}>
         <div className="space-y-1">
           <span className="text-xs text-secondary">Progres pengerjaan</span>
-          <p className="text-sm font-medium text-foreground">
+          <p className="text-sm font-mono font-semibold text-primary">
             {summary.completed} dari {summary.total} tugas selesai · {summary.percentage}%
           </p>
         </div>
-        <div className="h-2 w-48 rounded-full bg-subtle overflow-hidden">
+        <div className="h-2 w-48 rounded-full bg-ux-dock overflow-hidden">
           <div
             className="h-full bg-primary transition-all duration-300"
             style={{ width: `${summary.percentage}%` }}
@@ -94,7 +96,10 @@ export function TasksScreen({ initialTasks }: Props) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-1 rounded-control bg-subtle p-1" role="tablist">
+        <div
+          className="flex flex-wrap gap-1 rounded-control bg-ux-dock border border-ux-border p-1"
+          role="tablist"
+        >
           {categories.map((c) => (
             <button
               key={c.label}
@@ -102,7 +107,7 @@ export function TasksScreen({ initialTasks }: Props) {
               aria-selected={activeCategory === c.label}
               className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
                 activeCategory === c.label
-                  ? "bg-surface text-primary shadow-sm"
+                  ? "bg-surface text-primary shadow-sm font-semibold"
                   : "text-secondary hover:text-foreground"
               }`}
               onClick={() => setActiveCategory(c.label)}
@@ -118,7 +123,7 @@ export function TasksScreen({ initialTasks }: Props) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari tugas…"
-            className="w-full rounded-control border border-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
+            className="w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
           />
         </div>
       </div>

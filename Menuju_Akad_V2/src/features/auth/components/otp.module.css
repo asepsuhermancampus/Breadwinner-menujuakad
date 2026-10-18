@@ -7,9 +7,9 @@
   min-width: 0;
   height: 58px;
   width: 100%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: 12px;
-  background: var(--canvas);
+  background: var(--surface);
   text-align: center;
   font-family: var(--font-geist), monospace;
   font-size: 22px;

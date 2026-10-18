@@ -6,7 +6,7 @@
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@
 }
 
 .card[data-plan="lifetime"] {
-  background: var(--subtle);
+  background: var(--ux-dock);
   border-color: var(--champagne);
 }
 
@@ -30,7 +30,7 @@
 }
 
 .badge {
-  background: var(--subtle);
+  background: var(--ux-dock);
   border-radius: 0.5rem;
   color: var(--primary);
   font-size: 0.6875rem;
@@ -70,7 +70,8 @@
 }
 
 .notice {
-  background: var(--subtle);
+  background: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: 0.875rem;
   display: flex;
   flex-wrap: wrap;
@@ -88,14 +89,14 @@
 }
 
 .history {
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: 1rem;
   padding: 1.5rem;
 }
 
 .invoice {
   align-items: center;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--ux-border);
   display: flex;
   flex-wrap: wrap;
   font-size: 0.75rem;

@@ -8,7 +8,7 @@ export function PreviewNotice() {
   return (
     <aside
       aria-label="Pratinjau development"
-      className="flex min-h-8 flex-wrap items-center justify-center gap-x-4 gap-y-1 border-b border-border bg-subtle px-3 py-1.5 text-[10px] text-secondary"
+      className="flex min-h-8 flex-wrap items-center justify-center gap-x-4 gap-y-1 border-b border-ux-border bg-ux-dock px-3 py-1.5 text-[10px] text-secondary"
     >
       <span>
         PRATINJAU LOKAL · Data contoh · OTP <strong className="font-mono">882016</strong> · Tanpa

@@ -15,7 +15,7 @@
 
 .orderCard {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
   display: flex;

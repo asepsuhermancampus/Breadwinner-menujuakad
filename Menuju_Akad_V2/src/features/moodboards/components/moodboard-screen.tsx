@@ -32,7 +32,9 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
     <main id="main-content" className={styles.container}>
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl text-foreground">Bayangkan hari kalian</h1>
+          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+            Bayangkan hari kalian
+          </h1>
           <p className="text-sm text-secondary">
             Kumpulkan referensi, selaraskan selera, lalu bagikan arahnya ke vendor.
           </p>
@@ -74,15 +76,18 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-2 rounded-control bg-subtle p-1" role="tablist">
+        <div
+          className="flex gap-1.5 rounded-control bg-ux-dock border border-ux-border p-1"
+          role="tablist"
+        >
           {["Semua", "Dekorasi", "Busana", "Detail"].map((cat) => (
             <button
               key={cat}
               role="tab"
               aria-selected={filter === cat}
-              className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+              className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
                 filter === cat
-                  ? "bg-surface text-primary shadow-sm"
+                  ? "bg-surface text-primary shadow-sm font-semibold"
                   : "text-secondary hover:text-foreground"
               }`}
               onClick={() => setFilter(cat)}
@@ -98,7 +103,7 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari inspirasi..."
-            className="w-full rounded-control border border-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
+            className="w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
           />
         </div>
       </div>

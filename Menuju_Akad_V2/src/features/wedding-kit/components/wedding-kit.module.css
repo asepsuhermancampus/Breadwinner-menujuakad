@@ -14,8 +14,9 @@
 }
 
 .banner {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--ux-warm);
+  color: var(--ux-gold-ink);
+  border: 1px solid var(--ux-border);
   padding: 1rem 1.25rem;
   border-radius: var(--radius-control);
   font-size: 0.875rem;
@@ -38,7 +39,7 @@
 
 .panel {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
   display: flex;
@@ -50,14 +51,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-control);
-  background-color: var(--subtle);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
 }
 
 .previewDoc {
   background-color: #ffffff;
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-control);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   padding: 2rem;

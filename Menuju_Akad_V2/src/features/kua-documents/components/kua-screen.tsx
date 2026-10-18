@@ -45,7 +45,9 @@ export function KuaScreen({ initialDocuments }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-serif text-3xl text-foreground">Dokumen KUA & syarat nikah</h1>
+        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          Dokumen KUA & syarat nikah
+        </h1>
         <p className="text-sm text-secondary">
           Satu checklist untuk berkas kalian berdua. Lengkapi tanpa bolak-balik.
         </p>
@@ -90,13 +92,16 @@ export function KuaScreen({ initialDocuments }: Props) {
         </span>
       </div>
 
-      <div className="flex gap-2 rounded-control bg-subtle p-1 w-fit" role="tablist">
+      <div
+        className="flex gap-1.5 rounded-control bg-ux-dock border border-ux-border p-1 w-fit"
+        role="tablist"
+      >
         <button
           role="tab"
           aria-selected={filter === "Wajib"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Wajib"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Wajib")}
@@ -106,9 +111,9 @@ export function KuaScreen({ initialDocuments }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Opsional"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Opsional"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Opsional")}
@@ -118,9 +123,9 @@ export function KuaScreen({ initialDocuments }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Perhatian"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Perhatian"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Perhatian")}

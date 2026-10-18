@@ -22,14 +22,17 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
 
   return (
     <main id="main-content" className={styles.container}>
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <div className="flex gap-2 rounded-control bg-subtle p-1" role="tablist">
+      <div className="flex items-center justify-between border-b border-ux-border pb-3">
+        <div
+          className="flex gap-1.5 rounded-control bg-ux-dock border border-ux-border p-1"
+          role="tablist"
+        >
           <button
             role="tab"
             aria-selected={eventContext === "wedding"}
-            className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+            className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
               eventContext === "wedding"
-                ? "bg-surface text-primary shadow-sm"
+                ? "bg-surface text-primary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
             onClick={() => {
@@ -42,9 +45,9 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
           <button
             role="tab"
             aria-selected={eventContext === "engagement"}
-            className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+            className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
               eventContext === "engagement"
-                ? "bg-surface text-primary shadow-sm"
+                ? "bg-surface text-primary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
             onClick={() => {
@@ -55,8 +58,8 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
             Mode Lamaran
           </button>
         </div>
-        <span className="text-xs text-secondary">
-          {eventContext === "wedding" ? "H–112" : "H–28"}
+        <span className="rounded-full bg-ux-dock border border-ux-border px-3 py-1 font-mono text-xs text-secondary">
+          {eventContext === "wedding" ? "H–112 · 14 Feb 2027" : "H–28 · 22 Nov 2026"}
         </span>
       </div>
 

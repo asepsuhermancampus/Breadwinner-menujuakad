@@ -21,9 +21,11 @@ export function WeddingKitScreen({ initialSections }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <div className="flex items-center gap-2">
-          <h1 className="font-serif text-3xl text-foreground">Wedding Kit</h1>
-          <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
+        <div className="flex items-center gap-2.5">
+          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+            Wedding Kit
+          </h1>
+          <span className="rounded-full bg-champagne/15 border border-champagne/30 px-2.5 py-0.5 text-xs font-semibold text-ux-gold-ink">
             Maintenance
           </span>
         </div>

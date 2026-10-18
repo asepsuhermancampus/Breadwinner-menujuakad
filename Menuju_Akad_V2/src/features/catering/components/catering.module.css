@@ -14,8 +14,9 @@
 }
 
 .banner {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--ux-warm);
+  color: var(--ux-gold-ink);
+  border: 1px solid var(--ux-border);
   padding: 1rem 1.25rem;
   border-radius: var(--radius-control);
   font-size: 0.875rem;
@@ -38,7 +39,7 @@
 
 .card {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
   display: flex;
@@ -47,7 +48,8 @@
 }
 
 .resultBox {
-  background-color: var(--subtle);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-control);
   padding: 1.25rem;
   display: flex;
@@ -59,6 +61,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--ux-border);
   padding-bottom: 0.5rem;
 }

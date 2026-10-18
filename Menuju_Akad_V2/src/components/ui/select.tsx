@@ -21,7 +21,7 @@ export function Select({ label, id, error, hint, className, children, ...props }
         aria-invalid={Boolean(error)}
         aria-describedby={error || hint ? `${fieldId}-description` : undefined}
         className={cn(
-          "min-h-11 w-full rounded-control border border-border bg-surface px-3 py-3 text-sm",
+          "min-h-11 w-full rounded-control border border-ux-border bg-surface px-3 py-3 text-sm",
           className,
         )}
         {...props}

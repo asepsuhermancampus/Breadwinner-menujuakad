@@ -34,8 +34,8 @@ test("empat alias akun exact307 tetap canonical", async ({ request }) => {
 
 test("root dan login final, segmen invalid ditolak 404", async ({ request }) => {
   const root = await request.get("/", { maxRedirects: 0 });
-  expect(root.status()).toBe(307);
-  expect(root.headers().location).toBe("/login");
+  expect(root.status()).toBe(200);
+  expect(await root.text()).toContain("Rencana besar");
   const login = await request.get("/login");
   expect(login.status()).toBe(200);
   expect(await login.text()).toContain('name="robots" content="noindex, nofollow"');

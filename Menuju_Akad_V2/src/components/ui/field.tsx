@@ -22,7 +22,7 @@ export function Field({ label, error, hint, className, id, ...props }: Props) {
         aria-invalid={Boolean(error)}
         aria-describedby={described}
         className={cn(
-          "min-h-11 w-full rounded-control border border-border bg-surface px-3.5 py-3 text-sm placeholder:text-secondary",
+          "min-h-11 w-full rounded-control border border-ux-border bg-surface px-3.5 py-3 text-sm placeholder:text-secondary",
           error && "border-danger",
           className,
         )}

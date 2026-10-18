@@ -14,8 +14,8 @@
 }
 
 .overviewCard {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
   display: flex;
@@ -51,7 +51,7 @@
 
 .bagCard {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.25rem;
   display: flex;
@@ -63,7 +63,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--ux-border);
   padding-bottom: 0.75rem;
 }
 

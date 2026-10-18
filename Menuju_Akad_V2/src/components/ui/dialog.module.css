@@ -6,7 +6,7 @@
   overflow: auto;
   color: var(--foreground);
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   box-shadow: 0 24px 96px #14141320;
 }

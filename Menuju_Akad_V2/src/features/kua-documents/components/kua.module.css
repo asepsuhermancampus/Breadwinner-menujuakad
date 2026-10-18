@@ -26,8 +26,8 @@
 }
 
 .spouseCard {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.25rem;
   display: flex;
@@ -42,14 +42,15 @@
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 9999px;
-  background-color: var(--subtle);
+  background-color: var(--surface);
+  border: 1px solid var(--ux-border);
   font-weight: 600;
   color: var(--primary);
 }
 
 .privateNotice {
-  background-color: var(--subtle);
-  border: 1px solid var(--border);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-control);
   padding: 0.75rem 1rem;
   font-size: 0.8125rem;
@@ -61,7 +62,7 @@
 
 .tableContainer {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   overflow-x: auto;
 }
@@ -70,7 +71,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.84375rem;
 }
 
 .table th {
@@ -78,11 +79,11 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--secondary);
-  border-bottom: 1px solid var(--border);
-  background-color: var(--subtle);
+  border-bottom: 1px solid var(--ux-border);
+  background-color: var(--ux-dock);
 }
 
 .table td {
   padding: 0.875rem 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--ux-border);
 }

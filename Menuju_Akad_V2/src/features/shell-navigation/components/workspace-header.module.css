@@ -2,9 +2,10 @@
   height: 76px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   padding: 0 24px;
-  border-bottom: 1px solid var(--border);
+  background: var(--canvas);
+  border-bottom: 1px solid var(--ux-border);
 }
 .identity {
   display: flex;
@@ -45,21 +46,27 @@
 }
 .eventSwitch {
   display: flex;
-  padding: 4px;
-  background: var(--subtle);
-  border-radius: 24px;
+  padding: 3px;
+  background: var(--ux-dock);
+  border: 1px solid var(--ux-border);
+  border-radius: 12px;
+  gap: 4px;
 }
 .eventSwitch button {
-  min-height: 44px;
+  min-height: 38px;
   padding: 0 14px;
-  border-radius: 22px;
-  font-size: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   color: var(--secondary);
+  transition: all 150ms ease;
 }
 .eventSwitch button[aria-pressed="true"] {
   background: var(--primary);
-  color: white;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .mobileMenu {
   display: none;

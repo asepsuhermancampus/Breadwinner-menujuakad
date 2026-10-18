@@ -29,7 +29,9 @@ export function CalendarScreen({ initialEvents }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-serif text-3xl text-foreground">Kalender koordinasi</h1>
+        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          Kalender koordinasi
+        </h1>
         <p className="text-sm text-secondary">
           Semua fitting, pertemuan vendor, dan tenggat dalam satu tempat.
         </p>
@@ -39,20 +41,23 @@ export function CalendarScreen({ initialEvents }: Props) {
         <div className={styles.headerRow}>
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-foreground">Oktober 2026</h2>
-            <span className="rounded-full bg-subtle px-2.5 py-0.5 text-xs text-secondary font-mono">
+            <span className="rounded-full bg-ux-dock border border-ux-border px-2.5 py-0.5 text-xs text-secondary font-mono">
               WIB
             </span>
           </div>
 
-          <div className="flex gap-1 rounded-control bg-subtle p-1" role="tablist">
+          <div
+            className="flex gap-1.5 rounded-control bg-ux-dock border border-ux-border p-1"
+            role="tablist"
+          >
             {(["Bulan", "Minggu"] as const).map((mode) => (
               <button
                 key={mode}
                 role="tab"
                 aria-selected={viewMode === mode}
-                className={`rounded-control px-3 py-1 text-xs font-medium transition ${
+                className={`rounded-control px-3.5 py-1 text-xs font-medium transition ${
                   viewMode === mode
-                    ? "bg-surface text-primary shadow-sm"
+                    ? "bg-surface text-primary shadow-sm font-semibold"
                     : "text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setViewMode(mode)}

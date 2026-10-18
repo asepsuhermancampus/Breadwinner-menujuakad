@@ -29,7 +29,9 @@ export function EmergencyScreen({ initialBags }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-serif text-3xl text-foreground">Perlengkapan darurat Hari-H</h1>
+        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          Perlengkapan darurat Hari-H
+        </h1>
         <p className="text-sm text-secondary">
           Siapkan dari sekarang, supaya hari bahagia terasa lebih tenang.
         </p>

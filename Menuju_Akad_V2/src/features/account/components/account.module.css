@@ -9,9 +9,10 @@
 }
 
 .heading {
-  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
   font-weight: 650;
   letter-spacing: -0.055em;
+  color: var(--primary);
   margin: 0;
 }
 
@@ -29,7 +30,8 @@
   margin: 1.5rem 0;
   width: fit-content;
   padding: 0.25rem;
-  background: var(--subtle);
+  background: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: 0.75rem;
 }
 
@@ -39,19 +41,22 @@
   color: var(--secondary);
   display: inline-flex;
   font-size: 0.8125rem;
+  font-weight: 500;
   min-height: 2.75rem;
   padding: 0 1rem;
   text-decoration: none;
+  transition: all 150ms ease;
 }
 
 .tab[aria-current="page"] {
   background: var(--surface);
-  color: var(--foreground);
+  color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .panel {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: 1rem;
   min-width: 0;
   padding: 1.5rem;
@@ -101,7 +106,8 @@
 }
 
 .badge {
-  background: var(--subtle);
+  background: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: 0.5rem;
   display: inline-block;
   font-size: 0.6875rem;

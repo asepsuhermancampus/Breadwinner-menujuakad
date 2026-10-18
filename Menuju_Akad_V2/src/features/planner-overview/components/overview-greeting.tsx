@@ -21,25 +21,30 @@ export function OverviewGreeting({
 }: Props) {
   return (
     <section className={styles.greetingCard} aria-labelledby="greeting-title">
-      <div className="space-y-1.5">
-        <p className="text-xs font-medium tracking-wide text-secondary uppercase">{dateContext}</p>
-        <h1 id="greeting-title" className="font-serif text-3xl font-normal text-foreground">
+      <div className="space-y-2">
+        <p className="text-xs font-semibold tracking-wider text-ux-on-dark uppercase">
+          {dateContext}
+        </p>
+        <h1 id="greeting-title" className="font-sans text-2xl md:text-3xl font-medium text-canvas">
           {greeting}
         </h1>
-        <p className="text-sm text-secondary">
-          <strong className="text-foreground">{countdownLabel}</strong> · {eventDetail}
-        </p>
+        <div className="flex flex-wrap items-center gap-2.5 pt-1">
+          <span className="rounded-full bg-white/10 border border-white/20 px-3 py-0.5 font-mono text-xs text-ux-on-dark">
+            {countdownLabel}
+          </span>
+          <span className="text-xs text-ux-on-dark">· {eventDetail}</span>
+        </div>
       </div>
       <div className={styles.readinessRing}>
-        <div className="text-center">
-          <span className="block font-mono text-3xl font-semibold text-primary">
+        <div className="text-center md:text-right">
+          <span className="block font-mono text-3xl font-bold text-champagne">
             {readinessPercent}%
           </span>
-          <span className="text-xs text-secondary">{readinessLabel}</span>
+          <span className="text-xs text-ux-on-dark">{readinessLabel}</span>
         </div>
         <Link
           href="/planner/tasks"
-          className="rounded-control bg-primary px-3.5 py-2 text-xs font-medium text-white transition hover:bg-primary-hover"
+          className="rounded-control bg-canvas px-4 py-2 text-xs font-semibold text-primary transition hover:bg-white"
         >
           Lihat rincian kesiapan →
         </Link>

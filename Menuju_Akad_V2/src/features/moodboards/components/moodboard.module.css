@@ -33,7 +33,7 @@
 
 .card {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   overflow: hidden;
   display: flex;
@@ -48,8 +48,8 @@
 }
 
 .paletteCard {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
+  background-color: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.25rem;
   display: flex;
@@ -66,7 +66,7 @@
   height: 48px;
   flex: 1;
   border-radius: var(--radius-control);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   display: flex;
   align-items: flex-end;
   padding: 0.25rem 0.5rem;

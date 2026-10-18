@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { cn } from "@/lib/cn";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import type { OnboardingStep } from "../contracts";
 
 const steps = [
@@ -26,16 +27,17 @@ export function OnboardingLayout({
   const active = step === "profile" ? 0 : step === "events" ? 1 : 2;
   return (
     <div className="min-h-screen bg-canvas text-foreground">
-      <header className="flex min-h-20 items-center justify-between gap-3 border-b border-border px-5 md:px-12">
+      <header className="flex min-h-20 items-center justify-between gap-3 border-b border-ux-border px-5 md:px-12">
         <Link
           href="/onboarding/profile"
           onClick={(event) => {
             event.preventDefault();
             onNavigate("profile");
           }}
-          className="text-xl font-semibold tracking-[-1px] text-primary md:text-2xl"
+          className="flex items-center gap-2.5 text-xl font-semibold tracking-[-0.6px] text-primary md:text-2xl"
         >
-          menuju akad
+          <BrandLogo variant="cypress" width={38} height={18} />
+          <span>menuju akad</span>
         </Link>
         <div className="flex items-center gap-2 md:gap-6">
           <span className="font-mono text-xs text-secondary">{active + 1} / 3</span>
@@ -45,7 +47,10 @@ export function OnboardingLayout({
         </div>
       </header>
       <main className="mx-auto w-full max-w-[1136px] space-y-7 px-5 pt-6 pb-12 md:px-12">
-        <nav aria-label="Langkah onboarding" className="rounded-[28px] bg-subtle p-1.5">
+        <nav
+          aria-label="Langkah onboarding"
+          className="rounded-control bg-ux-dock border border-ux-border p-1.5"
+        >
           <ol className="grid grid-cols-3 gap-1.5">
             {steps.map(([key, label], index) => (
               <li key={key}>
@@ -54,8 +59,10 @@ export function OnboardingLayout({
                   onClick={() => onNavigate(key)}
                   aria-current={index === active ? "step" : undefined}
                   className={cn(
-                    "flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-2 py-2 text-xs font-medium md:gap-2.5 md:px-4 md:text-[13px]",
-                    index === active ? "bg-surface text-foreground" : "text-secondary",
+                    "flex min-h-11 w-full items-center justify-center gap-2 rounded-control px-2 py-2 text-xs font-medium md:gap-2.5 md:px-4 md:text-[13px] transition-all",
+                    index === active
+                      ? "bg-surface text-primary shadow-sm font-semibold"
+                      : "text-secondary hover:text-foreground",
                   )}
                 >
                   <span

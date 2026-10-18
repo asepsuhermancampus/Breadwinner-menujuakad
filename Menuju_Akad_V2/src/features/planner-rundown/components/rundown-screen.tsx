@@ -19,8 +19,10 @@ export function RundownScreen({ initialItems }: Props) {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-serif text-3xl text-foreground">Rundown acara</h1>
-            <span className="rounded-full bg-subtle px-2.5 py-0.5 text-xs text-secondary font-mono">
+            <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+              Rundown acara
+            </h1>
+            <span className="rounded-full bg-ux-dock border border-ux-border px-2.5 py-0.5 text-xs text-secondary font-mono">
               14 Feb 2027 · WIB
             </span>
           </div>
@@ -37,7 +39,7 @@ export function RundownScreen({ initialItems }: Props) {
         </div>
       </header>
 
-      <div className="flex items-center justify-between rounded-card border border-border bg-surface px-4 py-3 text-xs">
+      <div className="flex items-center justify-between rounded-card border border-ux-border bg-surface px-4 py-3 text-xs">
         <div className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-emerald-500" />
           <strong className="text-foreground">Draf v4 · jadwal selaras</strong>

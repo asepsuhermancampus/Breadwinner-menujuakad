@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Status } from "@/components/ui/status";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import type { PartnerInvite, WorkspaceAdapter } from "../contracts";
 import { inviteState } from "../utils/invite-policy";
 
@@ -68,10 +69,14 @@ export function JoinPartnerScreen({
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas px-5 py-12">
       <Card className="w-full max-w-lg space-y-6 p-6 text-center md:p-10">
-        <Link href="/" className="text-xl font-semibold text-primary">
-          menuju akad
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center gap-2 text-xl font-semibold text-primary"
+        >
+          <BrandLogo variant="cypress" width={36} height={17} />
+          <span>menuju akad</span>
         </Link>
-        <h1 className="font-serif text-[40px] leading-tight text-primary">
+        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
           {joined ? "Kalian sudah terhubung" : "Satu ruang untuk berdua"}
         </h1>
         <p className="text-sm leading-7 text-secondary">

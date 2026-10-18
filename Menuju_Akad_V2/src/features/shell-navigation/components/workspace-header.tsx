@@ -47,12 +47,12 @@ export function WorkspaceHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
       </div>
       <div className="ml-auto flex items-center gap-3">
         <CommandPalette />
-        <span className="hidden rounded-full bg-subtle px-3 py-2 font-mono text-[10px] xl:block">
+        <span className="hidden rounded-full bg-ux-dock border border-ux-border px-3 py-1.5 font-mono text-xs text-secondary xl:block">
           H–{days} · {event === "wedding" ? "14 Feb 2027" : "22 Nov 2026"}
         </span>
         <Link
           href="/account/plans"
-          className="rounded-full bg-champagne/15 px-3 py-2 text-xs text-foreground"
+          className="rounded-full bg-champagne/15 border border-champagne/30 px-3 py-1.5 text-xs font-semibold text-ux-gold-ink hover:bg-champagne/25 transition-colors"
         >
           Premium
         </Link>

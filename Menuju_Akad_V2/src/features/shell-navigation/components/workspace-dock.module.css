@@ -6,7 +6,8 @@
   gap: 14px;
   padding: 12px;
   border-radius: 20px;
-  background: var(--subtle);
+  background: var(--ux-dock);
+  border: 1px solid var(--ux-border);
   min-height: calc(100dvh - 56px);
 }
 .compact {
@@ -62,7 +63,7 @@
   width: 260px;
   padding: 16px;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: 12px;
   box-shadow: 0 8px 24px #1414130c;
   font-size: 12px;
@@ -84,11 +85,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  border-radius: 16px;
-  background: var(--primary);
-  color: white;
-  min-height: 64px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--ux-border);
+  color: var(--foreground);
+  min-height: 56px;
+  text-decoration: none;
 }
 .mobile {
   position: static;

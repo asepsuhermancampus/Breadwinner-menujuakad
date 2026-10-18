@@ -36,7 +36,7 @@ export function TaskRow({ task, onToggle, onSelect }: Props) {
         <span className={isDone ? "line-through text-secondary" : ""}>{task.title}</span>
       </td>
       <td>
-        <span className="inline-block rounded-control bg-subtle px-2 py-0.5 text-xs text-secondary">
+        <span className="inline-block rounded-control bg-ux-dock border border-ux-border px-2 py-0.5 text-xs text-secondary">
           {task.pic}
         </span>
       </td>
@@ -44,10 +44,10 @@ export function TaskRow({ task, onToggle, onSelect }: Props) {
         <span
           className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${
             task.priority === "Tinggi"
-              ? "bg-rose/10 text-rose"
+              ? "bg-danger-bg text-danger font-semibold"
               : task.priority === "Normal"
-                ? "bg-champagne/15 text-foreground"
-                : "bg-subtle text-secondary"
+                ? "bg-ux-dock text-secondary"
+                : "bg-ux-dock text-secondary"
           }`}
         >
           {task.priority}
@@ -56,12 +56,12 @@ export function TaskRow({ task, onToggle, onSelect }: Props) {
       <td className="font-mono text-xs text-secondary">{task.dueDate}</td>
       <td>
         <span
-          className={`inline-block rounded-full px-2 py-0.5 text-[11px] ${
+          className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${
             isDone
-              ? "bg-emerald-50 text-emerald-700"
+              ? "bg-success-bg text-success"
               : task.status === "Dikerjakan"
-                ? "bg-amber-50 text-amber-700"
-                : "bg-subtle text-secondary"
+                ? "bg-ux-dock text-secondary"
+                : "bg-ux-dock text-secondary"
           }`}
         >
           {task.status}

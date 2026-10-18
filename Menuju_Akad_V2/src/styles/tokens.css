@@ -19,6 +19,15 @@
   --danger-bg: #fff1f2;
   --maintenance: #b45309;
   --maintenance-bg: #fef3c7;
+  --ux-shell: #eff2ed;
+  --ux-dock: #f4f5f1;
+  --ux-soft: #f0f5ee;
+  --ux-border: #dce2d7;
+  --ux-control-border: #c9d2c4;
+  --ux-muted: #70756b;
+  --ux-on-dark: #dce5da;
+  --ux-warm: #f5efe3;
+  --ux-gold-ink: #806439;
 }
 @theme inline {
   --color-canvas: var(--canvas);
@@ -40,6 +49,15 @@
   --color-danger-bg: var(--danger-bg);
   --color-maintenance: var(--maintenance);
   --color-maintenance-bg: var(--maintenance-bg);
+  --color-ux-shell: var(--ux-shell);
+  --color-ux-dock: var(--ux-dock);
+  --color-ux-soft: var(--ux-soft);
+  --color-ux-border: var(--ux-border);
+  --color-ux-control-border: var(--ux-control-border);
+  --color-ux-muted: var(--ux-muted);
+  --color-ux-on-dark: var(--ux-on-dark);
+  --color-ux-warm: var(--ux-warm);
+  --color-ux-gold-ink: var(--ux-gold-ink);
   --font-sans: var(--font-jakarta), sans-serif;
   --font-serif: var(--font-instrument), Georgia, serif;
   --font-mono: var(--font-geist), monospace;

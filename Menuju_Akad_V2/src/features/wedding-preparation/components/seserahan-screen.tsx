@@ -52,7 +52,9 @@ export function SeserahanScreen({ initialItems }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-serif text-3xl text-foreground">Seserahan, satu per satu</h1>
+        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          Seserahan, satu per satu
+        </h1>
         <p className="text-sm text-secondary">
           Beri makna pada setiap hantaran. Pantau barang, PIC, dan pengeluarannya.
         </p>
@@ -90,13 +92,16 @@ export function SeserahanScreen({ initialItems }: Props) {
         </article>
       </section>
 
-      <div className="flex gap-2 rounded-control bg-subtle p-1 w-fit" role="tablist">
+      <div
+        className="flex gap-1.5 rounded-control bg-ux-dock border border-ux-border p-1 w-fit"
+        role="tablist"
+      >
         <button
           role="tab"
           aria-selected={filter === "Semua"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Semua"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Semua")}
@@ -106,9 +111,9 @@ export function SeserahanScreen({ initialItems }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Sudah"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Sudah"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Sudah")}
@@ -118,9 +123,9 @@ export function SeserahanScreen({ initialItems }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Belum"}
-          className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Belum"
-              ? "bg-surface text-primary shadow-sm"
+              ? "bg-surface text-primary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Belum")}

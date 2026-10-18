@@ -15,7 +15,7 @@
 
 .calendarCard {
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
   display: flex;
@@ -35,14 +35,14 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background-color: var(--border);
-  border: 1px solid var(--border);
+  background-color: var(--ux-border);
+  border: 1px solid var(--ux-border);
   border-radius: var(--radius-control);
   overflow: hidden;
 }
 
 .weekdayHeader {
-  background-color: var(--subtle);
+  background-color: var(--ux-dock);
   padding: 0.625rem;
   text-align: center;
   font-size: 0.75rem;
