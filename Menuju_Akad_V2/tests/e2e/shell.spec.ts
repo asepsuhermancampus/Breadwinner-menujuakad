@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("dock272/68, tooltip keyboard, command palette trap dan focus return", async ({ page }) => {
   await page.setViewportSize({ width: 1600, height: 1160 });
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   await expect(page.getByRole("heading", { name: "Profil & akses", exact: true })).toBeVisible();
   const dock = page.getByRole("complementary", { name: "Navigasi ruang bersama" });
   await expect.poll(async () => (await dock.boundingBox())?.width).toBe(272);
@@ -27,7 +27,7 @@ test("role menu hanya keanggotaan aktif dan upgrade tidak membuka role Hidden", 
   page,
 }) => {
   await page.setViewportSize({ width: 1600, height: 1160 });
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   await page.getByRole("button", { name: /PASANGAN.*Andi/ }).click();
   const menu = page.getByRole("dialog", { name: "Ruang dan aksesmu" });
   await expect(menu).toBeVisible();
@@ -42,13 +42,13 @@ test("halaman batch1 reflow375/768/1280 tanpa overflow dan console error", async
   for (const width of [375, 768, 1280]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of [
-      "/account",
-      "/account/plans",
-      "/account/security",
-      "/onboarding/profile",
-      "/onboarding/events",
+      "account",
+      "account/plans",
+      "account/security",
+      "onboarding/profile",
+      "onboarding/events",
     ]) {
-      await page.goto(`/preview-ui${route}`);
+      await page.goto(`/${route}`);
       await expect(page.locator("main h1")).toBeVisible();
       await expect
         .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
@@ -60,7 +60,7 @@ test("halaman batch1 reflow375/768/1280 tanpa overflow dan console error", async
 
 test("navigasi mobile memakai dialog dan mengembalikan fokus", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   const trigger = page.getByRole("button", { name: "Buka navigasi" });
   await trigger.click();
   await expect(page.getByRole("dialog", { name: "Ruang rencana kalian" })).toBeVisible();

@@ -1,13 +1,13 @@
 import { expect, test, type Page } from "@playwright/test";
 
 async function createInvite(page: Page) {
-  await page.goto("/preview-ui/onboarding/partner");
+  await page.goto("/onboarding/partner");
   await page.getByRole("button", { name: "Buat tautan undangan", exact: true }).click();
-  const link = page.locator('a[href^="/preview-ui/join/"]');
+  const link = page.locator('a[href^="/join/"]');
   await expect(link).toBeVisible();
   const path = await link.getAttribute("href");
   if (!path) throw new Error("Expected a local partner invite link");
-  expect(path).toMatch(/^\/preview-ui\/join\/[A-Za-z0-9_-]{43}$/);
+  expect(path).toMatch(/^\/join\/[A-Za-z0-9_-]{43}$/);
   return path;
 }
 
@@ -62,7 +62,7 @@ test("a revoked partner invite cannot be redeemed and offers a replacement", asy
   ).toHaveCount(0);
   await page.getByRole("link", { name: "Kembali ke undangan pasangan", exact: true }).click();
   await page.getByRole("button", { name: "Buat tautan undangan", exact: true }).click();
-  const nextPath = await page.locator('a[href^="/preview-ui/join/"]').getAttribute("href");
+  const nextPath = await page.locator('a[href^="/join/"]').getAttribute("href");
   expect(nextPath).not.toBe(oldPath);
 });
 

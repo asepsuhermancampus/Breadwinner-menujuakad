@@ -99,9 +99,7 @@ export function LoginForm({
             />
             Ingat saya
           </label>
-          <Link href="/preview-ui/auth/recovery">
-            {method === "email" ? "Lupa kata sandi?" : "Lupa PIN?"}
-          </Link>
+          <Link href="/auth/recovery">{method === "email" ? "Lupa kata sandi?" : "Lupa PIN?"}</Link>
         </div>
         <Button type="submit" disabled={pending}>
           {pending ? "Memeriksa akses…" : "Masuk ke ruang kita"}

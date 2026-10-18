@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PreviewAccount } from "@/preview/components/preview-account";
 
+export const dynamic = "force-dynamic";
 export default async function AccountPage({ params }: { params: Promise<{ path?: string[] }> }) {
   const { path } = await params;
   const key = path?.join("/") ?? "";

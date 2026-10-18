@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("Lifetime ditinjau sebagai penawaran dan paket Premium tetap aktif", async ({ page }) => {
-  await page.goto("/preview-ui/account/plans");
+  await page.goto("/account/plans");
   const premium = page.locator('[data-plan="premium"]');
   const lifetime = page.locator('[data-plan="lifetime"]');
   await expect(premium.getByText("Aktif", { exact: true })).toBeVisible();

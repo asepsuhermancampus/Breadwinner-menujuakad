@@ -8,7 +8,7 @@ for (const width of [375, 1440]) {
       await page.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto(`/preview-ui/onboarding/${step}`);
+      await page.goto(`/onboarding/${step}`);
       if (step === "partner") {
         await page.getByRole("button", { name: "Buat tautan undangan", exact: true }).click();
         await expect(

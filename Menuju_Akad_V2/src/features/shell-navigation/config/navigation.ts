@@ -83,10 +83,10 @@ export const navigationGroups = [
 ];
 
 export const commands = [
-  { label: "Profil & akses", href: "/preview-ui/account", icon: "users" },
-  { label: "Paket & langganan", href: "/preview-ui/account/plans", icon: "sparkles" },
-  { label: "Privasi & keamanan", href: "/preview-ui/account/security", icon: "shield" },
-  { label: "Profil mempelai & keluarga", href: "/preview-ui/onboarding/profile", icon: "heart" },
-  { label: "Rencana acara", href: "/preview-ui/onboarding/events", icon: "calendar" },
-  { label: "Undang pasangan", href: "/preview-ui/onboarding/partner", icon: "link" },
+  { label: "Profil & akses", href: "/account", icon: "users" },
+  { label: "Paket & langganan", href: "/account/plans", icon: "sparkles" },
+  { label: "Privasi & keamanan", href: "/account/security", icon: "shield" },
+  { label: "Profil mempelai & keluarga", href: "/onboarding/profile", icon: "heart" },
+  { label: "Rencana acara", href: "/onboarding/events", icon: "calendar" },
+  { label: "Undang pasangan", href: "/onboarding/partner", icon: "link" },
 ];

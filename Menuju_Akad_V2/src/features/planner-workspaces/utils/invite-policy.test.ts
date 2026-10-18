@@ -57,7 +57,7 @@ describe("partner invite capability", () => {
 
   it("accepts a new actor and generates only a local preview path", () => {
     expect(() => assertCanRedeem(invite, "partner-a", [owner], 1_000)).not.toThrow();
-    expect(localInvitePath(invite.token)).toBe(`/preview-ui/join/${invite.token}`);
+    expect(localInvitePath(invite.token)).toBe(`/join/${invite.token}`);
   });
 
   it("does not add a third account to an existing couple workspace", () => {

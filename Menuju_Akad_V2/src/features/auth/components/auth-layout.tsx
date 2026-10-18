@@ -32,7 +32,7 @@ export function AuthLayout({ mode, children }: { mode: AuthMode; children: React
         <header className={styles.header}>
           <span className={styles.mobileBrand}>menuju akad</span>
           <span>{registered ? "Baru di sini?" : "Sudah punya akun?"}</span>
-          <Link href={`/preview-ui/auth/${registered ? "register" : "login"}`}>
+          <Link href={`/auth/${registered ? "register" : "login"}`}>
             {registered ? "Buat akun" : "Masuk"}
           </Link>
         </header>

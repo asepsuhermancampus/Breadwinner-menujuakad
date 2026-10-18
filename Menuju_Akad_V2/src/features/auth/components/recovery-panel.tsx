@@ -19,7 +19,7 @@ function RecoveryContent({ flow, adapter }: Props) {
             ? "Simulasi perubahan akses selesai. Akun produksi tidak berubah."
             : "Akses diperbarui. Silakan masuk kembali."}
         </Status>
-        <Link className={styles.back} href="/preview-ui/auth/login">
+        <Link className={styles.back} href="/auth/login">
           Kembali masuk
         </Link>
       </div>
@@ -51,7 +51,7 @@ export function RecoveryPanel({ flow, adapter }: Props) {
   if (flow.saved) title = "Akses diperbarui";
   return (
     <>
-      <Link className={styles.back} href="/preview-ui/auth/login">
+      <Link className={styles.back} href="/auth/login">
         ← Kembali ke halaman masuk
       </Link>
       <div className={styles.intro}>

@@ -25,10 +25,7 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
         aria-label="Navigasi ruang bersama"
       >
         <div className="flex items-center justify-between">
-          <Link
-            href="/preview-ui/account"
-            className="flex min-h-11 items-center font-serif text-xl"
-          >
+          <Link href="/account" className="flex min-h-11 items-center font-serif text-xl">
             {compact ? "ma" : "menuju akad"}
           </Link>
           {!compact && (
@@ -103,14 +100,11 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
             </div>
             <div className="flex justify-between">
               <span className="text-secondary">Premium</span>
-              <Link href="/preview-ui/account/plans">Upgrade Lifetime ↗</Link>
+              <Link href="/account/plans">Upgrade Lifetime ↗</Link>
             </div>
           </div>
         )}
-        <Link
-          href="/preview-ui/account"
-          className={cn(styles.account, compact && styles.iconButton)}
-        >
+        <Link href="/account" className={cn(styles.account, compact && styles.iconButton)}>
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/15 text-sm">
             R
           </span>

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("onboarding keeps edits across next, back, and browser reload", async ({ page }) => {
-  await page.goto("/preview-ui/onboarding/profile");
+  await page.goto("/onboarding/profile");
   await expect(page.locator("#groom-name")).toHaveValue("Andi Ramadhan");
   await page.locator("#groom-nickname").fill("Andi tersimpan");
   await page.getByRole("button", { name: "Lanjut: rencana acara", exact: true }).click();
@@ -16,7 +16,7 @@ test("onboarding keeps edits across next, back, and browser reload", async ({ pa
 });
 
 test("required profile validation focuses the field and preserves the draft", async ({ page }) => {
-  await page.goto("/preview-ui/onboarding/profile");
+  await page.goto("/onboarding/profile");
   await page.locator("#groom-name").fill("");
   await page.getByRole("button", { name: "Lanjut: rencana acara", exact: true }).click();
   await expect(page).toHaveURL(/\/onboarding\/profile$/);
@@ -28,7 +28,7 @@ test("required profile validation focuses the field and preserves the draft", as
 test("switching event context keeps IDs, dates, and integer budgets independent", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/onboarding/events");
+  await page.goto("/onboarding/events");
   await expect(page.locator("#wedding-date")).toHaveValue("2027-02-14");
   await expect(page.locator("#engagement-date")).toHaveValue("2026-11-22");
   await page.getByRole("button", { name: "Lamaran", exact: true }).click();
@@ -56,7 +56,7 @@ test("switching event context keeps IDs, dates, and integer budgets independent"
 });
 
 test("a dirty address dialog offers save, discard, or continued editing", async ({ page }) => {
-  await page.goto("/preview-ui/onboarding/events");
+  await page.goto("/onboarding/events");
   await page.getByRole("button", { name: "Ubah alamat ↗", exact: true }).click();
   await page.getByLabel("Alamat lengkap", { exact: true }).fill("Alamat draf yang diubah");
   await page
@@ -76,7 +76,7 @@ test("a dirty address dialog offers save, discard, or continued editing", async 
 test("a stale draft keeps its warning and local input until an explicit reload", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/onboarding/profile");
+  await page.goto("/onboarding/profile");
   await expect(page.locator("#groom-name")).toBeEnabled();
   await page.evaluate(() => sessionStorage.setItem("ma-v2-scenario", "conflict"));
   await page.locator("#groom-nickname").fill("Draf konflik");
@@ -99,7 +99,7 @@ test("a stale draft keeps its warning and local input until an explicit reload",
 });
 
 test("offline save failures preserve the input and recover on retry", async ({ page, context }) => {
-  await page.goto("/preview-ui/onboarding/profile");
+  await page.goto("/onboarding/profile");
   await expect(page.locator("#groom-name")).toBeEnabled();
   await context.setOffline(true);
   await page.locator("#groom-nickname").fill("Tersimpan setelah online");

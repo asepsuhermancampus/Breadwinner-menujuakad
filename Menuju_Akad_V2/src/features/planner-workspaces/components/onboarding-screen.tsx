@@ -56,14 +56,14 @@ export function OnboardingScreen({
       return;
     }
     navigating.current = true;
-    if (await state.save()) router.push(`/preview-ui/onboarding/${next}`);
+    if (await state.save()) router.push(`/onboarding/${next}`);
     navigating.current = false;
   }
 
   async function finish() {
     if (navigating.current || pending) return;
     navigating.current = true;
-    if (await state.save()) router.push("/preview-ui/account");
+    if (await state.save()) router.push("/account");
     navigating.current = false;
   }
 

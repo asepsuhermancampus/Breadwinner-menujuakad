@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PreviewOnboarding } from "@/preview/components/preview-onboarding";
 
+export const dynamic = "force-dynamic";
 export default async function OnboardingPage({ params }: { params: Promise<{ step: string }> }) {
   const { step } = await params;
   if (step !== "profile" && step !== "events" && step !== "partner" && step !== "success")

@@ -33,7 +33,7 @@ export function PreviewNotice() {
             <option value="revoked">Akses dicabut</option>
             <option value="conflict">Versi berubah</option>
           </select>
-          <Link href="/preview-ui/auth/login" className="min-h-11 py-3">
+          <Link href="/auth/login" className="min-h-11 py-3">
             Kembali ke masuk
           </Link>
           <button

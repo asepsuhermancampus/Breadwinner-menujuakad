@@ -20,7 +20,7 @@ async function pasteCode(page: Page, code: string) {
   }, code);
 }
 async function beginEmailLogin(page: Page) {
-  await page.goto("/preview-ui/auth/login");
+  await page.goto("/auth/login");
   await page.getByLabel("Alamat email", { exact: true }).fill("risa@example.com");
   await page.getByLabel("Kata sandi", { exact: true }).fill("Rahasia123");
   await page.getByRole("button", { name: "Masuk ke ruang kita", exact: true }).click();
@@ -35,7 +35,7 @@ async function noOverflow(page: Page) {
 test("email login validates, guards pending, rejects wrong OTP and accepts a pasted code", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/auth/login");
+  await page.goto("/auth/login");
   await page.getByRole("button", { name: "Masuk ke ruang kita", exact: true }).click();
   await expect(page.getByText("Periksa format alamat email.", { exact: true })).toBeVisible();
   await expect(page.getByText("Masukkan kata sandi Anda.", { exact: true })).toBeVisible();
@@ -58,11 +58,11 @@ test("email login validates, guards pending, rejects wrong OTP and accepts a pas
   await pasteCode(page, "882 016");
   await expect(page.getByLabel("Digit 6 dari 6", { exact: true })).toHaveValue("6");
   await dialog.getByRole("button", { name: "Verifikasi & lanjutkan" }).click();
-  await expect(page).toHaveURL(/\/preview-ui\/account$/);
+  await expect(page).toHaveURL(/\/account$/);
 });
 
 test("phone login normalizes a local number and validates a six digit PIN", async ({ page }) => {
-  await page.goto("/preview-ui/auth/login");
+  await page.goto("/auth/login");
   await page.getByRole("button", { name: "Nomor telepon", exact: true }).click();
   await page.getByLabel("Nomor telepon", { exact: true }).fill("0812 3456 7890");
   await page.getByLabel("PIN keamanan · 6 digit", { exact: true }).fill("123");
@@ -77,11 +77,11 @@ test("phone login normalizes a local number and validates a six digit PIN", asyn
   );
   await pasteCode(page, "882016");
   await page.getByRole("button", { name: "Verifikasi & lanjutkan" }).click();
-  await expect(page).toHaveURL(/\/preview-ui\/account$/);
+  await expect(page).toHaveURL(/\/account$/);
 });
 
 test("offline login preserves form values and offers a safe retry", async ({ page }) => {
-  await page.goto("/preview-ui/auth/login");
+  await page.goto("/auth/login");
   await page.getByLabel("Alamat email", { exact: true }).fill("risa@example.com");
   await page.getByLabel("Kata sandi", { exact: true }).fill("Rahasia123");
   await page.getByText("Skenario uji", { exact: true }).click();
@@ -101,7 +101,7 @@ test("offline login preserves form values and offers a safe retry", async ({ pag
 test("recovery stays generic and resets only after verified code and matching secrets", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/auth/recovery");
+  await page.goto("/auth/recovery");
   await page.getByLabel("Alamat email", { exact: true }).fill("unknown@example.com");
   await page.getByRole("button", { name: "Lanjutkan pemulihan" }).click();
   const dialog = page.getByRole("dialog", { name: "Verifikasi akunmu" });
@@ -124,7 +124,7 @@ test("recovery stays generic and resets only after verified code and matching se
 test("registration verifies then opens onboarding without losing accessibility labels", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/auth/register");
+  await page.goto("/auth/register");
   await page.getByLabel("Nama lengkap", { exact: true }).fill("Risa Pratiwi");
   await page.getByLabel("Alamat email", { exact: true }).fill("risa@example.com");
   await page.getByLabel("Kata sandi", { exact: true }).fill("Rahasia123");
@@ -133,7 +133,7 @@ test("registration verifies then opens onboarding without losing accessibility l
   await expect(page.getByRole("dialog", { name: "Verifikasi akunmu" })).toBeVisible();
   await pasteCode(page, "882016");
   await page.getByRole("button", { name: "Verifikasi & lanjutkan" }).click();
-  await expect(page).toHaveURL(/\/preview-ui\/onboarding\/profile$/);
+  await expect(page).toHaveURL(/\/onboarding\/profile$/);
 });
 
 test("mobile layout reflows during keyboard resize and returns focus after OTP dismissal", async ({
@@ -163,7 +163,7 @@ test("mobile layout reflows during keyboard resize and returns focus after OTP d
 
 test("desktop auth preserves the source editorial crop and form proportions", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto("/preview-ui/auth/login");
+  await page.goto("/auth/login");
   await expect(
     page.getByRole("heading", { name: "Selamat datang kembali", exact: true }),
   ).toBeVisible();

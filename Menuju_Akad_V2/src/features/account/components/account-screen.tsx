@@ -8,9 +8,9 @@ import { SecurityScreen } from "./security-screen";
 import styles from "./account.module.css";
 
 const tabs = [
-  { id: "profile", href: "/preview-ui/account", label: "Profil & akses" },
-  { id: "plans", href: "/preview-ui/account/plans", label: "Paket & langganan" },
-  { id: "security", href: "/preview-ui/account/security", label: "Privasi & keamanan" },
+  { id: "profile", href: "/account", label: "Profil & akses" },
+  { id: "plans", href: "/account/plans", label: "Paket & langganan" },
+  { id: "security", href: "/account/security", label: "Privasi & keamanan" },
 ] as const;
 
 export function AccountScreen({

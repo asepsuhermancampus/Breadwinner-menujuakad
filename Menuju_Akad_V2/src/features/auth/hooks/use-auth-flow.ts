@@ -50,7 +50,7 @@ export function useAuthFlow(mode: AuthMode, adapter: AuthAdapter) {
       result.data.session.expiresAt > adapter.now()
     ) {
       setChallenge(null);
-      router.push(mode === "register" ? "/preview-ui/onboarding/profile" : "/preview-ui/account");
+      router.push(mode === "register" ? "/onboarding/profile" : "/account");
       return;
     }
     setContractError(true);

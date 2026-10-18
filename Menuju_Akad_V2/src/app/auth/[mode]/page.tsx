@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PreviewAuth } from "@/preview/components/preview-auth";
 
+export const dynamic = "force-dynamic";
 export default async function AuthPage({ params }: { params: Promise<{ mode: string }> }) {
   const { mode } = await params;
   if (mode !== "login" && mode !== "register" && mode !== "recovery") notFound();

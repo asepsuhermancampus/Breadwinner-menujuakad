@@ -27,7 +27,7 @@ export function SecurityScreen({
         <h2>Keamanan masuk</h2>
         <div className="flex flex-wrap items-center gap-4">
           <Link
-            href="/preview-ui/auth/recovery"
+            href="/auth/recovery"
             className="inline-flex min-h-11 items-center text-sm text-primary underline"
           >
             Ubah kata sandi / PIN →

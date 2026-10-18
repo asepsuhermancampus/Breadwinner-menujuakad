@@ -6,7 +6,7 @@ export function inviteState(invite: PartnerInvite, now: number) {
 }
 
 export function localInvitePath(token: string) {
-  return `/preview-ui/join/${encodeURIComponent(token)}`;
+  return `/join/${encodeURIComponent(token)}`;
 }
 
 export function assertCanRedeem(

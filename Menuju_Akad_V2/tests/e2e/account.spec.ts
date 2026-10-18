@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("profil memvalidasi lalu menyimpan dan memuat ulang perubahan", async ({ page }) => {
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   const email = page.getByLabel("Alamat email", { exact: true });
   await email.fill("email-belum-valid");
   await page.getByRole("button", { name: "Simpan perubahan", exact: true }).click();
@@ -21,7 +21,7 @@ test("profil memvalidasi lalu menyimpan dan memuat ulang perubahan", async ({ pa
 });
 
 test("offline mempertahankan draf profil hingga simpan ulang berhasil", async ({ page }) => {
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   await page.getByLabel("Nama lengkap").fill("Risa Pratiwi Draf");
   await page.getByText("Skenario uji", { exact: true }).click();
   await page.getByLabel("Kondisi adapter").selectOption("offline");
@@ -42,7 +42,7 @@ test("offline mempertahankan draf profil hingga simpan ulang berhasil", async ({
 test("inspector menjaga draf, membatalkan edit, dan mengembalikan fokus pemicu", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/account");
+  await page.goto("/account");
   const trigger = page.getByRole("button", { name: "Kelola pasangan", exact: true });
   await trigger.click();
   const inspector = page.getByRole("dialog", { name: "Detail pasangan", exact: true });

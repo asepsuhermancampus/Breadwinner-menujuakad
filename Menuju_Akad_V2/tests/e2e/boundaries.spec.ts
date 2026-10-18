@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("canonical routes fail closed meski ada cookie simulasi", async ({ request }) => {
-  for (const route of ["/account", "/account/security", "/dashboard", "/admin", "/vendor", "/ba"]) {
+  for (const route of ["/dashboard", "/admin", "/vendor", "/ba"]) {
     const response = await request.get(route, {
       maxRedirects: 0,
       headers: { Cookie: "session=mock-session-admin; role=SUPERADMIN" },
@@ -32,18 +32,20 @@ test("empat alias akun exact307 tetap canonical", async ({ request }) => {
   }
 });
 
-test("preview whitelist, noindex/private dan invalid join ditolak", async ({ request }) => {
+test("root dan login final, segmen invalid ditolak 404", async ({ request }) => {
+  const root = await request.get("/", { maxRedirects: 0 });
+  expect(root.status()).toBe(307);
+  expect(root.headers().location).toBe("/login");
+  const login = await request.get("/login");
+  expect(login.status()).toBe(200);
+  expect(await login.text()).toContain('name="robots" content="noindex, nofollow"');
   for (const route of [
-    "/preview-ui/auth/admin",
-    "/preview-ui/account/roles/admin",
-    "/preview-ui/onboarding/finance",
-    "/preview-ui/join/AKAD-882",
+    "/auth/admin",
+    "/account/roles/admin",
+    "/onboarding/finance",
+    "/join/AKAD-882",
   ]) {
     const response = await request.get(route);
     expect(response.status()).toBe(404);
   }
-  const response = await request.get("/preview-ui/auth/login");
-  expect(response.status()).toBe(200);
-  expect(response.headers()["cache-control"]).toContain("no-store");
-  expect(await response.text()).toContain('name="robots" content="noindex, nofollow"');
 });

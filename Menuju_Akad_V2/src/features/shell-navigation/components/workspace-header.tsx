@@ -51,7 +51,7 @@ export function WorkspaceHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
           H–{days} · {event === "wedding" ? "14 Feb 2027" : "22 Nov 2026"}
         </span>
         <Link
-          href="/preview-ui/account/plans"
+          href="/account/plans"
           className="rounded-full bg-champagne/15 px-3 py-2 text-xs text-foreground"
         >
           Premium

@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("preferensi tersimpan dan pencabutan sesi tetap melindungi perangkat ini", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/account/security");
+  await page.goto("/account/security");
   const whatsApp = page.getByRole("switch", { name: /^Pengingat WhatsApp/ });
   await expect(whatsApp).not.toBeChecked();
   await whatsApp.check();
@@ -30,7 +30,7 @@ test("preferensi tersimpan dan pencabutan sesi tetap melindungi perangkat ini", 
 test("penghapusan memerlukan konfirmasi eksplisit dan kode simulasi yang benar", async ({
   page,
 }) => {
-  await page.goto("/preview-ui/account/security");
+  await page.goto("/account/security");
   await page.getByRole("button", { name: "Hapus akun…", exact: true }).click();
   const confirmation = page.getByRole("dialog", { name: "Konfirmasi hapus akun", exact: true });
   const next = confirmation.getByRole("button", { name: "Lanjut ke verifikasi", exact: true });

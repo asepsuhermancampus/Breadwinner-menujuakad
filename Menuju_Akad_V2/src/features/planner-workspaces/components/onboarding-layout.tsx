@@ -28,7 +28,7 @@ export function OnboardingLayout({
     <div className="min-h-screen bg-canvas text-foreground">
       <header className="flex min-h-20 items-center justify-between gap-3 border-b border-border px-5 md:px-12">
         <Link
-          href="/preview-ui/onboarding/profile"
+          href="/onboarding/profile"
           onClick={(event) => {
             event.preventDefault();
             onNavigate("profile");

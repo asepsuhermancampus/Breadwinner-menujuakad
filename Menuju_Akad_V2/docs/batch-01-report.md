@@ -51,6 +51,28 @@ primitive dan shell, layar auth `MNC2H`/`hMEbg`/`VgqXJ`/`wZeSu`/`Qyl3s`, onboard
 paket `CwZFE`, dan board responsif `tQXWQ` menjadi state 375 px. Tidak ada frame
 yang menjadi dead-end CTA; tidak ada penambahan route per frame.
 
+## Revisi routing — path final tanpa prefix pratinjau (18 Oktober 2026)
+
+Permintaan pengguna: semua layar dilayani di path final produk, tanpa harness
+`/preview-ui`. Dilaksanakan pada increment ini:
+
+- Route final: `/login`, `/auth/login|register|recovery`, `/onboarding/profile|events|partner|success`,
+  `/account|/account/plans|/account/security`, `/join/[token]`. `/` redirect ke `/login`.
+  Folder `src/app/preview-ui` dihapus.
+- Fail-closed disempitkan ke area yang belum dibangun saja: `/dashboard`, `/admin`,
+  `/vendor`, `/ba` → redirect `/login` (`src/proxy.ts`). Alias dashboard di
+  `next.config.ts` tidak berubah.
+- Adapter mock tetap dipasang di lapisan route (impor dari `src/preview`);
+  `src/features` tetap bebas fixture (dijaga `scripts/check-architecture.mjs`).
+- `UI_PREVIEW_ENABLED` dihapus dari env dan playwright config; gating preview
+  tidak ada lagi.
+- `tests/e2e/boundaries.spec.ts` (kontrak keamanan) ditulis ulang mengikuti
+  kebijakan baru dan diverifikasi bersamaan.
+
+Verifikasi ulang penuh setelah revisi: `npm run check` lulus (format, lint +
+arsitektur 112 modul, typecheck, db:validate, 57 unit test, build produksi) dan
+`npm run test:e2e` 35/35 lulus.
+
 ## Batas dan pekerjaan tertunda
 
 - Mock tidak membuktikan otorisasi server, persistensi DB, provider sandbox atau

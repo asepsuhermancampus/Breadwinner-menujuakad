@@ -13,6 +13,5 @@ export default defineConfig({
     command: "npm run start",
     url: "http://127.0.0.1:3200/api/health/live",
     reuseExistingServer: !process.env.CI,
-    env: { UI_PREVIEW_ENABLED: "true" },
   },
 });

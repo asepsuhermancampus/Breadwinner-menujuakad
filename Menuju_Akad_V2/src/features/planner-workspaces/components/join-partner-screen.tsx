@@ -68,7 +68,7 @@ export function JoinPartnerScreen({
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas px-5 py-12">
       <Card className="w-full max-w-lg space-y-6 p-6 text-center md:p-10">
-        <Link href="/preview-ui" className="text-xl font-semibold text-primary">
+        <Link href="/" className="text-xl font-semibold text-primary">
           menuju akad
         </Link>
         <h1 className="font-serif text-[40px] leading-tight text-primary">
@@ -108,7 +108,7 @@ export function JoinPartnerScreen({
           </Button>
         )}
         <Link
-          href={joined ? "/preview-ui/onboarding/success" : "/preview-ui/onboarding/partner"}
+          href={joined ? "/onboarding/success" : "/onboarding/partner"}
           className={buttonVariants({ variant: joined ? "primary" : "secondary" })}
         >
           {joined ? "Lihat ruang kita" : "Kembali ke undangan pasangan"}

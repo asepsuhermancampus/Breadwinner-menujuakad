@@ -63,7 +63,7 @@ export function ProfileScreen({
               </Button>
             ) : (
               <Link
-                href="/preview-ui/onboarding/partner"
+                href="/onboarding/partner"
                 className="inline-flex min-h-11 items-center text-sm text-primary underline"
               >
                 Undang pasangan
@@ -79,7 +79,7 @@ export function ProfileScreen({
               Jaga rencana tetap berjalan dengan memperpanjang paket atau akses Lifetime.
             </p>
             <Link
-              href="/preview-ui/account/plans"
+              href="/account/plans"
               className="mt-5 inline-flex min-h-11 items-center text-xs font-medium text-primary"
             >
               Kelola paket & upgrade ↗
