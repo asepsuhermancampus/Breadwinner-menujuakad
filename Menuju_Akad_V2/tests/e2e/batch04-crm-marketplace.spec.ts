@@ -34,7 +34,7 @@ test.describe("Batch 04 — CRM, Studio, Undangan, Check-in, Marketplace & Check
   });
 
   test("4B: Studio Undangan dan publikasi draf", async ({ page }) => {
-    await page.goto("/planner/invitations");
+    await page.goto("/planner/invitations/studio");
     await expect(page.getByRole("heading", { name: "Studio Undangan" })).toBeVisible();
     await expect(page.getByText(/Draf v4/i).first()).toBeVisible();
 

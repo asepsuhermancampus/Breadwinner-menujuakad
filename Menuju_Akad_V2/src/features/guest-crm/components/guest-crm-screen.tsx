@@ -9,9 +9,10 @@ import { GuestInspectorDrawer } from "./guest-inspector-drawer";
 import { GuestImportDialog } from "./guest-import-dialog";
 import { GuestSeatingView } from "./guest-seating-view";
 import { WhatsappComposerView } from "./whatsapp-composer-view";
+import { FollowUpView } from "@/features/guest-followup/components/follow-up-view";
 import styles from "./guest-crm.module.css";
 
-type Tab = "guests" | "seating" | "whatsapp";
+type Tab = "guests" | "seating" | "whatsapp" | "followup";
 
 type Props = {
   initialGuests: GuestInvitation[];
@@ -80,7 +81,14 @@ export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) 
         >
           Pengiriman WA
         </button>
-        <a href="/planner/invitations" className={styles.tabButton}>
+        <button
+          type="button"
+          onClick={() => setActiveTab("followup")}
+          className={`${styles.tabButton} ${activeTab === "followup" ? styles.tabButtonActive : ""}`}
+        >
+          Tindak Lanjut
+        </button>
+        <a href="/planner/invitations/studio" className={styles.tabButton}>
           Studio Undangan ↗
         </a>
       </div>
@@ -100,6 +108,8 @@ export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) 
       {activeTab === "seating" && <GuestSeatingView />}
 
       {activeTab === "whatsapp" && <WhatsappComposerView />}
+
+      {activeTab === "followup" && <FollowUpView />}
 
       <GuestCreateDialog
         open={createOpen}

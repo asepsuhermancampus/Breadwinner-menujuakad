@@ -3,6 +3,7 @@
 import { WorkspaceShell } from "@/features/shell-navigation/components/workspace-shell";
 import { GuestCrmScreen } from "@/features/guest-crm/components/guest-crm-screen";
 import { StudioScreen } from "@/features/invitation-studio/components/studio-screen";
+import { ManagerScreen } from "@/features/invitation-manager/components/manager-screen";
 import { PreviewNotice } from "./preview-notice";
 import { initialGuestCrmFixture } from "../fixtures/guest-crm";
 import { accountFixture } from "../fixtures/account";
@@ -33,6 +34,14 @@ export function PreviewInvitationStudio() {
   return (
     <ShellWrapper>
       <StudioScreen />
+    </ShellWrapper>
+  );
+}
+
+export function PreviewInvitationManager() {
+  return (
+    <ShellWrapper>
+      <ManagerScreen />
     </ShellWrapper>
   );
 }
