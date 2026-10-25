@@ -14,6 +14,7 @@ export function SecretField({
   onChange,
   error,
   disabled = false,
+  readOnly = false,
   autoComplete = "current-password",
 }: {
   kind: CredentialKind;
@@ -23,6 +24,7 @@ export function SecretField({
   onChange: (value: string) => void;
   error?: string | undefined;
   disabled?: boolean;
+  readOnly?: boolean;
   autoComplete?: string;
 }) {
   const [visible, setVisible] = useState(false);
@@ -39,6 +41,7 @@ export function SecretField({
         autoComplete={autoComplete}
         required
         disabled={disabled}
+        readOnly={readOnly}
         {...(error ? { error } : {})}
       />
       <button

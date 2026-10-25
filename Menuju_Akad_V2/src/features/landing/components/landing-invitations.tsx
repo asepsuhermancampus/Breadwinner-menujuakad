@@ -160,7 +160,7 @@ export function LandingInvitations() {
         </div>
 
         <p className="text-center text-xs text-secondary">
-          Seluruh contoh undangan merupakan pratinjau desain visual. Ketersediaan template mengikuti
+          Pilihan desain undangan dapat digunakan melalui dashboard. Ketersediaan template mengikuti
           paket Free atau Premium yang aktif.
         </p>
       </div>

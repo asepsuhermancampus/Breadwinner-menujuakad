@@ -1,7 +1,5 @@
-import { PreviewSeserahan } from "@/preview/components/preview-planner";
-
+import { CustomerPlanningPage } from "@/app/_components/customer-planning-page";
 export const dynamic = "force-dynamic";
-
-export default function SeserahanPage() {
-  return <PreviewSeserahan />;
+export default function Page() {
+  return <CustomerPlanningPage kind="seserahan" />;
 }

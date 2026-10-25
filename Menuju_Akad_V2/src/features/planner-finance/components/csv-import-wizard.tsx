@@ -3,14 +3,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import type { ExpenseItem } from "../types/finance";
+import type { AllocationAccount, ExpenseItem } from "../types/finance";
 import { type CsvRowItem, parseCsvRows } from "../utils/csv-helpers";
 import { formatRupiah } from "../utils/finance-calc";
+import { CsvPreviewTable } from "./csv-preview-table";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onImportComplete: (newExpenses: Omit<ExpenseItem, "id">[]) => void;
+  accounts?: AllocationAccount[];
+  onImportComplete: (
+    newExpenses: Omit<ExpenseItem, "id">[],
+  ) => { success?: boolean; error?: string } | void;
 };
 
 const initialSampleCsv = `tanggal;keterangan;nominal;kategori;pembayar
@@ -20,10 +24,12 @@ const initialSampleCsv = `tanggal;keterangan;nominal;kategori;pembayar
 32 Okt 2026;Parkir survei;150.000;Transportasi & lainnya;Andi
 05 Okt 2026;DP Venue Bumi Samami;15.000.000;Venue;Bersama`;
 
-export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
+export function CsvImportWizard({ open, onClose, accounts = [], onImportComplete }: Props) {
   const step = 3; // review step for instant validation
   const [rows, setRows] = useState<CsvRowItem[]>(() => parseCsvRows(initialSampleCsv));
   const [fundingScope, setFundingScope] = useState<"event_fund" | "external_private">("event_fund");
+  const [selectedAccountId, setSelectedAccountId] = useState(accounts[0]?.id || "acc-1");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFixDate = (rowNumber: number) => {
     setRows((prev) =>
@@ -51,13 +57,28 @@ export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
   const totalSelected = selectedRows.reduce((s, r) => s + r.amount, 0);
 
   const handleConfirm = () => {
+    const targetAccount = accounts.find((a) => a.id === selectedAccountId) || accounts[0];
+    if (
+      fundingScope === "event_fund" &&
+      targetAccount &&
+      targetAccount.currentBalance < totalSelected
+    ) {
+      setErrorMessage(
+        `Saldo ${targetAccount.name} tidak mencukupi untuk impor total ${formatRupiah(totalSelected)}. Pengoperasian dibatalkan.`,
+      );
+      return;
+    }
     const toImport: Omit<ExpenseItem, "id">[] = selectedRows.map((r) => ({
       title: r.description,
       category: r.category,
       amount: r.amount,
       paidBy: (r.paidBy as "Andi" | "Risa" | "Bersama") || "Andi",
       fundingScope,
-      accountName: fundingScope === "event_fund" ? "Dana Acara · BCA ••4821" : "Pribadi Eksternal",
+      accountId: fundingScope === "event_fund" ? targetAccount?.id : undefined,
+      accountName:
+        fundingScope === "event_fund" && targetAccount
+          ? `${targetAccount.bank} ${targetAccount.maskedNumber}`
+          : "Pribadi Eksternal",
       date: r.date,
       status: "lunas",
       proofName: "bukti-impor.csv",
@@ -65,7 +86,12 @@ export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
       version: 1,
     }));
 
-    onImportComplete(toImport);
+    const res = onImportComplete(toImport);
+    if (res && typeof res === "object" && !res.success) {
+      setErrorMessage(res.error || "Gagal mengimpor pengeluaran.");
+      return;
+    }
+    setErrorMessage(null);
     onClose();
   };
 
@@ -81,6 +107,12 @@ export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
           </p>
         </div>
 
+        {errorMessage && (
+          <div className="rounded-control bg-danger/10 border border-danger/30 p-2.5 text-danger text-xs font-medium">
+            {errorMessage}
+          </div>
+        )}
+
         <div className="flex items-center gap-2 border-b border-border pb-3">
           <span className="font-semibold text-primary">
             Langkah {step} dari 3: Tinjau & Bandingkan
@@ -92,61 +124,11 @@ export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
           </span>
         </div>
 
-        <div className="rounded-card border border-border bg-surface overflow-hidden">
-          <table className="w-full border-collapse text-left text-xs">
-            <thead>
-              <tr className="bg-ux-dock border-b border-border text-secondary uppercase font-semibold">
-                <th className="p-2.5">Pilih</th>
-                <th className="p-2.5">Tanggal</th>
-                <th className="p-2.5">Deskripsi</th>
-                <th className="p-2.5">Nominal</th>
-                <th className="p-2.5">Status & Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.rowNumber} className="border-b border-border last:border-none">
-                  <td className="p-2.5">
-                    <input
-                      type="checkbox"
-                      checked={r.selected}
-                      disabled={r.status === "invalid_date"}
-                      onChange={() => handleToggleSelect(r.rowNumber)}
-                      className="size-4 accent-primary cursor-pointer"
-                    />
-                  </td>
-                  <td className="p-2.5 font-mono">
-                    <span
-                      className={r.status === "invalid_date" ? "text-danger font-semibold" : ""}
-                    >
-                      {r.date}
-                    </span>
-                  </td>
-                  <td className="p-2.5 font-medium text-foreground">{r.description}</td>
-                  <td className="p-2.5 font-mono">{formatRupiah(r.amount)}</td>
-                  <td className="p-2.5">
-                    {r.status === "invalid_date" ? (
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-danger font-semibold">Salah format</span>
-                        <button
-                          type="button"
-                          onClick={() => handleFixDate(r.rowNumber)}
-                          className="px-2 py-0.5 rounded bg-primary text-canvas font-medium"
-                        >
-                          Perbaiki ke 24 Okt
-                        </button>
-                      </div>
-                    ) : r.status === "duplicate" ? (
-                      <span className="text-secondary italic">Duplikat EX-1001 (Dikecualikan)</span>
-                    ) : (
-                      <span className="text-success font-semibold">✓ {r.statusMessage}</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CsvPreviewTable
+          rows={rows}
+          onToggleSelect={handleToggleSelect}
+          onFixDate={handleFixDate}
+        />
 
         <div className="rounded-card bg-ux-dock p-3 border border-border flex flex-col gap-2">
           <span className="font-semibold text-foreground">Pemetaan Sumber Pendanaan Riil:</span>
@@ -172,6 +154,22 @@ export function CsvImportWizard({ open, onClose, onImportComplete }: Props) {
               <span>Pribadi Eksternal (Kas acara tidak berkurang)</span>
             </label>
           </div>
+          {fundingScope === "event_fund" && accounts.length > 0 && (
+            <div className="flex items-center gap-2 pt-1">
+              <span className="text-secondary text-xs">Rekening Pembebanan:</span>
+              <select
+                value={selectedAccountId}
+                onChange={(e) => setSelectedAccountId(e.target.value)}
+                className="rounded-control border border-border bg-surface px-2 py-1 text-xs"
+              >
+                {accounts.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.name} ({a.bank} · Saldo: {formatRupiah(a.currentBalance)})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between pt-2 border-t border-border">

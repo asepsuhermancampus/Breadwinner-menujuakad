@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { PlannerOverviewData, PlannerEventContext } from "../types/overview";
+import { createInitialTaskMap, toggleEventTask } from "../domain/checklist";
 import { OverviewGreeting } from "./overview-greeting";
 import { OverviewMetrics } from "./overview-metrics";
 import { OverviewPriorities } from "./overview-priorities";
@@ -13,11 +14,14 @@ type Props = {
 
 export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
   const [eventContext, setEventContext] = useState<PlannerEventContext>("wedding");
+  const [taskMap, setTaskMap] = useState(() =>
+    createInitialTaskMap(initialWedding.focusTasks, initialEngagement.focusTasks),
+  );
   const data = eventContext === "wedding" ? initialWedding : initialEngagement;
-  const [tasks, setTasks] = useState(data.focusTasks);
+  const tasks = taskMap[eventContext];
 
   const handleToggleTask = (id: string) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+    setTaskMap((prev) => toggleEventTask(prev, eventContext, id));
   };
 
   return (
@@ -35,10 +39,7 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
                 ? "bg-surface text-primary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
-            onClick={() => {
-              setEventContext("wedding");
-              setTasks(initialWedding.focusTasks);
-            }}
+            onClick={() => setEventContext("wedding")}
           >
             Akad & Resepsi
           </button>
@@ -50,10 +51,7 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
                 ? "bg-surface text-primary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
-            onClick={() => {
-              setEventContext("engagement");
-              setTasks(initialEngagement.focusTasks);
-            }}
+            onClick={() => setEventContext("engagement")}
           >
             Mode Lamaran
           </button>

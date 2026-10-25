@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatIdr } from "../utils/marketplace-calc";
+import { saveBundleSelection } from "../utils/bundle-selection-store";
+import type { VendorPackageSelection } from "../types/marketplace";
 
 type Props = {
   onBack?: () => void;
-  onAddToBundle?: () => void;
+  onAddToBundle?: (selection?: VendorPackageSelection) => void;
 };
 
 export function VendorDetailScreen({ onBack, onAddToBundle }: Props) {
@@ -39,8 +41,18 @@ export function VendorDetailScreen({ onBack, onAddToBundle }: Props) {
     },
   ];
 
+  const activePackage = packages.find((pkg) => pkg.id === selectedPkg) ?? packages[1]!;
+
   function handleAdd() {
-    if (onAddToBundle) onAddToBundle();
+    const payload: VendorPackageSelection = {
+      packageId: activePackage.id,
+      vendorId: "v-lensa",
+      vendorName: "Lensa Teduh Photo",
+      packageName: activePackage.name,
+      priceIdr: activePackage.price,
+    };
+    saveBundleSelection(payload);
+    if (onAddToBundle) onAddToBundle(payload);
     setAddedNotice(true);
     setTimeout(() => setAddedNotice(false), 3000);
   }
@@ -136,7 +148,7 @@ export function VendorDetailScreen({ onBack, onAddToBundle }: Props) {
 
         <div className="flex justify-end gap-3 pt-2 border-t border-border">
           <Button variant="primary" onClick={handleAdd}>
-            + Tambahkan ke Racik Paket (Rp 15.000.000)
+            + Tambahkan ke Racik Paket ({formatIdr(activePackage.price)})
           </Button>
         </div>
       </div>

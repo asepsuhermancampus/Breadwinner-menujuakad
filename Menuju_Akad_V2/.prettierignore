@@ -1,7 +1,9 @@
 node_modules
+.data
 .next
 src/generated
 package-lock.json
 public/assets
 test-results
 playwright-report
+.review-tmp

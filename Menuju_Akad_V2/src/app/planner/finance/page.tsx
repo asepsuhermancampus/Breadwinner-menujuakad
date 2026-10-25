@@ -1,7 +1,7 @@
-import { PreviewFinance } from "@/preview/components/preview-planner";
+import { CustomerResourcePage } from "@/app/_components/customer-resource-page";
 
 export const dynamic = "force-dynamic";
 
 export default function FinancePage() {
-  return <PreviewFinance />;
+  return <CustomerResourcePage kind="finance" />;
 }

@@ -17,6 +17,7 @@ export function useVendorWorkspace() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [storageError, setStorageError] = useState(false);
+  const [refreshRevision, setRefreshRevision] = useState(0);
   const current = useRef({ state, context });
   useEffect(() => {
     current.current = { state, context };
@@ -79,6 +80,7 @@ export function useVendorWorkspace() {
   }
   function refreshVersion() {
     setState((value) => ({ ...value, version: context.latestVersion }));
+    setRefreshRevision((value) => value + 1);
     setMessage(
       "Versi simulasi terbaru dimuat. Draf katalog dipertahankan; tinjau sebelum menyimpan lagi.",
     );
@@ -93,6 +95,7 @@ export function useVendorWorkspace() {
     message,
     errors,
     storageError,
+    refreshRevision,
     onResult,
     save,
     environment,

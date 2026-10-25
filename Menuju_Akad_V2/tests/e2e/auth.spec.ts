@@ -168,6 +168,11 @@ test("desktop auth preserves the source editorial crop and form proportions", as
     page.getByRole("heading", { name: "Selamat datang kembali", exact: true }),
   ).toBeVisible();
   await expect(page.getByAltText("", { exact: true })).toBeVisible();
-  await page.screenshot({ path: "test-results/visual/auth-desktop1440.png", fullPage: true });
+  // Avoid pre-hydration DOM mutation from Playwright caret-color injection
+  await page.screenshot({
+    path: "test-results/visual/auth-desktop1440.png",
+    fullPage: true,
+    caret: "initial",
+  });
   await noOverflow(page);
 });

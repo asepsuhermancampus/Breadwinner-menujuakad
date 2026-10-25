@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 import { filterTasks, computeTaskSummary } from "./task-filter";
 import type { PlannerTask } from "../types/tasks";
 
@@ -33,6 +33,18 @@ const sampleTasks: PlannerTask[] = [
 ];
 
 describe("Task filtering & summary logic", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-25T12:00:00+07:00"));
+  });
+  afterEach(() => vi.useRealTimers());
+  it("uses the current Jakarta day rather than the date from the design fixture", () => {
+    vi.setSystemTime(new Date("2026-10-21T18:00:00Z"));
+    const task = { ...sampleTasks[0]!, dueDate: "22 Okt" };
+    expect(filterTasks([task], "Hari ini", "")).toHaveLength(1);
+    expect(computeTaskSummary([task]).today).toBe(1);
+    expect(filterTasks([task], "Mendatang", "")).toHaveLength(0);
+  });
   it("filters tasks by category and search query", () => {
     expect(filterTasks(sampleTasks, "Semua", "")).toHaveLength(3);
     expect(filterTasks(sampleTasks, "Selesai", "")).toHaveLength(1);

@@ -1,12 +1,6 @@
-import { PreviewVendorDetail } from "@/preview/components/preview-marketplace";
-
+import { CustomerCatalogPage } from "@/app/_components/customer-catalog-page";
 export const dynamic = "force-dynamic";
-
-export default async function VendorDetailPage({
-  params,
-}: {
-  params: Promise<{ vendorId: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ vendorId: string }> }) {
   const { vendorId } = await params;
-  return <PreviewVendorDetail vendorSlug={vendorId} />;
+  return <CustomerCatalogPage vendorId={vendorId} />;
 }

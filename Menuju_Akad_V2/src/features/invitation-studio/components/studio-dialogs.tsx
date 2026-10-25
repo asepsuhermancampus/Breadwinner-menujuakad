@@ -3,6 +3,7 @@ import { createHistoryDocument } from "../content/editor-content";
 import type { StudioEditor } from "../hooks/use-studio-editor";
 import { StudioHistory } from "./studio-history";
 import { StudioReview } from "./studio-review";
+import { CustomerStudioReview } from "./customer-studio-review";
 import { StudioPreview } from "./studio-preview";
 import { StudioSettings } from "./studio-settings";
 import { StudioProjectActions } from "./studio-project-actions";
@@ -42,7 +43,12 @@ export function StudioDialogs({
           onPreview={() => setModal("history-preview")}
         />
       )}
-      {modal === "review" && <StudioReview editor={editor} onClose={close} onFix={onFix} />}
+      {modal === "review" &&
+        (editor.remote ? (
+          <CustomerStudioReview editor={editor} onClose={close} onFix={onFix} />
+        ) : (
+          <StudioReview editor={editor} onClose={close} onFix={onFix} />
+        ))}
       {(modal === "preview" || modal === "history-preview" || modal === "active-preview") && (
         <StudioPreview
           document={

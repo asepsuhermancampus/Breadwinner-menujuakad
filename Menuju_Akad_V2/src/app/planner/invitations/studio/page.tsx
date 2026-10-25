@@ -1,4 +1,8 @@
-import { PreviewInvitationStudio } from "@/preview/components/preview-guests";
+import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
+import { LockedStudio } from "@/features/invitation-studio/components/locked-studio";
+import { dashboardContext } from "@/app/_components/dashboard-context";
+import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
+import { StudioScreen } from "@/features/invitation-studio/components/studio-screen";
 
 export const dynamic = "force-dynamic";
 
@@ -7,16 +11,30 @@ export default async function PlannerInvitationStudioPage({
 }: {
   searchParams: Promise<{ project?: string; view?: string }>;
 }) {
-  const { project, view } = await searchParams;
-  const projectId =
-    typeof project === "string" && /^[a-zA-Z0-9-]{1,120}$/.test(project)
-      ? project
-      : "inv-wedding-main";
+  const { project } = await searchParams;
+  const access = await dashboardContext();
+  const customer = access;
   return (
-    <PreviewInvitationStudio
-      key={projectId}
-      projectId={projectId}
-      previewActive={view === "active"}
-    />
+    <CustomerShell access={access} fullScreen>
+      {access.mode === "guest" ||
+      customer.workspace.subscription.capabilities.includes("studio") ? (
+        <div id="feature-studio" tabIndex={-1}>
+          <StudioScreen
+            key={customer.workspace.id}
+            workspaceId={customer.workspace.id}
+            projectId={
+              project && /^[a-zA-Z0-9-]{1,120}$/.test(project)
+                ? project
+                : `${customer.workspace.id}--main`
+            }
+            remote
+          />
+        </div>
+      ) : (
+        <FeatureLock title="Studio visual">
+          <LockedStudio />
+        </FeatureLock>
+      )}
+    </CustomerShell>
   );
 }

@@ -1,7 +1,7 @@
-import { PreviewGuestCrm } from "@/preview/components/preview-guests";
+import { CustomerResourcePage } from "@/app/_components/customer-resource-page";
 
 export const dynamic = "force-dynamic";
 
 export default function PlannerGuestsPage() {
-  return <PreviewGuestCrm />;
+  return <CustomerResourcePage kind="guests" />;
 }

@@ -13,6 +13,7 @@ type Props = {
   onNavigate: (view: string) => void;
   onUnavailable: (label: string) => void;
   onToggle: () => void;
+  live?: boolean;
 };
 export function OperationsDock({
   roleLabel,
@@ -25,6 +26,7 @@ export function OperationsDock({
   onNavigate,
   onUnavailable,
   onToggle,
+  live,
 }: Props) {
   const first = items.find(
     (item) => item.view === active || item.children?.some((child) => child.view === active),
@@ -58,7 +60,7 @@ export function OperationsDock({
           const chosen = item === first;
           const main = (
             <span
-              className={`flex min-h-12 items-center gap-2.5 rounded-control px-3 text-xs ${chosen ? "bg-primary text-white" : "text-secondary hover:bg-subtle"}`}
+              className={`flex min-h-11 items-center gap-2.5 rounded-control px-3 text-xs ${chosen ? "bg-primary text-white" : "text-secondary hover:bg-subtle"}`}
             >
               <Icon name={item.icon} size={17} />
               {!compact && item.label}
@@ -102,8 +104,12 @@ export function OperationsDock({
       <div className="flex-1" />
       {!compact && (
         <div className="grid gap-2 rounded-control border border-ux-border bg-canvas p-3 text-xs">
-          <p className="font-medium text-primary">Sandbox · Preset 3</p>
-          <p className="text-secondary">Pratinjau, bukan rilis produksi</p>
+          <p className="font-medium text-primary">
+            {live ? "Lingkup operasional" : "Sandbox · Preset 3"}
+          </p>
+          <p className="text-secondary">
+            {live ? "Akses terbatas · tim internal" : "Pratinjau, bukan rilis produksi"}
+          </p>
         </div>
       )}
       <button
@@ -117,7 +123,9 @@ export function OperationsDock({
         {!compact && (
           <>
             <span className="min-w-0 flex-1 text-xs">
-              <strong className="block font-medium">{account}</strong>
+              <strong className="block truncate font-medium" title={account}>
+                {account}
+              </strong>
               <span className="mt-1 block text-secondary">
                 {roleLabel === "BRAND AMBASSADOR" ? "Kreator & afiliasi" : roleLabel}
               </span>

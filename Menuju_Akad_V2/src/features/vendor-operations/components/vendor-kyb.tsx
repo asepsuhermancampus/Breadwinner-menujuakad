@@ -13,7 +13,12 @@ import type {
 } from "../types/vendor";
 import { VendorKybFields } from "./vendor-kyb-fields";
 import { VendorKybSteps } from "./vendor-kyb-steps";
-import { VendorKybActiveBank, VendorKybNotice, VendorKybSummary } from "./vendor-kyb-summary";
+import {
+  VendorKybActiveBank,
+  VendorKybNotice,
+  VendorKybPendingDetails,
+  VendorKybSummary,
+} from "./vendor-kyb-summary";
 import { VendorKybUpload } from "./vendor-kyb-upload";
 
 export function VendorKyb({
@@ -21,11 +26,13 @@ export function VendorKyb({
   context,
   onResult,
   onDirtyChange,
+  refreshRevision = 0,
 }: {
   state: VendorWorkspace;
   context: VendorContext;
   onResult: (result: VendorResult) => void;
   onDirtyChange?: (dirty: boolean) => void;
+  refreshRevision?: number;
 }) {
   const [draft, setDraft] = useState<BankRevisionDraft>(() => ({
     bankName: state.kyb.proposedBank.bankName,
@@ -37,7 +44,12 @@ export function VendorKyb({
     acknowledged: false,
     operationId: crypto.randomUUID(),
   }));
-  const [expectedVersion] = useState(state.version);
+  const [expectedVersion, setExpectedVersion] = useState(state.version);
+  const [prevRefreshRevision, setPrevRefreshRevision] = useState(refreshRevision);
+  if (refreshRevision !== prevRefreshRevision) {
+    setPrevRefreshRevision(refreshRevision);
+    setExpectedVersion(state.version);
+  }
   const [uploadBusy, setUploadBusy] = useState(false);
   const [result, setResult] = useState<VendorResult | null>(null);
   const pending = state.kyb.status === "pending";
@@ -75,7 +87,8 @@ export function VendorKyb({
     );
     setResult(outcome);
     onResult(outcome);
-    if (outcome.ok)
+    if (outcome.ok) {
+      setExpectedVersion(outcome.state.version);
       setDraft((current) => ({
         ...current,
         accountNumber: "",
@@ -84,6 +97,7 @@ export function VendorKyb({
         document: null,
         acknowledged: false,
       }));
+    }
   }
   const ready =
     draft.document &&
@@ -112,19 +126,7 @@ export function VendorKyb({
         <section className="min-w-0">
           <VendorKybNotice pending={pending} />
           {pending ? (
-            <div className="mt-6 grid gap-3 text-sm">
-              <p className="font-semibold">
-                {state.kyb.proposedBank.bankName} ••{state.kyb.proposedBank.last4} ·{" "}
-                {state.kyb.proposedBank.accountName}
-              </p>
-              <p className="text-secondary">
-                Bukti pengganti: {state.kyb.proposedBank.evidence?.label ?? "Berkas privat"}
-              </p>
-              <p className="text-xs text-secondary">
-                Isi berkas hanya tersedia selama layar formulir terbuka. Muat ulang mengakhiri
-                simulasi ini.
-              </p>
-            </div>
+            <VendorKybPendingDetails state={state} />
           ) : (
             <div className="mt-6 grid gap-6">
               <div>

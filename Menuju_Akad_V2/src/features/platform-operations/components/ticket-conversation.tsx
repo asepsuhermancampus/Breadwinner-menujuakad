@@ -14,8 +14,10 @@ type Props = {
 export function TicketConversation({ ticket, context, ownerMode = false, onDirty }: Props) {
   const draftId = useId();
   const thread = useTicketThread(ticket, context, ownerMode);
-  const allowed =
-    ownerMode || ticket.assigned || context("tickets.write", ticket.version).role === "superadmin";
+  const gateContext = context("tickets.write", ticket.version);
+  const isOwner =
+    ownerMode || (Boolean(gateContext.actorId) && gateContext.actorId === ticket.ownerId);
+  const canRespond = isOwner || ticket.assigned;
   return (
     <div className="grid min-w-0 gap-4">
       <div>
@@ -26,35 +28,35 @@ export function TicketConversation({ ticket, context, ownerMode = false, onDirty
             : "Ditangani Farah · Support · balasan hanya untuk pemilik tiket"}
         </p>
       </div>
-      {!allowed ? (
+      <div
+        className="grid max-h-96 gap-3 overflow-y-auto"
+        aria-label="Percakapan tiket"
+        aria-live="polite"
+      >
+        {thread.messages.length ? (
+          thread.messages.map((message) => (
+            <article
+              key={message.id}
+              className={`rounded-control border border-ux-border p-3 ${message.internal ? "bg-warning-bg" : "bg-surface"}`}
+            >
+              <p className="text-xs font-semibold">
+                {message.author}
+                {message.internal ? " · CATATAN INTERNAL" : ""}
+              </p>
+              <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed">{message.text}</p>
+            </article>
+          ))
+        ) : (
+          <p className="text-xs text-secondary">Belum ada percakapan pada contoh tiket ini.</p>
+        )}
+      </div>
+      {!canRespond ? (
         <Status tone="warning">
-          Tiket belum ditugaskan kepada Anda. Eskalasi ke pemilik izin terkait; tidak ada data
-          privat ditampilkan.
+          Tiket belum ditugaskan kepada Anda. Respons dinonaktifkan; penugasan tiket diperlukan
+          sebelum membalas.
         </Status>
       ) : (
         <>
-          <div
-            className="grid max-h-96 gap-3 overflow-y-auto"
-            aria-label="Percakapan tiket"
-            aria-live="polite"
-          >
-            {thread.messages.length ? (
-              thread.messages.map((message) => (
-                <article
-                  key={message.id}
-                  className={`rounded-control border border-ux-border p-3 ${message.internal ? "bg-warning-bg" : "bg-surface"}`}
-                >
-                  <p className="text-xs font-semibold">
-                    {message.author}
-                    {message.internal ? " · CATATAN INTERNAL" : ""}
-                  </p>
-                  <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed">{message.text}</p>
-                </article>
-              ))
-            ) : (
-              <p className="text-xs text-secondary">Belum ada percakapan pada contoh tiket ini.</p>
-            )}
-          </div>
           {!ownerMode && (
             <Select
               label="Jenis respons"
@@ -76,7 +78,7 @@ export function TicketConversation({ ticket, context, ownerMode = false, onDirty
                 const changed = thread.setDraft(event.target.value);
                 onDirty?.(changed);
               }}
-              className="w-full min-w-0 resize-y rounded-control border border-ux-control-border bg-surface p-3 text-sm"
+              className="w-full min-w-0 resize-y rounded-control border border-ux-control-border bg-surface p-3 text-sm disabled:cursor-not-allowed disabled:bg-subtle disabled:opacity-60"
               aria-describedby={`${draftId}-help`}
             />
           </label>

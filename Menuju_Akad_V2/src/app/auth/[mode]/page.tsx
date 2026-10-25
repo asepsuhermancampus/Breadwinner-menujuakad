@@ -1,9 +1,22 @@
-import { notFound } from "next/navigation";
-import { PreviewAuth } from "@/preview/components/preview-auth";
-
+import { notFound, redirect } from "next/navigation";
+import { safeReturnTo } from "@/features/auth/lib/return-to";
+import { CustomerAuth } from "@/features/auth/components/customer-auth";
 export const dynamic = "force-dynamic";
-export default async function AuthPage({ params }: { params: Promise<{ mode: string }> }) {
+export default async function AuthPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ mode: string }>;
+  searchParams: Promise<{ returnTo?: string; error?: string }>;
+}) {
   const { mode } = await params;
   if (mode !== "login" && mode !== "register" && mode !== "recovery") notFound();
-  return <PreviewAuth mode={mode} />;
+  if (mode === "login") {
+    const query = await searchParams;
+    const destination = new URLSearchParams();
+    if (query.returnTo) destination.set("returnTo", safeReturnTo(query.returnTo));
+    if (query.error && query.error.length <= 80) destination.set("error", query.error);
+    redirect(`/login${destination.size ? `?${destination}` : ""}`);
+  }
+  return <CustomerAuth mode={mode} />;
 }

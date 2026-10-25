@@ -1,7 +1,7 @@
-import { PreviewTasks } from "@/preview/components/preview-planner";
+import { CustomerResourcePage } from "@/app/_components/customer-resource-page";
 
 export const dynamic = "force-dynamic";
 
 export default function TasksPage() {
-  return <PreviewTasks />;
+  return <CustomerResourcePage kind="tasks" />;
 }

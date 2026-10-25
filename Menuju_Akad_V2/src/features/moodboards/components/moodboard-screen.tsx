@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useCommittedList } from "@/hooks/use-committed-list";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -10,13 +11,15 @@ import styles from "./moodboard.module.css";
 type Props = {
   initialItems: MoodboardItem[];
   palette: AgreedColor[];
+  onChange?: (items: MoodboardItem[]) => void | Promise<boolean | void>;
 };
 
-export function MoodboardScreen({ initialItems, palette }: Props) {
-  const [items, setItems] = useState<MoodboardItem[]>(initialItems);
+export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
+  const [items, setItems] = useCommittedList(initialItems, onChange);
   const [filter, setFilter] = useState<string>("Semua");
   const [search, setSearch] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editing, setEditing] = useState<MoodboardItem | null>(null);
 
   const displayedItems = useMemo(() => {
     return items.filter((item) => {
@@ -29,7 +32,7 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
   }, [items, filter, search]);
 
   return (
-    <main id="main-content" className={styles.container}>
+    <section className={styles.container}>
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
@@ -39,7 +42,12 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
             Kumpulkan referensi, selaraskan selera, lalu bagikan arahnya ke vendor.
           </p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
+        <Button
+          onClick={() => {
+            setEditing(null);
+            setShowAddModal(true);
+          }}
+        >
           <Icon name="plus" size={16} />
           Tambah inspirasi
         </Button>
@@ -128,16 +136,46 @@ export function MoodboardScreen({ initialItems, palette }: Props) {
               </span>
               <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
               {item.notes && <p className="text-xs text-secondary line-clamp-2">{item.notes}</p>}
+              <div className="flex gap-2">
+                <Button
+                  size="small"
+                  variant="secondary"
+                  onClick={() => {
+                    setEditing(item);
+                    setShowAddModal(true);
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  size="small"
+                  variant="ghost"
+                  onClick={() => void setItems((prev) => prev.filter((i) => i.id !== item.id))}
+                >
+                  Hapus
+                </Button>
+              </div>
             </div>
           </article>
         ))}
       </section>
 
       <SaveInspirationDialog
+        key={editing?.id ?? "new"}
+        item={editing}
         open={showAddModal}
         onClose={() => setShowAddModal(false)}
-        onSave={(item) => setItems((prev) => [item, ...prev])}
+        onSave={(item) => {
+          if (
+            editing &&
+            JSON.stringify(items.find((i) => i.id === editing.id)) !== JSON.stringify(editing)
+          )
+            return Promise.resolve(false);
+          return setItems((prev) =>
+            editing ? prev.map((i) => (i.id === item.id ? item : i)) : [item, ...prev],
+          );
+        }}
       />
-    </main>
+    </section>
   );
 }

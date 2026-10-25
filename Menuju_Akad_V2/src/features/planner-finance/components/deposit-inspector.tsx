@@ -12,7 +12,7 @@ type Props = {
   onClose: () => void;
   accounts: AllocationAccount[];
   currentTotalContributed: number;
-  onSave: (deposit: Omit<DepositItem, "id">) => void;
+  onSave: (deposit: Omit<DepositItem, "id">) => { success?: boolean; error?: string } | void;
 };
 
 export function DepositInspector({
@@ -27,6 +27,7 @@ export function DepositInspector({
   const [accountId, setAccountId] = useState(accounts[0]?.id || "acc-bca");
   const [date, setDate] = useState("25 Okt 2026");
   const [reference, setReference] = useState("Transfer alokasi mandiri");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const numericAmount = Number.parseInt(amountInput.replace(/[^0-9]/g, ""), 10) || 0;
   const projectedTotal = currentTotalContributed + numericAmount;
@@ -34,8 +35,11 @@ export function DepositInspector({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (numericAmount <= 0) return;
-    onSave({
+    if (numericAmount <= 0) {
+      setErrorMessage("Nominal setoran harus lebih besar dari Rp 0.");
+      return;
+    }
+    const res = onSave({
       contributor,
       amount: numericAmount,
       accountId: selectedAccount?.id || "acc-bca",
@@ -44,6 +48,11 @@ export function DepositInspector({
       reference,
       proofName: "bukti-transfer.pdf",
     });
+    if (res && typeof res === "object" && !res.success) {
+      setErrorMessage(res.error || "Gagal mencatat setoran.");
+      return;
+    }
+    setErrorMessage(null);
     onClose();
   };
 
@@ -53,6 +62,12 @@ export function DepositInspector({
         <p className="text-xs text-secondary">
           Catat setoran riil yang telah ditransfer ke rekening alokasi acara.
         </p>
+
+        {errorMessage && (
+          <div className="rounded-control bg-danger/10 border border-danger/30 p-2.5 text-danger text-xs font-medium">
+            {errorMessage}
+          </div>
+        )}
 
         <div className="grid min-w-0 gap-2">
           <label className="text-sm font-medium">Penyetor</label>

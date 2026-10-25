@@ -2,9 +2,20 @@ import type {
   FinanceContext,
   FinanceIntent,
   FinanceState,
+  PayoutRow,
   RefundInput,
 } from "../types/admin-finance";
 import { commit, failure, financeGuard, intentGuard, replay } from "./finance-guards";
+
+export function isPayoutEligible(row: PayoutRow): boolean {
+  return (
+    row.status !== "scheduled" &&
+    row.bankVerified &&
+    !row.disputed &&
+    row.serviceComplete &&
+    row.holdAmount === row.amount
+  );
+}
 
 export function scheduleFinancePayout(
   state: FinanceState,
@@ -20,13 +31,13 @@ export function scheduleFinancePayout(
   const row = state.payouts.find((item) => item.id === id);
   if (!row || row.version !== input.expectedVersion)
     return failure(state, "Permohonan berubah atau tidak ditemukan. Tinjau ulang versi terbaru.");
-  if (!row.bankVerified || row.disputed || !row.serviceComplete || row.holdAmount !== row.amount)
+  if (row.status === "scheduled")
+    return failure(state, "Permohonan sudah dijadwalkan; jangan membuat transfer kedua.");
+  if (!isPayoutEligible(row))
     return failure(
       state,
       "Rekening, sengketa, penyelesaian layanan, dan hold harus memenuhi syarat.",
     );
-  if (row.status === "scheduled")
-    return failure(state, "Permohonan sudah dijadwalkan; jangan membuat transfer kedua.");
   const next = {
     ...state,
     payouts: state.payouts.map((item) =>

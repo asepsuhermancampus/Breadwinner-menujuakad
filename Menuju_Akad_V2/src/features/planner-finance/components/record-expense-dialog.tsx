@@ -11,6 +11,7 @@ import type {
   FundingScope,
 } from "../types/finance";
 import { formatRupiah } from "../utils/finance-calc";
+import { ExpenseFundingScopeField, ExpenseProjectionCard } from "./record-expense-fields";
 
 type Props = {
   open: boolean;
@@ -19,7 +20,7 @@ type Props = {
   currentCash: number;
   currentTotalExpenses: number;
   categories: string[];
-  onSaveExpense: (item: Omit<ExpenseItem, "id">) => void;
+  onSaveExpense: (item: Omit<ExpenseItem, "id">) => { success?: boolean; error?: string } | void;
 };
 
 export function RecordExpenseDialog({
@@ -37,6 +38,7 @@ export function RecordExpenseDialog({
   const [paidBy, setPaidBy] = useState<ContributorName>("Risa");
   const [fundingScope, setFundingScope] = useState<FundingScope>("event_fund");
   const [accountId, setAccountId] = useState(accounts[1]?.id || "acc-mandiri");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const numericAmount = Number.parseInt(amountInput.replace(/[^0-9]/g, ""), 10) || 0;
   const projectedExpenses = currentTotalExpenses + numericAmount;
@@ -47,8 +49,19 @@ export function RecordExpenseDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (numericAmount <= 0) return;
-    onSaveExpense({
+    if (numericAmount <= 0) {
+      setErrorMessage("Nominal pengeluaran harus lebih besar dari Rp 0.");
+      return;
+    }
+    if (fundingScope === "event_fund" && selectedAccount) {
+      if (selectedAccount.currentBalance < numericAmount) {
+        setErrorMessage(
+          `Saldo rekening ${selectedAccount.name} tidak mencukupi (${formatRupiah(selectedAccount.currentBalance)} < ${formatRupiah(numericAmount)}).`,
+        );
+        return;
+      }
+    }
+    const res = onSaveExpense({
       title,
       category,
       amount: numericAmount,
@@ -65,6 +78,11 @@ export function RecordExpenseDialog({
       recordedBy: "Risa",
       version: 1,
     });
+    if (res && typeof res === "object" && !res.success) {
+      setErrorMessage(res.error || "Gagal menyimpan pengeluaran.");
+      return;
+    }
+    setErrorMessage(null);
     onClose();
   };
 
@@ -74,6 +92,12 @@ export function RecordExpenseDialog({
         <p className="text-xs text-secondary">
           Pencatatan bersama. Pisahkan pembayar riil dan sumber alokasi dana acara.
         </p>
+
+        {errorMessage && (
+          <div className="rounded-control bg-danger/10 border border-danger/30 p-2.5 text-danger text-xs font-medium">
+            {errorMessage}
+          </div>
+        )}
 
         <Field
           label="Keterangan Pengeluaran"
@@ -118,72 +142,20 @@ export function RecordExpenseDialog({
           </select>
         </div>
 
-        <div className="grid min-w-0 gap-2">
-          <label className="text-sm font-medium">Sumber Pendanaan</label>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              className={`p-2.5 text-xs text-left rounded-control border transition-all ${
-                fundingScope === "event_fund"
-                  ? "border-primary bg-primary/5 text-primary font-semibold"
-                  : "border-border bg-surface text-secondary"
-              }`}
-              onClick={() => setFundingScope("event_fund")}
-            >
-              <strong className="block">Dana Acara</strong>
-              <span className="text-[11px] opacity-80">Mengurangi saldo kas</span>
-            </button>
-            <button
-              type="button"
-              className={`p-2.5 text-xs text-left rounded-control border transition-all ${
-                fundingScope === "external_private"
-                  ? "border-primary bg-primary/5 text-primary font-semibold"
-                  : "border-border bg-surface text-secondary"
-              }`}
-              onClick={() => setFundingScope("external_private")}
-            >
-              <strong className="block">Pribadi Eksternal</strong>
-              <span className="text-[11px] opacity-80">Kas acara tidak berkurang</span>
-            </button>
-          </div>
-        </div>
+        <ExpenseFundingScopeField
+          fundingScope={fundingScope}
+          setFundingScope={setFundingScope}
+          accountId={accountId}
+          setAccountId={setAccountId}
+          accounts={accounts}
+        />
 
-        {fundingScope === "event_fund" && (
-          <div className="grid min-w-0 gap-2">
-            <label className="text-sm font-medium">Rekening Alokasi Pembayar</label>
-            <select
-              className="w-full rounded-control border border-border bg-surface px-3 py-2 text-sm"
-              value={accountId}
-              onChange={(e) => setAccountId(e.target.value)}
-            >
-              {accounts.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name} ({a.bank} {a.maskedNumber} · Saldo: {formatRupiah(a.currentBalance)})
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        <div className="rounded-card bg-ux-dock p-3.5 border border-border flex flex-col gap-1 text-xs">
-          <div className="flex justify-between">
-            <span className="text-secondary">Proyeksi Realisasi Biaya:</span>
-            <strong className="font-mono text-foreground">{formatRupiah(projectedExpenses)}</strong>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-secondary">Proyeksi Sisa Dana Acara:</span>
-            <strong
-              className={`font-mono font-semibold ${fundingScope === "event_fund" ? "text-primary" : "text-success"}`}
-            >
-              {formatRupiah(projectedCash)}
-            </strong>
-          </div>
-          <span className="text-[11px] text-secondary italic mt-0.5">
-            {fundingScope === "event_fund"
-              ? `Biaya memotong saldo ${selectedAccount?.name}`
-              : "Biaya pribadi di luar alokasi acara; saldo kas tetap utuh."}
-          </span>
-        </div>
+        <ExpenseProjectionCard
+          projectedExpenses={projectedExpenses}
+          projectedCash={projectedCash}
+          fundingScope={fundingScope}
+          selectedAccount={selectedAccount}
+        />
 
         <div className="flex items-center justify-end gap-2 pt-3 border-t border-border">
           <Button type="button" variant="ghost" onClick={onClose}>

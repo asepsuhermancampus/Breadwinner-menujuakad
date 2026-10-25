@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type {
   AllocationAccount,
   BudgetItem,
@@ -12,6 +12,14 @@ import type {
   InternalTransfer,
 } from "../types/finance";
 import { calculateFinanceSummary } from "../utils/finance-calc";
+import {
+  applyCorrection,
+  applyDeposit,
+  applyExpense,
+  applyExpenseBatch,
+  applyTransfer,
+  type LedgerState,
+} from "../utils/ledger-engine";
 
 type InitialProps = {
   initialAccounts: AllocationAccount[];
@@ -32,12 +40,8 @@ export function useFinanceState({
 }: InitialProps) {
   const [eventContext, setEventContext] = useState<EventFinanceContext>("wedding");
   const [activeTab, setActiveTab] = useState<FinanceTabKey>("ringkasan");
-  const [accounts, setAccounts] = useState<AllocationAccount[]>(initialAccounts);
-  const [deposits, setDeposits] = useState<DepositItem[]>(initialDeposits);
-  const [expenses, setExpenses] = useState<ExpenseItem[]>(initialExpenses);
   const [categories, setCategories] = useState<BudgetItem[]>(initialCategories);
   const [installments] = useState<InstallmentItem[]>(initialInstallments);
-  const [transfers, setTransfers] = useState<InternalTransfer[]>(initialTransfers);
   const [targetAmount, setTargetAmount] = useState(150_000_000);
 
   const [recordExpenseOpen, setRecordExpenseOpen] = useState(false);
@@ -48,32 +52,46 @@ export function useFinanceState({
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
   const [importWizardOpen, setImportWizardOpen] = useState(false);
 
-  const summary = calculateFinanceSummary(targetAmount, deposits, expenses, accounts);
+  const [ledger, setLedger] = useState<LedgerState>(() => ({
+    accounts: initialAccounts,
+    deposits: initialDeposits,
+    expenses: initialExpenses,
+    transfers: initialTransfers,
+  }));
+  const ledgerRef = useRef(ledger);
+
+  const summary = calculateFinanceSummary(
+    targetAmount,
+    ledger.deposits,
+    ledger.expenses,
+    ledger.accounts,
+  );
 
   const handleSaveExpense = (item: Omit<ExpenseItem, "id">) => {
-    const newId = `EX-${1000 + expenses.length + 1}`;
-    const newExpense: ExpenseItem = { ...item, id: newId };
-    setExpenses((prev) => [newExpense, ...prev]);
-
-    if (item.fundingScope === "event_fund" && item.accountId) {
-      setAccounts((prev) =>
-        prev.map((a) =>
-          a.id === item.accountId
-            ? { ...a, currentBalance: Math.max(0, a.currentBalance - item.amount) }
-            : a,
-        ),
-      );
+    const res = applyExpense(ledgerRef.current, item);
+    if (res.success) {
+      ledgerRef.current = res.state;
+      setLedger(res.state);
     }
+    return res;
+  };
+
+  const handleImportExpenses = (items: Omit<ExpenseItem, "id">[]) => {
+    const res = applyExpenseBatch(ledgerRef.current, items);
+    if (res.success) {
+      ledgerRef.current = res.state;
+      setLedger(res.state);
+    }
+    return res;
   };
 
   const handleSaveDeposit = (item: Omit<DepositItem, "id">) => {
-    const newDeposit: DepositItem = { ...item, id: `d-${deposits.length + 1}` };
-    setDeposits((prev) => [...prev, newDeposit]);
-    setAccounts((prev) =>
-      prev.map((a) =>
-        a.id === item.accountId ? { ...a, currentBalance: a.currentBalance + item.amount } : a,
-      ),
-    );
+    const res = applyDeposit(ledgerRef.current, item);
+    if (res.success) {
+      ledgerRef.current = res.state;
+      setLedger(res.state);
+    }
+    return res;
   };
 
   const handleUpdateCategory = (id: string, newPlanned: number) => {
@@ -85,41 +103,21 @@ export function useFinanceState({
   };
 
   const handleExecuteTransfer = (fromId: string, toId: string, amount: number) => {
-    setAccounts((prev) =>
-      prev.map((a) => {
-        if (a.id === fromId) return { ...a, currentBalance: a.currentBalance - amount };
-        if (a.id === toId) return { ...a, currentBalance: a.currentBalance + amount };
-        return a;
-      }),
-    );
-    setTransfers((prev) => [
-      ...prev,
-      {
-        id: `MT-${String(prev.length + 10).padStart(3, "0")}`,
-        fromAccountId: fromId,
-        toAccountId: toId,
-        fromAccountName: accounts.find((a) => a.id === fromId)?.name || "",
-        toAccountName: accounts.find((a) => a.id === toId)?.name || "",
-        amount,
-        date: "25 Okt 2026",
-        reason: "Mutasi alokasi internal",
-        recordedBy: "Risa",
-        idempotencyKey: `MUT:AR:${Date.now()}`,
-      },
-    ]);
+    const res = applyTransfer(ledgerRef.current, fromId, toId, amount);
+    if (res.success) {
+      ledgerRef.current = res.state;
+      setLedger(res.state);
+    }
+    return res;
   };
 
   const handleExecuteCorrection = (newAmount: number) => {
-    const orig = transfers[0];
-    if (!orig) return;
-    const delta = newAmount - orig.amount;
-    setAccounts((prev) =>
-      prev.map((a) => {
-        if (a.id === orig.fromAccountId) return { ...a, currentBalance: a.currentBalance - delta };
-        if (a.id === orig.toAccountId) return { ...a, currentBalance: a.currentBalance + delta };
-        return a;
-      }),
-    );
+    const res = applyCorrection(ledgerRef.current, newAmount);
+    if (res.success) {
+      ledgerRef.current = res.state;
+      setLedger(res.state);
+    }
+    return res;
   };
 
   return {
@@ -127,12 +125,12 @@ export function useFinanceState({
     setEventContext,
     activeTab,
     setActiveTab,
-    accounts,
-    deposits,
-    expenses,
+    accounts: ledger.accounts,
+    deposits: ledger.deposits,
+    expenses: ledger.expenses,
     categories,
     installments,
-    transfers,
+    transfers: ledger.transfers,
     targetAmount,
     setTargetAmount,
     summary,
@@ -151,6 +149,7 @@ export function useFinanceState({
     importWizardOpen,
     setImportWizardOpen,
     handleSaveExpense,
+    handleImportExpenses,
     handleSaveDeposit,
     handleUpdateCategory,
     handleExecuteTransfer,

@@ -23,6 +23,13 @@ export type GuestInvitation = {
   isArchived?: boolean | undefined;
 };
 
+export type WaRecipientSnapshot = {
+  totalSelected: number;
+  eligibleCount: number;
+  excludedCount: number;
+  excludedReasons: string[];
+};
+
 export type TableSeating = {
   id: string;
   number: string;

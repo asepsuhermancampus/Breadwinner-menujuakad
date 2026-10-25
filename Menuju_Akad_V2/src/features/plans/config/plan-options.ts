@@ -1,4 +1,5 @@
 import type { PlanId } from "../types/plans";
+import { getPlan } from "../domain/catalog";
 
 export type PlanOption = {
   id: PlanId;
@@ -37,7 +38,7 @@ export const planOptions: PlanOption[] = [
       "Tamu & tugas tanpa batas",
       "Seluruh template premium",
       "Studio visual & moodboard",
-      "Ekspor PDF & sinkronisasi vendor",
+      "Ekspor rencana ke PDF",
     ],
     action: "Perpanjang Premium",
   },
@@ -51,9 +52,12 @@ export const planOptions: PlanOption[] = [
       "Semua fitur Premium",
       "Akses premium selamanya",
       "Multi-undangan & custom domain",
-      "Wedding Kit eksklusif",
+      "Pengaturan domain milik kalian",
       "Prioritas bantuan pasangan",
     ],
     action: "Aktifkan Lifetime",
   },
-];
+].map((option) => {
+  const plan = getPlan(option.id as PlanId);
+  return { ...option, id: plan.id, priceIdr: plan.originalAmount, features: [...plan.features] };
+});

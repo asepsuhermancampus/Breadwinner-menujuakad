@@ -155,7 +155,7 @@ export function LandingPlannerPreview() {
               </div>
 
               <div className="border-t border-ux-border bg-ux-dock px-5 py-2 text-right">
-                <span className="text-[11px] text-secondary">Pratinjau produk · Data contoh</span>
+                <span className="text-[11px] text-secondary">Atur rencana kalian di dashboard</span>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { FollowUpReviewDialog } from "./follow-up-review-dialog";
 import { FollowUpGuestTable } from "./follow-up-guest-table";
 import { followUpMockAdapter } from "../adapters/mock-followup";
 import { toggleVisibleSelection } from "../domain/selection";
+import { filterFollowUpGuests } from "../domain/search";
 import {
   followUpCampaignId,
   followUpContext,
@@ -21,10 +22,7 @@ export function FollowUpView() {
   const [query, setQuery] = useState("");
   const [reviewOpen, setReviewOpen] = useState(false);
 
-  const filtered = useMemo(
-    () => guests.filter((g) => g.name.toLowerCase().includes(query.trim().toLowerCase())),
-    [guests, query],
-  );
+  const filtered = useMemo(() => filterFollowUpGuests(guests, query), [guests, query]);
   const selected = guests.filter((guest) => guest.selected);
 
   function toggle(id: string) {

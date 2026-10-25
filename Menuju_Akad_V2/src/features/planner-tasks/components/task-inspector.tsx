@@ -10,7 +10,7 @@ import styles from "./tasks.module.css";
 type Props = {
   task: PlannerTask | null;
   onClose: () => void;
-  onSave: (updated: PlannerTask) => void;
+  onSave: (updated: PlannerTask) => void | Promise<boolean | void>;
 };
 
 export function TaskInspector({ task, onClose, onSave }: Props) {
@@ -33,9 +33,9 @@ export function TaskInspector({ task, onClose, onSave }: Props) {
     setDirty(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (draft) {
-      onSave(draft);
+      if ((await onSave(draft)) === false) return;
       setDirty(false);
       onClose();
     }

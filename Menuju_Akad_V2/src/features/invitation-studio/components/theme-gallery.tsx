@@ -1,15 +1,34 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import type { StudioDocument } from "../types/editor";
 import type { InvitationTheme } from "../types/studio";
 
 type Props = {
-  activeTheme: InvitationTheme;
+  activeDocument?: StudioDocument | null;
+  activeTheme?: InvitationTheme | null;
+  activeVersion?: number | null;
   draftTheme: InvitationTheme;
   onSelectTheme: (theme: InvitationTheme) => void;
 };
 
-export function ThemeGallery({ activeTheme, draftTheme, onSelectTheme }: Props) {
+export function ThemeGallery({
+  activeDocument,
+  activeTheme,
+  activeVersion,
+  draftTheme,
+  onSelectTheme,
+}: Props) {
+  const isPublished = activeDocument ? activeDocument.publication !== "unpublished" : true;
+  const currentActiveTheme = isPublished
+    ? activeDocument !== undefined
+      ? (activeDocument?.theme ?? null)
+      : (activeTheme ?? null)
+    : null;
+  const currentVersion =
+    activeDocument !== undefined
+      ? (activeDocument?.activeVersion ?? activeDocument?.revision ?? null)
+      : (activeVersion ?? (activeTheme ? 3 : null));
   const themes: Array<{
     id: InvitationTheme;
     title: string;
@@ -50,7 +69,7 @@ export function ThemeGallery({ activeTheme, draftTheme, onSelectTheme }: Props) 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {themes.map((t) => {
           const isDraftSelected = draftTheme === t.id;
-          const isCurrentlyActive = activeTheme === t.id;
+          const isCurrentlyActive = Boolean(currentActiveTheme && currentActiveTheme === t.id);
 
           return (
             <div
@@ -80,7 +99,7 @@ export function ThemeGallery({ activeTheme, draftTheme, onSelectTheme }: Props) 
               <div className="mt-3 flex items-center justify-between">
                 {isCurrentlyActive && (
                   <span className="text-[11px] font-semibold text-success bg-success-bg px-2 py-0.5 rounded">
-                    ✓ Tema Aktif (v3)
+                    ✓ Tema Aktif{currentVersion != null ? ` (v${currentVersion})` : ""}
                   </span>
                 )}
                 <Button

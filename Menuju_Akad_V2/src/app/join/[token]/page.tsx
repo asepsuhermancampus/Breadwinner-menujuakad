@@ -1,9 +1,16 @@
-import { notFound } from "next/navigation";
-import { PreviewJoin } from "@/preview/components/preview-onboarding";
-
+import { notFound, redirect } from "next/navigation";
+import { dashboardContext } from "@/app/_components/dashboard-context";
+import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
+import { JoinWorkspace } from "@/features/customer-workspace/components/join-workspace";
 export const dynamic = "force-dynamic";
 export default async function JoinPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
-  if (!/^[A-Za-z0-9_-]{43}$/.test(token)) notFound();
-  return <PreviewJoin token={token} />;
+  if (!/^[a-f0-9]{64}$/.test(token)) notFound();
+  const access = await dashboardContext();
+  if (access.mode === "guest") redirect("/login?returnTo=" + encodeURIComponent("/join/" + token));
+  return (
+    <CustomerShell access={access}>
+      <JoinWorkspace token={token} />
+    </CustomerShell>
+  );
 }

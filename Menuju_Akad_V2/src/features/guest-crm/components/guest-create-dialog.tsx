@@ -9,7 +9,7 @@ import { normalizeE164 } from "../utils/guest-filter";
 type Props = {
   open: boolean;
   onClose: () => void;
-  onSave: (guest: Omit<GuestInvitation, "id" | "personalToken">) => void;
+  onSave: (guest: Omit<GuestInvitation, "id" | "personalToken">) => void | Promise<boolean | void>;
 };
 
 export function GuestCreateDialog({ open, onClose, onSave }: Props) {
@@ -20,7 +20,7 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
   const [hasConsent, setHasConsent] = useState(false);
   const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) {
       setError("Nama undangan wajib diisi.");
@@ -40,7 +40,7 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
       normalizedPhone = res.normalized;
     }
 
-    onSave({
+    const saved = await onSave({
       name: name.trim(),
       group,
       quota,
@@ -51,6 +51,12 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
       waConsentDate: hasConsent ? "25 Okt 2026" : undefined,
       waConsentSource: hasConsent ? "Input langsung formulir" : undefined,
     });
+    if (saved === false) {
+      setError(
+        "Perubahan belum tersimpan. Periksa sisa trial atau pesan penyimpanan; data formulir tetap tersedia.",
+      );
+      return;
+    }
     setName("");
     setPhone("");
     setQuota(2);
@@ -62,7 +68,11 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
   return (
     <Dialog open={open} onClose={onClose} title="Tambah Undangan Baru">
       <form onSubmit={handleSubmit} className="space-y-4">
-        {error && <div className="p-2 text-xs text-danger bg-danger-bg rounded">{error}</div>}
+        {error && (
+          <div role="alert" className="p-2 text-xs text-danger bg-danger-bg rounded">
+            {error}
+          </div>
+        )}
         <div>
           <label className="block text-xs font-semibold text-secondary mb-1">
             Nama Tamu / Rombongan <span className="text-danger">*</span>

@@ -4,6 +4,12 @@ import { getCoverCropFrame } from "./cover-crop";
 import { createPreviewHtml } from "./preview-html";
 
 describe("public studio preview", () => {
+  it("removes example guest identity and preview RSVP from published output", () => {
+    const html = createPreviewHtml(createStudioDocument(), "https://app.example", true);
+    expect(html).not.toContain("Budi Santoso");
+    expect(html).not.toContain("Maksimal 2 orang");
+    expect(html).not.toContain("Pratinjau draf");
+  });
   it("renders current visible node text and appearance rather than fixture text", () => {
     const doc = createStudioDocument();
     doc.nodes = doc.nodes.map((node) =>
@@ -64,5 +70,34 @@ describe("public studio preview", () => {
     expect(html).not.toContain("animation:enter 600ms");
     expect(html).toContain("@media(min-width:768px)");
     expect(html).toContain("@media(min-width:1280px)");
+  });
+
+  it("uses dynamic cover height basis to properly fill arbitrary resized cover heights", () => {
+    for (const height of [170, 340, 510, 680]) {
+      const doc = createStudioDocument();
+      doc.nodes = doc.nodes.map((node) => (node.id === "cover" ? { ...node, height } : node));
+      const html = createPreviewHtml(doc, "https://preview.example");
+      expect(html).toContain(`--cover-height:${height}px`);
+      expect(html).toContain("height:100%");
+      expect(html).toContain("top:0%");
+      expect(html).toContain("width:100%");
+      expect(html).not.toContain("height:50%");
+      expect(html).not.toContain("height:150%");
+    }
+  });
+
+  it("preserves cover transforms and offsets with dynamic height basis", () => {
+    const doc = createStudioDocument();
+    doc.nodes = doc.nodes.map((node) =>
+      node.id === "cover"
+        ? { ...node, height: 250, x: 15, y: 25, rotation: 12, flipX: true }
+        : node,
+    );
+    const html = createPreviewHtml(doc, "https://preview.example");
+    expect(html).toContain("--cover-height:250px");
+    expect(html).toContain(`left:${(15 / 375) * 100}%`);
+    expect(html).toContain(`top:${(25 / 250) * 100}%`);
+    expect(html).toContain("height:100%");
+    expect(html).toContain("rotate(12deg) scale(-1,1)");
   });
 });

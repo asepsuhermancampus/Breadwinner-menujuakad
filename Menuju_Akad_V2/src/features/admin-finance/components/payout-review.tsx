@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { rupiah } from "../content/finance-content";
-import { scheduleFinancePayout } from "../domain/finance-money";
+import { isPayoutEligible, scheduleFinancePayout } from "../domain/finance-money";
 import type { FinanceScreenProps, PayoutRow } from "../types/admin-finance";
 import { FinanceCard, FinanceCheck, FinanceNote, FinanceTable } from "./finance-parts";
 import styles from "./finance.module.css";
@@ -18,7 +18,7 @@ export function PayoutReview({
   const [ack, setAck] = useState(false);
   const [reason, setReason] = useState("Layanan selesai, rekening dan kelayakan ditinjau.");
   const [message, setMessage] = useState("");
-  const eligible = row.bankVerified && !row.disputed && row.serviceComplete;
+  const eligible = isPayoutEligible(row);
   return (
     <FinanceCard title={`${row.id} · ${row.vendor}`}>
       <div className={styles.stack}>
@@ -47,7 +47,7 @@ export function PayoutReview({
         <FinanceCheck checked={ack} onChange={setAck}>
           Saya meninjau tujuan, kelayakan dan jadwal ini.
         </FinanceCheck>
-        {(!eligible || !context.permissions.payout) && (
+        {row.status !== "scheduled" && (!eligible || !context.permissions.payout) && (
           <FinanceNote>
             {!eligible
               ? "Permohonan belum memenuhi seluruh syarat penjadwalan."
@@ -55,7 +55,7 @@ export function PayoutReview({
           </FinanceNote>
         )}
         <Button
-          disabled={!eligible || !context.permissions.payout || row.status === "scheduled"}
+          disabled={!eligible || !context.permissions.payout}
           onClick={() => {
             const result = scheduleFinancePayout(
               state,

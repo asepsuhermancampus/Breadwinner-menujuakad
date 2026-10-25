@@ -3,16 +3,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import type { ContributorName, DepositItem } from "../types/finance";
+import type { ContributorName, DepositItem, ExpenseItem } from "../types/finance";
 import { formatRupiah } from "../utils/finance-calc";
 import styles from "./finance.module.css";
 
 type Props = {
   deposits: DepositItem[];
+  expenses?: ExpenseItem[];
   summary: {
     targetAmount: number;
     totalContributed: number;
     totalExpenses: number;
+    eventFundExpenses?: number;
     cashRemaining: number;
     gapAmount: number;
     fundedPercent: number;
@@ -23,6 +25,7 @@ type Props = {
 
 export function SavingsTab({
   deposits,
+  expenses = [],
   summary,
   onOpenRecordDeposit,
   onOpenTargetSimulator,
@@ -75,8 +78,13 @@ export function SavingsTab({
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Biaya Dari Dana Acara</span>
-          <span className={styles.metricValue}>{formatRupiah(summary.totalExpenses)}</span>
-          <span className={styles.metricDetail}>7 pembayaran bersumber dana acara</span>
+          <span className={styles.metricValue}>
+            {formatRupiah(summary.eventFundExpenses ?? summary.totalExpenses)}
+          </span>
+          <span className={styles.metricDetail}>
+            {expenses.filter((e) => e.fundingScope === "event_fund").length} pembayaran bersumber
+            dana acara
+          </span>
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Kekurangan Dana</span>

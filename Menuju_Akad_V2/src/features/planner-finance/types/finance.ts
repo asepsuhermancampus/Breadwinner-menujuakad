@@ -77,6 +77,15 @@ export type InternalTransfer = {
   reason: string;
   recordedBy: string;
   idempotencyKey: string;
+  originalAmount?: number | undefined;
+  correctionHistory?:
+    | {
+        date: string;
+        previousAmount: number;
+        newAmount: number;
+        reason?: string | undefined;
+      }[]
+    | undefined;
 };
 
 export type ContributionTarget = {

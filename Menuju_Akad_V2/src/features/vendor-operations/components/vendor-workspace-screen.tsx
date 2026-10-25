@@ -65,7 +65,13 @@ export function VendorWorkspaceScreen() {
               errors={editor.errors}
             />
           )}
-          {view === "kyb" && <VendorKyb {...props} onDirtyChange={setKybDirty} />}
+          {view === "kyb" && (
+            <VendorKyb
+              {...props}
+              refreshRevision={editor.refreshRevision}
+              onDirtyChange={setKybDirty}
+            />
+          )}
           {view === "orders" && <VendorOrders {...props} />}
           {view === "calendar" && <VendorCalendar {...props} />}
           {view === "wallet" && <VendorWallet {...props} />}

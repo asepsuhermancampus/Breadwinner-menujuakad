@@ -1,7 +1,5 @@
-import { PreviewCheckoutServices } from "@/preview/components/preview-checkout";
-
+import { CustomerCatalogPage } from "@/app/_components/customer-catalog-page";
 export const dynamic = "force-dynamic";
-
-export default function CheckoutServicesPage() {
-  return <PreviewCheckoutServices />;
+export default function Page() {
+  return <CustomerCatalogPage favorites={false} />;
 }

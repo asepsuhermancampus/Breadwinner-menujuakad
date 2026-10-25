@@ -141,13 +141,17 @@ test.describe("Batch 03 · Finance & Ledger Modules E2E", () => {
     // Internal transfer modal
     await page.getByRole("button", { name: "Catat mutasi internal" }).click();
     await expect(page.getByText("Catat Mutasi, Bukan Kirim Uang")).toBeVisible();
-    await expect(page.getByText("Total dana acara tetap Rp 55 jt.")).toBeVisible();
+    await expect(
+      page.getByRole("dialog").getByText("Total dana acara tetap Rp 55.000.000."),
+    ).toBeVisible();
     await page.getByRole("button", { name: "Batal" }).click();
 
     // Correction modal
     await page.getByRole("button", { name: "Koreksi Catatan MT-009" }).click();
     await expect(page.getByText("Koreksi Mutasi · Pratinjau")).toBeVisible();
-    await expect(page.getByText("Total kas tetap Rp 55 jt.")).toBeVisible();
+    await expect(
+      page.getByRole("dialog").getByText("Total kas tetap Rp 55.000.000."),
+    ).toBeVisible();
     await page.getByRole("button", { name: "Batal" }).click();
   });
 

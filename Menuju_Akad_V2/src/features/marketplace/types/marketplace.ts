@@ -47,4 +47,13 @@ export type BundleItem = {
   unitPriceIdr: number;
   quantity: number;
   status: "available" | "unavailable" | "replaced";
+  packageId?: string;
+};
+
+export type VendorPackageSelection = {
+  packageId: string;
+  vendorId: string;
+  vendorName: string;
+  packageName: string;
+  priceIdr: number;
 };

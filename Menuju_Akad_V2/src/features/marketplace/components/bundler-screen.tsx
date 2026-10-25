@@ -4,6 +4,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { BundleItem } from "../types/marketplace";
 import { calculateBundleTotal, formatIdr } from "../utils/marketplace-calc";
+import {
+  applySelectionToBundle,
+  DEFAULT_BUNDLE_ITEMS,
+  useBundleSelection,
+} from "../utils/bundle-selection-store";
 import { QuoteExpiredView } from "./quote-expired-view";
 
 type Props = {
@@ -11,51 +16,29 @@ type Props = {
 };
 
 export function BundlerScreen({ initialItems }: Props) {
-  const [items, setItems] = useState<BundleItem[]>(
-    initialItems || [
-      {
-        id: "b-1",
-        vendorId: "v-aru",
-        vendorName: "Aru MUA",
-        serviceName: "Paket Akad",
-        unitPriceIdr: 8000000,
-        quantity: 1,
-        status: "available",
-      },
-      {
-        id: "b-2",
-        vendorId: "v-lensa",
-        vendorName: "Lensa Teduh Photo",
-        serviceName: "Sehari Penuh",
-        unitPriceIdr: 15000000,
-        quantity: 1,
-        status: "available",
-      },
-      {
-        id: "b-3",
-        vendorId: "v-luma",
-        vendorName: "Luma Dekor",
-        serviceName: "Cypress",
-        unitPriceIdr: 12000000,
-        quantity: 1,
-        status: "available",
-      },
-    ],
-  );
+  const selection = useBundleSelection();
+  const [userItems, setUserItems] = useState<BundleItem[] | null>(null);
+
+  const baseItems = initialItems ?? DEFAULT_BUNDLE_ITEMS;
+  const items = userItems ?? applySelectionToBundle(baseItems, selection);
 
   const [showExpiredScenarios, setShowExpiredScenarios] = useState(false);
   const total = calculateBundleTotal(items);
 
   function updateQuantity(id: string, delta: number) {
-    setItems((prev) =>
-      prev.map((item) =>
+    setUserItems((prev) => {
+      const current = prev ?? applySelectionToBundle(baseItems, selection);
+      return current.map((item) =>
         item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item,
-      ),
-    );
+      );
+    });
   }
 
   function removeItem(id: string) {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+    setUserItems((prev) => {
+      const current = prev ?? applySelectionToBundle(baseItems, selection);
+      return current.filter((item) => item.id !== id);
+    });
   }
 
   return (

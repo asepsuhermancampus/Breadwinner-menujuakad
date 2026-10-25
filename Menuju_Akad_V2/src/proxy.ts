@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const FAIL_CLOSED = ["/admin", "/vendor", "/ba"];
+const FAIL_CLOSED = ["/vendor", "/ba"];
 
 export function proxy(request: NextRequest) {
   const response = NextResponse.next();

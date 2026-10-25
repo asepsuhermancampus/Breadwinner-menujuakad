@@ -3,24 +3,79 @@
 import { useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import type { WaRecipientSnapshot } from "../types/guest";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onConfirmDispatch: () => void;
+  onConfirmDispatch: () => { success: boolean; error?: string } | void;
+  quota?: number;
+  snapshot?: WaRecipientSnapshot;
 };
 
-export function WhatsappReviewDialog({ open, onClose, onConfirmDispatch }: Props) {
+const defaultSnapshot: WaRecipientSnapshot = {
+  totalSelected: 14,
+  eligibleCount: 10,
+  excludedCount: 4,
+  excludedReasons: [
+    "2 undangan sudah pernah terkirim sebelumnya",
+    "1 tamu belum memberikan izin komunikasi WhatsApp",
+    "1 nomor telepon belum valid",
+  ],
+};
+
+export function WhatsappReviewDialog({
+  open,
+  onClose,
+  onConfirmDispatch,
+  quota = 100,
+  snapshot = defaultSnapshot,
+}: Props) {
   const [acknowledged, setAcknowledged] = useState(false);
+  const [error, setError] = useState("");
+
+  const remainingAfter = Math.max(0, quota - snapshot.eligibleCount);
+  const isQuotaInsufficient = quota < snapshot.eligibleCount;
+  const cannotDispatch = !acknowledged || snapshot.eligibleCount === 0 || isQuotaInsufficient;
+
+  function handleConfirm() {
+    if (isQuotaInsufficient) {
+      setError(`Kuota tidak mencukupi untuk mengirim ${snapshot.eligibleCount} pesan.`);
+      return;
+    }
+    if (snapshot.eligibleCount <= 0) {
+      setError("Tidak ada penerima yang memenuhi syarat untuk dikirim.");
+      return;
+    }
+    const result = onConfirmDispatch();
+    if (result && !result.success) {
+      setError(result.error || "Gagal mengirim pesan.");
+      return;
+    }
+    onClose();
+  }
 
   return (
     <Dialog open={open} onClose={onClose} title="Tinjauan Pengiriman WhatsApp">
       <div className="space-y-4">
+        {error && (
+          <div className="p-2 text-xs text-danger bg-danger-bg rounded" role="alert">
+            {error}
+          </div>
+        )}
         <div className="p-3 bg-surface border border-border rounded-control">
-          <div className="text-sm font-bold text-foreground">Kirim ke 10 Undangan?</div>
+          <div className="text-sm font-bold text-foreground">
+            Kirim ke {snapshot.eligibleCount} Undangan?
+          </div>
           <div className="text-xs text-secondary mt-1">
-            14 dipilih · <span className="text-success font-semibold">10 memenuhi syarat</span> ·{" "}
-            <span className="text-warning font-semibold">4 dikecualikan</span>
+            {snapshot.totalSelected} dipilih ·{" "}
+            <span className="text-success font-semibold">
+              {snapshot.eligibleCount} memenuhi syarat
+            </span>{" "}
+            ·{" "}
+            <span className="text-warning font-semibold">
+              {snapshot.excludedCount} dikecualikan
+            </span>
           </div>
         </div>
 
@@ -31,22 +86,28 @@ export function WhatsappReviewDialog({ open, onClose, onConfirmDispatch }: Props
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Penerima Siap Kirim</span>
-            <span className="font-semibold text-primary">10 undangan</span>
+            <span className="font-semibold text-primary">{snapshot.eligibleCount} undangan</span>
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Kuota Pesan Terpakai</span>
-            <span className="font-mono font-bold text-foreground">100 → 90 pesan</span>
+            <span className="font-mono font-bold text-foreground">
+              {quota} → {remainingAfter} pesan
+            </span>
           </div>
         </div>
 
-        <div className="p-3 bg-warning-bg border border-warning/30 rounded-control space-y-1.5">
-          <div className="text-xs font-bold text-warning">Empat Undangan Dikecualikan:</div>
-          <ul className="text-xs text-secondary list-disc pl-4 space-y-0.5">
-            <li>2 undangan sudah pernah terkirim sebelumnya</li>
-            <li>1 tamu belum memberikan izin komunikasi WhatsApp</li>
-            <li>1 nomor telepon belum valid</li>
-          </ul>
-        </div>
+        {snapshot.excludedCount > 0 && (
+          <div className="p-3 bg-warning-bg border border-warning/30 rounded-control space-y-1.5">
+            <div className="text-xs font-bold text-warning">
+              {snapshot.excludedCount} Undangan Dikecualikan:
+            </div>
+            <ul className="text-xs text-secondary list-disc pl-4 space-y-0.5">
+              {snapshot.excludedReasons.map((reason, idx) => (
+                <li key={idx}>{reason}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="p-3 bg-subtle border border-border rounded-control text-xs text-secondary leading-relaxed">
           <strong>Perhatian:</strong> Izin diperiksa ulang saat pengiriman. Penerima yang tidak lagi
@@ -68,15 +129,8 @@ export function WhatsappReviewDialog({ open, onClose, onConfirmDispatch }: Props
           <Button variant="ghost" onClick={onClose}>
             Batal
           </Button>
-          <Button
-            variant="primary"
-            disabled={!acknowledged}
-            onClick={() => {
-              onConfirmDispatch();
-              onClose();
-            }}
-          >
-            Kirim 10 Pesan Sekarang
+          <Button variant="primary" disabled={cannotDispatch} onClick={handleConfirm}>
+            Kirim {snapshot.eligibleCount} Pesan Sekarang
           </Button>
         </div>
       </div>

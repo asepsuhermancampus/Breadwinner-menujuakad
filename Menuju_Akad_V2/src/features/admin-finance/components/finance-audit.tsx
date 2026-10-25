@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Field } from "@/components/ui/field";
 import { historicalFinanceAudit } from "../content/finance-content";
-import { appendFinanceCorrection, exportFinanceAudit } from "../domain/finance-audit";
+import { exportFinanceAudit } from "../domain/finance-audit";
 import type { FinanceAudit, FinanceScreenProps } from "../types/admin-finance";
+import { FinanceAuditDetailDialog } from "./finance-audit-dialog";
 import { FinanceCard, FinanceHeader, FinanceNote, FinanceTable } from "./finance-parts";
 import styles from "./finance.module.css";
 
@@ -17,7 +18,6 @@ export function FinanceAuditView({
 }: FinanceScreenProps & { compact?: boolean }) {
   const [query, setQuery] = useState("");
   const [detail, setDetail] = useState<FinanceAudit | null>(null);
-  const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
   const [reference, setReference] = useState(false);
   const rows = [...state.audit]
@@ -70,10 +70,7 @@ export function FinanceAuditView({
                   key={entry.id}
                   variant="ghost"
                   size="small"
-                  onClick={() => {
-                    setDetail(entry);
-                    setReason("");
-                  }}
+                  onClick={() => setDetail(entry)}
                 >
                   {entry.objectId}
                 </Button>,
@@ -125,49 +122,13 @@ export function FinanceAuditView({
           </Button>
         </div>
       </FinanceCard>
-      <Dialog
-        open={Boolean(detail)}
-        title={`${detail?.id ?? ""} · detail audit`}
+      <FinanceAuditDetailDialog
+        detail={detail}
+        state={state}
+        context={context}
+        onResult={onResult}
         onClose={() => setDetail(null)}
-      >
-        {detail && (
-          <div className={styles.stack}>
-            <FinanceTable
-              label="Detail audit lokal"
-              headers={["Catatan", "Nilai"]}
-              rows={[
-                [
-                  "Objek / versi",
-                  `${detail.objectId} · ${detail.beforeVersion} → ${detail.version}`,
-                ],
-                ["Aktor", detail.actor],
-                ["Alasan", detail.reason],
-                ["Perubahan", detail.diff ?? detail.result],
-                ["Event terkait", detail.linkedId ?? "Tidak ada"],
-              ]}
-            />
-            <Field
-              label="Alasan koreksi tertaut"
-              value={reason}
-              onChange={(event) => setReason(event.target.value)}
-            />
-            <Button
-              disabled={!context.permissions.settings}
-              onClick={() => {
-                const result = appendFinanceCorrection(state, detail.id, reason, context);
-                onResult(result);
-                setMessage(result.message);
-                if (result.ok) setDetail(null);
-              }}
-            >
-              Tambahkan koreksi baru
-            </Button>
-            <FinanceNote>
-              Event asli dipertahankan. Tidak ada tombol menghapus atau mengubah histori.
-            </FinanceNote>
-          </div>
-        )}
-      </Dialog>
+      />
       <Dialog
         open={reference}
         title="CFG-18 · contoh audit pascakonfirmasi"

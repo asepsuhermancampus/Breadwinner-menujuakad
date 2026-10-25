@@ -20,10 +20,10 @@ type Props = {
   targetAmount: number;
   recordExpenseOpen: boolean;
   onCloseRecordExpense: () => void;
-  onSaveExpense: (item: Omit<ExpenseItem, "id">) => void;
+  onSaveExpense: (item: Omit<ExpenseItem, "id">) => { success?: boolean; error?: string } | void;
   recordDepositOpen: boolean;
   onCloseRecordDeposit: () => void;
-  onSaveDeposit: (item: Omit<DepositItem, "id">) => void;
+  onSaveDeposit: (item: Omit<DepositItem, "id">) => { success?: boolean; error?: string } | void;
   targetSimulatorOpen: boolean;
   onCloseTargetSimulator: () => void;
   onSavePlan: (amt: number) => void;
@@ -36,7 +36,9 @@ type Props = {
   onCloseExportDialog: () => void;
   importWizardOpen: boolean;
   onCloseImportWizard: () => void;
-  onImportExpenses: (items: Omit<ExpenseItem, "id">[]) => void;
+  onImportExpenses: (
+    items: Omit<ExpenseItem, "id">[],
+  ) => { success?: boolean; error?: string } | void;
 };
 
 export function FinanceDialogs({
@@ -108,6 +110,7 @@ export function FinanceDialogs({
       <CsvImportWizard
         open={importWizardOpen}
         onClose={onCloseImportWizard}
+        accounts={accounts}
         onImportComplete={onImportExpenses}
       />
     </>

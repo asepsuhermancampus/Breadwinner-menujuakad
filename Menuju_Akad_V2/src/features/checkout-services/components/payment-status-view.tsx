@@ -6,19 +6,33 @@ import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import { formatIdr } from "@/features/marketplace/utils/marketplace-calc";
 import type { PaymentStatusType } from "../types/checkout";
+import { useTransactionSnapshot, updateTransactionStatus } from "../model/transaction-store";
 
 type Props = {
-  initialStatus?: PaymentStatusType;
-  amountIdr?: number;
-  onViewReceipt?: () => void;
+  orderId?: string | undefined;
+  initialStatus?: PaymentStatusType | undefined;
+  amountIdr?: number | undefined;
+  onViewReceipt?: (() => void) | undefined;
 };
 
 export function PaymentStatusView({
-  initialStatus = "verified",
-  amountIdr = 10500000,
+  orderId = "ORD-SIM-204",
+  initialStatus,
+  amountIdr,
   onViewReceipt,
 }: Props) {
-  const [status, setStatus] = useState<PaymentStatusType>(initialStatus);
+  const tx = useTransactionSnapshot(orderId);
+  const [overrideStatus, setOverrideStatus] = useState<PaymentStatusType | undefined>(
+    initialStatus,
+  );
+  const status = overrideStatus ?? tx.status;
+  const displayAmount = amountIdr ?? tx.paidAmountIdr;
+  const isFull = tx.scheme === "full";
+
+  const handleStatusChange = (newStatus: PaymentStatusType) => {
+    setOverrideStatus(newStatus);
+    updateTransactionStatus(orderId, newStatus);
+  };
 
   return (
     <div className="p-6 bg-surface rounded-2xl border border-border space-y-5 shadow-sm">
@@ -37,21 +51,21 @@ export function PaymentStatusView({
         <div className="flex gap-1">
           <button
             type="button"
-            onClick={() => setStatus("waiting")}
+            onClick={() => handleStatusChange("waiting")}
             className={`px-2 py-1 text-[11px] rounded ${status === "waiting" ? "bg-warning text-white" : "bg-subtle text-secondary"}`}
           >
             Menunggu
           </button>
           <button
             type="button"
-            onClick={() => setStatus("failed")}
+            onClick={() => handleStatusChange("failed")}
             className={`px-2 py-1 text-[11px] rounded ${status === "failed" ? "bg-danger text-white" : "bg-subtle text-secondary"}`}
           >
             Gagal Definitif
           </button>
           <button
             type="button"
-            onClick={() => setStatus("verified")}
+            onClick={() => handleStatusChange("verified")}
             className={`px-2 py-1 text-[11px] rounded ${status === "verified" ? "bg-success text-white" : "bg-subtle text-secondary"}`}
           >
             Terkonfirmasi
@@ -65,7 +79,9 @@ export function PaymentStatusView({
             <span className="font-bold text-warning uppercase">Menunggu Kepastian Penyedia</span>
             <Status tone="warning">Status: Unknown / Processing</Status>
           </div>
-          <div className="text-xl font-bold font-mono text-foreground">{formatIdr(amountIdr)}</div>
+          <div className="text-xl font-bold font-mono text-foreground">
+            {formatIdr(displayAmount)}
+          </div>
           <p className="text-xs text-secondary leading-relaxed">
             Penyedia pembayaran belum memberikan hasil akhir transaksi. Sistem mempertahankan
             payment intent yang sama (PAY-SIM-204-01) untuk mencegah penarikan dana berganda.
@@ -92,7 +108,7 @@ export function PaymentStatusView({
             Sistem menautkan percobaan baru ke invoice yang sama tanpa membuat pesanan baru yang
             membingungkan.
           </div>
-          <Button variant="secondary" size="small" onClick={() => setStatus("waiting")}>
+          <Button variant="secondary" size="small" onClick={() => handleStatusChange("waiting")}>
             Coba Bayar Kembali (Invoice Sama)
           </Button>
         </div>
@@ -106,18 +122,24 @@ export function PaymentStatusView({
             </span>
             <Status tone="success">Status: SETTLED</Status>
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground">{formatIdr(amountIdr)}</div>
+          <div className="text-2xl font-bold font-mono text-foreground">
+            {formatIdr(displayAmount)}
+          </div>
           <p className="text-xs text-secondary leading-relaxed">
-            Signature webhook, nomor invoice INV-SIM-204-01, dan nominal pembayaran{" "}
-            {formatIdr(amountIdr)} telah tervalidasi cocok. DP berhasil dicatat ke dalam rekening
-            penampung aman (escrow).
+            Signature webhook, nomor invoice {tx.invoiceNumber}, dan nominal pembayaran{" "}
+            {formatIdr(displayAmount)} telah tervalidasi cocok.{" "}
+            {isFull
+              ? "Pelunasan penuh berhasil dicatat ke dalam rekening penampung aman (escrow)."
+              : "DP berhasil dicatat ke dalam rekening penampung aman (escrow)."}
           </p>
           <div className="p-3 bg-surface rounded border border-border text-xs text-secondary space-y-1">
             <div className="font-bold text-foreground">
-              Bukti Tanda Terima (Receipt) Resmi Diterbitkan
+              {isFull
+                ? "Bukti Pelunasan Penuh (Receipt) Resmi Diterbitkan"
+                : "Bukti Tanda Terima (Receipt) Resmi Diterbitkan"}
             </div>
             <div className="text-[11px] font-mono text-secondary">
-              RCPT-SIM-204-01 · Transaksi Idempoten
+              {tx.receiptNumber} · Transaksi Idempoten
             </div>
           </div>
           <div className="pt-2">
@@ -127,7 +149,7 @@ export function PaymentStatusView({
               </Button>
             ) : (
               <Link
-                href="/orders/ORD-SIM-204"
+                href={`/orders/${tx.orderId}`}
                 className="inline-flex items-center px-4 py-2.5 rounded-control bg-primary text-white text-xs font-semibold hover:bg-primary-hover"
               >
                 Buka Invoice & Receipt Resmi →

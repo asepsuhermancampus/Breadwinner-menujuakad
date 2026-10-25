@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { Icon } from "@/components/ui/icon";
 import type { KuaDocumentItem } from "../types/kua";
+import { KuaDocumentTable } from "./kua-document-table";
 import { KuaRevisionDialog } from "./kua-revision-dialog";
 import styles from "./kua.module.css";
 
@@ -31,19 +32,31 @@ export function KuaScreen({ initialDocuments }: Props) {
     );
   }, [documents, filter]);
 
-  const handleUploaded = (docId: string, spouse: "Andi" | "Risa") => {
+  const handleUploaded = (docId: string, spouse: "Andi" | "Risa", fileName?: string) => {
     setDocuments((prev) =>
       prev.map((d) => {
         if (d.id !== docId) return d;
         return spouse === "Andi"
-          ? { ...d, statusAndi: "Lengkap", notesAndi: undefined, updatedAt: "Hari ini" }
-          : { ...d, statusRisa: "Lengkap", notesRisa: undefined, updatedAt: "Hari ini" };
+          ? {
+              ...d,
+              statusAndi: "Lengkap",
+              notesAndi: undefined,
+              fileAndi: fileName || d.fileAndi,
+              updatedAt: "Hari ini",
+            }
+          : {
+              ...d,
+              statusRisa: "Lengkap",
+              notesRisa: undefined,
+              fileRisa: fileName || d.fileRisa,
+              updatedAt: "Hari ini",
+            };
       }),
     );
   };
 
   return (
-    <main id="main-content" className={styles.container}>
+    <section className={styles.container}>
       <header>
         <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
           Dokumen KUA & syarat nikah
@@ -134,63 +147,18 @@ export function KuaScreen({ initialDocuments }: Props) {
         </button>
       </div>
 
-      <div className={styles.tableContainer}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Dokumen</th>
-              <th>Syarat</th>
-              <th>Andi · Pria</th>
-              <th>Risa · Wanita</th>
-              <th>Diperbarui</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedDocs.map((doc) => (
-              <tr key={doc.id}>
-                <td className="font-medium text-foreground">{doc.name}</td>
-                <td className="text-xs text-secondary">{doc.requirement}</td>
-                <td>
-                  <span
-                    className={`inline-block rounded-full px-2 py-0.5 text-xs ${
-                      doc.statusAndi === "Lengkap"
-                        ? "bg-emerald-50 text-emerald-700"
-                        : "bg-rose/10 text-rose font-medium cursor-pointer"
-                    }`}
-                    onClick={() =>
-                      doc.statusAndi === "Perlu revisi" && setEditingDoc({ doc, spouse: "Andi" })
-                    }
-                  >
-                    {doc.statusAndi} {doc.statusAndi === "Perlu revisi" ? "✏" : ""}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className={`inline-block rounded-full px-2 py-0.5 text-xs ${
-                      doc.statusRisa === "Lengkap"
-                        ? "bg-emerald-50 text-emerald-700"
-                        : "bg-rose/10 text-rose font-medium cursor-pointer"
-                    }`}
-                    onClick={() =>
-                      doc.statusRisa === "Perlu revisi" && setEditingDoc({ doc, spouse: "Risa" })
-                    }
-                  >
-                    {doc.statusRisa}
-                  </span>
-                </td>
-                <td className="font-mono text-xs text-secondary">{doc.updatedAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <KuaDocumentTable
+        documents={displayedDocs}
+        onSelectDoc={(doc, spouse) => setEditingDoc({ doc, spouse })}
+      />
 
       <KuaRevisionDialog
+        key={editingDoc ? `${editingDoc.doc.id}-${editingDoc.spouse}` : undefined}
         document={editingDoc?.doc || null}
         spouse={editingDoc?.spouse || "Andi"}
         onClose={() => setEditingDoc(null)}
         onUploaded={handleUploaded}
       />
-    </main>
+    </section>
   );
 }

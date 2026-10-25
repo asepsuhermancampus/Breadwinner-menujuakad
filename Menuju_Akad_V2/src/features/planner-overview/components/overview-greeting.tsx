@@ -7,7 +7,7 @@ type Props = {
   greeting: string;
   countdownLabel: string;
   eventDetail: string;
-  readinessPercent: number;
+  readinessPercent: number | null;
   readinessLabel: string;
 };
 
@@ -22,10 +22,11 @@ export function OverviewGreeting({
   return (
     <section className={styles.greetingCard} aria-labelledby="greeting-title">
       <div className="space-y-2">
-        <p className="text-xs font-semibold tracking-wider text-ux-on-dark uppercase">
-          {dateContext}
-        </p>
-        <h1 id="greeting-title" className="font-sans text-2xl md:text-3xl font-medium text-canvas">
+        <p className="text-xs text-ux-on-dark">{dateContext}</p>
+        <h1
+          id="greeting-title"
+          className="font-sans text-2xl md:text-[32px] font-medium tracking-[-0.7px] text-canvas"
+        >
           {greeting}
         </h1>
         <div className="flex flex-wrap items-center gap-2.5 pt-1">
@@ -36,18 +37,28 @@ export function OverviewGreeting({
         </div>
       </div>
       <div className={styles.readinessRing}>
-        <div className="text-center md:text-right">
-          <span className="block font-mono text-3xl font-bold text-champagne">
-            {readinessPercent}%
+        <span
+          className={styles.readinessArc}
+          style={{
+            background: `conic-gradient(from 90deg, #c9a66b ${readinessPercent ?? 0}%, #ffffff1a 0)`,
+          }}
+          aria-hidden="true"
+        />
+        <div className="min-w-0">
+          <span
+            data-testid="readiness-percent"
+            className="block font-mono text-3xl font-bold text-champagne"
+          >
+            {readinessPercent === null ? "—" : `${readinessPercent}%`}
           </span>
           <span className="text-xs text-ux-on-dark">{readinessLabel}</span>
+          <Link
+            href="/planner/tasks"
+            className="mt-2 block text-xs font-medium text-ux-on-dark hover:underline"
+          >
+            Lihat rincian kesiapan →
+          </Link>
         </div>
-        <Link
-          href="/planner/tasks"
-          className="rounded-control bg-canvas px-4 py-2 text-xs font-semibold text-primary transition hover:bg-white"
-        >
-          Lihat rincian kesiapan →
-        </Link>
       </div>
     </section>
   );

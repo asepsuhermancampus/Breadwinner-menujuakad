@@ -35,7 +35,7 @@ export function StudioSettings({
         <details>
           <summary className="min-h-11 py-3 text-sm font-semibold">Galeri Tema</summary>
           <ThemeGallery
-            activeTheme={state.activeDocument?.theme ?? "editorial"}
+            activeDocument={state.activeDocument}
             draftTheme={doc.theme}
             onSelectTheme={(theme) => edit({ ...doc, theme })}
           />

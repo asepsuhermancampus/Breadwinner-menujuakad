@@ -1,0 +1,194 @@
+.overview {
+  display: grid;
+  gap: 24px;
+}
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 344px;
+  gap: 24px;
+}
+.tasks {
+  border: 1px solid var(--ux-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sectionHeading h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.sectionHeading a {
+  font-size: 12px;
+  color: var(--primary);
+}
+.task {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--ux-border);
+  padding-block: 12px;
+}
+.task label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.task input {
+  flex-shrink: 0;
+}
+.task small {
+  color: var(--secondary);
+  font-size: 11px;
+  text-align: right;
+}
+.addTask {
+  color: var(--primary);
+  font-size: 12px;
+  width: fit-content;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.agendaColumn {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+.agenda {
+  background: var(--ux-dock);
+  border-radius: 16px;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+.appointment {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-block: 12px;
+  border-top: 1px solid var(--ux-border);
+}
+.appointment time {
+  width: 60px;
+  flex-shrink: 0;
+  display: grid;
+  gap: 5px;
+  font-family: var(--font-geist), monospace;
+  font-size: 11px;
+}
+.appointment h3 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.appointment p {
+  font-size: 11px;
+  color: var(--secondary);
+  margin-top: 4px;
+}
+.reminder {
+  background: var(--warning-bg);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  color: var(--warning);
+  font-size: 12px;
+}
+.quickLinks {
+  background: var(--canvas);
+  border: 1px solid var(--ux-border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.quickLinks > div {
+  flex: 1;
+}
+.quickLinks h2 {
+  font-size: 14px;
+  font-weight: 500;
+}
+.quickLinks p {
+  color: var(--secondary);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.quickLinks a {
+  min-height: 48px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--ux-control-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.activity {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  color: var(--secondary);
+  font-size: 12px;
+}
+.activity a {
+  background: var(--primary);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.empty {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--secondary);
+  padding-block: 16px;
+}
+@media (max-width: 1199px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  }
+  .quickLinks {
+    flex-wrap: wrap;
+  }
+  .quickLinks > div {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tasks,
+  .agenda {
+    padding: 20px;
+  }
+  .task {
+    flex-wrap: wrap;
+  }
+  .quickLinks a {
+    flex: 1;
+    justify-content: center;
+    font-size: 12px;
+    padding-inline: 12px;
+  }
+  .activity {
+    align-items: start;
+    flex-direction: column;
+  }
+}

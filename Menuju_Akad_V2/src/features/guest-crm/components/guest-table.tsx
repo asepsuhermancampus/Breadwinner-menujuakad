@@ -23,7 +23,8 @@ export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }
 
   const filtered = filterGuests(guests, query, groupFilter, rsvpFilter);
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-  const currentRows = filtered.slice((page - 1) * pageSize, page * pageSize);
+  const effectivePage = Math.min(Math.max(1, page), totalPages);
+  const currentRows = filtered.slice((effectivePage - 1) * pageSize, effectivePage * pageSize);
 
   return (
     <div className={styles.tableWrapper}>
@@ -158,27 +159,27 @@ export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }
 
       <div className="flex items-center justify-between px-4 py-3 border-t border-border text-xs text-secondary">
         <div>
-          Menampilkan {filtered.length === 0 ? 0 : (page - 1) * pageSize + 1}–
-          {Math.min(page * pageSize, filtered.length)} dari {filtered.length} undangan
+          Menampilkan {filtered.length === 0 ? 0 : (effectivePage - 1) * pageSize + 1}–
+          {Math.min(effectivePage * pageSize, filtered.length)} dari {filtered.length} undangan
         </div>
         {totalPages > 1 && (
           <div className="flex gap-1">
             <Button
               variant="secondary"
               size="small"
-              disabled={page <= 1}
-              onClick={() => setPage((p) => p - 1)}
+              disabled={effectivePage <= 1}
+              onClick={() => setPage(effectivePage - 1)}
             >
               Sebelumnya
             </Button>
             <span className="px-2 py-1 flex items-center font-mono">
-              {page} / {totalPages}
+              {effectivePage} / {totalPages}
             </span>
             <Button
               variant="secondary"
               size="small"
-              disabled={page >= totalPages}
-              onClick={() => setPage((p) => p + 1)}
+              disabled={effectivePage >= totalPages}
+              onClick={() => setPage(effectivePage + 1)}
             >
               Berikutnya
             </Button>

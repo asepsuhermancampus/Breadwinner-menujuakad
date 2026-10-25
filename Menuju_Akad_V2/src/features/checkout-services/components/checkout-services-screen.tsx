@@ -8,6 +8,7 @@ import { ItemRejectionView } from "./item-rejection-view";
 import { ContractReviewView } from "./contract-review-view";
 import { PaymentChoiceView } from "./payment-choice-view";
 import { PaymentStatusView } from "./payment-status-view";
+import { commitTransaction } from "../model/transaction-store";
 
 type Step = "details" | "contract" | "payment" | "status";
 
@@ -175,10 +176,17 @@ export function CheckoutServicesScreen() {
         )}
 
         {/* Step 3: Payment Choice */}
-        {step === "payment" && <PaymentChoiceView onSelectPayment={() => setStep("status")} />}
+        {step === "payment" && (
+          <PaymentChoiceView
+            onSelectPayment={(scheme, gateway) => {
+              commitTransaction("ORD-SIM-204", scheme, gateway, "verified", "Q-204/v9");
+              setStep("status");
+            }}
+          />
+        )}
 
         {/* Step 4: Status */}
-        {step === "status" && <PaymentStatusView />}
+        {step === "status" && <PaymentStatusView orderId="ORD-SIM-204" />}
       </div>
     </div>
   );

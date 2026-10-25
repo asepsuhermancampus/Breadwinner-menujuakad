@@ -17,7 +17,7 @@ export function StudioHistory({
   const [ack, setAck] = useState(false);
   const { state, dispatch } = editor;
   const historical = createHistoryDocument(state.document);
-  const hasHistory = state.document.projectId === "inv-wedding-main";
+  const hasHistory = !editor.remote && state.document.projectId === "inv-wedding-main";
   const history = [
     {
       version: state.document.revision,

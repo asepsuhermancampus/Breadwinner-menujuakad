@@ -30,11 +30,13 @@ export function SessionRsvpSection({
 
   function handleSave() {
     if (!navigator.onLine) {
+      setSavedAt(null);
       setError("Anda sedang offline. Jawaban belum disimpan; coba lagi saat terhubung.");
       return;
     }
     const result = adapter.save(sessions, version, now().toISOString());
     if (!result.ok) {
+      setSavedAt(null);
       setError(
         result.reason === "deadline"
           ? "Batas perubahan sudah lewat."
@@ -48,6 +50,7 @@ export function SessionRsvpSection({
       );
       return;
     }
+    setError(null);
     setVersion(adapter.read().version);
     setSavedAt(now().toISOString());
   }

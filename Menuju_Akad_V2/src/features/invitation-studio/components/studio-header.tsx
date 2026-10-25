@@ -49,6 +49,11 @@ export function StudioHeader({
     <>
       <header className="flex min-h-20 flex-wrap items-center gap-3 border-b border-ux-border bg-canvas px-4 py-3 sm:px-6">
         <BrandLogo />
+        {editor.trial && (
+          <Button disabled={editor.persisting} size="small" onClick={() => void editor.saveTrial()}>
+            Simpan draf trial
+          </Button>
+        )}
         <Button
           variant="ghost"
           size="icon"
@@ -82,14 +87,26 @@ export function StudioHeader({
             </button>
           )}
           <p className="text-xs text-secondary">
+            {editor.trial ? "Simpan draf trial untuk menyimpan di browser ini. " : ""}
             Draf v{state.document.revision} · versi aktif{" "}
             {state.document.activeVersion ? `v${state.document.activeVersion}` : "belum ada"}
           </p>
         </div>
         <p role="status" className="text-xs text-secondary">
-          {editor.storageError ? "Penyimpanan perangkat gagal · ekspor draf" : status}
+          {editor.trial
+            ? editor.storageError || "Gunakan Simpan draf trial untuk menyimpan perubahan."
+            : editor.remote
+              ? editor.storageError ||
+                (editor.persisting
+                  ? "Menyimpan pada akun…"
+                  : state.dirty
+                    ? "Perubahan belum tersimpan"
+                    : "✓ Draf tersimpan pada akun")
+              : editor.storageError
+                ? "Penyimpanan perangkat gagal · ekspor draf"
+                : status}
         </p>
-        <Button variant="secondary" size="small" onClick={onHistory}>
+        <Button variant="secondary" size="small" disabled={editor.remote} onClick={onHistory}>
           Riwayat versi
         </Button>
         <Button size="small" className="bg-primary" onClick={onReview}>
@@ -120,7 +137,7 @@ export function StudioHeader({
         <label className="flex min-h-11 items-center gap-2 text-xs">
           Viewport
           <select
-            aria-label="Ukuran preview"
+            aria-label="Ukuran hasil"
             className="min-h-11 rounded-control bg-subtle px-2"
             value={viewport}
             onChange={(event) => onViewport(Number(event.target.value))}
@@ -163,7 +180,7 @@ export function StudioHeader({
           <Redo2 size={18} />
         </Button>
         <Button variant="ghost" size="small" onClick={onPreview}>
-          Preview tamu
+          Lihat hasil
         </Button>
         <Button variant="ghost" size="small" onClick={onSettings}>
           RSVP & Privasi (Draf)

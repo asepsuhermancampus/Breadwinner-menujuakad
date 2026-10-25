@@ -1,7 +1,5 @@
-import { PreviewCalendar } from "@/preview/components/preview-planner";
-
+import { CustomerPlanningPage } from "@/app/_components/customer-planning-page";
 export const dynamic = "force-dynamic";
-
-export default function CalendarPage() {
-  return <PreviewCalendar />;
+export default function Page() {
+  return <CustomerPlanningPage kind="calendar" />;
 }

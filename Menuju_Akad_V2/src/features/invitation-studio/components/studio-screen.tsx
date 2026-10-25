@@ -1,4 +1,5 @@
 "use client";
+import { StudioNotice } from "./studio-notice";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -14,17 +15,21 @@ import { StudioMotion } from "./studio-motion";
 import { StudioResilience } from "./studio-resilience";
 import styles from "./studio.module.css";
 import { StudioDialogs, type StudioModal } from "./studio-dialogs";
-
 type Panel = "sections" | "layers" | "assets" | "motion" | "resilience";
-
 export function StudioScreen({
   projectId = "inv-wedding-main",
   previewActive = false,
+  remote = false,
+  workspaceId = "",
+  readOnly = false,
 }: {
   projectId?: string;
   previewActive?: boolean;
+  remote?: boolean;
+  workspaceId?: string;
+  readOnly?: boolean;
 }) {
-  const editor = useStudioEditor(projectId);
+  const editor = useStudioEditor(projectId, remote, workspaceId, readOnly);
   const router = useRouter();
   const [mode, setMode] = useState<"visual" | "form">("visual");
   const [panel, setPanel] = useState<Panel>("sections");
@@ -34,19 +39,23 @@ export function StudioScreen({
   const [viewport, setViewport] = useState(375);
   const [mobile, setMobile] = useState<"content" | "canvas" | "inspector">("content");
   const [modal, setModal] = useState<StudioModal>(previewActive ? "active-preview" : null);
-  const close = () => setModal(null);
-  const exit = () => {
-    router.push("/planner/invitations");
-  };
+  const exit = () => router.push("/planner/invitations");
   if (!editor.ready)
     return (
-      <main className="grid min-h-screen place-items-center" aria-busy="true">
-        <p role="status">Membuka studio…</p>
+      <main id="main-content" className="grid min-h-screen place-items-center" aria-busy="true">
+        {editor.storageError ? (
+          <div role="alert">
+            {editor.storageError} <Button onClick={() => location.reload()}>Coba lagi</Button>
+          </div>
+        ) : (
+          <p role="status">Membuka studio…</p>
+        )}
       </main>
     );
   const archived = editor.state.document.draftStatus !== "editing";
   return (
     <main
+      id="main-content"
       className={styles.studio}
       data-reduced-motion={editor.state.document.motion.reducedMotion}
     >
@@ -66,23 +75,18 @@ export function StudioScreen({
         onReview={() => setModal("review")}
         onPreview={() => setModal("preview")}
         onSettings={() => setModal("settings")}
-        onExit={() => (editor.state.dirty || editor.storageError ? setModal("exit") : exit())}
+        onExit={() =>
+          editor.state.dirty || editor.storageError || editor.persisting ? setModal("exit") : exit()
+        }
       />
-      {(editor.state.notice || editor.storageError) && (
-        <div
-          role="status"
-          className="border-b border-ux-border bg-warning-bg px-5 py-3 text-xs text-warning"
-        >
-          {editor.storageError || editor.state.notice}
-        </div>
-      )}
+      <StudioNotice editor={editor} />
       {archived && (
         <div className="flex flex-wrap items-center justify-between gap-3 bg-subtle px-5 py-3 text-sm">
           <p>
             Draf {editor.state.document.draftStatus === "archived" ? "diarsipkan" : "dihapus"}.
             Snapshot aktif tetap utuh.
           </p>
-          <Button size="small" onClick={() => setModal("history")}>
+          <Button size="small" disabled={remote} onClick={() => setModal("history")}>
             Pulihkan sebagai draf baru
           </Button>
         </div>
@@ -119,16 +123,18 @@ export function StudioScreen({
                 ["motion", "Gerak"],
                 ["resilience", "Status"],
               ] as const
-            ).map(([key, label]) => (
-              <Button
-                key={key}
-                size="small"
-                variant={panel === key ? "primary" : "ghost"}
-                onClick={() => setPanel(key)}
-              >
-                {label}
-              </Button>
-            ))}
+            )
+              .filter(([key]) => !remote || key !== "resilience")
+              .map(([key, label]) => (
+                <Button
+                  key={key}
+                  size="small"
+                  variant={panel === key ? "primary" : "ghost"}
+                  onClick={() => setPanel(key)}
+                >
+                  {label}
+                </Button>
+              ))}
           </div>
           <fieldset disabled={archived || !editor.state.environment.canEdit} className="min-w-0">
             {panel === "sections" &&
@@ -175,7 +181,7 @@ export function StudioScreen({
         viewport={viewport}
         onExit={exit}
         onFix={() => {
-          close();
+          setModal(null);
           setMode("form");
           setPanel("sections");
           setMobile("content");

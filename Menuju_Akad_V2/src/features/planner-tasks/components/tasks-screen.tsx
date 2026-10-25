@@ -1,27 +1,35 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useCommittedList } from "@/hooks/use-committed-list";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { PlannerTask, TaskCategory } from "../types/tasks";
-import { filterTasks, computeTaskSummary } from "../utils/task-filter";
+import { filterTasks, computeTaskSummary, taskTodayLabel } from "../utils/task-filter";
 import { TaskRow } from "./task-row";
 import { TaskInspector } from "./task-inspector";
 import styles from "./tasks.module.css";
 
 type Props = {
   initialTasks: PlannerTask[];
+  event?: PlannerTask["event"];
+  onChange?: (tasks: PlannerTask[]) => void | Promise<boolean | void>;
 };
 
-export function TasksScreen({ initialTasks }: Props) {
-  const [tasks, setTasks] = useState<PlannerTask[]>(initialTasks);
+export function TasksScreen({ initialTasks, onChange, event }: Props) {
+  const [tasks, setTasks] = useCommittedList(initialTasks, onChange);
   const [activeCategory, setActiveCategory] = useState<TaskCategory>("Semua");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTask, setSelectedTask] = useState<PlannerTask | null>(null);
+  const [conflict, setConflict] = useState("");
 
-  const summary = useMemo(() => computeTaskSummary(tasks), [tasks]);
+  const eventTasks = useMemo(
+    () => tasks.filter((t) => !event || t.event === event),
+    [tasks, event],
+  );
+  const summary = useMemo(() => computeTaskSummary(eventTasks), [eventTasks]);
   const displayedTasks = useMemo(
-    () => filterTasks(tasks, activeCategory, searchQuery),
-    [tasks, activeCategory, searchQuery],
+    () => filterTasks(eventTasks, activeCategory, searchQuery),
+    [eventTasks, activeCategory, searchQuery],
   );
 
   const handleToggle = (id: string) => {
@@ -34,22 +42,31 @@ export function TasksScreen({ initialTasks }: Props) {
     );
   };
 
-  const handleSaveTask = (updated: PlannerTask) => {
-    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+  const handleSaveTask = async (updated: PlannerTask) => {
+    if (JSON.stringify(tasks.find((t) => t.id === updated.id)) !== JSON.stringify(selectedTask)) {
+      setConflict(
+        "Data tugas berubah di tab lain. Salin draf kalian lalu buka ulang tugas terbaru.",
+      );
+      return false;
+    }
+    setConflict("");
+    if (!(await setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)))))
+      return false;
     setSelectedTask(null);
+    return true;
   };
 
-  const handleAddNew = () => {
+  const handleAddNew = async () => {
     const newTask: PlannerTask = {
       id: `task-${Date.now()}`,
       title: "Tugas baru tanpa judul",
       pic: "Bersama",
       priority: "Normal",
-      dueDate: "25 Okt",
+      dueDate: taskTodayLabel(),
       status: "Menunggu",
-      event: "wedding",
+      event: event ?? "wedding",
     };
-    setTasks((prev) => [newTask, ...prev]);
+    if (!(await setTasks((prev) => [newTask, ...prev]))) return;
     setSelectedTask(newTask);
   };
 
@@ -62,7 +79,12 @@ export function TasksScreen({ initialTasks }: Props) {
   ];
 
   return (
-    <main id="main-content" className={styles.container}>
+    <section className={styles.container}>
+      {conflict && (
+        <p role="alert" className="text-sm text-danger">
+          {conflict}
+        </p>
+      )}
       <header className={styles.header}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -164,6 +186,6 @@ export function TasksScreen({ initialTasks }: Props) {
         onClose={() => setSelectedTask(null)}
         onSave={handleSaveTask}
       />
-    </main>
+    </section>
   );
 }

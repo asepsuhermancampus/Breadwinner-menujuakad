@@ -8,6 +8,7 @@ import { LandingPricing } from "./landing-pricing";
 import { LandingFaq } from "./landing-faq";
 import { LandingCta } from "./landing-cta";
 import { LandingFooter } from "./landing-footer";
+import { ReviewSection } from "@/features/reviews/components/review-section";
 
 export function LandingScreen() {
   return (
@@ -20,6 +21,7 @@ export function LandingScreen() {
         <LandingWorkflow />
         <LandingInvitations />
         <LandingPricing />
+        <ReviewSection />
         <LandingFaq />
         <LandingCta />
       </main>

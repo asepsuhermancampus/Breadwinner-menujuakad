@@ -1,18 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { WhatsappReviewDialog } from "./whatsapp-review-dialog";
 import { WhatsappResultsView } from "./whatsapp-results-view";
+import {
+  executeWaDispatch,
+  getWaRecipientSnapshot,
+  type WaDispatchState,
+} from "../utils/whatsapp-dispatch";
 
-export function WhatsappComposerView() {
+export function WhatsappComposerView({
+  initialQuota = 100,
+}: {
+  initialQuota?: number;
+} = {}) {
   const [activeSubTab, setActiveSubTab] = useState<"composer" | "results">("composer");
   const [reviewOpen, setReviewOpen] = useState(false);
-  const [quota, setQuota] = useState(100);
+  const [quota, setQuota] = useState(initialQuota);
+  const [hasDispatchedBatch, setHasDispatchedBatch] = useState(false);
+  const [dispatchError, setDispatchError] = useState("");
 
-  function handleDispatch() {
-    setQuota((q) => Math.max(0, q - 10));
+  const dispatchStateRef = useRef<WaDispatchState>({
+    quota: initialQuota,
+    hasDispatchedBatch: false,
+  });
+
+  const snapshot = getWaRecipientSnapshot(hasDispatchedBatch);
+
+  function handleDispatch(): { success: boolean; error?: string } {
+    const result = executeWaDispatch(dispatchStateRef.current, snapshot);
+    if (!result.success) {
+      setDispatchError(result.error);
+      return { success: false, error: result.error };
+    }
+
+    setQuota(result.remainingQuota);
+    setHasDispatchedBatch(true);
+    setDispatchError("");
     setActiveSubTab("results");
+    return { success: true };
+  }
+
+  function handleOpenReview() {
+    setDispatchError("");
+    setReviewOpen(true);
   }
 
   return (
@@ -37,6 +69,15 @@ export function WhatsappComposerView() {
           Hasil Pengiriman Terkini
         </button>
       </div>
+
+      {dispatchError && (
+        <div
+          className="p-3 text-xs text-danger bg-danger-bg rounded-control border border-danger/30"
+          role="alert"
+        >
+          {dispatchError}
+        </div>
+      )}
 
       {activeSubTab === "results" ? (
         <WhatsappResultsView />
@@ -81,8 +122,8 @@ Jika tidak ingin menerima pesan lagi, balas STOP.`}
                 Kuota contoh: <strong className="font-mono text-foreground">{quota} pesan</strong>{" "}
                 tersedia
               </span>
-              <Button variant="primary" onClick={() => setReviewOpen(true)}>
-                Pilih 14 Penerima & Tinjau →
+              <Button variant="primary" onClick={handleOpenReview}>
+                Pilih {snapshot.totalSelected} Penerima & Tinjau →
               </Button>
             </div>
           </div>
@@ -120,11 +161,15 @@ Jika tidak ingin menerima pesan lagi, balas STOP.`}
         </div>
       )}
 
-      <WhatsappReviewDialog
-        open={reviewOpen}
-        onClose={() => setReviewOpen(false)}
-        onConfirmDispatch={handleDispatch}
-      />
+      {reviewOpen && (
+        <WhatsappReviewDialog
+          open={reviewOpen}
+          onClose={() => setReviewOpen(false)}
+          quota={quota}
+          snapshot={snapshot}
+          onConfirmDispatch={handleDispatch}
+        />
+      )}
     </div>
   );
 }

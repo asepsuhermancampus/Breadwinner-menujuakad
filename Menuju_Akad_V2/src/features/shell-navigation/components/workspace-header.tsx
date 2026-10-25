@@ -6,16 +6,25 @@ import { Icon } from "@/components/ui/icon";
 import { CommandPalette } from "./command-palette";
 import styles from "./workspace-header.module.css";
 
-export function WorkspaceHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
-  const [event, setEvent] = useState("wedding");
-  const date = event === "wedding" ? "2027-02-14" : "2026-11-22";
-  const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" });
-  const days = Math.max(
-    0,
-    Math.ceil(
-      (Date.parse(`${date}T00:00:00+07:00`) - Date.parse(`${today}T00:00:00+07:00`)) / 86_400_000,
-    ),
-  );
+export function WorkspaceHeader({
+  onOpenMenu,
+  name = "Ruang kalian",
+  partnerName,
+  plan = "Free",
+  event: selected,
+  onEventChange,
+}: {
+  onOpenMenu: () => void;
+  name?: string;
+  partnerName?: string | null;
+  plan?: string;
+  event?: "wedding" | "engagement";
+  onEventChange?: (event: "wedding" | "engagement") => void;
+}) {
+  const [localEvent, setLocalEvent] = useState<"wedding" | "engagement">("wedding");
+  const event = selected ?? localEvent;
+  const setEvent = onEventChange ?? setLocalEvent;
+  const displayName = partnerName ? `${name} & ${partnerName}` : name;
   return (
     <header className={styles.topbar}>
       <Button
@@ -29,12 +38,12 @@ export function WorkspaceHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
       </Button>
       <div className={styles.identity}>
         <span className={styles.avatars}>
-          <span>A</span>
-          <span>R</span>
+          <span>{name.slice(0, 1).toUpperCase()}</span>
+          {partnerName && <span>{partnerName.slice(0, 1).toUpperCase()}</span>}
         </span>
         <div>
-          <strong>Andi & Risa</strong>
-          <small>● Ruang bersama</small>
+          <strong>{displayName}</strong>
+          <small>Ruang rencana bersama</small>
         </div>
       </div>
       <div className={styles.eventSwitch} aria-label="Konteks acara">
@@ -47,14 +56,17 @@ export function WorkspaceHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
       </div>
       <div className="ml-auto flex items-center gap-3">
         <CommandPalette />
-        <span className="hidden rounded-full bg-ux-dock border border-ux-border px-3 py-1.5 font-mono text-xs text-secondary xl:block">
-          H–{days} · {event === "wedding" ? "14 Feb 2027" : "22 Nov 2026"}
-        </span>
+        <Link
+          href="/planner/calendar"
+          className="hidden rounded-full bg-ux-dock border border-ux-border px-3 py-1.5 text-xs text-secondary xl:block"
+        >
+          Kalender acara
+        </Link>
         <Link
           href="/account/plans"
           className="rounded-full bg-champagne/15 border border-champagne/30 px-3 py-1.5 text-xs font-semibold text-ux-gold-ink hover:bg-champagne/25 transition-colors"
         >
-          Premium
+          {plan}
         </Link>
       </div>
     </header>

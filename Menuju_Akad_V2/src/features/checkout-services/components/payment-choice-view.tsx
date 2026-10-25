@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatIdr } from "@/features/marketplace/utils/marketplace-calc";
 import { ManualPaymentPreview } from "./manual-payment-preview";
+import { QrisTestLink } from "./qris-test-link";
 
 type Props = {
   onSelectPayment: (scheme: "dp" | "full", gateway: string) => void;
@@ -128,6 +129,8 @@ export function PaymentChoiceView({ onSelectPayment }: Props) {
           <ManualPaymentPreview onClose={() => setShowManualPreview(false)} />
         </div>
       )}
+
+      <QrisTestLink />
 
       <div className="flex flex-wrap justify-between items-center gap-3 pt-3 border-t border-border">
         <button

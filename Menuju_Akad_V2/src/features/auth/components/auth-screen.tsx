@@ -9,6 +9,7 @@ import { AuthLayout } from "./auth-layout";
 import { LoginForm } from "./login-form";
 import { OtpDialog } from "./otp-dialog";
 import { RecoveryPanel } from "./recovery-panel";
+import { AuthQueryAlert } from "./auth-query-alert";
 import { RegisterForm } from "./register-form";
 
 export function AuthScreen({ mode, adapter }: { mode: AuthMode; adapter: AuthAdapter }) {
@@ -19,6 +20,7 @@ function AuthFlow({ mode, adapter }: { mode: AuthMode; adapter: AuthAdapter }) {
   const flow = useAuthFlow(mode, adapter);
   return (
     <AuthLayout mode={mode}>
+      <AuthQueryAlert />
       {mode === "login" && (
         <LoginForm
           pending={flow.pending}
@@ -51,7 +53,8 @@ function AuthFlow({ mode, adapter }: { mode: AuthMode; adapter: AuthAdapter }) {
       )}
       {adapter.mode === "mock" && (
         <p className="mt-4 text-center text-xs text-secondary">
-          MODE PENGEMBANGAN · autentikasi dan OTP simulasi.
+          MODE PENGEMBANGAN · Formulir email/telepon dan OTP simulasi; login Google menggunakan akun
+          nyata.
         </p>
       )}
       {flow.challenge && (

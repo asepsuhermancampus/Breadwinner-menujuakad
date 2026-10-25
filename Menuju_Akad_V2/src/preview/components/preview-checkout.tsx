@@ -7,6 +7,6 @@ export function PreviewCheckoutServices() {
   return <CheckoutServicesScreen />;
 }
 
-export function PreviewOrderReceipt({ orderToken: _orderToken }: { orderToken?: string } = {}) {
-  return <InvoiceReceiptView />;
+export function PreviewOrderReceipt({ orderToken }: { orderToken?: string | undefined } = {}) {
+  return <InvoiceReceiptView orderId={orderToken} />;
 }

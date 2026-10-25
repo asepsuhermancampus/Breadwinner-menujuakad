@@ -18,6 +18,9 @@
   font-size: 23px;
   font-weight: 400;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
 }
 .identity small {
   display: block;
@@ -51,6 +54,7 @@
   border: 1px solid var(--ux-border);
   border-radius: 12px;
   gap: 4px;
+  flex-shrink: 0;
 }
 .eventSwitch button {
   min-height: 38px;
@@ -96,6 +100,7 @@
   }
   .identity strong {
     font-size: 20px;
+    max-width: 128px;
   }
   .identity small {
     display: none;

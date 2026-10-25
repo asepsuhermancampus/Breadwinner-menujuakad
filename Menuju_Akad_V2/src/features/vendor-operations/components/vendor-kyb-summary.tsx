@@ -20,6 +20,22 @@ export function VendorKybNotice({ pending }: { pending: boolean }) {
     </div>
   );
 }
+export function VendorKybPendingDetails({ state }: { state: VendorWorkspace }) {
+  return (
+    <div className="mt-6 grid gap-3 text-sm">
+      <p className="font-semibold">
+        {state.kyb.proposedBank.bankName} ••{state.kyb.proposedBank.last4} ·{" "}
+        {state.kyb.proposedBank.accountName}
+      </p>
+      <p className="text-secondary">
+        Bukti pengganti: {state.kyb.proposedBank.evidence?.label ?? "Berkas privat"}
+      </p>
+      <p className="text-xs text-secondary">
+        Isi berkas hanya tersedia selama layar formulir terbuka. Muat ulang mengakhiri simulasi ini.
+      </p>
+    </div>
+  );
+}
 export function VendorKybSummary({ state }: { state: VendorWorkspace }) {
   const { kyb, catalog } = state;
   const documents = [

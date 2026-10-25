@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { DepositItem, ExpenseItem } from "../types/finance";
+import { parseIndonesianDate } from "../utils/date-helpers";
 import { formatRupiah } from "../utils/finance-calc";
 import styles from "./finance.module.css";
 
@@ -56,10 +57,16 @@ export function ReportsTab({
       amount: e.amount,
       actor: e.paidBy,
     })),
-  ].filter((item) => {
-    if (filterPayer === "Semua") return true;
-    return item.actor === filterPayer;
-  });
+  ]
+    .sort((a, b) => {
+      const diff = parseIndonesianDate(a.date) - parseIndonesianDate(b.date);
+      if (diff !== 0) return diff;
+      return a.id.localeCompare(b.id);
+    })
+    .filter((item) => {
+      if (filterPayer === "Semua") return true;
+      return item.actor === filterPayer;
+    });
 
   return (
     <div className="flex flex-col gap-6">

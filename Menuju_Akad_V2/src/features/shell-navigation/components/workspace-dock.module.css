@@ -8,17 +8,30 @@
   border-radius: 20px;
   background: var(--ux-dock);
   border: 1px solid var(--ux-border);
-  min-height: calc(100dvh - 56px);
+  height: calc(100dvh - 24px);
+  min-height: 560px;
 }
 .compact {
   align-items: center;
   padding: 12px 8px;
+}
+.compact footer button {
+  padding: 10px;
+  width: 44px;
+  font-size: 0;
+}
+.compact footer button::after {
+  content: "↪";
+  font-size: 18px;
 }
 .navigation {
   display: grid;
   gap: 14px;
   flex: 1;
   align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 .navItem {
   position: relative;
@@ -36,7 +49,8 @@
   font-size: 11px;
 }
 .navButton:hover,
-.navButton:focus-visible {
+.navButton:focus-visible,
+.navButton[aria-current="page"] {
   color: var(--primary);
   background: var(--surface);
 }
@@ -96,32 +110,5 @@
 .mobile {
   position: static;
   min-height: auto;
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  .dock:not(.compact) {
-    padding: 10px 6px;
-  }
-  .dock:not(.compact) > *:not(:first-child):not(.navigation) {
-    display: none;
-  }
-  .dock:not(.compact) .navigation p,
-  .dock:not(.compact) .navButton span,
-  .dock:not(.compact) .navButton small {
-    display: none;
-  }
-  .dock:not(.compact) .navButton {
-    justify-content: center;
-  }
-  .dock:not(.compact) > div:first-child {
-    overflow: hidden;
-    height: 44px;
-  }
-  .dock:not(.compact) > div:first-child a {
-    width: 44px;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-  .dock:not(.compact) > div:first-child button {
-    display: none;
-  }
+  height: auto;
 }

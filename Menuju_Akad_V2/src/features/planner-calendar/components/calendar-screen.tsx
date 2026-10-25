@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
 import type { CalendarEventItem } from "../types/calendar";
+import {
+  generateOctoberGrid,
+  getWeekDays,
+  getWeekRangeLabel,
+  TOTAL_WEEKS,
+  DEFAULT_WEEK_INDEX,
+} from "../utils/calendar-grid";
+import { CalendarNav } from "./calendar-nav";
 import styles from "./calendar.module.css";
 
 type Props = {
@@ -9,22 +17,12 @@ type Props = {
 
 export function CalendarScreen({ initialEvents }: Props) {
   const [viewMode, setViewMode] = useState<"Bulan" | "Minggu">("Bulan");
+  const [weekIndex, setWeekIndex] = useState(DEFAULT_WEEK_INDEX);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEventItem | null>(null);
 
-  const daysInOctober = Array.from({ length: 35 }, (_, index) => {
-    // Week starts Monday. 1 Oct 2026 is Thursday.
-    // Days 28-30 are Sept, 1-31 are Oct, 1 is Nov.
-    const dayNumber = index < 3 ? 28 + index : index < 34 ? index - 2 : 1;
-    const isCurrentMonth = index >= 3 && index < 34;
-    const dateStr = isCurrentMonth
-      ? `2026-10-${String(dayNumber).padStart(2, "0")}`
-      : index < 3
-        ? `2026-09-${String(dayNumber).padStart(2, "0")}`
-        : `2026-11-01`;
-
-    const dayEvents = initialEvents.filter((e) => e.date === dateStr);
-    return { dayNumber, isCurrentMonth, dateStr, events: dayEvents };
-  });
+  const allDays = generateOctoberGrid(initialEvents);
+  const weekDays = getWeekDays(allDays, weekIndex);
+  const displayDays = viewMode === "Bulan" ? allDays : weekDays;
 
   return (
     <main id="main-content" className={styles.container}>
@@ -44,6 +42,15 @@ export function CalendarScreen({ initialEvents }: Props) {
             <span className="rounded-full bg-ux-dock border border-ux-border px-2.5 py-0.5 text-xs text-secondary font-mono">
               WIB
             </span>
+            {viewMode === "Minggu" && (
+              <CalendarNav
+                weekIndex={weekIndex}
+                totalWeeks={TOTAL_WEEKS}
+                rangeLabel={getWeekRangeLabel(weekDays)}
+                onPrev={() => setWeekIndex((prev) => Math.max(0, prev - 1))}
+                onNext={() => setWeekIndex((prev) => Math.min(TOTAL_WEEKS - 1, prev + 1))}
+              />
+            )}
           </div>
 
           <div
@@ -75,7 +82,7 @@ export function CalendarScreen({ initialEvents }: Props) {
             </div>
           ))}
 
-          {daysInOctober.map((cell, idx) => (
+          {displayDays.map((cell, idx) => (
             <div
               key={idx}
               className={`${styles.dayCell} ${!cell.isCurrentMonth ? "bg-subtle/40" : ""}`}

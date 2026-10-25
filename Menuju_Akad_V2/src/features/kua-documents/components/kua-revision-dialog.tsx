@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { KuaDocumentItem } from "../types/kua";
+import { validateKuaFile } from "../domain/kua-validation";
 
 type Props = {
   document: KuaDocumentItem | null;
@@ -17,32 +18,95 @@ export function KuaRevisionDialog({ document, spouse, onClose, onUploaded }: Pro
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
+  const timerIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const clearAllTimers = useCallback(() => {
+    timerIdsRef.current.forEach((id) => clearTimeout(id));
+    timerIdsRef.current = [];
+  }, []);
+
+  const handleClose = useCallback(() => {
+    clearAllTimers();
+    setUploading(false);
+    setProgress(0);
+    setFile(null);
+    setError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    onClose();
+  }, [clearAllTimers, onClose]);
+
+  useEffect(() => {
+    return () => {
+      clearAllTimers();
+    };
+  }, [clearAllTimers]);
 
   if (!document) return null;
 
   const notes = spouse === "Andi" ? document.notesAndi : document.notesRisa;
   const currentStatus = spouse === "Andi" ? document.statusAndi : document.statusRisa;
 
-  const handleSimulateUpload = () => {
-    if (!file) {
-      setError("Pilih berkas terlebih dahulu.");
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0] || null;
+    if (!selected) {
+      setFile(null);
+      setError("");
       return;
     }
+    const validation = validateKuaFile(selected);
+    if (!validation.valid) {
+      setFile(null);
+      setError(validation.error);
+      e.target.value = "";
+      return;
+    }
+    setFile(selected);
+    setError("");
+  };
+
+  const handleSimulateUpload = () => {
+    if (uploading) return;
+    if (!file) {
+      if (!error) {
+        setError("Pilih berkas terlebih dahulu.");
+      }
+      return;
+    }
+
+    const validation = validateKuaFile(file);
+    if (!validation.valid) {
+      setError(validation.error);
+      return;
+    }
+
+    const targetDocId = document.id;
+    const targetSpouse = spouse;
+    const targetFileName = file.name;
+
+    clearAllTimers();
     setError("");
     setUploading(true);
     setProgress(25);
 
-    setTimeout(() => setProgress(65), 250);
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
+      setProgress(65);
+    }, 250);
+
+    const t2 = setTimeout(() => {
       setProgress(100);
       setUploading(false);
-      onUploaded(document.id, spouse, file.name);
-      onClose();
+      onUploaded(targetDocId, targetSpouse, targetFileName);
+      handleClose();
     }, 600);
+
+    timerIdsRef.current = [t1, t2];
   };
 
   return (
-    <Dialog open={Boolean(document)} onClose={onClose} title="Unggah revisi berkas KUA">
+    <Dialog open={Boolean(document)} onClose={handleClose} title="Unggah revisi berkas KUA">
       <div className="space-y-4">
         <div>
           <span className="text-xs text-secondary">
@@ -66,14 +130,10 @@ export function KuaRevisionDialog({ document, spouse, onClose, onUploaded }: Pro
             Pilih dokumen pengganti (PDF / JPG / PNG max 5MB)
           </label>
           <input
+            ref={fileInputRef}
             type="file"
             accept=".pdf,.jpg,.jpeg,.png"
-            onChange={(e) => {
-              if (e.target.files?.[0]) {
-                setFile(e.target.files[0]);
-                setError("");
-              }
-            }}
+            onChange={handleFileChange}
             className="w-full text-xs text-secondary file:mr-3 file:rounded-control file:border-0 file:bg-subtle file:px-3 file:py-2 file:text-xs file:font-medium file:text-foreground hover:file:bg-border"
           />
           {error && <p className="text-xs text-rose">{error}</p>}
@@ -103,7 +163,7 @@ export function KuaRevisionDialog({ document, spouse, onClose, onUploaded }: Pro
         </div>
 
         <div className="mt-4 flex justify-end gap-2">
-          <Button variant="secondary" onClick={onClose} disabled={uploading}>
+          <Button variant="secondary" onClick={handleClose} disabled={uploading}>
             Batal
           </Button>
           <Button onClick={handleSimulateUpload} disabled={uploading}>

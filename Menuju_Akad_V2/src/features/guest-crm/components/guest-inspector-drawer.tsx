@@ -5,30 +5,59 @@ import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import type { GuestInvitation } from "../types/guest";
+import { GuestInspectorTokenSection } from "./guest-inspector-token-section";
+import { GuestInspectorArchiveSection } from "./guest-inspector-archive-section";
 
 type Props = {
+  trial?: boolean;
   guest: GuestInvitation | null;
   open: boolean;
   onClose: () => void;
-  onUpdateQuota: (id: string, newQuota: number) => void;
+  onUpdateQuota: (
+    id: string,
+    newQuota: number,
+  ) =>
+    | { success: boolean; error?: string }
+    | void
+    | Promise<{ success: boolean; error?: string } | void>;
   onArchive: (id: string) => void;
 };
 
-export function GuestInspectorDrawer({ guest, open, onClose, onUpdateQuota, onArchive }: Props) {
-  const [copied, setCopied] = useState(false);
-  const [confirmArchive, setConfirmArchive] = useState(false);
+export function GuestInspectorDrawer({
+  guest,
+  open,
+  onClose,
+  onUpdateQuota,
+  onArchive,
+  trial = false,
+}: Props) {
+  const [quotaError, setQuotaError] = useState("");
 
   if (!guest) return null;
 
-  const fullUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/i/${guest.personalToken}`
-      : `/i/${guest.personalToken}`;
+  const minQuota = guest.rsvpStatus === "ATTENDING" ? Math.max(1, guest.attendingCount) : 1;
+  const isMinQuota = guest.quota <= minQuota;
 
-  function handleCopy() {
-    navigator.clipboard?.writeText(fullUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  async function handleDecreaseQuota() {
+    if (isMinQuota) {
+      setQuotaError(`Kuota tidak dapat lebih kecil dari jumlah hadir (${minQuota} orang).`);
+      return;
+    }
+    const res = await onUpdateQuota(guest!.id, guest!.quota - 1);
+    if (res && !res.success) {
+      setQuotaError(res.error || "Gagal mengubah kuota.");
+    } else {
+      setQuotaError("");
+    }
+  }
+
+  async function handleIncreaseQuota() {
+    const res = await onUpdateQuota(guest!.id, guest!.quota + 1);
+    if (res && !res.success) {
+      setQuotaError(res.error || "Gagal mengubah kuota.");
+    } else {
+      setQuotaError("");
+    }
   }
 
   return (
@@ -47,22 +76,24 @@ export function GuestInspectorDrawer({ guest, open, onClose, onUpdateQuota, onAr
         </div>
 
         <div className="p-3 bg-surface border border-border rounded-control space-y-2">
+          {quotaError && (
+            <div className="p-2 text-xs text-danger bg-danger-bg rounded" role="alert">
+              {quotaError}
+            </div>
+          )}
           <div className="flex justify-between items-center text-sm">
             <span className="text-secondary">Kuota Undangan</span>
             <div className="flex items-center gap-2">
               <Button
                 variant="secondary"
                 size="small"
-                onClick={() => onUpdateQuota(guest.id, Math.max(1, guest.quota - 1))}
+                disabled={isMinQuota}
+                onClick={handleDecreaseQuota}
               >
                 −
               </Button>
               <span className="font-mono font-bold w-6 text-center">{guest.quota}</span>
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => onUpdateQuota(guest.id, guest.quota + 1)}
-              >
+              <Button variant="secondary" size="small" onClick={handleIncreaseQuota}>
                 +
               </Button>
             </div>
@@ -103,58 +134,15 @@ export function GuestInspectorDrawer({ guest, open, onClose, onUpdateQuota, onAr
           </p>
         </div>
 
-        <div className="p-3 bg-canvas border border-border rounded-control space-y-2">
-          <label className="block text-xs font-semibold text-secondary">
-            Tautan Personal (Opaque Token)
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              readOnly
-              value={`menujuakad.id/i/••••${guest.personalToken.slice(-4)}`}
-              className="flex-1 text-xs bg-subtle px-2 py-1.5 rounded border border-border font-mono text-secondary"
-            />
-            <Button variant="secondary" size="small" onClick={handleCopy}>
-              {copied ? "Tersalin!" : "Salin"}
-            </Button>
-          </div>
-          <a
-            href={`/i/${guest.personalToken}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-xs text-primary font-semibold hover:underline pt-1"
-          >
-            Buka tampilan undangan tamu ↗
-          </a>
-        </div>
+        {trial ? (
+          <p className="text-xs text-secondary">
+            Data trial belum diterbitkan. Masuk untuk menggunakan tautan undangan.
+          </p>
+        ) : (
+          <GuestInspectorTokenSection personalToken={guest.personalToken} />
+        )}
 
-        <div className="pt-4 border-t border-border">
-          {confirmArchive ? (
-            <div className="space-y-2 bg-danger-bg p-3 rounded-control border border-danger/30">
-              <div className="text-xs font-bold text-danger">Arsipkan undangan ini?</div>
-              <p className="text-xs text-secondary">
-                Undangan akan disembunyikan dari daftar aktif dan tautan personal dinonaktifkan.
-              </p>
-              <div className="flex gap-2 pt-1">
-                <Button variant="danger" size="small" onClick={() => onArchive(guest.id)}>
-                  Ya, Arsipkan
-                </Button>
-                <Button variant="secondary" size="small" onClick={() => setConfirmArchive(false)}>
-                  Batal
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <Button
-              variant="ghost"
-              size="small"
-              className="text-danger hover:bg-danger-bg w-full"
-              onClick={() => setConfirmArchive(true)}
-            >
-              Arsipkan Undangan Ini…
-            </Button>
-          )}
-        </div>
+        <GuestInspectorArchiveSection guestId={guest.id} onArchive={onArchive} />
       </div>
     </Dialog>
   );

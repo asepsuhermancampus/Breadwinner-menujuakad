@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useCommittedList } from "@/hooks/use-committed-list";
 import type { GuestInvitation } from "../types/guest";
+import { canUpdateGuestQuota } from "../utils/guest-filter";
 import { GuestMetrics } from "./guest-metrics";
 import { GuestTable } from "./guest-table";
 import { GuestCreateDialog } from "./guest-create-dialog";
 import { GuestInspectorDrawer } from "./guest-inspector-drawer";
 import { GuestImportDialog } from "./guest-import-dialog";
-import { GuestSeatingView } from "./guest-seating-view";
+import { CustomerGuestImport } from "./customer-guest-import";
+import { CustomerGuestTools } from "./customer-guest-tools";
+import { newGuestIdentity } from "../utils/customer-import";
 import { WhatsappComposerView } from "./whatsapp-composer-view";
 import { FollowUpView } from "@/features/guest-followup/components/follow-up-view";
 import styles from "./guest-crm.module.css";
@@ -17,35 +21,58 @@ type Tab = "guests" | "seating" | "whatsapp" | "followup";
 type Props = {
   initialGuests: GuestInvitation[];
   initialTab?: Tab;
+  onChange?: (guests: GuestInvitation[]) => void | Promise<boolean | void>;
+  customerLabel?: string;
+  trial?: boolean;
 };
 
-export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) {
+export function GuestCrmScreen({
+  initialGuests,
+  initialTab = "guests",
+  onChange,
+  customerLabel,
+  trial = false,
+}: Props) {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
-  const [guests, setGuests] = useState<GuestInvitation[]>(initialGuests);
+  const [guests, setGuests] = useCommittedList(initialGuests, onChange);
   const [selectedGuest, setSelectedGuest] = useState<GuestInvitation | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
 
-  function handleSaveGuest(data: Omit<GuestInvitation, "id" | "personalToken">) {
+  async function handleSaveGuest(data: Omit<GuestInvitation, "id" | "personalToken">) {
     const newGuest: GuestInvitation = {
       ...data,
-      id: `gst-${Date.now()}`,
-      personalToken: `tok-${Math.random().toString(36).substring(2, 8)}`,
+      ...newGuestIdentity(),
     };
-    setGuests((prev) => [newGuest, ...prev]);
+    return await setGuests((prev) => [newGuest, ...prev]);
   }
 
   function handleImportConfirm(newGuests: GuestInvitation[]) {
     setGuests((prev) => [...newGuests, ...prev]);
   }
 
-  function handleUpdateQuota(id: string, newQuota: number) {
-    setGuests((prev) => prev.map((g) => (g.id === id ? { ...g, quota: newQuota } : g)));
+  async function handleUpdateQuota(id: string, newQuota: number) {
+    const target = guests.find((g) => g.id === id);
+    if (!target) return { success: false, error: "Undangan tidak ditemukan." };
+
+    const check = canUpdateGuestQuota(target, newQuota);
+    if (!check.allowed) {
+      return { success: false, error: check.error || "Gagal mengubah kuota." };
+    }
+
+    if (
+      !(await setGuests((prev) => prev.map((g) => (g.id === id ? { ...g, quota: newQuota } : g))))
+    )
+      return { success: false, error: "Perubahan belum tersimpan." };
     setSelectedGuest((prev) => (prev && prev.id === id ? { ...prev, quota: newQuota } : prev));
+    return { success: true };
   }
 
-  function handleArchive(id: string) {
-    setGuests((prev) => prev.map((g) => (g.id === id ? { ...g, isArchived: true } : g)));
+  async function handleArchive(id: string) {
+    if (
+      !(await setGuests((prev) => prev.map((g) => (g.id === id ? { ...g, isArchived: true } : g))))
+    )
+      return;
     setSelectedGuest(null);
   }
 
@@ -54,8 +81,8 @@ export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) 
       <div>
         <h1 className="text-2xl font-bold text-foreground">Daftar Tamu & RSVP</h1>
         <p className="text-xs text-secondary mt-1">
-          {guests.filter((g) => !g.isArchived).length} undangan untuk maksimal 600 orang ·
-          Pernikahan Andi & Risa
+          {guests.filter((g) => !g.isArchived).length} undangan ·{" "}
+          {customerLabel ?? "Pernikahan Andi & Risa"}
         </p>
       </div>
 
@@ -105,11 +132,27 @@ export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) 
         </div>
       )}
 
-      {activeTab === "seating" && <GuestSeatingView />}
-
-      {activeTab === "whatsapp" && <WhatsappComposerView />}
-
-      {activeTab === "followup" && <FollowUpView />}
+      {customerLabel && activeTab !== "guests" ? (
+        <CustomerGuestTools
+          guests={guests}
+          tool={activeTab}
+          trial={trial}
+          save={(next) => setGuests(next)}
+        />
+      ) : (
+        <>
+          {activeTab === "seating" && (
+            <CustomerGuestTools
+              guests={guests}
+              tool="seating"
+              trial={trial}
+              save={(next) => setGuests(next)}
+            />
+          )}
+          {activeTab === "whatsapp" && <WhatsappComposerView />}
+          {activeTab === "followup" && <FollowUpView />}
+        </>
+      )}
 
       <GuestCreateDialog
         open={createOpen}
@@ -118,18 +161,28 @@ export function GuestCrmScreen({ initialGuests, initialTab = "guests" }: Props) 
       />
 
       <GuestInspectorDrawer
+        key={selectedGuest ? selectedGuest.id : "closed"}
         guest={selectedGuest}
         open={Boolean(selectedGuest)}
         onClose={() => setSelectedGuest(null)}
         onUpdateQuota={handleUpdateQuota}
         onArchive={handleArchive}
+        trial={trial}
       />
 
-      <GuestImportDialog
-        open={importOpen}
-        onClose={() => setImportOpen(false)}
-        onConfirmImport={handleImportConfirm}
-      />
+      {customerLabel ? (
+        <CustomerGuestImport
+          open={importOpen}
+          close={() => setImportOpen(false)}
+          save={(next) => setGuests([...next, ...guests])}
+        />
+      ) : (
+        <GuestImportDialog
+          open={importOpen}
+          onClose={() => setImportOpen(false)}
+          onConfirmImport={handleImportConfirm}
+        />
+      )}
     </div>
   );
 }

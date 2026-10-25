@@ -27,7 +27,7 @@ export function StudioPreview({
     return () => observer.disconnect();
   }, []);
   return (
-    <Dialog open onClose={onClose} title={`Preview tamu · ${viewport} px`}>
+    <Dialog open onClose={onClose} title={`Hasil undangan · ${viewport} px`}>
       <p className="mb-4 text-xs text-secondary">
         Viewport aktual {viewport} CSS px. Konten melakukan reflow; tanpa selection, inspector, atau
         daftar kontak.
@@ -35,9 +35,9 @@ export function StudioPreview({
       <div ref={ref} className="w-full overflow-hidden" style={{ height: 1000 * scale }}>
         <iframe
           width={viewport}
-          title={`Undangan preview ${viewport}`}
+          title={`Hasil undangan ${viewport}`}
           sandbox=""
-          srcDoc={createPreviewHtml(document, window.location.origin)}
+          srcDoc={createPreviewHtml(document, window.location.origin, true)}
           style={{
             width: viewport,
             height: 1000,

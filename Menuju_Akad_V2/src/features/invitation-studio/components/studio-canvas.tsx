@@ -175,13 +175,9 @@ export function StudioCanvas({ editor, selected, onSelect, zoom }: Props) {
             />
           )}
           <div className="absolute inset-x-6 grid gap-3 text-sm" style={{ top: bodyTop }}>
-            <div className="border-t border-ux-border pt-4">
-              <p className="font-semibold">Budi Santoso & Partner</p>
-              <p className="mt-1 text-xs text-secondary">Maksimal 2 orang · RSVP per sesi</p>
-            </div>
-            <span className="rounded-control bg-primary py-3 text-center text-sm font-semibold text-white">
-              Konfirmasi kehadiran
-            </span>
+            <p className="text-sm text-secondary">
+              {doc.content.date} {doc.content.venue}
+            </p>
             <p className="text-center font-serif text-xl">
               Dengan hangat, {doc.content.coupleTitle}
             </p>

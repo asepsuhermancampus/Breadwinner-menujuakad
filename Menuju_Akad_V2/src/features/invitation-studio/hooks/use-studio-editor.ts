@@ -1,14 +1,40 @@
 "use client";
 
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { createEditorState, editorReducer } from "../domain/editor-reducer";
 import { isStoredEditorState } from "../domain/editor-storage";
-import type { StudioDocument, StudioNode } from "../types/editor";
+import type { EditorAction, StudioDocument, StudioNode } from "../types/editor";
+import { createCustomerEditor } from "../domain/customer-editor";
+import { useTrialStudio } from "./use-trial-studio";
+import { useRemoteStudio } from "./use-remote-studio";
 
 const storageKey = (projectId: string) => `ma-studio-v1:${projectId}`;
 
-export function useStudioEditor(projectId: string) {
-  const [state, dispatch] = useReducer(editorReducer, projectId, createEditorState);
+export function useStudioEditor(
+  projectId: string,
+  remote = false,
+  workspaceId = "",
+  readOnly = false,
+) {
+  const trial = workspaceId === "guest-trial";
+  const [state, reduce] = useReducer(
+    editorReducer,
+    projectId,
+    remote ? createCustomerEditor : createEditorState,
+  );
+  const dispatch = useCallback(
+    (action: EditorAction) => {
+      if (readOnly) return;
+      if (trial && action.type === "publish") return;
+      reduce(action);
+      if (remote && action.type === "new" && action.projectId)
+        reduce({ type: "hydrate", state: createCustomerEditor(action.projectId) });
+    },
+    [remote, trial, readOnly],
+  );
+  const account = useRemoteStudio(remote && !trial && !readOnly, state, dispatch, workspaceId);
+  const local = useTrialStudio(trial, state, dispatch);
+  const server = trial ? local : account;
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState("");
   const loadedScope = useRef<string | null>(null);
@@ -17,6 +43,7 @@ export function useStudioEditor(projectId: string) {
   const pendingStorage = useRef(false);
 
   useEffect(() => {
+    if (remote) return;
     if (loadedScope.current === projectId) return;
     pendingOpen.current = projectId;
     const timer = setTimeout(() => {
@@ -40,10 +67,10 @@ export function useStudioEditor(projectId: string) {
       setReady(true);
     }, 0);
     return () => clearTimeout(timer);
-  }, [projectId]);
+  }, [projectId, remote, dispatch]);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || remote) return;
     const currentProjectId = state.document.projectId;
     if (pendingOpen.current !== null && pendingOpen.current !== currentProjectId) return;
     pendingStorage.current = true;
@@ -72,11 +99,12 @@ export function useStudioEditor(projectId: string) {
       clearTimeout(timer);
       pendingStorage.current = false;
     };
-  }, [ready, state]);
+  }, [ready, state, remote]);
 
   useEffect(() => {
     if (
-      !ready ||
+      trial ||
+      !(remote ? server.ready : ready) ||
       !state.dirty ||
       !state.environment.online ||
       !state.environment.canEdit ||
@@ -87,11 +115,25 @@ export function useStudioEditor(projectId: string) {
       return;
     const timer = setTimeout(() => dispatch({ type: "save" }), 900);
     return () => clearTimeout(timer);
-  }, [ready, state.dirty, state.document, state.environment]);
+  }, [
+    trial,
+    ready,
+    remote,
+    server.ready,
+    state.dirty,
+    state.document,
+    state.environment,
+    dispatch,
+  ]);
 
   useEffect(() => {
     const beforeUnload = (event: BeforeUnloadEvent) => {
-      if (state.dirty || storageError || pendingStorage.current) {
+      if (
+        state.dirty ||
+        storageError ||
+        pendingStorage.current ||
+        (remote && (server.error || server.pending))
+      ) {
         event.preventDefault();
         event.returnValue = "";
       }
@@ -106,7 +148,7 @@ export function useStudioEditor(projectId: string) {
       window.removeEventListener("offline", offline);
       window.removeEventListener("online", online);
     };
-  }, [state.dirty, storageError]);
+  }, [state.dirty, storageError, remote, server.error, server.pending, dispatch]);
 
   function edit(document: StudioDocument) {
     dispatch({ type: "edit", document });
@@ -132,7 +174,21 @@ export function useStudioEditor(projectId: string) {
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  return { state, dispatch, edit, updateNode, content, ready, storageError, exportDraft };
+  return {
+    trial,
+    saveTrial: local.save,
+    state,
+    dispatch,
+    edit,
+    updateNode,
+    content,
+    ready: readOnly || (remote ? server.ready : ready),
+    storageError: remote ? server.error : storageError,
+    exportDraft,
+    remote,
+    workspaceId,
+    persisting: remote && server.pending,
+  };
 }
 
 export type StudioEditor = ReturnType<typeof useStudioEditor>;

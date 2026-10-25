@@ -15,6 +15,78 @@ export function normalizeE164(phone: string): { valid: boolean; normalized: stri
   return { valid: false, normalized: clean };
 }
 
+export function matchPhoneSearch(phone: string | undefined, query: string): boolean {
+  if (!phone || !query) return false;
+  const cleanPhone = phone.trim().replace(/[\s-]/g, "");
+  const cleanQuery = query.trim().replace(/[\s-]/g, "");
+  if (!cleanPhone || !cleanQuery) return false;
+
+  if (
+    phone.toLowerCase().includes(query.toLowerCase()) ||
+    cleanPhone.toLowerCase().includes(cleanQuery.toLowerCase())
+  ) {
+    return true;
+  }
+
+  const phoneVariants: string[] = [cleanPhone];
+  if (cleanPhone.startsWith("+62")) {
+    const raw = cleanPhone.slice(3);
+    phoneVariants.push("0" + raw, "62" + raw, raw);
+  } else if (cleanPhone.startsWith("0")) {
+    const raw = cleanPhone.slice(1);
+    phoneVariants.push("+62" + raw, "62" + raw, raw);
+  } else if (cleanPhone.startsWith("62")) {
+    const raw = cleanPhone.slice(2);
+    phoneVariants.push("+62" + raw, "0" + raw, raw);
+  }
+
+  const queryVariants: string[] = [cleanQuery];
+  if (cleanQuery.startsWith("+62")) {
+    const raw = cleanQuery.slice(3);
+    queryVariants.push("0" + raw, "62" + raw, raw);
+  } else if (cleanQuery.startsWith("0")) {
+    const raw = cleanQuery.slice(1);
+    queryVariants.push("+62" + raw, "62" + raw, raw);
+  } else if (cleanQuery.startsWith("62")) {
+    const raw = cleanQuery.slice(2);
+    queryVariants.push("+62" + raw, "0" + raw, raw);
+  }
+
+  return phoneVariants.some((pv) =>
+    queryVariants.some((qv) => qv && pv.toLowerCase().includes(qv.toLowerCase())),
+  );
+}
+
+export type QuotaValidationResult =
+  { allowed: true; minQuota: number } | { allowed: false; minQuota: number; error: string };
+
+export function canUpdateGuestQuota(
+  guest: GuestInvitation,
+  newQuota: number,
+): QuotaValidationResult {
+  const minQuota = guest.rsvpStatus === "ATTENDING" ? Math.max(1, guest.attendingCount) : 1;
+  if (
+    typeof newQuota !== "number" ||
+    !Number.isFinite(newQuota) ||
+    !Number.isInteger(newQuota) ||
+    newQuota <= 0
+  ) {
+    return {
+      allowed: false,
+      minQuota,
+      error: "Jumlah kuota harus berupa bilangan bulat positif.",
+    };
+  }
+  if (newQuota < minQuota) {
+    return {
+      allowed: false,
+      minQuota,
+      error: `Kuota tidak boleh kurang dari jumlah hadir terkonfirmasi (${minQuota} orang).`,
+    };
+  }
+  return { allowed: true, minQuota };
+}
+
 export function filterGuests(
   guests: GuestInvitation[],
   query: string,
@@ -35,8 +107,8 @@ export function filterGuests(
     if (!q) return true;
     return (
       g.name.toLowerCase().includes(q) ||
-      (g.contactPhone && g.contactPhone.toLowerCase().includes(q)) ||
-      g.group.toLowerCase().includes(q)
+      g.group.toLowerCase().includes(q) ||
+      matchPhoneSearch(g.contactPhone, query)
     );
   });
 }

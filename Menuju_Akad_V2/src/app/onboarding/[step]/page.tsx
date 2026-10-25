@@ -1,10 +1,8 @@
-import { notFound } from "next/navigation";
-import { PreviewOnboarding } from "@/preview/components/preview-onboarding";
-
-export const dynamic = "force-dynamic";
+import { notFound, redirect } from "next/navigation";
 export default async function OnboardingPage({ params }: { params: Promise<{ step: string }> }) {
   const { step } = await params;
-  if (step !== "profile" && step !== "events" && step !== "partner" && step !== "success")
-    notFound();
-  return <PreviewOnboarding step={step} />;
+  if (!["profile", "events", "partner", "success"].includes(step)) notFound();
+  redirect(
+    step === "events" ? "/planner/calendar" : step === "success" ? "/dashboard" : "/account",
+  );
 }

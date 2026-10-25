@@ -1,7 +1,5 @@
-import { PreviewFavorites } from "@/preview/components/preview-marketplace";
-
+import { CustomerCatalogPage } from "@/app/_components/customer-catalog-page";
 export const dynamic = "force-dynamic";
-
-export default function MarketplaceFavoritesPage() {
-  return <PreviewFavorites />;
+export default function Page() {
+  return <CustomerCatalogPage favorites={true} />;
 }

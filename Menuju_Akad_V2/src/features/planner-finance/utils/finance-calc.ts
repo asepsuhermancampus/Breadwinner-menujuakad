@@ -68,11 +68,15 @@ export function simulateTransfer(
   if (fromId === toId) {
     return { accounts, valid: false, error: "Rekening asal dan tujuan tidak boleh sama." };
   }
-  if (amount <= 0) {
+  if (!Number.isSafeInteger(amount) || amount <= 0) {
     return { accounts, valid: false, error: "Nominal mutasi harus lebih besar dari Rp 0." };
   }
   const fromAcc = accounts.find((a) => a.id === fromId);
-  if (!fromAcc || fromAcc.currentBalance < amount) {
+  const toAcc = accounts.find((a) => a.id === toId);
+  if (!fromAcc || !toAcc) {
+    return { accounts, valid: false, error: "Rekening asal atau tujuan tidak valid." };
+  }
+  if (fromAcc.currentBalance < amount) {
     return { accounts, valid: false, error: "Saldo rekening asal tidak mencukupi." };
   }
 
@@ -90,14 +94,24 @@ export function simulateCorrection(
   originalTransfer: InternalTransfer,
   newAmount: number,
 ): { accounts: AllocationAccount[]; valid: boolean; error?: string } {
-  if (newAmount <= 0) {
+  if (!Number.isSafeInteger(newAmount) || newAmount <= 0) {
     return { accounts, valid: false, error: "Nominal koreksi harus lebih besar dari Rp 0." };
   }
-  // Reverse original
-  const delta = newAmount - originalTransfer.amount;
   const fromAcc = accounts.find((a) => a.id === originalTransfer.fromAccountId);
-  if (!fromAcc || fromAcc.currentBalance - delta < 0) {
-    return { accounts, valid: false, error: "Saldo tidak mencukupi untuk penyesuaian ini." };
+  const toAcc = accounts.find((a) => a.id === originalTransfer.toAccountId);
+  if (!fromAcc || !toAcc) {
+    return { accounts, valid: false, error: "Rekening transfer tidak ditemukan." };
+  }
+  const delta = newAmount - originalTransfer.amount;
+  if (delta > 0 && fromAcc.currentBalance < delta) {
+    return { accounts, valid: false, error: "Saldo rekening asal tidak mencukupi." };
+  }
+  if (delta < 0 && toAcc.currentBalance < -delta) {
+    return {
+      accounts,
+      valid: false,
+      error: "Saldo rekening tujuan tidak mencukupi untuk pengurangan.",
+    };
   }
 
   const updated = accounts.map((acc) => {

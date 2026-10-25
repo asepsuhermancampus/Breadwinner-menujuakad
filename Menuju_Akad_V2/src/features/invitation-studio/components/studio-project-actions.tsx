@@ -56,14 +56,22 @@ export function StudioProjectActions({
               setAck(false);
             }}
           >
-            {actions.map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
+            {actions
+              .filter(([key]) => !editor.remote || key !== "revoke-tickets")
+              .map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
           </select>
         </label>
-        <p className="rounded-control bg-subtle p-4 text-xs leading-relaxed">{item[2]}</p>
+        <p className="rounded-control bg-subtle p-4 text-xs leading-relaxed">
+          {editor.trial
+            ? "Perubahan ini disimpan di browser setelah menekan Simpan draf trial. Publikasi memerlukan akun."
+            : editor.remote
+              ? "Perubahan proyek disimpan pada akun. Menarik undangan menghentikan akses ke laman publik setelah penyimpanan berhasil."
+              : item[2]}
+        </p>
         <label className="flex min-h-11 items-center gap-3 text-xs">
           <input type="checkbox" checked={ack} onChange={(event) => setAck(event.target.checked)} />
           Saya memahami dampak tindakan ini.
@@ -81,8 +89,9 @@ export function StudioProjectActions({
           Konfirmasi {item[1].toLowerCase()}
         </Button>
         <p className="text-xs text-secondary">
-          Tindakan ini hanya pada data contoh lokal. Otorisasi dan kebijakan server produksi masih
-          memerlukan integrasi.
+          {editor.remote
+            ? "Tunggu konfirmasi penyimpanan pada akun sebelum menutup studio."
+            : "Tindakan ini hanya pada data contoh lokal. Otorisasi dan kebijakan server produksi masih memerlukan integrasi."}
         </p>
       </div>
     </Dialog>

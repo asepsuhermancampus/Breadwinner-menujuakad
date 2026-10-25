@@ -14,8 +14,12 @@ type Props = {
   totalContributed: number;
   totalExpenses: number;
   cashRemaining: number;
-  onExecuteTransfer: (fromId: string, toId: string, amount: number) => void;
-  onExecuteCorrection: (newAmount: number) => void;
+  onExecuteTransfer: (
+    fromId: string,
+    toId: string,
+    amount: number,
+  ) => { success?: boolean; error?: string } | void;
+  onExecuteCorrection: (newAmount: number) => { success?: boolean; error?: string } | void;
 };
 
 export function AccountsTab({

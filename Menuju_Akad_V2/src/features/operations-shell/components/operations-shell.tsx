@@ -17,6 +17,7 @@ type Props = {
   active: string;
   items: OperationsNavItem[];
   onNavigate: (view: string) => void;
+  live?: boolean;
 };
 export function OperationsShell(props: Props) {
   const [compact, setCompact] = useState(false);
@@ -43,7 +44,11 @@ export function OperationsShell(props: Props) {
     document.addEventListener("keydown", key);
     return () => document.removeEventListener("keydown", key);
   }, []);
-  const dockProps = { ...props, onNavigate: navigate, onUnavailable: setUnavailable };
+  const dockProps = {
+    ...props,
+    onNavigate: navigate,
+    onUnavailable: props.live ? () => navigate("/account/security") : setUnavailable,
+  };
   return (
     <div
       className={`grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-3 bg-ux-shell p-2 lg:p-3 ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[240px_minmax(0,1fr)]"}`}
@@ -64,7 +69,7 @@ export function OperationsShell(props: Props) {
           </Button>
           <p className="min-w-0 flex-1 text-sm font-semibold">{props.title}</p>
           <span className="rounded-lg bg-warning-bg px-3 py-2 font-mono text-[10px] text-warning">
-            SANDBOX · PRESET 3
+            {props.live ? "AKSES INTERNAL" : "SANDBOX · PRESET 3"}
           </span>
           <button
             className="flex min-h-11 w-full items-center gap-3 rounded-control bg-ux-dock px-3 text-xs text-secondary sm:w-[280px]"
@@ -112,22 +117,24 @@ export function OperationsShell(props: Props) {
           )}
         </div>
       </Dialog>
-      <Dialog
-        open={Boolean(unavailable)}
-        title={unavailable || "Akses program"}
-        onClose={() => setUnavailable("")}
-      >
-        <p className="text-sm leading-relaxed text-secondary">
-          Bagian ini belum terhubung pada pratinjau lokal. Tidak ada perubahan akun, rilis, atau
-          transaksi produksi yang dilakukan.
-        </p>
-        <Link
-          href="/dev/operations"
-          className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-primary"
+      {!props.live && (
+        <Dialog
+          open={Boolean(unavailable)}
+          title={unavailable || "Akses program"}
+          onClose={() => setUnavailable("")}
         >
-          Kembali ke galeri internal →
-        </Link>
-      </Dialog>
+          <p className="text-sm leading-relaxed text-secondary">
+            Bagian ini belum terhubung pada pratinjau lokal. Tidak ada perubahan akun, rilis, atau
+            transaksi produksi yang dilakukan.
+          </p>
+          <Link
+            href="/dev/operations"
+            className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-primary"
+          >
+            Kembali ke galeri internal →
+          </Link>
+        </Dialog>
+      )}
     </div>
   );
 }

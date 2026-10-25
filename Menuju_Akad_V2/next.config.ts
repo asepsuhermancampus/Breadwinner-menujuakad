@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  distDir: process.env["NEXT_DIST_DIR"] || ".next",
   output: "standalone",
   poweredByHeader: false,
   async redirects() {
@@ -16,6 +17,13 @@ const config: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/assets/fonts/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET, OPTIONS" },
+        ],
+      },
       {
         source: "/:path*",
         headers: [

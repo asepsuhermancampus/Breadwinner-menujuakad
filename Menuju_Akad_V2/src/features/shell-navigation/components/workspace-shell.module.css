@@ -3,7 +3,7 @@
   grid-template-columns: 272px minmax(0, 1fr);
   gap: 12px;
   padding: 12px;
-  min-height: calc(100dvh - 32px);
+  min-height: 100dvh;
   background: var(--ux-shell);
   transition: grid-template-columns 280ms ease;
 }
@@ -22,10 +22,19 @@
 }
 .body {
   padding: 32px;
+  display: grid;
+  align-content: start;
+  gap: 24px;
+}
+.body > * {
+  min-width: 0;
 }
 @media (max-width: 1023px) {
   .shell {
     grid-template-columns: 68px minmax(0, 1fr);
+  }
+  .shellExpanded {
+    grid-template-columns: 272px minmax(0, 1fr);
   }
   .body {
     padding: 24px;
@@ -42,7 +51,7 @@
   }
   .canvas {
     border-radius: 16px;
-    min-height: calc(100dvh - 50px);
+    min-height: calc(100dvh - 16px);
   }
   .body {
     padding: 24px 16px;

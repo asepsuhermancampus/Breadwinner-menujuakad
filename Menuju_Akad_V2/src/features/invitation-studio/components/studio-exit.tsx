@@ -18,9 +18,13 @@ export function StudioExit({
     <Dialog open onClose={onClose} title="Perubahan belum tersinkron">
       <div className="grid gap-4 text-sm">
         <p>
-          {editor.storageError
-            ? "Penyimpanan perangkat bermasalah. Ekspor salinan sebelum keluar agar perubahan tidak hilang."
-            : "Perubahan belum tersinkron. Salinan draf tersimpan pada perangkat ini."}
+          {editor.trial
+            ? "Perubahan belum tersimpan di browser. Gunakan Simpan draf trial atau ekspor draf sebelum keluar."
+            : editor.remote
+              ? "Perubahan yang belum tersimpan pada akun dapat hilang. Tunggu penyimpanan atau ekspor draf sebelum keluar."
+              : editor.storageError
+                ? "Penyimpanan perangkat bermasalah. Ekspor salinan sebelum keluar agar perubahan tidak hilang."
+                : "Perubahan belum tersinkron. Salinan draf tersimpan pada perangkat ini."}
         </p>
         <Button variant="secondary" onClick={editor.exportDraft}>
           Ekspor draf
@@ -37,7 +41,9 @@ export function StudioExit({
         )}
         <Button onClick={onClose}>Lanjut mengedit</Button>
         <Button variant="ghost" disabled={Boolean(editor.storageError) && !ack} onClick={onExit}>
-          {editor.storageError ? "Keluar tanpa menyimpan" : "Keluar dengan salinan lokal"}
+          {editor.remote || editor.storageError
+            ? "Keluar tanpa menyimpan"
+            : "Keluar dengan salinan lokal"}
         </Button>
       </div>
     </Dialog>

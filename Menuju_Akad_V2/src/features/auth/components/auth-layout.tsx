@@ -2,17 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useSyncExternalStore, useState, type ReactNode } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { Status } from "@/components/ui/status";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import type { AuthMode } from "../types/auth-contracts";
 import styles from "./auth-layout.module.css";
+import { browserReturnTo } from "../lib/return-to";
+const subscribeLocation = (change: () => void) => {
+  window.addEventListener("popstate", change);
+  return () => window.removeEventListener("popstate", change);
+};
+const serverReturnTo = () => "";
 
 export function AuthLayout({ mode, children }: { mode: AuthMode; children: ReactNode }) {
   const [document, setDocument] = useState<string | null>(null);
   const registered = mode !== "register";
+  const returnTo = useSyncExternalStore(subscribeLocation, browserReturnTo, serverReturnTo);
   return (
     <div className={styles.layout}>
       <aside className={styles.editorial} aria-label="Menuju Akad">
@@ -39,7 +46,9 @@ export function AuthLayout({ mode, children }: { mode: AuthMode; children: React
             <span className="font-semibold text-primary">menuju akad</span>
           </span>
           <span>{registered ? "Baru di sini?" : "Sudah punya akun?"}</span>
-          <Link href={`/auth/${registered ? "register" : "login"}`}>
+          <Link
+            href={`/auth/${registered ? "register" : "login"}${returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`}
+          >
             {registered ? "Buat akun" : "Masuk"}
           </Link>
         </header>
@@ -65,8 +74,9 @@ export function AuthLayout({ mode, children }: { mode: AuthMode; children: React
         title={document ?? "Informasi"}
       >
         <Status>
-          Dokumen legal produksi belum tersedia pada preview pengembangan ini. Jangan masukkan data
-          pribadi atau kredensial nyata.
+          Data akun disimpan untuk menyediakan akses ke rencana kalian. Password disimpan sebagai
+          hash dan tidak ditampilkan kembali. Login Google mengikuti persetujuan akun Google kalian.
+          Ulasan yang dikirim diperiksa superadmin sebelum ditampilkan kepada publik.
         </Status>
       </Dialog>
     </div>

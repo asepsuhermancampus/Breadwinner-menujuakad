@@ -9,30 +9,43 @@ import type { MoodboardItem } from "../types/moodboard";
 type Props = {
   open: boolean;
   onClose: () => void;
-  onSave: (item: MoodboardItem) => void;
+  onSave: (item: MoodboardItem) => void | Promise<boolean | void>;
+  item?: MoodboardItem | null;
 };
 
-export function SaveInspirationDialog({ open, onClose, onSave }: Props) {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState<"Dekorasi" | "Busana" | "Detail">("Dekorasi");
-  const [subtitle, setSubtitle] = useState("");
-  const [notes, setNotes] = useState("");
-  const [url, setUrl] = useState("");
+export function SaveInspirationDialog({ open, onClose, onSave, item }: Props) {
+  const [title, setTitle] = useState(item?.title ?? "");
+  const [pending, setPending] = useState(false),
+    [error, setError] = useState("");
+  const [category, setCategory] = useState<"Dekorasi" | "Busana" | "Detail">(
+    item?.category ?? "Dekorasi",
+  );
+  const [subtitle, setSubtitle] = useState(item?.subtitle ?? "");
+  const [notes, setNotes] = useState(item?.notes ?? "");
+  const [url, setUrl] = useState(item?.vendorRef ?? "");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    onSave({
-      id: `mb-${Date.now()}`,
+    if (pending) return;
+    setPending(true);
+    setError("");
+    const saved = await onSave({
+      id: item?.id ?? crypto.randomUUID(),
       title,
       category,
       subtitle: subtitle || `${category} · Referensi baru`,
       notes,
       vendorRef: url,
-      imageSrc: "/assets/images/editorial-6.png",
+      ...(item?.imageSrc ? { imageSrc: item.imageSrc } : {}),
     });
 
+    setPending(false);
+    if (saved === false) {
+      setError("Perubahan belum tersimpan. Draf tetap tersedia; coba simpan kembali.");
+      return;
+    }
     setTitle("");
     setSubtitle("");
     setNotes("");
@@ -43,6 +56,11 @@ export function SaveInspirationDialog({ open, onClose, onSave }: Props) {
   return (
     <Dialog open={open} onClose={onClose} title="Simpan inspirasi & catatan vendor">
       <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <p role="alert" className="text-sm text-danger">
+            {error}
+          </p>
+        )}
         <Field
           label="Judul inspirasi"
           value={title}
@@ -90,7 +108,9 @@ export function SaveInspirationDialog({ open, onClose, onSave }: Props) {
           <Button type="button" variant="secondary" onClick={onClose}>
             Batal
           </Button>
-          <Button type="submit">Simpan ke moodboard</Button>
+          <Button type="submit" disabled={pending}>
+            Simpan ke moodboard
+          </Button>
         </div>
       </form>
     </Dialog>
