@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState } from "react";
 import type { PlanningViewProps } from "../domain/planning-view";
 import calendar from "@/features/planner-calendar/components/calendar.module.css";
@@ -6,7 +7,7 @@ import styles from "./planning.module.css";
 export function PlanningCalendar({ items, edit, remove }: PlanningViewProps) {
   const events = items.filter((item) => "date" in item);
   const [month, setMonth] = useState(() => new Date().toISOString().slice(0, 7));
-  const [mode, setMode] = useState("Bulan");
+  const [mode, setMode] = useUrlTab<string>("tab", ["Bulan", "Minggu"], "Bulan");
   const [day, setDay] = useState(() => new Date().toISOString().slice(0, 10));
   const year = Number(month.slice(0, 4)),
     index = Number(month.slice(5)) - 1;

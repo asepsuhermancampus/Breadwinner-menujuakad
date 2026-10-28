@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import type { SeserahanItem } from "../types/seserahan";
@@ -10,7 +11,7 @@ type Props = {
 
 export function SeserahanScreen({ initialItems }: Props) {
   const [items, setItems] = useState<SeserahanItem[]>(initialItems);
-  const [filter, setFilter] = useState<"Semua" | "Sudah" | "Belum">("Semua");
+  const [filter, setFilter] = useUrlTab("tab", ["Semua", "Sudah", "Belum"], "Semua");
 
   const totalEstimated = useMemo(
     () => items.reduce((sum, item) => sum + item.estimatedCost, 0),

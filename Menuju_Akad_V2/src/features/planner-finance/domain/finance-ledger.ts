@@ -1,10 +1,11 @@
 import { financeRequestSchema, rupiah } from "./finance-ledger-schema";
+import { assertBudgetChanges } from "./budget-change-guards";
+export { assertBudgetChanges } from "./budget-change-guards";
 export { financeRequestSchema, financeBookSchema } from "./finance-ledger-schema";
 
 import type { CustomerBudget } from "../types/customer-budget";
 import type {
   FinanceActor,
-  FinanceAllocation,
   FinanceBook,
   FinanceRequest,
   FinanceSnapshot,
@@ -41,25 +42,6 @@ export function financeSnapshot(
     balances,
     actorSide: book.members.find((member) => member.actorId === actorId)?.side ?? null,
   };
-}
-export function assertBudgetChanges(
-  previous: CustomerBudget[],
-  next: CustomerBudget[],
-  allocations: FinanceAllocation[],
-): void {
-  for (const row of next) {
-    const old = previous.find((item) => item.id === row.id);
-    if (row.completed && !old?.completed)
-      throw new Error("Tandai anggaran selesai melalui alokasi tabungan.");
-  }
-  for (const allocation of allocations) {
-    const old = previous.find((row) => row.id === allocation.budgetId);
-    const row = next.find((item) => item.id === allocation.budgetId);
-    if (!row || !row.completed || row.amount !== old?.amount || row.amount !== allocation.amount)
-      throw new Error(
-        "Lepaskan alokasi sebelum mengubah nominal, status, atau menghapus anggaran.",
-      );
-  }
 }
 export function applyFinanceRequest(
   book: FinanceBook,
@@ -112,6 +94,13 @@ export function applyFinanceRequest(
   } else if (command.type === "save-budgets") {
     assertBudgetChanges(rows, command.budgets, next.allocations);
     rows = command.budgets;
+  } else if (
+    command.type === "delete-budget" &&
+    !next.allocations.some((item) => item.budgetId === command.budgetId)
+  ) {
+    if (!rows.some((item) => item.id === command.budgetId))
+      throw new Error("Anggaran tidak ditemukan.");
+    rows = rows.filter((item) => item.id !== command.budgetId);
   } else {
     if (!member) throw new Error("Pilih sisi tabungan akun terlebih dahulu.");
     if (command.type === "entry") {

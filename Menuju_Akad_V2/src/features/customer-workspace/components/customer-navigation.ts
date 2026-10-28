@@ -11,7 +11,7 @@ export const customerNavigation: { title: string; items: CustomerNavigationItem[
   {
     title: "Perencanaan",
     items: [
-      { label: "Ringkasan & Kesiapan", href: "/dashboard", icon: "squares-four" },
+      { label: "Ringkasan Kesiapan", href: "/dashboard", icon: "squares-four" },
       { label: "Checklist & Tugas", href: "/planner/tasks", icon: "checks" },
       { label: "Persyaratan KUA", href: "/planner/kua", icon: "file-text" },
       {
@@ -25,11 +25,6 @@ export const customerNavigation: { title: string; items: CustomerNavigationItem[
         ],
       },
       {
-        label: "Kalkulator Katering",
-        href: "/planner/catering",
-        icon: "fork-knife",
-      },
-      {
         label: "Seserahan & Moodboard",
         href: "/planner/seserahan",
         icon: "image",
@@ -41,17 +36,13 @@ export const customerNavigation: { title: string; items: CustomerNavigationItem[
     ],
   },
   {
-    title: "Keuangan & vendor",
+    title: "Keuangan",
     items: [
       { label: "Tabungan & Anggaran", href: "/planner/finance", icon: "wallet" },
       {
-        label: "Catatan Vendor Manual",
-        href: "/marketplace",
-        icon: "notebook",
-        children: [
-          { label: "Marketplace Vendor", href: "/marketplace" },
-          { label: "Vendor pilihan", href: "/marketplace/favorites" },
-        ],
+        label: "Kalkulator Katering",
+        href: "/planner/catering",
+        icon: "fork-knife",
       },
       {
         label: "Pesanan & Kontrak",

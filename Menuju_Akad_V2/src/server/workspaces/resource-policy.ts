@@ -1,4 +1,5 @@
 import { planningSchemas } from "@/features/customer-planning/domain/planning-resource";
+import { cateringSettingsSchema } from "@/features/customer-planning/domain/catering-settings";
 import { documentSchema } from "@/features/kua-documents/domain/document-schema";
 import { customerBudgetSchema } from "@/features/planner-finance/domain/customer-budget-schema";
 import { validGuestIntegrity } from "@/features/guest-crm/utils/guest-integrity";
@@ -56,6 +57,7 @@ const invitation = z.object({
   published: z.boolean().optional(),
 });
 const schemas = {
+  "catering-settings": cateringSettingsSchema,
   ...planningSchemas,
   "vendor-favorites": z.object({ id }),
   guests: guest,

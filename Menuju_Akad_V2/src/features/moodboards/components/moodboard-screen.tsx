@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState, useMemo } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import Image from "next/image";
@@ -18,7 +19,11 @@ type Props = {
 
 export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
   const [items, setItems] = useCommittedList(initialItems, onChange);
-  const [filter, setFilter] = useState<string>("Semua");
+  const [filter, setFilter] = useUrlTab<string>(
+    "tab",
+    ["Semua", "Dekorasi", "Busana", "Detail"],
+    "Semua",
+  );
   const [search, setSearch] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editing, setEditing] = useState<MoodboardItem | null>(null);

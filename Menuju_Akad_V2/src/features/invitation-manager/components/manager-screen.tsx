@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,7 +22,11 @@ type View = "all" | "compare" | "analytics" | "moderation" | "domain";
 
 export function ManagerScreen() {
   const router = useRouter();
-  const [view, setView] = useState<View>("all");
+  const [view, setView] = useUrlTab<View>(
+    "tab",
+    ["all", "compare", "analytics", "moderation", "domain"],
+    "all",
+  );
   const { projects, saveDraftSlug } = useManagedProjects();
   const [addressFor, setAddressFor] = useState<InvitationProject | null>(null);
   const [slugDraft, setSlugDraft] = useState("andi-risa-story");

@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
@@ -28,7 +29,11 @@ const NAV: { section: GuestSection; label: string; icon: string }[] = [
 ];
 
 export function MicrositeScreen() {
-  const [section, setSection] = useState<GuestSection>("home");
+  const [section, setSection] = useUrlTab<GuestSection>(
+    "tab",
+    NAV.map((item) => item.section),
+    "home",
+  );
   const [rsvpAdapter] = useState(() => createSessionRsvpAdapter(rsvpSessionsFixture));
   const back = () => setSection("home");
 

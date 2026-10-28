@@ -6,6 +6,7 @@ import {
 import type { FinanceBook, FinanceRequest } from "@/features/planner-finance/types/finance-ledger";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { TrialCommitResult, TrialSnapshot } from "../types";
+import { removeBudgetSources } from "@/features/planner-finance/domain/remove-budget-sources";
 export type TrialStoreEnvironment = {
   storage: Pick<Storage, "getItem" | "setItem">;
   lock?: (<T>(run: () => Promise<T>) => Promise<T>) | undefined;
@@ -62,7 +63,16 @@ export function createTrialFinance(
           used: feature
             ? { ...current.used, [feature]: (current.used[feature] ?? 0) + 1 }
             : current.used,
-          resources: { ...current.resources, finance: result.budgets, savings: [result.book] },
+          resources: {
+            ...current.resources,
+            ...removeBudgetSources(
+              current.resources,
+              (current.resources.finance ?? []) as CustomerBudget[],
+              result.budgets,
+            ),
+            finance: result.budgets,
+            savings: [result.book],
+          },
         };
         env.storage.setItem(TRIAL_KEY, JSON.stringify(snapshot));
         notify();

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="360" viewBox="0 0 320 360">
+  <defs>
+    <path id="spoon" d="M0 0c-13 0-20 17-20 33 0 17 7 26 14 32l-3 89q0 7 9 7t9-7L6 65c7-6 14-15 14-32C20 17 13 0 0 0Z"/>
+    <path id="fork" d="m-17 0-2 37c0 12 7 18 13 23l-3 94q0 7 9 7t9-7L6 60c6-5 13-11 13-23L17 0h-4l-1 34h-5L6 0H2L1 34h-5L-5 0h-4l-1 34h-5l2-34Z"/>
+    <path id="knife" d="M4 0C-10 12-18 53-18 79c0 12 8 15 18 17l-5 58q0 7 9 7t9-7L9 5Q8-3 4 0Z"/>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <g>
+    <g fill="#087f5b">
+      <use href="#spoon" transform="translate(26 13) rotate(-5)"/>
+      <use href="#knife" transform="translate(132 -20) rotate(4)"/>
+      <use href="#fork" transform="translate(247 14) rotate(-3)"/>
+      <use href="#fork" transform="translate(80 198) rotate(5)"/>
+      <use href="#spoon" transform="translate(189 187) rotate(-5)"/>
+      <use href="#knife" transform="translate(299 203) rotate(3)"/>
+    </g>
+    <g fill="#087f5b">
+      <use href="#fork" transform="translate(78 -18) rotate(3)"/>
+      <use href="#spoon" transform="translate(190 9) rotate(4)"/>
+      <use href="#knife" transform="translate(299 -13) rotate(-3)"/>
+      <use href="#knife" transform="translate(23 196) rotate(-4)"/>
+      <use href="#fork" transform="translate(137 179) rotate(-3)"/>
+      <use href="#spoon" transform="translate(245 207) rotate(4)"/>
+    </g>
+  </g>
+  <path fill="#087f5b" opacity=".11" filter="url(#grain)" d="M0 0h320v360H0z"/>
+</svg>

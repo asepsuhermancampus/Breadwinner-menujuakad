@@ -1,165 +1,143 @@
 "use client";
-
 import { useState } from "react";
-import { Dialog } from "@/components/ui/dialog";
+import { BudgetDescriptionDialog } from "./budget-description-dialog";
+import { BudgetColumnControl } from "./budget-column-control";
+import { budgetColumns } from "../domain/budget-column-filters";
+import type { BudgetFilters } from "../domain/customer-budget";
 import { createBudgetTableCells } from "./customer-budget-cells";
 import type { CustomerBudget } from "../types/customer-budget";
 import styles from "./customer-budget-table.module.css";
-
 type Props = {
   items: CustomerBudget[];
   pending: boolean;
   edit: (item: CustomerBudget) => void;
   remove: (item: CustomerBudget) => void;
-  duplicate: (item: CustomerBudget) => void;
   onStatusChange: (item: CustomerBudget, completed: boolean) => void;
   emptyMessage?: string;
   allocationMode?: boolean;
+  filters: BudgetFilters;
+  changeFilters: (filters: BudgetFilters) => void;
+  categories: string[];
+  purposes: string[];
 };
-
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {
   day: "numeric",
   month: "short",
   year: "numeric",
   timeZone: "Asia/Jakarta",
 });
-
 function displayDate(value?: string) {
   if (!value) return "—";
   const date = new Date(/^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00+07:00` : value);
   return Number.isNaN(date.getTime()) ? "—" : dateFormatter.format(date);
 }
-
-function displayAmount(item: CustomerBudget) {
-  return `Rp ${(item.amount ?? 0).toLocaleString("id-ID")}`;
-}
-
 export function CustomerBudgetTable({
   items,
   pending,
   edit,
   remove,
-  duplicate,
   onStatusChange,
   emptyMessage = "Belum ada anggaran. Mulai dari kebutuhan kalian.",
   allocationMode = false,
+  filters,
+  changeFilters,
+  categories,
+  purposes,
 }: Props) {
   const [description, setDescription] = useState<CustomerBudget | null>(null);
-
   const { renderDescription, renderStatus, renderActions, renderPriority } = createBudgetTableCells(
-    { pending, allocationMode, edit, remove, duplicate, onStatusChange },
+    { pending, allocationMode, edit, remove, onStatusChange },
     setDescription,
   );
-
   return (
     <div className={styles.root}>
-      {!items.length ? (
-        <p className={styles.empty}>{emptyMessage}</p>
-      ) : (
-        <>
-          <div className={styles.desktop}>
-            <div
-              className={styles.tableScroll}
-              tabIndex={0}
-              role="region"
-              aria-label="Daftar target anggaran"
-            >
-              <table className={styles.table}>
-                <caption className="sr-only">Target anggaran dan status dana terkumpul</caption>
-                <colgroup>
-                  <col className={styles.needColumn} />
-                  <col className={styles.amountColumn} />
-                  <col className={styles.purposeColumn} />
-                  <col className={styles.dateColumn} />
-                  <col className={styles.priorityColumn} />
-                  <col className={styles.descriptionColumn} />
-                  <col className={styles.statusColumn} />
-                  <col className={styles.actionsColumn} />
-                </colgroup>
-                <thead>
-                  <tr>
-                    {[
-                      "Kebutuhan",
-                      "Target (Rp)",
-                      "Tujuan",
-                      "Tenggat",
-                      "Prioritas",
-                      "Deskripsi",
-                      "Status",
-                      "Aksi",
-                    ].map((heading) => (
-                      <th scope="col" key={heading}>
-                        {heading}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr key={item.id}>
-                      <th scope="row" className={styles.need}>
-                        <span>{item.title}</span>
-                        <small className={styles.created}>
-                          Dibuat {displayDate(item.createdAt)}
-                        </small>
-                      </th>
-                      <td className={styles.amount}>{displayAmount(item)}</td>
-                      <td>{item.purpose?.trim() || "—"}</td>
-                      <td>{displayDate(item.dueDate)}</td>
-                      <td>{renderPriority(item)}</td>
-                      <td>{renderDescription(item)}</td>
-                      <td>{renderStatus(item)}</td>
-                      <td>{renderActions(item)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <ul className={styles.mobile} aria-label="Daftar target anggaran">
-            {items.map((item) => (
-              <li key={item.id} className={styles.card}>
-                <div className={styles.cardHeading}>
-                  <h3>{item.title}</h3>
-                  <small className={styles.created}>Dibuat {displayDate(item.createdAt)}</small>
-                </div>
-                <dl className={styles.details}>
-                  <div>
-                    <dt>Target (Rp)</dt>
-                    <dd className={styles.amount}>{displayAmount(item)}</dd>
-                  </div>
-                  <div>
-                    <dt>Tujuan</dt>
-                    <dd>{item.purpose?.trim() || "—"}</dd>
-                  </div>
-                  <div>
-                    <dt>Tenggat</dt>
-                    <dd>{displayDate(item.dueDate)}</dd>
-                  </div>
-                  <div>
-                    <dt>Prioritas</dt>
-                    <dd>{renderPriority(item)}</dd>
-                  </div>
-                  <div className={styles.cardDescription}>
-                    <dt>Deskripsi</dt>
-                    <dd>{renderDescription(item)}</dd>
-                  </div>
-                </dl>
-                <div className={styles.cardFooter}>
-                  {renderStatus(item)}
-                  {renderActions(item)}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      <Dialog open={!!description} onClose={() => setDescription(null)} title="Deskripsi kebutuhan">
-        <div className={styles.descriptionDialog}>
-          <h3>{description?.title}</h3>
-          <p>{description?.notes}</p>
+      <div className={styles.frame}>
+        <div
+          className={styles.tableScroll}
+          tabIndex={0}
+          role="region"
+          aria-label="Daftar target anggaran"
+        >
+          <table className={styles.table}>
+            <caption className="sr-only">Target anggaran dan status dana terkumpul</caption>
+            <colgroup>
+              {[
+                "needColumn",
+                "amountColumn",
+                "categoryColumn",
+                "purposeColumn",
+                "descriptionColumn",
+                "priorityColumn",
+                "dateColumn",
+                "statusColumn",
+                "actionsColumn",
+              ].map((name) => (
+                <col key={name} className={styles[name]} />
+              ))}
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Rencana Anggaran</th>
+                {budgetColumns.map((column) => (
+                  <th scope="col" aria-label={column.label} key={column.key}>
+                    <BudgetColumnControl
+                      column={column}
+                      filters={filters}
+                      change={changeFilters}
+                      categories={categories}
+                      purposes={purposes}
+                    />
+                  </th>
+                ))}
+                <th scope="col">Status</th>
+                <th scope="col" className={styles.actionsHeading}>
+                  Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {!items.length && (
+                <tr>
+                  <td colSpan={9} className={styles.empty}>
+                    {emptyMessage}
+                  </td>
+                </tr>
+              )}
+              {items.map((item) => (
+                <tr key={item.id}>
+                  <th scope="row" className={styles.need}>
+                    <span className={styles.truncate} title={item.title}>
+                      {item.title}
+                    </span>
+                  </th>
+                  <td
+                    className={styles.amount}
+                    title={`Rp ${(item.amount ?? 0).toLocaleString("id-ID")}`}
+                  >
+                    Rp {(item.amount ?? 0).toLocaleString("id-ID")}
+                  </td>
+                  <td>
+                    <span className={styles.truncate} title={item.category ?? "Lainnya"}>
+                      {item.category ?? "Lainnya"}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={styles.truncate} title={item.purpose}>
+                      {item.purpose?.trim() || "—"}
+                    </span>
+                  </td>
+                  <td>{renderDescription(item)}</td>
+                  <td>{renderPriority(item)}</td>
+                  <td>{displayDate(item.dueDate)}</td>
+                  <td>{renderStatus(item)}</td>
+                  <td className={styles.actionCell}>{renderActions(item)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </Dialog>
+      </div>
+      <BudgetDescriptionDialog item={description} close={() => setDescription(null)} />
     </div>
   );
 }

@@ -12,6 +12,8 @@ import { PlanningCatering } from "./planning-catering";
 import { CateringForm } from "./catering-form";
 import { useCateringEstimate } from "./use-catering-estimate";
 import styles from "./planning.module.css";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import type { CateringSettings } from "../domain/catering-settings";
 const copy = {
   calendar: [
     "Kalender koordinasi",
@@ -35,7 +37,7 @@ const copy = {
   ],
   catering: [
     "Hitung porsi, tanpa menebak",
-    "Estimasi jumlah hadir dan bagikan porsi buffet serta gubukan dengan jelas.",
+    "Perkirakan jumlah tamu, atur porsi prasmanan dan gubukan, lalu catat pilihan menu kalian.",
     "+ Menu katering",
   ],
 } as const;
@@ -46,18 +48,26 @@ export function PlanningEditor({
   onSave,
   guests = null,
   guestError = "",
+  budgets = null,
+  budgetError = "",
+  initialSettings,
+  saveSettings,
 }: {
   kind: PlanningKind;
   data: PlanningItem[];
   onSave: (items: PlanningItem[]) => Promise<boolean>;
   guests?: unknown[] | null;
   guestError?: string;
+  budgets?: CustomerBudget[] | null;
+  budgetError?: string;
+  initialSettings?: CateringSettings | undefined;
+  saveSettings?: ((settings: CateringSettings) => Promise<boolean>) | undefined;
 }) {
   const [items, update] = useCommittedList(data, onSave);
   const [selected, setSelected] = useState<PlanningItem | null | undefined>(undefined);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
-  const estimate = useCateringEstimate(guests);
+  const estimate = useCateringEstimate(guests, initialSettings, saveSettings);
   async function commit(next: PlanningItem[]) {
     if (pending) return false;
     setPending(true);
@@ -105,7 +115,7 @@ export function PlanningEditor({
     <section className={styles.container} aria-busy={pending}>
       <header className={styles.header}>
         <PageHeading title={copy[kind][0]} description={copy[kind][1]} />
-        <Button onClick={() => setSelected(null)}>{copy[kind][2]}</Button>
+        {kind !== "catering" && <Button onClick={() => setSelected(null)}>{copy[kind][2]}</Button>}
       </header>
       {error && (
         <p role="alert" className="text-sm text-danger">
@@ -123,6 +133,12 @@ export function PlanningEditor({
             key={selected?.id ?? "new"}
             item={selected && "portions" in selected ? selected : undefined}
             guests={estimate.result.totalWithBuffer}
+            guestListCount={estimate.summary.guests}
+            paymentDueDate={
+              budgets?.find(
+                (budget) => budget.source?.kind === "catering" && budget.source.id === selected?.id,
+              )?.dueDate
+            }
             cancel={() => setSelected(undefined)}
             save={saveSelection}
           />
@@ -146,6 +162,9 @@ export function PlanningEditor({
             estimate={estimate}
             guestError={guestError}
             guestsLoading={guests === null && !guestError}
+            add={() => setSelected(null)}
+            budgets={budgets}
+            budgetError={budgetError}
           />
         ) : (
           <PlanningChecklist {...view} kind={kind} />

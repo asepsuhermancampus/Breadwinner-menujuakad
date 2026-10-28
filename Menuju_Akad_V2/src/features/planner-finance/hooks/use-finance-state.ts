@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import { useRef, useState } from "react";
 import type {
@@ -38,8 +39,16 @@ export function useFinanceState({
   initialInstallments,
   initialTransfers,
 }: InitialProps) {
-  const [eventContext, setEventContext] = useState<EventFinanceContext>("wedding");
-  const [activeTab, setActiveTab] = useState<FinanceTabKey>("ringkasan");
+  const [eventContext, setEventContext] = useUrlTab<EventFinanceContext>(
+    "context",
+    ["wedding", "engagement"],
+    "wedding",
+  );
+  const [activeTab, setActiveTab] = useUrlTab<FinanceTabKey>(
+    "tab",
+    ["ringkasan", "tabungan", "anggaran", "pengeluaran", "termin", "laporan", "rekening"],
+    "ringkasan",
+  );
   const [categories, setCategories] = useState<BudgetItem[]>(initialCategories);
   const [installments] = useState<InstallmentItem[]>(initialInstallments);
   const [targetAmount, setTargetAmount] = useState(150_000_000);

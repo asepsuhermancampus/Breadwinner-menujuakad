@@ -3,18 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { PageHeading } from "@/components/ui/page-heading";
 import { CustomerBudgetTable } from "./customer-budget-table";
-import { CustomerBudgetFilters } from "./customer-budget-filters";
 import { CustomerSavings } from "./customer-savings";
 import { FinanceBalances } from "./finance-balances";
 import { CustomerFinanceSummary } from "./customer-finance-summary";
 import { CustomerFinanceDialogs } from "./customer-finance-dialogs";
 import { useCustomerFinance } from "../hooks/use-customer-finance";
-import { filterCustomerBudgets, summarizeBudgets } from "../domain/customer-budget";
+import { countCustomerBudgetStatuses, filterCustomerBudgets } from "../domain/customer-budget";
 import type { CustomerBudget } from "../types/customer-budget";
 import type { FinanceConnection } from "../types/finance-connection";
 import styles from "./finance.module.css";
 import layout from "./customer-finance.module.css";
 import controls from "./finance-controls.module.css";
+import { availableBudgetCategories } from "../domain/budget-categories";
+import { BudgetStatusFilters } from "./budget-status-filters";
 export type { CustomerBudget } from "../types/customer-budget";
 export function CustomerFinance({
   initial,
@@ -43,7 +44,6 @@ export function CustomerFinance({
     setDeleting,
     setCollected,
   } = state;
-  const summary = summarizeBudgets(items);
   const visible = filterCustomerBudgets(items, filters);
   const showBudgetList = tab === "Anggaran";
   return (
@@ -110,17 +110,27 @@ export function CustomerFinance({
         <>
           <div className={layout.listHeading}>
             <h2 className="text-sm font-semibold">Target dana kalian</h2>
-            <span className="text-xs text-secondary">
-              {visible.length} dari {summary.total} anggaran
-            </span>
           </div>
-          <CustomerBudgetFilters filters={filters} counts={summary} onChange={setFilters} />
+          <BudgetStatusFilters
+            filters={filters}
+            counts={countCustomerBudgetStatuses(items, filters)}
+            change={setFilters}
+          />
           <CustomerBudgetTable
+            filters={filters}
+            changeFilters={setFilters}
+            categories={availableBudgetCategories(items)}
+            purposes={[
+              ...new Set(
+                items
+                  .map((item) => item.purpose?.trim())
+                  .filter((value): value is string => !!value),
+              ),
+            ].sort((a, b) => a.localeCompare(b, "id-ID"))}
             allocationMode={!!finance}
             items={visible}
             pending={pending}
             edit={(item) => openEditor("edit", item)}
-            duplicate={(item) => openEditor("duplicate", item)}
             remove={(item) => {
               setError("");
               setDeleting(item);

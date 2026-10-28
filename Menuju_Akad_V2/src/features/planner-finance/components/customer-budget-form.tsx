@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import type { BudgetPriority, CustomerBudget } from "../types/customer-budget";
 import { createBudgetDraft, type BudgetDraft } from "../domain/customer-budget";
 import styles from "./customer-finance.module.css";
+import { budgetCategories } from "../domain/budget-categories";
 
 export function CustomerBudgetForm({
   item,
@@ -27,6 +29,8 @@ export function CustomerBudgetForm({
   funded?: boolean;
 }) {
   const [draft, setDraft] = useState(() => createBudgetDraft(item, mode === "duplicate"));
+  const categoryList = useId();
+  const linked = mode === "edit" && !!item?.source;
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!pending) await onSave(draft);
@@ -45,11 +49,25 @@ export function CustomerBudgetForm({
     >
       <form className={styles.form} onSubmit={(event) => void submit(event)} aria-busy={pending}>
         <fieldset disabled={pending} className={styles.formFields}>
+          {linked && (
+            <p className="text-xs leading-relaxed text-secondary">
+              Nama, target, kategori, dan deskripsi mengikuti data{" "}
+              {item?.source?.kind === "catering" ? "katering" : "seserahan"}.{" "}
+              <Link className="text-primary underline" href={`/planner/${item?.source?.kind}`}>
+                Buka sumber kebutuhan
+              </Link>{" "}
+              untuk mengubahnya.{" "}
+              {item?.source?.kind === "catering"
+                ? "Tenggat pembayaran mengikuti menu katering. Tujuan dan prioritas tetap dapat diatur di sini."
+                : "Tujuan, tenggat, dan prioritas tetap dapat diatur di sini."}
+            </p>
+          )}
           <label>
             Nama anggaran
             <input
               required
               maxLength={160}
+              readOnly={linked}
               value={draft.title}
               onChange={(event) => setDraft({ ...draft, title: event.target.value })}
             />
@@ -59,7 +77,7 @@ export function CustomerBudgetForm({
             <input
               required
               type="number"
-              readOnly={funded}
+              readOnly={funded || linked}
               inputMode="numeric"
               step={1}
               min={0}
@@ -67,6 +85,22 @@ export function CustomerBudgetForm({
               value={draft.amount}
               onChange={(event) => setDraft({ ...draft, amount: event.target.value })}
             />
+          </label>
+          <label>
+            Kategori anggaran
+            <input
+              aria-label="Kategori anggaran"
+              list={categoryList}
+              maxLength={80}
+              value={draft.category ?? "Lainnya"}
+              readOnly={linked}
+              onChange={(event) => setDraft({ ...draft, category: event.target.value })}
+            />
+            <datalist id={categoryList}>
+              {budgetCategories.map((category) => (
+                <option key={category} value={category} />
+              ))}
+            </datalist>
           </label>
           <label>
             Tujuan anggaran
@@ -82,6 +116,7 @@ export function CustomerBudgetForm({
               Tenggat
               <input
                 type="date"
+                readOnly={linked && item?.source?.kind === "catering"}
                 value={draft.dueDate}
                 onChange={(event) => setDraft({ ...draft, dueDate: event.target.value })}
               />
@@ -106,7 +141,8 @@ export function CustomerBudgetForm({
             <textarea
               aria-label="Deskripsi anggaran"
               rows={4}
-              maxLength={2000}
+              maxLength={linked ? 5000 : 2000}
+              readOnly={linked}
               value={draft.notes}
               onChange={(event) => setDraft({ ...draft, notes: event.target.value })}
             />

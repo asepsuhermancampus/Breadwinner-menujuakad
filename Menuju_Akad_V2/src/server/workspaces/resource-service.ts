@@ -14,6 +14,7 @@ import {
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import { financeDomainError } from "./finance-service";
 import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
+import { syncWorkspaceExpenseBudgets } from "./expense-budget-sync";
 export class ResourceService {
   constructor(private readonly workspaces: WorkspaceService) {}
   readResource(
@@ -22,6 +23,7 @@ export class ResourceService {
     workspaceId?: string,
   ): { revision: number; data: unknown[] } {
     const workspace = this.workspaces.requireWorkspace(account, workspaceId);
+    if (kind === "finance") syncWorkspaceExpenseBudgets(this.workspaces.db, workspace.id);
     if (kind === "documents")
       this.workspaces.db
         .prepare(
@@ -83,6 +85,8 @@ export class ResourceService {
         );
       if (!Number.isSafeInteger(expectedRevision) || expectedRevision !== current.revision)
         throw new PaymentError("Data telah berubah. Muat ulang sebelum menyimpan.", 409);
+      if (kind === "catering" || kind === "seserahan")
+        syncWorkspaceExpenseBudgets(db, workspace.id, { [kind]: items });
       if (kind === "finance") {
         const ledger = db
           .prepare("SELECT data FROM workspace_finance WHERE workspace_id=?")

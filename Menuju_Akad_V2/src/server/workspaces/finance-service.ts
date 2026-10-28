@@ -15,6 +15,8 @@ import { PaymentError } from "@/server/payments/errors";
 import type { WorkspaceService } from "./service";
 import { bindFinanceMembers } from "./finance-member-binding";
 import { withFinanceProfileNames } from "./finance-profile-snapshot";
+import { syncWorkspaceExpenseBudgets } from "./expense-budget-sync";
+import { removeWorkspaceBudgetSources } from "./remove-budget-sources";
 
 export function financeDomainError(error: unknown): PaymentError {
   const message = error instanceof Error ? error.message : "Perintah keuangan tidak valid.";
@@ -52,6 +54,7 @@ export class FinanceService {
     resourceRevision: number;
   } {
     const db = this.workspaces.db;
+    syncWorkspaceExpenseBudgets(db, workspaceId);
     const ledger = db
       .prepare("SELECT data FROM workspace_finance WHERE workspace_id=?")
       .get(workspaceId);
@@ -115,6 +118,7 @@ export class FinanceService {
         throw financeDomainError(error);
       }
       bindFinanceMembers(db, id, result.book);
+      removeWorkspaceBudgetSources(db, id, budgets, result.budgets);
       db.prepare(
         "INSERT INTO workspace_finance(workspace_id,data) VALUES(?,?) ON CONFLICT(workspace_id) DO UPDATE SET data=excluded.data",
       ).run(id, JSON.stringify(result.book));

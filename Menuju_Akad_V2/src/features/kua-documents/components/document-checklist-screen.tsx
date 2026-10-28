@@ -1,4 +1,5 @@
 ﻿"use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import { DocumentChecklistProgress } from "./document-checklist-progress";
@@ -34,7 +35,7 @@ export function DocumentChecklistScreen({
   const [manual, setManual] = useState(false),
     [pending, setPending] = useState(false);
   const [notice, setNotice] = useState("");
-  const [view, setView] = useState<"checklist" | "templates">("checklist");
+  const [view, setView] = useUrlTab("tab", ["checklist", "templates"], "checklist");
   const active = activeDocuments(items),
     complete = active.filter((item) => item.completed).length;
   async function save(next: DocumentItem[]) {

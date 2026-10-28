@@ -1,10 +1,15 @@
-﻿"use client";
+"use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
+import { useId } from "react";
+import { Button } from "@/components/ui/button";
 import { SummaryCard } from "@/components/ui/summary-card";
-import { Field } from "@/components/ui/field";
 import type { PlanningViewProps } from "../domain/planning-view";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { CateringEstimate } from "./use-catering-estimate";
 import { CateringSavedMenus } from "./catering-saved-menus";
+import { CateringBasis } from "./catering-basis";
 import catering from "./planning-catering.module.css";
+import layout from "./catering-workspace.module.css";
 import styles from "./planning.module.css";
 export function PlanningCatering({
   items,
@@ -13,118 +18,121 @@ export function PlanningCatering({
   estimate,
   guestError,
   guestsLoading,
+  add,
+  budgets,
+  budgetError,
 }: PlanningViewProps & {
   estimate: CateringEstimate;
   guestError: string;
   guestsLoading: boolean;
+  add: () => void;
+  budgets: CustomerBudget[] | null;
+  budgetError: string;
 }) {
-  const { input, manual, setInput, result, automatic, setUseGuests, summary } = estimate;
-  const fields = [
-    ["invitations", "Jumlah undangan"],
-    ["multiplier", "Orang / undangan"],
-    ["bufferPercent", "Buffer cadangan (%)"],
-    ["buffetPercent", "Alokasi buffet (%)"],
-    ["stallDishesCount", "Jumlah menu gubukan"],
+  const { input, result } = estimate;
+  const [tab, setTab] = useUrlTab("tab", ["calculation", "menus"], "calculation");
+  const id = useId();
+  const tabs = [
+    ["calculation", "Dasar perhitungan"],
+    ["menus", "Menu katering tersimpan"],
   ] as const;
   return (
     <div className={styles.stack}>
-      <div className={catering.summaries}>
-        <SummaryCard
-          label="Estimasi tamu"
-          value={result.totalWithBuffer.toLocaleString("id-ID")}
-          detail={`Termasuk ${result.bufferPax.toLocaleString("id-ID")} tamu cadangan`}
-          ornament={1}
-          highlight
-        />
-        <SummaryCard
-          label="Buffet utama"
-          value={result.buffetPax.toLocaleString("id-ID")}
-          detail={`${input.buffetPercent}% dari estimasi tamu`}
-          ornament={2}
-        />
-        <SummaryCard
-          label="Porsi gubukan"
-          value={result.stallPortionsTotal.toLocaleString("id-ID")}
-          detail={`${input.stallDishesCount} variasi sajian`}
-          ornament={3}
-        />
-        <SummaryCard
-          label="Total sajian"
-          value={result.totalPortions.toLocaleString("id-ID")}
-          detail="Porsi buffet dan gubukan"
-          ornament={4}
-          highlight
-        />
+      <div className={layout.toolbar}>
+        <div className={layout.tabs} role="tablist" aria-label="Katering" data-customer-tabs>
+          {tabs.map(([value, label], index) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              id={id + "-" + value + "-tab"}
+              aria-controls={id + "-panel"}
+              aria-selected={tab === value}
+              tabIndex={tab === value ? 0 : -1}
+              onClick={() => setTab(value)}
+              onKeyDown={(event) => {
+                if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                event.preventDefault();
+                const next = event.key === "Home" ? 0 : event.key === "End" ? 1 : 1 - index;
+                setTab(tabs[next]![0]);
+                document.getElementById(id + "-" + tabs[next]![0] + "-tab")?.focus();
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {tab === "menus" && (
+          <Button size="small" onClick={add}>
+            + Menu katering
+          </Button>
+        )}
+        {tab === "calculation" && (
+          <Button
+            size="small"
+            disabled={estimate.saving || !estimate.dirty || !estimate.canSave}
+            onClick={() => void estimate.save()}
+          >
+            {estimate.saving ? "Menyimpan..." : "Simpan perhitungan"}
+          </Button>
+        )}
       </div>
-      <div className={catering.content}>
-        <section
-          className={`${styles.card} ${styles.stack}`}
-          aria-label="Dasar perhitungan katering"
-        >
-          <h2 className="text-sm font-semibold">Dasar perhitungan</h2>
-          {summary.guests > 0 ? (
-            <div className={styles.notice}>
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={automatic}
-                  onChange={(event) => setUseGuests(event.target.checked)}
-                />
-                Gunakan daftar tamu otomatis
-              </label>
-              <p className="mt-2">
-                {summary.invitations.toLocaleString("id-ID")} undangan ·{" "}
-                {summary.guests.toLocaleString("id-ID")} orang berdasarkan kuota di CRM Tamu.
-              </p>
+      {estimate.saveError && (
+        <p role="alert" className="text-sm text-danger">
+          {estimate.saveError}
+        </p>
+      )}
+      <div
+        role="tabpanel"
+        id={id + "-panel"}
+        aria-labelledby={id + "-" + tab + "-tab"}
+        className={styles.stack}
+      >
+        {tab === "calculation" ? (
+          <>
+            <div className={catering.summaries}>
+              <SummaryCard
+                label="Estimasi tamu"
+                value={result.totalWithBuffer.toLocaleString("id-ID")}
+                detail={`Termasuk ${result.bufferPax.toLocaleString("id-ID")} orang cadangan`}
+                ornament={1}
+                highlight
+              />
+              <SummaryCard
+                label="Prasmanan utama"
+                value={result.buffetPax.toLocaleString("id-ID")}
+                detail={`${input.buffetPercent}% dari estimasi tamu`}
+                ornament={2}
+              />
+              <SummaryCard
+                label="Porsi gubukan"
+                value={result.stallPortionsTotal.toLocaleString("id-ID")}
+                detail={`${input.stallDishesCount} jenis sajian, masing-masing ${result.stallPax.toLocaleString("id-ID")} porsi`}
+                ornament={3}
+              />
+              <SummaryCard
+                label="Total sajian"
+                value={result.totalPortions.toLocaleString("id-ID")}
+                detail="Porsi prasmanan dan seluruh gubukan"
+                ornament={4}
+                highlight
+              />
             </div>
-          ) : (
-            <p className={styles.notice}>
-              {guestsLoading
-                ? "Memuat daftar tamu. Jumlah tetap bisa diisi manual."
-                : guestError
-                  ? "Daftar tamu belum dapat dimuat. Isi jumlah undangan secara manual untuk melanjutkan."
-                  : "Belum ada daftar tamu. Isi jumlah undangan di bawah atau tambahkan tamu melalui CRM Tamu."}
-            </p>
-          )}
-          <div className={catering.fields}>
-            {fields
-              .filter(([key]) => !automatic || (key !== "invitations" && key !== "multiplier"))
-              .map(([key, label]) => (
-                <Field
-                  key={key}
-                  label={label}
-                  type="number"
-                  min={0}
-                  max={key.endsWith("Percent") ? 100 : 100000}
-                  value={manual[key]}
-                  onChange={(event) =>
-                    setInput({
-                      ...manual,
-                      [key]: Math.max(
-                        0,
-                        Math.min(
-                          key.endsWith("Percent") ? 100 : 100000,
-                          Number(event.target.value) || 0,
-                        ),
-                      ),
-                    })
-                  }
-                />
-              ))}
-          </div>
-          <div className={styles.notice}>
-            <strong>Rumus yang dipakai</strong>
-            <p className="font-mono mt-2">
-              {automatic
-                ? `${summary.guests.toLocaleString("id-ID")} orang dari daftar tamu`
-                : `${input.invitations} × ${input.multiplier} = ${result.totalBaseGuests}`}
-              <br />+ cadangan {input.bufferPercent}% ={" "}
-              {result.totalWithBuffer.toLocaleString("id-ID")} tamu
-            </p>
-            <p className="mt-2">Estimasi ini bukan jaminan jumlah tamu yang datang.</p>
-          </div>
-        </section>
-        <CateringSavedMenus items={items} edit={edit} remove={remove} />
+            <CateringBasis
+              estimate={estimate}
+              guestError={guestError}
+              guestsLoading={guestsLoading}
+            />
+          </>
+        ) : (
+          <CateringSavedMenus
+            items={items}
+            edit={edit}
+            remove={remove}
+            budgets={budgets}
+            budgetError={budgetError}
+          />
+        )}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export const navigationGroups: NavigationGroup[] = [
     title: "PERENCANAAN",
     items: [
       {
-        label: "Ringkasan & Kesiapan",
+        label: "Ringkasan Kesiapan",
         icon: "calendar",
         href: "/dashboard",
         detail: "Pantau kesiapan pernikahan kalian.",
@@ -44,13 +44,6 @@ export const navigationGroups: NavigationGroup[] = [
         badge: "",
       },
       {
-        label: "Kalkulator Katering",
-        icon: "catering",
-        href: "/planner/catering",
-        detail: "Coming Soon. Perhitungan katering belum tersedia.",
-        badge: "Segera",
-      },
-      {
         label: "Seserahan & Moodboard",
         icon: "gift",
         href: "/planner/seserahan",
@@ -60,7 +53,7 @@ export const navigationGroups: NavigationGroup[] = [
     ],
   },
   {
-    title: "KEUANGAN & VENDOR",
+    title: "KEUANGAN",
     items: [
       {
         label: "Tabungan & Anggaran",
@@ -70,10 +63,11 @@ export const navigationGroups: NavigationGroup[] = [
         badge: "75%",
       },
       {
-        label: "Catatan Vendor Manual",
-        icon: "store",
-        detail: "Catatan tim pendukung hari kalian.",
-        badge: "",
+        label: "Kalkulator Katering",
+        icon: "catering",
+        href: "/planner/catering",
+        detail: "Coming Soon. Perhitungan katering belum tersedia.",
+        badge: "Segera",
       },
     ],
   },
@@ -106,7 +100,7 @@ export const navigationGroups: NavigationGroup[] = [
 ];
 
 export const commands = [
-  { label: "Ringkasan & kesiapan (Dashboard)", href: "/dashboard", icon: "calendar" },
+  { label: "Ringkasan Kesiapan (Dashboard)", href: "/dashboard", icon: "calendar" },
   { label: "CRM Tamu & WhatsApp", href: "/planner/guests", icon: "users" },
   { label: "Studio Undangan", href: "/planner/invitations", icon: "studio" },
   { label: "Konsol Check-in Tamu", href: "/checkin", icon: "shield" },

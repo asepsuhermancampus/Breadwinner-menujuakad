@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ export function CheckinConsoleScreen({
   initialValidated = 214,
   initialRemaining = 126,
 }: Props) {
-  const [tab, setTab] = useState<"console" | "states" | "staff">("console");
+  const [tab, setTab] = useUrlTab("tab", ["console", "states", "staff"], "console");
   const [validatedCount, setValidatedCount] = useState(initialValidated);
   const [remainingCount, setRemainingCount] = useState(initialRemaining);
   const [scannerOpen, setScannerOpen] = useState(false);

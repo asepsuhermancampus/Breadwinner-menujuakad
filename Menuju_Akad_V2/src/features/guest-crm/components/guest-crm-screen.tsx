@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import { useState } from "react";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -18,7 +19,6 @@ import { FollowUpView } from "@/features/guest-followup/components/follow-up-vie
 import styles from "./guest-crm.module.css";
 
 type Tab = "guests" | "seating" | "whatsapp" | "followup";
-
 type Props = {
   initialGuests: GuestInvitation[];
   initialTab?: Tab;
@@ -34,7 +34,11 @@ export function GuestCrmScreen({
   customerLabel,
   trial = false,
 }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
+  const [activeTab, setActiveTab] = useUrlTab<Tab>(
+    "tab",
+    ["guests", "seating", "whatsapp", "followup"],
+    initialTab,
+  );
   const [guests, setGuests] = useCommittedList(initialGuests, onChange);
   const [selectedGuest, setSelectedGuest] = useState<GuestInvitation | null>(null);
   const [createOpen, setCreateOpen] = useState(false);

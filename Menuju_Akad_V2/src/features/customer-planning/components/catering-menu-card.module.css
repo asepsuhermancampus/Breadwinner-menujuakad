@@ -1,0 +1,144 @@
+.menu {
+  min-width: 0;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+}
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 18px 0;
+}
+.identity {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.category {
+  display: inline-block;
+  padding: 4px 8px;
+  background: var(--subtle);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.identity h3 {
+  margin-top: 9px;
+  color: var(--brand-secondary);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.vendor {
+  margin-top: 4px;
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+.actions button[data-ui-button][data-ui-size] {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  color: var(--primary);
+}
+.actions button.delete[data-ui-button][data-ui-size] {
+  color: var(--danger-ink);
+}
+.figures {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px;
+}
+.figures dt {
+  margin-bottom: 6px;
+  color: var(--secondary);
+  font-size: 11px;
+}
+.figures dd {
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.figures small {
+  font-size: 12px;
+  font-weight: 400;
+}
+.details {
+  margin: 0 18px 16px;
+  border-top: 1px solid var(--ux-border);
+}
+.details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  color: var(--primary);
+  font-size: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.details summary::-webkit-details-marker {
+  display: none;
+}
+.details[open] summary svg {
+  transform: rotate(180deg);
+}
+.details p {
+  margin-top: 12px;
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.details p strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--foreground);
+  font-weight: 500;
+}
+.menuTotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--ux-border);
+  background: var(--surface);
+  color: var(--brand-secondary);
+  font-size: 12px;
+}
+.menuTotal strong {
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .menuHeader {
+    padding: 14px 14px 0;
+    gap: 8px;
+  }
+  .figures {
+    padding: 16px 14px;
+    gap: 10px;
+  }
+  .details {
+    margin-inline: 14px;
+  }
+  .menuTotal {
+    padding-inline: 14px;
+  }
+}

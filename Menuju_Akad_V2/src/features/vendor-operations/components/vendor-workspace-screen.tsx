@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useEffect, useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,11 @@ import { OperationalFeedback } from "./operational-feedback";
 
 export function VendorWorkspaceScreen() {
   const editor = useVendorWorkspace();
-  const [view, setView] = useState<VendorView>("catalog");
+  const [view, setView] = useUrlTab<VendorView>(
+    "tab",
+    ["catalog", "kyb", "orders", "calendar", "wallet"],
+    "catalog",
+  );
   const [next, setNext] = useState<VendorView | null>(null);
   const [kybDirty, setKybDirty] = useState(false);
   const dirty = editor.dirty || kybDirty || editor.storageError;

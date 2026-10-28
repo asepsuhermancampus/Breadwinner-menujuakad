@@ -1,26 +1,17 @@
 "use client";
 import { useRef, useState } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
-import {
-  buildCustomerBudget,
-  type BudgetDraft,
-  type BudgetFilters,
-} from "../domain/customer-budget";
+import { buildCustomerBudget, type BudgetDraft } from "../domain/customer-budget";
 import type { CustomerBudget } from "../types/customer-budget";
 import type { FinanceConnection } from "../types/finance-connection";
 import type { SavingsSide } from "../types/finance-ledger";
-const initialFilters: BudgetFilters = {
-  status: "Belum tercapai",
-  priority: "Semua",
-  due: "Semua",
-  query: "",
-};
+import { useBudgetFilters, initialBudgetFilters as initialFilters } from "./use-budget-filters";
+import { useUrlTab } from "@/hooks/use-url-tab";
 type Editor = {
   mode: "create" | "edit" | "duplicate";
   item: CustomerBudget | undefined;
   identity: { id: string; createdAt: string };
 };
-
 export function useCustomerFinance({
   initial,
   onChange,
@@ -31,8 +22,12 @@ export function useCustomerFinance({
   finance?: FinanceConnection;
 }) {
   const [items, update] = useCommittedList(initial, onChange);
-  const [tab, setTab] = useState("Ringkasan");
-  const [filters, setFilters] = useState(initialFilters);
+  const [tab, setTab] = useUrlTab<string>(
+    "tab",
+    finance ? ["Ringkasan", "Tabungan", "Anggaran"] : ["Ringkasan", "Anggaran"],
+    "Ringkasan",
+  );
+  const [filters, setFilters] = useBudgetFilters(items);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [deleting, setDeleting] = useState<CustomerBudget | null>(null);
   const [saving, setPending] = useState(false);
@@ -42,7 +37,6 @@ export function useCustomerFinance({
   const busy = useRef(false);
   const pending = saving || !!finance?.pending;
   const errorMessage = [error, finance?.error].filter(Boolean).join(" ");
-
   async function commit(next: CustomerBudget[]) {
     if (busy.current) return false;
     busy.current = true;
@@ -106,9 +100,12 @@ export function useCustomerFinance({
       );
       return;
     }
-    const ok = finance?.snapshot.allocations.some((value) => value.budgetId === deleting.id)
-      ? await finance.command({ type: "delete-budget", budgetId: deleting.id })
-      : await commit(items.filter((item) => item.id !== deleting.id));
+    const ok =
+      finance &&
+      (deleting.source ||
+        finance.snapshot.allocations.some((value) => value.budgetId === deleting.id))
+        ? await finance.command({ type: "delete-budget", budgetId: deleting.id })
+        : await commit(items.filter((item) => item.id !== deleting.id));
     if (ok) setDeleting(null);
   }
   async function setCollected(item: CustomerBudget, completed: boolean) {

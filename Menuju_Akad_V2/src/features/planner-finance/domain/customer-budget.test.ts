@@ -32,6 +32,21 @@ const items: CustomerBudget[] = [
 const all: BudgetFilters = { status: "Semua", priority: "Semua", due: "Semua", query: "" };
 
 describe("customer funding targets", () => {
+  it("filters by category while classifying older budgets as Lainnya", () => {
+    const categorized = [{ ...items[0]!, category: "Katering" }, items[1]!];
+    expect(filterCustomerBudgets(categorized, { ...all, category: "Katering" })).toEqual([
+      categorized[0],
+    ]);
+    expect(filterCustomerBudgets(categorized, { ...all, category: "Lainnya" })).toEqual([
+      categorized[1],
+    ]);
+    expect(
+      buildCustomerBudget({ ...createBudgetDraft(items[0]), category: "Dekorasi" }, items[0], {
+        id: "ignored",
+        createdAt: "2026-10-28T00:00:00Z",
+      }),
+    ).toMatchObject({ category: "Dekorasi" });
+  });
   it("combines status, priority, due date and text search without treating collected funds as overdue", () => {
     expect(
       filterCustomerBudgets(

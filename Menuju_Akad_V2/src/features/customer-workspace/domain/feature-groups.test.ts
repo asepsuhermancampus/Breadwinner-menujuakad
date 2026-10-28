@@ -4,7 +4,7 @@ import { customerNavigation } from "../components/customer-navigation";
 
 it("keeps every grouped destination reachable as tabs with the correct parent active", () => {
   const groups = customerNavigation.flatMap((group) => group.items).filter((item) => item.children);
-  expect(groups).toHaveLength(5);
+  expect(groups).toHaveLength(4);
   for (const group of groups) {
     for (const child of group.children!) {
       expect(customerFeatureGroup(child.href)?.href).toBe(group.href);

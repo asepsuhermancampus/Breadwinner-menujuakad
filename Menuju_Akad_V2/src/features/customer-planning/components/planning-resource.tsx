@@ -4,17 +4,26 @@ import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { useTrialResource } from "@/features/dashboard-trial/hooks/use-trial-resource";
 import { PlanningEditor } from "./planning-editor";
 import type { PlanningKind, PlanningItem } from "../domain/planning-resource";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import { useAccountFinance } from "@/features/planner-finance/hooks/use-account-finance";
+import type { CateringSettings } from "../domain/catering-settings";
 type State = { data: unknown[] | null; error: string; save: (data: unknown[]) => Promise<boolean> };
 function Content({
   kind,
   state,
   guests = null,
   guestError = "",
+  budgets = null,
+  budgetError = "",
+  settings,
 }: {
   kind: PlanningKind;
   state: State;
   guests?: unknown[] | null;
   guestError?: string;
+  budgets?: CustomerBudget[] | null;
+  budgetError?: string;
+  settings?: State;
 }) {
   return (
     <>
@@ -23,15 +32,24 @@ function Content({
           {state.error}
         </p>
       )}
-      {state.data ? (
+      {settings?.error && (
+        <p role="alert" className="mb-4 text-sm text-danger">
+          {settings.error}
+        </p>
+      )}
+      {state.data && (kind !== "catering" || settings?.data) ? (
         <PlanningEditor
           kind={kind}
           data={state.data as PlanningItem[]}
           onSave={state.save}
           guests={guests}
           guestError={guestError}
+          budgets={budgets}
+          budgetError={budgetError}
+          initialSettings={settings?.data?.[0] as CateringSettings | undefined}
+          saveSettings={settings ? (value) => settings.save([value]) : undefined}
         />
-      ) : !state.error ? (
+      ) : !state.error && !settings?.error ? (
         <PageSkeleton
           variant={kind === "calendar" ? "calendar" : kind === "catering" ? "cards" : "list"}
           label="Memuat rencana"
@@ -67,10 +85,34 @@ function TrialContent({ kind }: { kind: PlanningKind }) {
 function AccountCatering({ workspaceId }: { workspaceId: string }) {
   const state = useCustomerResource("catering", workspaceId);
   const guests = useCustomerResource("guests", workspaceId);
-  return <Content kind="catering" state={state} guests={guests.data} guestError={guests.error} />;
+  const finance = useAccountFinance(workspaceId);
+  const settings = useCustomerResource("catering-settings", workspaceId);
+  return (
+    <Content
+      kind="catering"
+      state={state}
+      guests={guests.data}
+      guestError={guests.error}
+      budgets={finance.snapshot?.budgets ?? null}
+      budgetError={finance.error}
+      settings={settings}
+    />
+  );
 }
 function TrialCatering() {
   const state = useTrialResource("catering");
   const guests = useTrialResource("guests");
-  return <Content kind="catering" state={state} guests={guests.data} guestError={guests.error} />;
+  const finance = useTrialResource("finance");
+  const settings = useTrialResource("catering-settings");
+  return (
+    <Content
+      kind="catering"
+      state={state}
+      guests={guests.data}
+      guestError={guests.error}
+      budgets={finance.data as CustomerBudget[] | null}
+      budgetError={finance.error}
+      settings={settings}
+    />
+  );
 }

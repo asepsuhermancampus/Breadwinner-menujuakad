@@ -7,31 +7,40 @@ import { cateringCost, cateringMenuSchema, type CateringMenu } from "../domain/c
 import { CateringMenuPicker } from "./catering-menu-picker";
 import { CateringMenuFields } from "./catering-menu-fields";
 import styles from "./catering-form.module.css";
+import { CateringGuestReference } from "./catering-guest-reference";
 export function CateringForm({
   item,
   guests,
+  guestListCount = 0,
+  paymentDueDate,
   save,
   cancel,
 }: {
   item?: CateringMenu | undefined;
   guests: number;
+  guestListCount?: number;
+  paymentDueDate?: string | undefined;
   save: (items: CateringMenu[]) => Promise<boolean>;
   cancel: () => void;
 }) {
   const [mode, setMode] = useState<"unit" | "package">(item?.mode ?? "unit");
+  const savedItem = item ? { ...item, dueDate: item.dueDate ?? paymentDueDate ?? "" } : undefined;
   const empty = (): CateringMenu => ({
     id: item?.id ?? crypto.randomUUID(),
     title: "",
-    portions: Math.max(1, Math.min(100000, guests)),
+    portions: Math.max(0, Math.min(100000, guests)),
+    dueDate: "",
     unitCost: 0,
     category: "other",
     mode: "unit",
   });
   const [menus, setMenus] = useState<CateringMenu[]>(() => [
-    item?.mode !== "package" && item ? item : empty(),
+    item?.mode !== "package" && savedItem ? savedItem : empty(),
   ]);
   const [pack, setPack] = useState<CateringMenu>(() =>
-    item?.mode === "package" ? item : { ...empty(), mode: "package", pricing: "total" },
+    item?.mode === "package" && savedItem
+      ? savedItem
+      : { ...empty(), mode: "package", pricing: "total" },
   );
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -100,14 +109,15 @@ export function CateringForm({
               ? "Pilih beberapa menu dari satu atau beberapa vendor, lalu sesuaikan harga masing-masing."
               : "Catat seluruh sajian vendor dalam satu paket. Pilih harga total paket atau harga per tamu."}
           </p>
-          <p className={styles.estimate}>
-            {guests > 0
-              ? `Acuan kalkulator: ${guests.toLocaleString("id-ID")} tamu termasuk cadangan. Jumlah di bawah tetap bisa diubah sesuai penawaran vendor.`
-              : "Atur jumlah tamu pada kalkulator atau isi jumlahnya langsung di bawah."}
-          </p>
+          <CateringGuestReference count={guestListCount} estimate={guests} />
           {mode === "unit" && !item && <CateringMenuPicker selected={menus} add={add} />}
           {mode === "package" ? (
-            <CateringMenuFields value={pack} change={setPack} />
+            <CateringMenuFields
+              value={pack}
+              change={setPack}
+              guests={guests}
+              automaticDefault={!item}
+            />
           ) : (
             menus.map((menu, index) => (
               <section key={menu.id} className={styles.menu} aria-label={`Menu ${index + 1}`}>
@@ -126,6 +136,8 @@ export function CateringForm({
                 </div>
                 <CateringMenuFields
                   value={menu}
+                  guests={guests}
+                  automaticDefault={!item}
                   change={(next) =>
                     setMenus(menus.map((entry) => (entry.id === menu.id ? next : entry)))
                   }

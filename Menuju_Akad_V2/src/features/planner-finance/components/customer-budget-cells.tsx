@@ -9,20 +9,22 @@ type CellActions = {
   allocationMode: boolean;
   edit: (item: CustomerBudget) => void;
   remove: (item: CustomerBudget) => void;
-  duplicate: (item: CustomerBudget) => void;
   onStatusChange: (item: CustomerBudget, completed: boolean) => void;
 };
 
 export function createBudgetTableCells(
-  { pending, allocationMode, edit, remove, duplicate, onStatusChange }: CellActions,
+  { pending, allocationMode, edit, remove, onStatusChange }: CellActions,
   showDescription: (item: CustomerBudget) => void,
 ) {
   function renderDescription(item: CustomerBudget) {
-    if (!item.notes?.trim()) return <span className={styles.muted}>—</span>;
     const label = `Lihat deskripsi ${item.title}`;
     return (
       <div className={styles.descriptionPreview}>
-        <span className={styles.descriptionText}>{item.notes}</span>
+        {item.notes?.trim() ? (
+          <span className={styles.descriptionText}>{item.notes}</span>
+        ) : (
+          <em className={`${styles.descriptionText} italic`}>Tidak ada catatan</em>
+        )}
         <button
           type="button"
           className={styles.iconButton}
@@ -65,7 +67,6 @@ export function createBudgetTableCells(
       <div className={styles.actions}>
         {[
           { text: "Edit", icon: "pencil", action: edit },
-          { text: "Duplikat", icon: "copy", action: duplicate },
           { text: "Hapus", icon: "trash", action: remove },
         ].map(({ text, icon, action }) => (
           <button

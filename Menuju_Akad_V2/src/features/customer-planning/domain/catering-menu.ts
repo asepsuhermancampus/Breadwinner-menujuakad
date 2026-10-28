@@ -4,6 +4,7 @@ export const cateringMenuSchema = z.object({
   id: z.string().trim().min(1).max(160),
   title: z.string().trim().min(1).max(160),
   notes: z.string().max(2000).optional(),
+  dueDate: z.union([z.iso.date(), z.literal("")]).optional(),
   portions: z.number().int().min(1).max(100000),
   unitCost: z.number().int().min(0).max(1e9),
   mode: z.enum(["unit", "package"]).optional(),

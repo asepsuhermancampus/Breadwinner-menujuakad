@@ -22,7 +22,7 @@ export function CateringScreen() {
           </span>
         </div>
         <p className="mt-1 text-sm text-secondary">
-          Estimasi jumlah hadir dan bagikan porsi buffet serta gubukan dengan jelas.
+          Perkirakan jumlah tamu dan atur porsi prasmanan serta gubukan dengan jelas.
         </p>
       </header>
 
@@ -31,8 +31,8 @@ export function CateringScreen() {
         <div>
           <strong className="block font-semibold">Fitur Katering masih dalam pengembangan.</strong>
           <p className="text-xs">
-            Kalkulator di bawah adalah simulasi internal untuk membantumu merancang proporsi buffet
-            dan gubukan. Pemesanan katering langsung belum dibuka pada rilis publik #43.
+            Kalkulator di bawah adalah simulasi internal untuk membantumu merancang proporsi
+            prasmanan dan gubukan. Pemesanan katering langsung belum dibuka pada rilis publik #43.
           </p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export function CateringScreen() {
             />
 
             <Field
-              label="Persentase alokasi buffet utama (%)"
+              label="Persentase alokasi prasmanan utama (%)"
               type="number"
               value={input.buffetPercent}
               onChange={(e) =>
@@ -122,7 +122,7 @@ export function CateringScreen() {
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div className="rounded-control bg-surface p-3 border border-border">
                 <span className="text-xs text-secondary">
-                  Buffet utama ({input.buffetPercent}%)
+                  Prasmanan utama ({input.buffetPercent}%)
                 </span>
                 <p className="font-mono text-xl font-semibold text-brand-secondary">
                   {result.buffetPax.toLocaleString("id-ID")}

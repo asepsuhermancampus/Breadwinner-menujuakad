@@ -11,8 +11,9 @@ type Props = {
   title: string;
   children: ReactNode;
   side?: boolean;
+  className?: string | undefined;
 };
-export function Dialog({ open, onClose, title, children, side = false }: Props) {
+export function Dialog({ open, onClose, title, children, side = false, className }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   useEffect(() => {
@@ -58,7 +59,7 @@ export function Dialog({ open, onClose, title, children, side = false }: Props) 
     <dialog
       ref={ref}
       aria-labelledby={titleId}
-      className={cn(styles.dialog, side && styles.drawer)}
+      className={cn(styles.dialog, side && styles.drawer, className)}
       onCancel={(event) => {
         event.preventDefault();
         onClose();

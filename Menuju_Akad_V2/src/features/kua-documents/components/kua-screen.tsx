@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState, useMemo } from "react";
 import { SummaryCard } from "@/components/ui/summary-card";
 import { Icon } from "@/components/ui/icon";
@@ -13,7 +14,7 @@ type Props = {
 
 export function KuaScreen({ initialDocuments }: Props) {
   const [documents, setDocuments] = useState<KuaDocumentItem[]>(initialDocuments);
-  const [filter, setFilter] = useState<"Wajib" | "Opsional" | "Perhatian">("Wajib");
+  const [filter, setFilter] = useUrlTab("tab", ["Wajib", "Opsional", "Perhatian"], "Wajib");
   const [editingDoc, setEditingDoc] = useState<{
     doc: KuaDocumentItem;
     spouse: "Andi" | "Risa";

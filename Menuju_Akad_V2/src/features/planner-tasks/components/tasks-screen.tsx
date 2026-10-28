@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState, useMemo } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import { SummaryCard } from "@/components/ui/summary-card";
@@ -10,16 +11,18 @@ import { TaskRow } from "./task-row";
 import { TaskInspector } from "./task-inspector";
 import { TaskHeading } from "./task-heading";
 import styles from "./tasks.module.css";
-
 type Props = {
   initialTasks: PlannerTask[];
   event?: PlannerTask["event"];
   onChange?: (tasks: PlannerTask[]) => void | Promise<boolean | void>;
 };
-
 export function TasksScreen({ initialTasks, onChange, event }: Props) {
   const [tasks, setTasks] = useCommittedList(initialTasks, onChange);
-  const [activeCategory, setActiveCategory] = useState<TaskCategory>("Semua");
+  const [activeCategory, setActiveCategory] = useUrlTab<TaskCategory>(
+    "tab",
+    ["Semua", "Hari ini", "Mendesak", "Mendatang", "Selesai"],
+    "Semua",
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTask, setSelectedTask] = useState<PlannerTask | null>(null);
   const [creating, setCreating] = useState(false);

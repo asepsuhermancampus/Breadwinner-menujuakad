@@ -2,6 +2,7 @@ import { z } from "zod";
 import { customerBudgetSchema } from "./customer-budget-schema";
 const id = z.string().min(1).max(160);
 const entryId = z.string().min(1).max(180);
+const budgetId = z.string().min(1).max(200);
 const side = z.enum(["groom", "bride"]);
 export const rupiah = z.number().int().positive().max(1e12);
 const budgetsSchema = z
@@ -28,9 +29,9 @@ export const financeRequestSchema = z
         })
         .strict(),
       z.object({ type: z.literal("save-budgets"), budgets: budgetsSchema }).strict(),
-      z.object({ type: z.literal("allocate"), budgetId: id, side }).strict(),
-      z.object({ type: z.literal("release"), budgetId: id }).strict(),
-      z.object({ type: z.literal("delete-budget"), budgetId: id }).strict(),
+      z.object({ type: z.literal("allocate"), budgetId, side }).strict(),
+      z.object({ type: z.literal("release"), budgetId }).strict(),
+      z.object({ type: z.literal("delete-budget"), budgetId }).strict(),
     ]),
   })
   .strict();
@@ -54,10 +55,10 @@ export const financeBookSchema = z.object({
       createdAt: z.iso.datetime({ offset: true }),
       actorId: id,
       actorName: z.string().min(1).max(160),
-      budgetId: id.nullable(),
+      budgetId: budgetId.nullable(),
       reverses: entryId.nullable(),
     }),
   ),
-  allocations: z.array(z.object({ budgetId: id, entryId, side, amount: rupiah })),
+  allocations: z.array(z.object({ budgetId, entryId, side, amount: rupiah })),
   receipts: z.array(z.object({ requestId: id, actorId: id, fingerprint: z.string() })),
 });

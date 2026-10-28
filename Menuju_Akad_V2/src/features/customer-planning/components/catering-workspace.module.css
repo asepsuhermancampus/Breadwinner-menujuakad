@@ -1,0 +1,184 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ux-border);
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tabs button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  color: var(--secondary);
+  font-size: 13px;
+}
+.tabs button:hover {
+  background: var(--subtle);
+}
+.tabs button[aria-selected="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+}
+.toolbar > button[data-ui-button] {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.tabs button:focus-visible,
+.names button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+  align-items: start;
+  gap: 20px;
+}
+.names {
+  display: grid;
+  gap: 8px;
+}
+.names button {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+  color: var(--foreground);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.names button:hover {
+  border-color: var(--primary);
+}
+.names button[aria-pressed="true"] {
+  border-color: var(--primary);
+  box-shadow: inset 3px 0 var(--primary);
+  font-weight: 600;
+}
+.detailPanel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+}
+.detailPanel > h2 {
+  margin: 0 0 18px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--brand-secondary);
+}
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 16px;
+  border: 1px solid var(--ux-border);
+  font-size: 13px;
+}
+.total strong {
+  color: var(--brand-secondary);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.details {
+  display: grid;
+  padding: 18px;
+  gap: 14px;
+}
+.details > div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.details dt {
+  color: var(--secondary);
+}
+.details dd {
+  overflow-wrap: anywhere;
+}
+.description {
+  display: grid;
+  gap: 16px;
+  margin: 0 18px 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ux-border);
+}
+.description h4 {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.description p {
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--secondary);
+}
+.funding {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-top: 1px solid var(--ux-border);
+}
+.funding > div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12px;
+}
+.funding strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+.funding p {
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.funding a {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-size: 13px;
+}
+.funding a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 1000px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .detailPanel {
+    padding: 18px;
+  }
+}
+@media (max-width: 400px) {
+  .details > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

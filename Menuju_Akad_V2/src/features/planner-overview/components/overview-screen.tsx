@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState } from "react";
 import type { PlannerOverviewData, PlannerEventContext } from "../types/overview";
 import { createInitialTaskMap, toggleEventTask } from "../domain/checklist";
@@ -13,7 +14,11 @@ type Props = {
 };
 
 export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
-  const [eventContext, setEventContext] = useState<PlannerEventContext>("wedding");
+  const [eventContext, setEventContext] = useUrlTab<PlannerEventContext>(
+    "tab",
+    ["wedding", "engagement"],
+    "wedding",
+  );
   const [taskMap, setTaskMap] = useState(() =>
     createInitialTaskMap(initialWedding.focusTasks, initialEngagement.focusTasks),
   );

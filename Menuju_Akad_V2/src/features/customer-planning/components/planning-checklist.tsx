@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useUrlTab } from "@/hooks/use-url-tab";
+
 import { SummaryCard } from "@/components/ui/summary-card";
 import { Icon } from "@/components/ui/icon";
 import type { PlanningViewProps } from "../domain/planning-view";
@@ -12,7 +13,13 @@ export function PlanningChecklist({
   remove,
   toggle,
 }: PlanningViewProps & { kind: "emergency" | "seserahan" }) {
-  const [filter, setFilter] = useState("Semua");
+  const [filter, setFilter] = useUrlTab<string>(
+    "tab",
+    kind === "emergency"
+      ? ["Semua", "equipment", "contact"]
+      : ["Semua", "Sudah dibeli", "Belum selesai"],
+    "Semua",
+  );
   const ready = items.filter((i) => "completed" in i && i.completed).length;
   const gifts = items.filter((i) => "quantity" in i);
   const visible = items.filter(

@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 import { useState } from "react";
 import type { CalendarEventItem } from "../types/calendar";
 import {
@@ -16,7 +17,7 @@ type Props = {
 };
 
 export function CalendarScreen({ initialEvents }: Props) {
-  const [viewMode, setViewMode] = useState<"Bulan" | "Minggu">("Bulan");
+  const [viewMode, setViewMode] = useUrlTab("tab", ["Bulan", "Minggu"], "Bulan");
   const [weekIndex, setWeekIndex] = useState(DEFAULT_WEEK_INDEX);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEventItem | null>(null);
 

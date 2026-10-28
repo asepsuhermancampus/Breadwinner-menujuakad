@@ -54,6 +54,7 @@ for (const mode of ["guest", "account"] as const) {
     await expect(
       page.getByRole("checkbox", { name: "Gunakan daftar tamu otomatis" }),
     ).toBeChecked();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     const add = page.getByRole("button", { name: "+ Menu katering", exact: true });
     await add.click();
     const dialog = page.getByRole("dialog", { name: "Tambah menu katering", exact: true });
@@ -74,9 +75,10 @@ for (const mode of ["guest", "account"] as const) {
     await dialog.getByRole("button", { name: "Simpan 2 menu", exact: true }).click();
     await expect(dialog).toBeHidden();
     await page.reload();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     const list = page.getByRole("region", { name: "Daftar menu katering", exact: true });
     await expect(list).toContainText("Rp 3.350.000");
-    await expect(list.getByText("Menu lama", { exact: true })).toBeVisible();
+    await expect(list.getByRole("button", { name: "Menu lama", exact: true })).toBeVisible();
     await add.click();
     await dialog.getByRole("tab", { name: "Paket vendor", exact: true }).click();
     await dialog.getByLabel("Nama paket", { exact: true }).fill("Paket lengkap resepsi");
@@ -89,7 +91,12 @@ for (const mode of ["guest", "account"] as const) {
     await dialog.getByRole("button", { name: "Simpan", exact: true }).click();
     await expect(dialog).toBeHidden();
     await page.reload();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     await expect(list).toContainText("Rp 23.350.000");
+    await page
+      .getByRole("region", { name: "Pilihan menu katering", exact: true })
+      .getByRole("button", { name: "Paket lengkap resepsi", exact: true })
+      .click();
     await page
       .getByRole("button", { name: "Edit menu Paket lengkap resepsi", exact: true })
       .click();
@@ -107,10 +114,13 @@ for (const mode of ["guest", "account"] as const) {
     await edit.getByRole("button", { name: "Simpan", exact: true }).click();
     await expect(edit).toBeHidden();
     await page.reload();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     await expect(list).toContainText("Rp 14.350.000");
+    await page.getByRole("tab", { name: "Dasar perhitungan", exact: true }).click();
     await page.getByRole("checkbox", { name: "Gunakan daftar tamu otomatis" }).uncheck();
     await page.getByLabel("Jumlah undangan", { exact: true }).fill("50");
     await expect(page.getByText("110", { exact: true })).toBeVisible();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     await add.click();
     await dialog.getByRole("tab", { name: "Paket vendor", exact: true }).click();
     await expect(dialog.getByLabel("Jumlah tamu paket", { exact: true })).toHaveValue("110");
@@ -125,9 +135,14 @@ for (const mode of ["guest", "account"] as const) {
     await expect(dialog).toBeHidden();
     await expect(add).toBeFocused();
     await page
+      .getByRole("region", { name: "Pilihan menu katering", exact: true })
+      .getByRole("button", { name: "Paket lengkap resepsi", exact: true })
+      .click();
+    await page
       .getByRole("button", { name: "Hapus menu Paket lengkap resepsi", exact: true })
       .click();
     await page.reload();
+    await page.getByRole("tab", { name: "Menu katering tersimpan", exact: true }).click();
     await expect(list).toContainText("Rp 3.350.000");
   });
 }

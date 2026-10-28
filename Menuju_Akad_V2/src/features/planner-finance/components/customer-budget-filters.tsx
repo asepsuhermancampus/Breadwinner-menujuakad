@@ -2,15 +2,18 @@ import type { BudgetPriority } from "../types/customer-budget";
 import type { BudgetDueFilter, BudgetFilters, BudgetStatusFilter } from "../domain/customer-budget";
 import styles from "./customer-finance.module.css";
 import controls from "./finance-controls.module.css";
+import { budgetCategories } from "../domain/budget-categories";
 
 export function CustomerBudgetFilters({
   filters,
   counts,
   onChange,
+  categories = budgetCategories,
 }: {
   filters: BudgetFilters;
   counts: { total: number; pending: number; achieved: number };
   onChange: (next: BudgetFilters) => void;
+  categories?: string[];
 }) {
   const statuses: [BudgetStatusFilter, number][] = [
     ["Semua", counts.total],
@@ -33,6 +36,19 @@ export function CustomerBudgetFilters({
         ))}
       </div>
       <div className={styles.filters}>
+        <label>
+          Kategori
+          <select
+            aria-label="Filter kategori anggaran"
+            value={filters.category ?? "Semua"}
+            onChange={(event) => onChange({ ...filters, category: event.target.value })}
+          >
+            <option value="Semua">Semua kategori</option>
+            {categories.map((category) => (
+              <option key={category}>{category}</option>
+            ))}
+          </select>
+        </label>
         <label className={styles.search}>
           Cari anggaran
           <input

@@ -1,4 +1,5 @@
 export type TrialResourceKind =
+  | "catering-settings"
   | "tasks"
   | "documents"
   | "guests"

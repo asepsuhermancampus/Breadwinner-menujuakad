@@ -14,6 +14,7 @@ import {
 import type { FinanceBook } from "@/features/planner-finance/types/finance-ledger";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
+import { syncTrialExpenseResources } from "../domain/trial-expense-budgets";
 export const TRIAL_KEY = "menuju-akad:guest-trial:v2";
 export const TRIAL_LOCK = "menuju-akad:guest-trial:v1";
 export function createTrialStore(env: TrialStoreEnvironment) {
@@ -25,6 +26,7 @@ export function createTrialStore(env: TrialStoreEnvironment) {
       value.resources.documents as DocumentItem[],
     );
     value.documentTemplate = 1;
+    value.resources = syncTrialExpenseResources(value.resources);
     return value;
   };
   const listeners = new Set<() => void>();
@@ -160,13 +162,16 @@ export function createTrialStore(env: TrialStoreEnvironment) {
               kind === "documents"
                 ? current.used
                 : { ...current.used, [kind]: (current.used[kind] ?? 0) + 1 },
-            resources: {
-              ...current.resources,
-              [kind]: data,
-              ...(financeBook
-                ? { savings: [{ ...financeBook, revision: financeBook.revision + 1 }] }
-                : {}),
-            },
+            resources: syncTrialExpenseResources(
+              {
+                ...current.resources,
+                [kind]: data,
+                ...(financeBook
+                  ? { savings: [{ ...financeBook, revision: financeBook.revision + 1 }] }
+                  : {}),
+              },
+              new Date().toISOString(),
+            ),
           };
           env.storage.setItem(TRIAL_KEY, JSON.stringify(snapshot));
           notify();

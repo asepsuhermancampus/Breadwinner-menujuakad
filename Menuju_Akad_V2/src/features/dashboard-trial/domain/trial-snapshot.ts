@@ -1,6 +1,7 @@
 import type { TrialSnapshot, TrialResourceKind } from "../types";
 import { validateTrialData } from "./trial-validation";
 export const trialKinds = [
+  "catering-settings",
   "tasks",
   "documents",
   "guests",

@@ -1,4 +1,5 @@
 "use client";
+import { useUrlTab } from "@/hooks/use-url-tab";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -32,7 +33,11 @@ export function VendorCatalog({
   canEdit,
   errors,
 }: Props) {
-  const [tab, setTab] = useState("Paket layanan");
+  const [tab, setTab] = useUrlTab<string>(
+    "catalog-tab",
+    ["Paket layanan", "Profil usaha", "Portofolio"],
+    "Paket layanan",
+  );
   const [item, setItem] = useState<VendorPackage | null>(null);
   const [location, setLocation] = useState(false);
   const [photo, setPhoto] = useState<number | null>(null);

@@ -63,6 +63,13 @@ export function CustomerFinanceDialogs({
             Hapus anggaran <strong>{deleting.title}</strong> dengan target{" "}
             {money(deleting.amount ?? 0)}? Catatan ini akan dihapus dari daftar kalian.
           </p>
+          {deleting.source && (
+            <p className="mt-3 text-sm text-secondary">
+              Item ini terhubung dengan{" "}
+              {deleting.source.kind === "catering" ? "Katering" : "Seserahan"}. Menghapus anggaran
+              juga akan menghapus item asalnya dari menu tersebut.
+            </p>
+          )}
           {finance?.snapshot.allocations.some((value) => value.budgetId === deleting.id) && (
             <p className="mt-3 text-sm text-secondary">
               Dana yang dialokasikan akan dikembalikan ke sumber tabungan semula dan dicatat dalam

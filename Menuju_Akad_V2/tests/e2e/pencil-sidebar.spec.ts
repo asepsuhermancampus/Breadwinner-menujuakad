@@ -9,7 +9,7 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
   const navigation = dock.getByRole("navigation", { name: "Navigasi dashboard" });
   await expect(navigation.locator(":scope > section > h2")).toHaveText([
     "Perencanaan",
-    "Keuangan & vendor",
+    "Keuangan",
     "Tamu & undangan",
   ]);
   expect(
@@ -17,20 +17,19 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
       .locator("a[data-sidebar-link]")
       .evaluateAll((elements) => elements.map((element) => element.getAttribute("aria-label"))),
   ).toEqual([
-    "Ringkasan & Kesiapan",
+    "Ringkasan Kesiapan",
     "Checklist & Tugas",
     "Persyaratan KUA",
     "Rundown & Kepanitiaan",
-    "Kalkulator Katering",
     "Seserahan & Moodboard",
     "Tabungan & Anggaran",
-    "Catatan Vendor Manual",
+    "Kalkulator Katering",
     "Pesanan & Kontrak",
     "CRM Tamu & WhatsApp",
     "Studio Undangan",
     "Wedding Kit",
   ]);
-  const active = navigation.getByRole("link", { name: "Ringkasan & Kesiapan", exact: true });
+  const active = navigation.getByRole("link", { name: "Ringkasan Kesiapan", exact: true });
   await expect(active).toHaveCSS("height", "38px");
   await expect(active).toHaveCSS("font-size", "14px");
   await expect(active).toHaveCSS("background-color", "rgb(241, 245, 243)");

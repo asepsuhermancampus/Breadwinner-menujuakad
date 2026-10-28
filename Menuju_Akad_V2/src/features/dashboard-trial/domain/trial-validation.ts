@@ -1,4 +1,5 @@
 import { planningSchemas } from "@/features/customer-planning/domain/planning-resource";
+import { cateringSettingsSchema } from "@/features/customer-planning/domain/catering-settings";
 import { documentSchema } from "@/features/kua-documents/domain/document-schema";
 import { customerBudgetSchema } from "@/features/planner-finance/domain/customer-budget-schema";
 import { financeBookSchema } from "@/features/planner-finance/domain/finance-ledger";
@@ -9,6 +10,7 @@ import type { TrialResourceKind } from "../types";
 const id = z.string().min(1).max(160);
 const text = z.string().max(2000);
 const schemas = {
+  "catering-settings": cateringSettingsSchema,
   ...planningSchemas,
   "vendor-favorites": z.object({ id }),
   "studio-drafts": z.object({

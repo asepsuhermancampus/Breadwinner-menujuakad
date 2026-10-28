@@ -1,7 +1,7 @@
 export const cateringCategories = [
   {
     id: "buffet",
-    label: "Buffet",
+    label: "Prasmanan",
     menus: [
       "Nasi putih",
       "Nasi goreng",

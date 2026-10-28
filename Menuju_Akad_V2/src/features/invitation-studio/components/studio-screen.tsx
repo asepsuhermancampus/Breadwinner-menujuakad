@@ -1,4 +1,5 @@
 "use client";
+import { useStudioNavigation } from "../hooks/use-studio-navigation";
 import { StudioNotice } from "./studio-notice";
 import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { useState } from "react";
@@ -16,7 +17,6 @@ import { StudioMotion } from "./studio-motion";
 import { StudioResilience } from "./studio-resilience";
 import styles from "./studio.module.css";
 import { StudioDialogs, type StudioModal } from "./studio-dialogs";
-type Panel = "sections" | "layers" | "assets" | "motion" | "resilience";
 export function StudioScreen({
   projectId = "inv-wedding-main",
   previewActive = false,
@@ -32,13 +32,11 @@ export function StudioScreen({
 }) {
   const editor = useStudioEditor(projectId, remote, workspaceId, readOnly);
   const router = useRouter();
-  const [mode, setMode] = useState<"visual" | "form">("visual");
-  const [panel, setPanel] = useState<Panel>("sections");
+  const { mode, setMode, panel, setPanel, mobile, setMobile } = useStudioNavigation();
   const [selected, setSelected] = useState("couple-title");
   const [section, setSection] = useState("cover");
   const [zoom, setZoom] = useState(125);
   const [viewport, setViewport] = useState(375);
-  const [mobile, setMobile] = useState<"content" | "canvas" | "inspector">("content");
   const [modal, setModal] = useState<StudioModal>(previewActive ? "active-preview" : null);
   const exit = () => router.push("/planner/invitations");
   if (!editor.ready)
