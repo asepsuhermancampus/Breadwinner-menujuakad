@@ -20,6 +20,18 @@ const geist = localFont({
   display: "swap",
   weight: "100 900",
 });
+const inter = localFont({
+  src: "../../public/assets/fonts/inter/variable.ttf",
+  variable: "--font-inter",
+  display: "swap",
+  weight: "100 900",
+});
+const jetbrains = localFont({
+  src: "../../public/assets/fonts/jetbrains-mono/variable.ttf",
+  variable: "--font-jetbrains",
+  display: "swap",
+  weight: "100 800",
+});
 export const metadata: Metadata = {
   title: { default: "Menuju Akad — Ruang rencana kalian", template: "%s | Menuju Akad" },
   description: "Satu ruang untuk setiap langkah menuju akad.",
@@ -27,7 +39,10 @@ export const metadata: Metadata = {
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${jakarta.variable} ${instrument.variable} ${geist.variable}`}>
+    <html
+      lang="id"
+      className={`${jakarta.variable} ${instrument.variable} ${geist.variable} ${inter.variable} ${jetbrains.variable}`}
+    >
       <body>
         <a
           href="#main-content"

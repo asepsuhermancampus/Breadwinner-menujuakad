@@ -106,7 +106,7 @@ export function VendorKybUpload({
         <a
           href={upload.preview}
           download={fileName}
-          className="flex min-h-11 items-center gap-2 text-xs font-semibold text-primary underline"
+          className="flex min-h-11 items-center gap-2 text-xs font-semibold text-brand-secondary underline"
         >
           <Icon name="download" size={14} />
           Unduh salinan PDF lokal untuk diperiksa

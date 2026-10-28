@@ -78,7 +78,7 @@ export function VendorDetailScreen({ onBack, onAddToBundle }: Props) {
       <div className="p-6 bg-surface rounded-2xl border border-border space-y-4 shadow-sm">
         <div className="flex flex-wrap justify-between items-start gap-4">
           <div>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-subtle text-primary">
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-subtle text-brand-secondary">
               Dokumentasi Foto
             </span>
             <h1 className="text-2xl font-bold text-foreground mt-2">Lensa Teduh Photo</h1>

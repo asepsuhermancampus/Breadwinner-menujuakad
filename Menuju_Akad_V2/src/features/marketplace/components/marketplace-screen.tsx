@@ -43,7 +43,7 @@ export function MarketplaceScreen({ initialVendors = [] }: Props) {
           </Button>
           <a
             href="/marketplace/bundles"
-            className="text-xs font-semibold px-3 py-2 bg-primary text-white rounded-control hover:bg-primary-hover"
+            className="text-xs font-semibold px-3 py-2 bg-primary text-on-primary rounded-control hover:bg-primary-hover"
           >
             Racik Paket (3 Jasa) →
           </a>
@@ -57,7 +57,7 @@ export function MarketplaceScreen({ initialVendors = [] }: Props) {
           onClick={() => setSelectedCategory("Semua")}
           className={`px-3 py-1.5 text-xs font-semibold rounded-full whitespace-nowrap transition-colors ${
             selectedCategory === "Semua"
-              ? "bg-primary text-white"
+              ? "bg-primary text-on-primary"
               : "bg-surface border border-border text-secondary hover:bg-subtle"
           }`}
         >
@@ -70,7 +70,7 @@ export function MarketplaceScreen({ initialVendors = [] }: Props) {
             onClick={() => setSelectedCategory(cat)}
             className={`px-3 py-1.5 text-xs font-semibold rounded-full whitespace-nowrap transition-colors ${
               selectedCategory === cat
-                ? "bg-primary text-white"
+                ? "bg-primary text-on-primary"
                 : "bg-surface border border-border text-secondary hover:bg-subtle"
             }`}
           >
@@ -88,7 +88,7 @@ export function MarketplaceScreen({ initialVendors = [] }: Props) {
           >
             <div>
               <div className="flex justify-between items-start mb-2">
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-subtle text-primary">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-subtle text-brand-secondary">
                   {vendor.category}
                 </span>
                 {vendor.isComingSoon ? (
@@ -136,7 +136,7 @@ export function MarketplaceScreen({ initialVendors = [] }: Props) {
                     ? "/marketplace/vendor/lensa-teduh"
                     : `/marketplace/vendor/${vendor.slug}`
                 }
-                className="text-xs font-semibold text-primary hover:underline"
+                className="text-xs font-semibold text-brand-secondary hover:underline"
               >
                 Lihat Detail →
               </a>

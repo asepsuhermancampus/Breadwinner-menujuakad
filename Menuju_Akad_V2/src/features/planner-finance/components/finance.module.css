@@ -33,7 +33,7 @@
   font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 500;
-  color: var(--primary);
+  color: var(--brand-secondary);
   letter-spacing: -0.5px;
 }
 .subtitle {
@@ -88,7 +88,10 @@
 }
 .tabBtnActive {
   background-color: var(--primary);
-  color: var(--canvas) !important;
+  color: var(--on-primary) !important;
+}
+.tabBtnActive:hover {
+  background-color: var(--primary-hover);
 }
 .metricsGrid {
   display: grid;
@@ -125,7 +128,7 @@
   font-family: var(--font-mono);
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .metricDetail {
   font-size: 0.75rem;
@@ -175,15 +178,11 @@
 }
 .badgeDp {
   background-color: var(--warning-bg);
-  color: var(--warning);
+  color: var(--warning-ink);
 }
 .badgeLunas {
   background-color: var(--success-bg);
-  color: var(--success);
-}
-.badgeTerjadwal {
-  background-color: var(--ux-dock);
-  color: var(--secondary);
+  color: var(--success-ink);
 }
 .drawer {
   position: fixed;

@@ -36,7 +36,7 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
             aria-selected={eventContext === "wedding"}
             className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
               eventContext === "wedding"
-                ? "bg-surface text-primary shadow-sm font-semibold"
+                ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
             onClick={() => setEventContext("wedding")}
@@ -48,7 +48,7 @@ export function OverviewScreen({ initialWedding, initialEngagement }: Props) {
             aria-selected={eventContext === "engagement"}
             className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
               eventContext === "engagement"
-                ? "bg-surface text-primary shadow-sm font-semibold"
+                ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
             onClick={() => setEventContext("engagement")}

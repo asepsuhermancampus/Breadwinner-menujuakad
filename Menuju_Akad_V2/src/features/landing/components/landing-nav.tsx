@@ -36,7 +36,7 @@ export function LandingNav() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-12">
         <Link href="/" className="flex items-center gap-3">
           <BrandLogo variant="cypress" width={36} height={17} />
-          <span className="font-sans text-xl font-semibold tracking-tight text-primary">
+          <span className="font-sans text-xl font-semibold tracking-tight text-brand-secondary">
             menuju akad<span className="text-rose">.</span>
           </span>
         </Link>
@@ -67,7 +67,7 @@ export function LandingNav() {
           ) : authenticated ? (
             <Link
               href="/dashboard"
-              className="rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-white"
+              className="rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-on-primary"
             >
               Dashboard
             </Link>
@@ -75,13 +75,13 @@ export function LandingNav() {
             <>
               <Link
                 href="/login"
-                className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
+                className="text-sm font-semibold text-brand-secondary transition-colors hover:text-primary-hover"
               >
                 Masuk
               </Link>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="inline-flex items-center gap-2 rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-on-primary shadow-sm transition hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <span>Coba dashboard gratis</span>
                 <Icon name="arrow-right" size={14} />

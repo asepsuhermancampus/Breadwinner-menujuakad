@@ -37,7 +37,7 @@ export function OverviewTab({ summary, deposits, categories, installments }: Pro
   return (
     <div className="flex flex-col gap-6">
       <div className={styles.disclaimerCard}>
-        <Icon name="shield" size={18} className="text-primary mt-0.5 shrink-0" />
+        <Icon name="shield" size={18} className="text-brand-secondary mt-0.5 shrink-0" />
         <div>
           <strong className="block font-medium text-foreground">Bukan saldo bank otomatis.</strong>
           <span>
@@ -78,7 +78,7 @@ export function OverviewTab({ summary, deposits, categories, installments }: Pro
             <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider">
               Progres Pendanaan Bersama
             </h3>
-            <span className="font-mono text-xs font-semibold text-primary">
+            <span className="font-mono text-xs font-semibold text-brand-secondary">
               {summary.fundedPercent}% dari {formatRupiah(summary.targetAmount)}
             </span>
           </div>
@@ -126,7 +126,7 @@ export function OverviewTab({ summary, deposits, categories, installments }: Pro
                 </span>
               </div>
               <div className="text-right">
-                <span className="font-mono font-semibold text-primary block">
+                <span className="font-mono font-semibold text-brand-secondary block">
                   {formatRupiah(nextInstallment.amount)}
                 </span>
                 <span className="text-[10px] uppercase font-bold text-warning bg-warning-bg px-2 py-0.5 rounded-full">

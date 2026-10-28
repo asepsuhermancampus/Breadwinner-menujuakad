@@ -12,6 +12,8 @@ export function StudioNotice({ editor }: { editor: StudioEditor }) {
           ? "Menyimpan draf pada akun..."
           : "Draf tersimpan pada akun."
         : editor.state.notice);
+  if (text === "Draf tersimpan di browser ini." || text === "Draf tersimpan pada akun.")
+    return null;
   return (
     <div
       role="status"

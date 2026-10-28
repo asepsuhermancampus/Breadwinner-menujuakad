@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CatalogQuoteRequest } from "./catalog-quote-request";
+import { PageHeading } from "@/components/ui/page-heading";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 import type { CatalogVendor } from "../types/customer-catalog";
 import { CatalogVendorForm } from "./catalog-vendor-form";
 type State = { data: unknown[] | null; error: string; save: (data: unknown[]) => Promise<boolean> };
@@ -19,8 +22,9 @@ export function Catalog({
   operator: boolean;
   favorites: boolean;
 }) {
+  const pathname = usePathname();
+  const orderPage = pathname === "/marketplace/bundles" || pathname === "/checkout/services";
   const router = useRouter(),
-    [message, setMessage] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [edit, setEdit] = useState<CatalogVendor | null | undefined>(undefined);
@@ -29,22 +33,27 @@ export function Catalog({
   return (
     <section className="space-y-5">
       <header className="flex flex-wrap justify-between gap-3">
-        <h1 className="text-3xl font-semibold">
-          {favorites ? "Vendor pilihan" : "Marketplace vendor"}
-        </h1>
+        <PageHeading
+          key={pathname}
+          title={
+            orderPage
+              ? pathname === "/checkout/services"
+                ? "Checkout jasa"
+                : "Rangkai paket"
+              : favorites
+                ? "Vendor pilihan"
+                : "Marketplace vendor"
+          }
+          description={
+            orderPage
+              ? "Susun vendor pilihan dan kirim kebutuhan acara untuk mendapatkan penawaran."
+              : favorites
+                ? "Kelola vendor pilihan kalian dan rangkai kebutuhan acara."
+                : "Temukan vendor untuk kebutuhan acara dan simpan pilihan kalian."
+          }
+        />
         {operator && <Button onClick={() => setEdit(null)}>Tambah vendor</Button>}
       </header>
-      <nav className="flex gap-5 text-sm">
-        <Link href="/marketplace" className="underline">
-          Semua vendor
-        </Link>
-        <Link href="/marketplace/favorites" className="underline">
-          Pilihan kalian
-        </Link>
-        <Link href="/marketplace/bundles" className="underline">
-          Rangkai paket
-        </Link>
-      </nav>
       {edit !== undefined && (
         <CatalogVendorForm
           key={edit?.id ?? "new"}
@@ -57,7 +66,9 @@ export function Catalog({
           {error || state.error}
         </p>
       )}
-      {vendors.length === 0 ? (
+      {state.data === null ? (
+        !(error || state.error) && <PageSkeleton variant="cards" label="Memuat vendor pilihan" />
+      ) : vendors.length === 0 ? (
         <p className="rounded-card border border-ux-border bg-surface p-6">
           Belum ada vendor terdaftar. Katalog menampilkan vendor yang ditambahkan pengelola.
         </p>
@@ -125,58 +136,7 @@ export function Catalog({
             ))}
         </div>
       )}
-      {items.length > 0 && (
-        <form
-          className="grid gap-3 rounded-card border border-ux-border p-5"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            if (busy || guest) return;
-            setBusy(true);
-            try {
-              const res = await fetch("/api/marketplace/requests", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ vendorIds: items.map((i) => i.id), message }),
-              });
-              const b = await res.json();
-              if (!res.ok) throw Error(b.error ?? "Permintaan belum tersimpan.");
-              router.push("/orders/" + b.order.id);
-            } catch (e) {
-              setError(e instanceof Error ? e.message : "Permintaan gagal.");
-            } finally {
-              setBusy(false);
-            }
-          }}
-        >
-          <h2 className="font-semibold">Rencana paket kalian</h2>
-          <p>
-            {items.length} vendor / estimasi Rp{" "}
-            {items.reduce((n, v) => n + v.price, 0).toLocaleString("id-ID")}
-          </p>
-          <label className="grid gap-1 text-sm">
-            Kebutuhan acara
-            <textarea
-              maxLength={2000}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="rounded-control border border-ux-border bg-canvas p-3"
-            />
-          </label>
-          <p className="text-xs text-secondary">
-            Permintaan ini disimpan untuk tindak lanjut pengelola. Harga dan jadwal perlu
-            dikonfirmasi sebelum ada pembayaran.
-          </p>
-          {guest ? (
-            <Link href="/login?returnTo=%2Fmarketplace%2Fbundles" className="underline">
-              Masuk untuk meminta penawaran
-            </Link>
-          ) : (
-            <Button type="submit" disabled={busy}>
-              Kirim permintaan penawaran
-            </Button>
-          )}
-        </form>
-      )}
+      {items.length > 0 && <CatalogQuoteRequest items={items} guest={guest} />}
     </section>
   );
 }

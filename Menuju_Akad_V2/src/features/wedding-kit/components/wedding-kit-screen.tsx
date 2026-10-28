@@ -22,7 +22,7 @@ export function WeddingKitScreen({ initialSections }: Props) {
     <main id="main-content" className={styles.container}>
       <header>
         <div className="flex items-center gap-2.5">
-          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
             Wedding Kit
           </h1>
           <span className="rounded-full bg-champagne/15 border border-champagne/30 px-2.5 py-0.5 text-xs font-semibold text-ux-gold-ink">
@@ -50,7 +50,9 @@ export function WeddingKitScreen({ initialSections }: Props) {
       <div className={styles.sectionsGrid}>
         <section className={styles.panel} aria-labelledby="section-title">
           <div>
-            <span className="text-xs text-primary font-semibold">Termasuk dalam Premium</span>
+            <span className="text-xs text-brand-secondary font-semibold">
+              Termasuk dalam Premium
+            </span>
             <h2 id="section-title" className="text-base font-semibold text-foreground mt-0.5">
               Apa yang ingin disertakan?
             </h2>
@@ -67,14 +69,14 @@ export function WeddingKitScreen({ initialSections }: Props) {
                   type="checkbox"
                   checked={section.selected}
                   onChange={() => handleToggle(section.id)}
-                  className="size-4 cursor-pointer rounded border-border text-primary focus:ring-primary"
+                  className="size-4 cursor-pointer rounded border-border text-brand-secondary focus:ring-primary"
                 />
               </label>
             ))}
           </div>
 
           <div className="rounded-control bg-subtle p-3 text-xs text-secondary flex items-start gap-2">
-            <Icon name="shield" size={16} className="text-primary mt-0.5 shrink-0" />
+            <Icon name="shield" size={16} className="text-brand-secondary mt-0.5 shrink-0" />
             <span>
               Salinan KTP, KK, dan dokumen pribadi tidak pernah ikut diekspor. Periksa daftar kontak
               sebelum membagikan PDF.
@@ -99,7 +101,9 @@ export function WeddingKitScreen({ initialSections }: Props) {
           <div className={styles.previewDoc}>
             <div className="border-b border-border pb-3 flex justify-between items-end">
               <div>
-                <span className="font-serif text-xl font-bold text-primary">menuju akad</span>
+                <span className="font-serif text-xl font-bold text-brand-secondary">
+                  menuju akad
+                </span>
                 <p className="text-xs text-secondary">Wedding Kit Ringkasan Koordinasi</p>
               </div>
               <span className="text-[10px] font-mono text-muted uppercase">HALAMAN 1 DARI 6</span>
@@ -117,7 +121,7 @@ export function WeddingKitScreen({ initialSections }: Props) {
                   .filter((s) => s.selected)
                   .map((s) => (
                     <div key={s.id} className="flex items-center gap-2 text-secondary">
-                      <span className="text-primary font-bold">✓</span>
+                      <span className="text-brand-secondary font-bold">✓</span>
                       <span>
                         {s.name} ({s.detail})
                       </span>

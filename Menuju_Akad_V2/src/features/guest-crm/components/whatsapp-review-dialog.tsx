@@ -86,7 +86,9 @@ export function WhatsappReviewDialog({
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Penerima Siap Kirim</span>
-            <span className="font-semibold text-primary">{snapshot.eligibleCount} undangan</span>
+            <span className="font-semibold text-brand-secondary">
+              {snapshot.eligibleCount} undangan
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Kuota Pesan Terpakai</span>

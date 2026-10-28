@@ -51,13 +51,13 @@ export function OperationsShell(props: Props) {
   };
   return (
     <div
-      className={`grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-3 bg-ux-shell p-2 lg:p-3 ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[240px_minmax(0,1fr)]"}`}
+      className={`app-frame grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-0 bg-ux-shell p-2 lg:p-3 ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[240px_minmax(0,1fr)]"}`}
     >
       <aside className="hidden min-w-0 lg:block">
         <OperationsDock {...dockProps} compact={compact} onToggle={() => setCompact(!compact)} />
       </aside>
-      <div className="min-w-0 overflow-clip rounded-shell border border-ux-border bg-surface">
-        <header className="flex min-h-[76px] flex-wrap items-center gap-4 border-b border-ux-border bg-canvas px-4 py-3 sm:px-6">
+      <div className="min-w-0 overflow-clip rounded-[10px] border border-control-border bg-surface lg:rounded-l-none lg:border-l-0">
+        <header className="flex min-h-[76px] flex-wrap items-center gap-4 border-b border-control-border bg-surface px-4 py-3 sm:px-6">
           <Button
             variant="ghost"
             size="icon"
@@ -129,7 +129,7 @@ export function OperationsShell(props: Props) {
           </p>
           <Link
             href="/dev/operations"
-            className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-primary"
+            className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-brand-secondary"
           >
             Kembali ke galeri internal →
           </Link>

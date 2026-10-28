@@ -1,0 +1,36 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.tabs button,
+.tabs span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+}
+.tabs button {
+  color: var(--secondary);
+  cursor: pointer;
+}
+.tabs button:hover {
+  background: var(--subtle);
+  color: var(--foreground);
+}
+.tabs button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.tabs [aria-current="page"] {
+  background: var(--primary);
+  color: var(--on-primary);
+}

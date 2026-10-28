@@ -6,6 +6,7 @@ import { Field } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { commands } from "../config/navigation";
+import styles from "./workspace-header.module.css";
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -24,15 +25,16 @@ export function CommandPalette() {
     <>
       <Button
         variant="secondary"
+        className={styles.searchTrigger}
         aria-label="Cari halaman, Ctrl atau Command K"
         onClick={() => {
           setQuery("");
           setOpen(true);
         }}
       >
-        <Icon name="search" />
-        <span className="hidden lg:inline">Cari</span>
-        <kbd className="font-mono text-xs">⌘K</kbd>
+        <Icon name="search" size={16} />
+        <span className={styles.searchLabel}>Cari</span>
+        <kbd className={styles.searchShortcut}>⌘K</kbd>
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)} title="Mau ke mana?">
         <Field

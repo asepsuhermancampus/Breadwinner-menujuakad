@@ -11,11 +11,13 @@ import {
 import type { TrialResourceKind, TrialSnapshot } from "../types";
 import { createTrialStore, TRIAL_KEY, TRIAL_LOCK } from "../storage/trial-store";
 import { TrialNotice } from "./trial-notice";
+import type { FinanceRequest } from "@/features/planner-finance/types/finance-ledger";
 type Context = {
   snapshot: TrialSnapshot | null;
   error: string;
   consumeExport: () => Promise<boolean>;
   save: (kind: TrialResourceKind, data: unknown[], revision: number) => Promise<boolean>;
+  finance: (request: FinanceRequest) => Promise<boolean>;
 };
 const TrialContext = createContext<Context | null>(null);
 export const useTrial = () => useContext(TrialContext);
@@ -71,6 +73,19 @@ export function TrialProvider({ children }: { children: ReactNode }) {
     if (result.reason === "conflict") setSnapshot(store.current.read());
     return false;
   }, []);
+  const finance = async (request: FinanceRequest) => {
+    if (!store.current) return false;
+    const result = await store.current.finance(request);
+    if (result.ok) {
+      setSnapshot(result.snapshot);
+      setError("");
+      return true;
+    }
+    setError(result.message);
+    if (result.reason === "limit") setLimit(true);
+    if (result.reason === "conflict") setSnapshot(store.current.read());
+    return false;
+  };
   const consumeExport = async () => {
     if (!store.current || !snapshot) return false;
     const result = await store.current.consumeExport(snapshot.revision);
@@ -84,7 +99,7 @@ export function TrialProvider({ children }: { children: ReactNode }) {
     return false;
   };
   return (
-    <TrialContext value={{ snapshot, error, save, consumeExport }}>
+    <TrialContext value={{ snapshot, error, save, finance, consumeExport }}>
       <TrialNotice snapshot={snapshot} error={error} limit={limit} close={() => setLimit(false)} />
       {children}
     </TrialContext>

@@ -93,11 +93,11 @@ export function TransferModalDialog({
             <strong className="text-foreground">Pratinjau setelah dicatat:</strong>
             <span>
               {fromAcc?.bank}: {formatRupiah(fromAcc?.currentBalance || 0)} →{" "}
-              <strong className="text-primary font-mono">
+              <strong className="text-brand-secondary font-mono">
                 {formatRupiah(sim.accounts.find((a) => a.id === fromAcc?.id)?.currentBalance || 0)}
               </strong>
               . {toAcc?.bank}: {formatRupiah(toAcc?.currentBalance || 0)} →{" "}
-              <strong className="text-primary font-mono">
+              <strong className="text-brand-secondary font-mono">
                 {formatRupiah(sim.accounts.find((a) => a.id === toAcc?.id)?.currentBalance || 0)}
               </strong>
               . Total dana acara tetap {formatRupiah(totalCash)}.

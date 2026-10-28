@@ -18,5 +18,6 @@ export default async function AuthPage({
     if (query.error && query.error.length <= 80) destination.set("error", query.error);
     redirect(`/login${destination.size ? `?${destination}` : ""}`);
   }
-  return <CustomerAuth mode={mode} />;
+  const query = await searchParams;
+  return <CustomerAuth mode={mode} initialReturnTo={safeReturnTo(query.returnTo ?? null)} />;
 }

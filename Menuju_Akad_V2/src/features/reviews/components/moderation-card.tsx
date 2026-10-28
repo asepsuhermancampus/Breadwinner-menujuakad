@@ -25,7 +25,7 @@ export function ModerationCard({
     <article className="min-w-0 rounded-card border border-ux-border bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="break-words font-semibold text-primary">{review.name}</h2>
+          <h2 className="break-words font-semibold text-brand-secondary">{review.name}</h2>
           <div className="mt-2">
             <ReviewStars rating={review.rating} />
           </div>

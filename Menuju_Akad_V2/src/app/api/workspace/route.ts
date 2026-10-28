@@ -7,6 +7,10 @@ import {
 } from "@/server/payments/http";
 import { readBoundedJson } from "@/server/payments/checkout-request";
 import { activeWorkspace } from "@/server/workspaces/active-workspace";
+import {
+  MAX_PROFILE_CHANGES_BODY,
+  saveProfileChanges,
+} from "@/server/workspaces/save-profile-changes";
 export const runtime = "nodejs";
 export async function GET(req: Request) {
   const auth = await requireAuthOwner(req);
@@ -23,13 +27,13 @@ export async function PATCH(req: Request) {
   const auth = await requireAuthOwner(req);
   if ("errorResponse" in auth) return auth.errorResponse;
   try {
-    const body = await readBoundedJson(req);
-    if (Object.keys(body).some((key) => !["fullName", "partnerName"].includes(key)))
-      return jsonResponse({ error: "Profil tidak valid" }, 400);
+    const body = await readBoundedJson(req, MAX_PROFILE_CHANGES_BODY);
     return jsonResponse({
-      workspace: getWorkspaceService().saveProfile(
+      workspace: await saveProfileChanges(
+        getWorkspaceService(),
         auth.owner,
-        body as unknown as { fullName: string; partnerName: string | null },
+        (await activeWorkspace(auth.owner)).id,
+        body,
       ),
     });
   } catch (cause) {

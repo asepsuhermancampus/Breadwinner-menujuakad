@@ -1,6 +1,5 @@
 import { notFound, redirect } from "next/navigation";
 import { dashboardContext } from "@/app/_components/dashboard-context";
-import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { JoinWorkspace } from "@/features/customer-workspace/components/join-workspace";
 export const dynamic = "force-dynamic";
 export default async function JoinPage({ params }: { params: Promise<{ token: string }> }) {
@@ -8,9 +7,5 @@ export default async function JoinPage({ params }: { params: Promise<{ token: st
   if (!/^[a-f0-9]{64}$/.test(token)) notFound();
   const access = await dashboardContext();
   if (access.mode === "guest") redirect("/login?returnTo=" + encodeURIComponent("/join/" + token));
-  return (
-    <CustomerShell access={access}>
-      <JoinWorkspace token={token} />
-    </CustomerShell>
-  );
+  return <JoinWorkspace token={token} />;
 }

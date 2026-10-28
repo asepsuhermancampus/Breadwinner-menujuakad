@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cateringMenuSchema, cateringCost } from "./catering-menu";
 const text = z.string().trim().min(1).max(160),
   notes = z.string().max(2000).optional();
 const base = { id: text, title: text, notes };
@@ -31,7 +32,7 @@ export const planningSchemas = {
     phone: z.string().max(80).optional(),
     completed: z.boolean().optional(),
   }),
-  catering: z.object({ ...base, portions: count, unitCost: amount }),
+  catering: cateringMenuSchema,
 };
 export type PlanningKind = keyof typeof planningSchemas;
 export type PlanningItem = z.infer<(typeof planningSchemas)[PlanningKind]>;
@@ -40,7 +41,7 @@ export function planningTotal(kind: PlanningKind, items: PlanningItem[]): number
     (sum, item) =>
       sum +
       (kind === "catering" && "portions" in item
-        ? item.portions * item.unitCost
+        ? cateringCost(item)
         : kind === "seserahan" && "quantity" in item
           ? item.quantity * item.unitCost
           : 0),

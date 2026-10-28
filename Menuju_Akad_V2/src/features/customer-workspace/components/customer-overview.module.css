@@ -8,9 +8,7 @@
   gap: 24px;
 }
 .tasks {
-  border: 1px solid var(--ux-border);
-  border-radius: 16px;
-  padding: 24px;
+  padding: 8px 0;
   display: grid;
   gap: 18px;
   align-content: start;
@@ -27,7 +25,7 @@
 }
 .sectionHeading a {
   font-size: 12px;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .task {
   min-height: 60px;
@@ -53,10 +51,10 @@
   text-align: right;
 }
 .addTask {
-  color: var(--primary);
+  color: var(--brand-secondary);
   font-size: 12px;
   width: fit-content;
-  min-height: 44px;
+  min-height: 36px;
   display: flex;
   align-items: center;
 }
@@ -66,8 +64,8 @@
   gap: 18px;
 }
 .agenda {
-  background: var(--ux-dock);
-  border-radius: 16px;
+  background: var(--ux-soft);
+  border-radius: 0;
   padding: 24px;
   display: grid;
   gap: 16px;
@@ -84,7 +82,7 @@
   flex-shrink: 0;
   display: grid;
   gap: 5px;
-  font-family: var(--font-geist), monospace;
+  font-family: var(--font-jetbrains), monospace;
   font-size: 11px;
 }
 .appointment h3 {
@@ -98,17 +96,17 @@
 }
 .reminder {
   background: var(--warning-bg);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 16px;
   display: flex;
   gap: 10px;
-  color: var(--warning);
+  color: var(--warning-ink);
   font-size: 12px;
 }
 .quickLinks {
   background: var(--canvas);
   border: 1px solid var(--ux-border);
-  border-radius: 16px;
+  border-radius: 0;
   padding: 18px 20px;
   display: flex;
   gap: 14px;
@@ -118,7 +116,7 @@
   flex: 1;
 }
 .quickLinks h2 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 .quickLinks p {
@@ -127,14 +125,14 @@
   margin-top: 6px;
 }
 .quickLinks a {
-  min-height: 48px;
-  padding: 12px 20px;
+  min-height: 36px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
   background: var(--surface);
   border: 1px solid var(--ux-control-border);
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 .activity {
@@ -146,11 +144,14 @@
   font-size: 12px;
 }
 .activity a {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
   background: var(--primary);
-  color: white;
-  padding: 14px 20px;
+  color: var(--on-primary);
+  padding: 6px 12px;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 .empty {

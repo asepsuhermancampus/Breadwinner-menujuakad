@@ -64,7 +64,7 @@ export function ExpensesTab({
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Bukti Tersimpan</span>
-          <span className="font-mono text-2xl font-semibold text-primary mt-1">
+          <span className="font-mono text-2xl font-semibold text-brand-secondary mt-1">
             {expenses.filter((e) => e.proofName).length} Dokumen
           </span>
           <span className="text-xs text-secondary">Kuitansi / invoice terverifikasi</span>
@@ -92,7 +92,7 @@ export function ExpensesTab({
                 type="button"
                 className={`px-2.5 py-1 text-xs rounded-control transition-colors ${
                   selectedCategory === c
-                    ? "bg-primary text-canvas font-semibold"
+                    ? "bg-primary text-on-primary font-semibold"
                     : "bg-ux-dock text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setSelectedCategory(c)}
@@ -124,7 +124,9 @@ export function ExpensesTab({
                 title="Klik untuk melihat detail & bukti audit"
               >
                 <td>
-                  <span className="font-mono text-xs font-semibold text-primary block">{e.id}</span>
+                  <span className="font-mono text-xs font-semibold text-brand-secondary block">
+                    {e.id}
+                  </span>
                   <span className="text-xs text-secondary">{e.date}</span>
                 </td>
                 <td className="font-medium text-foreground">{e.title}</td>
@@ -137,7 +139,7 @@ export function ExpensesTab({
                   <span
                     className={`inline-block text-[11px] px-2 py-0.5 rounded-full ${
                       e.fundingScope === "event_fund"
-                        ? "bg-primary/10 text-primary font-medium"
+                        ? "bg-primary/10 text-brand-secondary font-medium"
                         : "bg-ux-dock text-secondary"
                     }`}
                   >

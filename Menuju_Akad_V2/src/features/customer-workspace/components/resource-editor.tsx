@@ -6,8 +6,10 @@ import { MoodboardScreen } from "@/features/moodboards/components/moodboard-scre
 import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { GuestInvitation } from "@/features/guest-crm/types/guest";
 import type { MoodboardItem } from "@/features/moodboards/types/moodboard";
-import { CustomerNotes } from "./customer-notes";
+import { DocumentChecklistScreen } from "@/features/kua-documents/components/document-checklist-screen";
+import type { DocumentItem } from "@/features/kua-documents/domain/document-template";
 import { useCustomerEvent } from "./customer-event-context";
+import { ResourceLoading } from "./resource-loading";
 import {
   CustomerFinance,
   type CustomerBudget,
@@ -30,17 +32,12 @@ export function ResourceEditor({
   const event = useCustomerEvent();
   return (
     <>
-      <div role="status" className="text-xs text-secondary">
-        {state.saving
-          ? "Menyimpan perubahan…"
-          : state.error
-            ? "Perubahan belum aman tersimpan."
-            : state.data
-              ? trial
-                ? "Data tersimpan di browser ini."
-                : "Data akun tersimpan."
-              : "Memuat data akun…"}
-      </div>
+      {state.saving && (
+        <p role="status" className="sr-only">
+          Menyimpan perubahan…
+        </p>
+      )}
+      {!state.data && !state.error && <ResourceLoading kind={kind} />}
       {state.error && (
         <p role="alert" className="rounded-card border border-danger/30 p-3 text-sm text-danger">
           {state.error}{" "}
@@ -76,13 +73,7 @@ export function ResourceEditor({
           ) : kind === "finance" ? (
             <CustomerFinance initial={state.data as CustomerBudget[]} onChange={state.save} />
           ) : (
-            <CustomerNotes
-              initial={
-                state.data as { id: string; title: string; amount?: number; completed?: boolean }[]
-              }
-              finance={false}
-              onChange={state.save}
-            />
+            <DocumentChecklistScreen initial={state.data as DocumentItem[]} onChange={state.save} />
           )}
         </div>
       )}

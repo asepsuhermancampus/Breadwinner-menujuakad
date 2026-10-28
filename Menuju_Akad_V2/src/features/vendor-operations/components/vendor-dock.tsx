@@ -27,7 +27,7 @@ export function VendorDock({ view, compact, onNavigate, onUnavailable, onToggle 
         {!compact && (
           <>
             <BrandLogo width={32} height={16} className="h-auto shrink-0" />
-            <span className="flex-1 text-sm font-semibold text-primary">menuju akad</span>
+            <span className="flex-1 text-sm font-semibold text-brand-secondary">menuju akad</span>
           </>
         )}
         <button
@@ -39,12 +39,12 @@ export function VendorDock({ view, compact, onNavigate, onUnavailable, onToggle 
         </button>
       </div>
       {!compact && (
-        <div className="grid gap-3 rounded-control bg-primary p-3.5 text-white">
+        <div className="grid gap-3 rounded-control bg-ux-soft p-3.5 text-foreground">
           <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.16em]">
             <Icon name="store" size={16} /> MITRA VENDOR
           </p>
           <p className="text-base font-semibold">Kalyana Photography</p>
-          <p className="text-xs text-white/80">Photography & Cinema</p>
+          <p className="text-xs text-secondary">Photography & Cinema</p>
         </div>
       )}
       <nav aria-label="Navigasi vendor" className="grid gap-1.5">
@@ -58,7 +58,7 @@ export function VendorDock({ view, compact, onNavigate, onUnavailable, onToggle 
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex min-h-12 items-center gap-2.5 rounded-control px-3 text-left text-xs",
-                active ? "bg-primary text-white" : "text-secondary hover:bg-subtle",
+                active ? "bg-nav-active text-foreground" : "text-secondary hover:bg-subtle",
               )}
               onClick={() => (item.view ? onNavigate(item.view) : onUnavailable(item.label))}
             >
@@ -71,7 +71,7 @@ export function VendorDock({ view, compact, onNavigate, onUnavailable, onToggle 
       <div className="flex-1" />
       {!compact && (
         <div className="grid gap-2 rounded-control border border-ux-border bg-canvas p-3 text-xs">
-          <p className="font-medium text-primary">Sandbox · Preset 3</p>
+          <p className="font-medium text-brand-secondary">Sandbox · Preset 3</p>
           <p className="text-secondary">Pratinjau, bukan rilis produksi</p>
         </div>
       )}

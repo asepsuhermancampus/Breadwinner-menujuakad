@@ -1,0 +1,83 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 16px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.tabs,
+.suggestions,
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.tabs > button {
+  flex: 1;
+}
+.label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.control {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  color: var(--foreground);
+  border-radius: 0;
+  font-size: 13px;
+}
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.hint {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--secondary);
+}
+.estimate {
+  padding: 12px;
+  background: var(--nav-active);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--brand-secondary);
+}
+.picker,
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--ux-border);
+  padding: 14px;
+  min-width: 0;
+}
+.menu > .row {
+  justify-content: space-between;
+  font-size: 13px;
+}
+.suggestions button {
+  white-space: normal;
+  text-align: left;
+}
+.total {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding-block: 12px;
+  border-top: 1px solid var(--ux-border);
+  font-size: 13px;
+}
+@media (max-width: 600px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

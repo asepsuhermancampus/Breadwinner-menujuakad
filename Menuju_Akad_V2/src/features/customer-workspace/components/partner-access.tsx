@@ -1,122 +1,116 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-export function PartnerAccess({ partner }: { partner: boolean }) {
-  const [workspaces, setWorkspaces] = useState<{ id: string; name: string; role: string }[]>([]);
-  useEffect(() => {
-    const abort = new AbortController();
-    void fetch("/api/workspace/partner", { signal: abort.signal, cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((b: { workspaces?: typeof workspaces } | null) => {
-        if (!abort.signal.aborted) setWorkspaces(b?.workspaces ?? []);
-      })
-      .catch(() => {});
-    return () => abort.abort();
-  }, [partner]);
-  const router = useRouter(),
-    [token, setToken] = useState(""),
-    [invite, setInvite] = useState("");
-  const [message, setMessage] = useState(""),
-    [pending, setPending] = useState(false);
-  async function act(action: string, workspaceId?: string) {
+import type { CustomerWorkspace } from "../types";
+import styles from "./partner-access.module.css";
+import { sharePartnerLink } from "../domain/share-partner-link";
+export function PartnerAccess({ workspace }: { workspace: CustomerWorkspace }) {
+  const router = useRouter();
+  const [invite, setInvite] = useState(""),
+    [message, setMessage] = useState("");
+  const [pending, setPending] = useState(false),
+    [error, setError] = useState("");
+  const status = workspace.partnerAccess?.state ?? "locked";
+  const partner = workspace.role === "partner",
+    connected = status === "connected";
+  async function act(action: "invite" | "revoke") {
+    if (pending) return;
     setPending(true);
+    setError("");
     setMessage("");
     try {
       const response = await fetch("/api/workspace/partner", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, token, workspaceId }),
+        body: JSON.stringify({ action }),
         signal: AbortSignal.timeout(15000),
       });
       const body = (await response.json()) as { token?: string; error?: string };
-      if (!response.ok) throw new Error(body.error ?? "Permintaan pasangan gagal");
+      if (!response.ok) throw new Error(body.error ?? "Perubahan akses belum tersimpan.");
       if (body.token) {
-        setInvite(body.token);
-        setMessage(
-          "Kode berlaku 24 jam dan hanya dapat dipakai sekali. Pasangan masuk dengan Google lalu menempelkan kode di bagian ini.",
-        );
+        const link = new URL(`/join/${body.token}`, window.location.origin).href;
+        setInvite(link);
+        setMessage(await sharePartnerLink(link));
       } else {
-        setMessage(action === "revoke" ? "Akses pasangan dicabut." : "Workspace diperbarui.");
-        router.refresh();
+        setInvite("");
+        setMessage(
+          "Akses dicabut. Profil pasangan kembali terkunci; riwayat keuangan tetap tersimpan.",
+        );
       }
+      router.refresh();
+      window.dispatchEvent(new Event("workspace:membership-changed"));
     } catch (cause) {
-      setMessage(cause instanceof Error ? cause.message : "Permintaan pasangan gagal");
+      setError(cause instanceof Error ? cause.message : "Perubahan akses belum tersimpan.");
     } finally {
       setPending(false);
     }
   }
   return (
-    <section className="space-y-4 rounded-card border border-ux-border bg-surface p-6">
-      <h2 className="font-semibold">Workspace untuk berdua</h2>
-      {workspaces
-        .filter((w) => w.role === "partner")
-        .map((w) => (
-          <Button
-            key={w.id}
-            variant="secondary"
-            disabled={pending}
-            onClick={() => void act("select", w.id)}
-          >
-            Buka ruang pasangan · {w.name}
-          </Button>
-        ))}
+    <section className={styles.panel} aria-label="Workspace untuk berdua">
+      <div className={styles.heading}>
+        <h3>Workspace untuk berdua</h3>
+        <p>
+          {connected
+            ? "Kalian terhubung dalam satu ruang perencanaan."
+            : "Undang pasangan melalui tautan untuk melengkapi profil dan merencanakan bersama."}
+        </p>
+      </div>
+      <p className={styles.accessStatus}>
+        {connected
+          ? "Pasangan terhubung"
+          : status === "invited"
+            ? "Menunggu pasangan bergabung"
+            : "Pasangan belum terhubung"}
+      </p>
       {partner ? (
         <>
-          <p className="text-sm text-secondary">
-            Kalian sedang membuka workspace bersama pasangan.
+          <p className={styles.description}>
+            Kalian dapat mengelola rencana bersama dan menambah atau mengurangi tabungan milik
+            sendiri.
           </p>
-          <Button disabled={pending} onClick={() => void act("own")}>
-            Buka workspace pribadi
-          </Button>
         </>
       ) : (
         <>
-          <div className="flex flex-wrap gap-3">
-            <Button disabled={pending} onClick={() => void act("invite")}>
-              Buat kode undangan pasangan
-            </Button>
-            <Button variant="secondary" disabled={pending} onClick={() => void act("revoke")}>
-              Cabut akses pasangan
+          <div className={styles.actions}>
+            <Button
+              variant={connected ? "danger" : "primary"}
+              disabled={pending}
+              onClick={() => void act(connected ? "revoke" : "invite")}
+            >
+              {pending
+                ? "Memproses..."
+                : connected
+                  ? "Cabut akses pasangan"
+                  : "Bagikan undangan pasangan"}
             </Button>
           </div>
-          {invite && (
-            <label className="grid gap-2 text-sm">
-              Kode undangan
-              <textarea
-                readOnly
-                value={invite}
-                className="rounded-control border border-ux-border p-3 font-mono text-xs"
-              />
-            </label>
+          {invite && !connected && (
+            <div className={styles.invitation}>
+              <label className={styles.field}>
+                Tautan undangan
+                <textarea readOnly rows={3} className={styles.code} value={invite} />
+              </label>
+              <p className={styles.description}>
+                Tautan berlaku 24 jam dan hanya dapat dipakai sekali.
+              </p>
+            </div>
           )}
-          <form
-            className="grid gap-3"
-            onSubmit={(event) => {
-              event.preventDefault();
-              void act("accept");
-            }}
-          >
-            <label className="grid gap-1 text-sm">
-              Punya kode dari pasangan?
-              <input
-                required
-                minLength={64}
-                maxLength={64}
-                value={token}
-                onChange={(e) => setToken(e.target.value.trim())}
-                className="rounded-control border border-ux-border p-3 font-mono text-xs"
-              />
-            </label>
-            <Button type="submit" variant="secondary" disabled={pending}>
-              Gabung workspace pasangan
-            </Button>
-          </form>
+          {status === "invited" && !invite && (
+            <p className={styles.description}>
+              Bagikan undangan agar pasangan dapat melengkapi profil dan bergabung.
+            </p>
+          )}
         </>
       )}
-      {message && (
-        <p role="status" className="text-sm">
+      {message && !connected && (
+        <p role="status" className={styles.message}>
           {message}
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="text-xs text-danger">
+          {error}
         </p>
       )}
     </section>

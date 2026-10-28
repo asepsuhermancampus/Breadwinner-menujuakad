@@ -27,7 +27,7 @@ export function CalendarScreen({ initialEvents }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+        <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
           Kalender koordinasi
         </h1>
         <p className="text-sm text-secondary">
@@ -62,9 +62,9 @@ export function CalendarScreen({ initialEvents }: Props) {
                 key={mode}
                 role="tab"
                 aria-selected={viewMode === mode}
-                className={`rounded-control px-3.5 py-1 text-xs font-medium transition ${
+                className={`customer-control rounded-control px-3.5 py-1 text-xs font-medium transition ${
                   viewMode === mode
-                    ? "bg-surface text-primary shadow-sm font-semibold"
+                    ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                     : "text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setViewMode(mode)}
@@ -90,7 +90,7 @@ export function CalendarScreen({ initialEvents }: Props) {
               <span
                 className={`${styles.dayNum} ${
                   cell.dateStr === "2026-10-25"
-                    ? "font-bold text-primary underline"
+                    ? "font-bold text-brand-secondary underline"
                     : !cell.isCurrentMonth
                       ? "text-muted"
                       : ""
@@ -108,7 +108,7 @@ export function CalendarScreen({ initialEvents }: Props) {
                       ? "bg-champagne/20 text-foreground"
                       : evt.type === "deadline"
                         ? "bg-rose/15 text-rose"
-                        : "bg-primary/10 text-primary"
+                        : "bg-primary/10 text-brand-secondary"
                   }`}
                 >
                   <span className="block font-mono text-[9px]">{evt.time}</span>
@@ -122,7 +122,7 @@ export function CalendarScreen({ initialEvents }: Props) {
 
       {selectedEvent && (
         <div
-          className="rounded-card border border-border bg-surface p-4 flex flex-wrap items-center justify-between gap-4"
+          className="rounded-none border border-border bg-surface p-4 flex flex-wrap items-center justify-between gap-4"
           role="region"
           aria-label="Detail janji temu terpilih"
         >
@@ -137,7 +137,7 @@ export function CalendarScreen({ initialEvents }: Props) {
           </div>
           <button
             onClick={() => setSelectedEvent(null)}
-            className="text-xs text-secondary hover:text-foreground"
+            className="customer-control text-xs text-secondary hover:text-foreground"
           >
             Tutup rincian ✕
           </button>

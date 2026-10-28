@@ -1,17 +1,13 @@
 import { planningSchemas } from "@/features/customer-planning/domain/planning-resource";
+import { documentSchema } from "@/features/kua-documents/domain/document-schema";
+import { customerBudgetSchema } from "@/features/planner-finance/domain/customer-budget-schema";
+import { financeBookSchema } from "@/features/planner-finance/domain/finance-ledger";
 import { validGuestIntegrity } from "@/features/guest-crm/utils/guest-integrity";
 import { isStudioDocument } from "@/features/invitation-studio/domain/editor-storage";
 import { z } from "zod";
 import type { TrialResourceKind } from "../types";
 const id = z.string().min(1).max(160);
 const text = z.string().max(2000);
-const note = z.object({
-  id,
-  title: text,
-  completed: z.boolean().optional(),
-  amount: z.number().int().min(0).max(1e12).optional(),
-  notes: text.optional(),
-});
 const schemas = {
   ...planningSchemas,
   "vendor-favorites": z.object({ id }),
@@ -51,8 +47,9 @@ const schemas = {
       followUpNote: text.optional(),
     })
     .passthrough(),
-  documents: note,
-  finance: note,
+  documents: documentSchema,
+  finance: customerBudgetSchema,
+  savings: financeBookSchema,
   moodboard: z.object({
     id,
     title: text,

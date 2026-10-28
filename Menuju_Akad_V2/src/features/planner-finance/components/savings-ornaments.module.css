@@ -1,0 +1,11 @@
+.summary,
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.summary > :not([data-finance-ornament]),
+.card > :not([data-finance-ornament]) {
+  position: relative;
+  z-index: 1;
+}

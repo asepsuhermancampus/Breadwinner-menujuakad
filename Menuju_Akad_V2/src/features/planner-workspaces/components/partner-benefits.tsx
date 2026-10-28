@@ -16,7 +16,7 @@ export function PartnerBenefits() {
       </h2>
       {benefits.map(([icon, title, description]) => (
         <div key={title} className="space-y-2">
-          <Icon name={icon} size={22} className="text-primary" />
+          <Icon name={icon} size={22} className="text-brand-secondary" />
           <h3 className="text-sm font-semibold">{title}</h3>
           <p className="text-[13px] leading-7 text-secondary">{description}</p>
         </div>

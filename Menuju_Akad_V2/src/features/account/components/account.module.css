@@ -12,7 +12,7 @@
   font-size: clamp(1.5rem, 3vw, 1.875rem);
   font-weight: 650;
   letter-spacing: -0.055em;
-  color: var(--primary);
+  color: var(--brand-secondary);
   margin: 0;
 }
 
@@ -50,7 +50,7 @@
 
 .tab[aria-current="page"] {
   background: var(--surface);
-  color: var(--primary);
+  color: var(--brand-secondary);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 

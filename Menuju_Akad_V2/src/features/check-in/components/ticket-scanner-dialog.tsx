@@ -27,7 +27,7 @@ export function TicketScannerDialog({ open, onClose, currentValidated, onConfirm
       <div className="space-y-4">
         <div className="p-3 bg-subtle border border-border rounded-control flex justify-between items-center text-xs">
           <span className="font-mono text-secondary">10:20 WIB</span>
-          <span className="font-semibold text-primary">PETUGAS: DINA / GERBANG A</span>
+          <span className="font-semibold text-brand-secondary">PETUGAS: DINA / GERBANG A</span>
         </div>
 
         <div className="p-4 bg-surface border-2 border-primary/30 rounded-xl space-y-3">

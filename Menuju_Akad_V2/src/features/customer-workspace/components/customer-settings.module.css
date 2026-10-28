@@ -1,12 +1,17 @@
 .settings {
   min-width: 0;
 }
-.settings nav {
-  border-radius: 999px;
-  border: 0;
+.accessCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
-.settings nav a {
-  border-radius: 999px;
+.accessCard > :not([data-card-ornament]) {
+  position: relative;
+}
+.accessCard > h2 {
+  margin-bottom: 16px;
+  font-size: 16px;
 }
 .role {
   display: flex;
@@ -15,48 +20,29 @@
   width: fit-content;
   min-width: 220px;
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 0;
   background: var(--ux-dock);
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .planSummary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--ux-dock);
   padding: 24px;
-  border-radius: 16px;
+  border-radius: 0;
+}
+.planSummary > :not([data-card-ornament]) {
+  position: relative;
 }
 .textLink {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 36px;
   margin-top: 12px;
-  color: var(--primary);
+  color: var(--brand-secondary);
   font-size: 12px;
   font-weight: 600;
-}
-.partnerDetails {
-  margin-top: 20px;
-}
-.partnerDetails summary {
-  border: 1px solid var(--ux-border);
-  border-radius: 12px;
-  padding: 12px;
-  min-height: 44px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-}
-.partnerDetails > section {
-  border: 0;
-  padding: 16px 0 0;
-}
-.partnerDetails button {
-  width: 100%;
-  white-space: normal;
-}
-.additional {
-  display: grid;
-  gap: 24px;
-  margin-top: 28px;
 }
 .security > section {
   max-width: 760px;
@@ -71,10 +57,14 @@
   grid-column: 1 / -1;
 }
 .plans > div {
+  border-radius: 0;
   padding: 24px;
   box-shadow: none;
   background: var(--surface);
   border-color: var(--ux-border);
+}
+.settings [data-settings-panel] :is(section, aside, form) {
+  border-radius: 0;
 }
 .plans > div:hover {
   box-shadow: none;
@@ -84,7 +74,7 @@
   --tw-ring-shadow: none;
 }
 .plans > div[data-testid="plan-lifetime"] {
-  background: #fcfaf6;
+  background: var(--ux-soft);
   border-color: var(--champagne);
 }
 .plans h3 {

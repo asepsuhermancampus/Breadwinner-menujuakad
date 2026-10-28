@@ -20,7 +20,7 @@ export function ReviewSection() {
             </span>
             <h2
               id="review-heading"
-              className="mt-4 text-3xl font-semibold tracking-tight text-primary sm:text-4xl lg:text-5xl"
+              className="mt-4 text-3xl font-semibold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl"
             >
               Setiap cerita, <span className="font-serif font-normal italic">berarti.</span>
             </h2>
@@ -36,7 +36,7 @@ export function ReviewSection() {
         </div>
         {data && data.total > 0 && (
           <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-secondary">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-primary">
+            <span className="inline-flex items-center gap-1.5 font-semibold text-brand-secondary">
               <Star className="text-ux-gold-ink" fill="currentColor" size={16} aria-hidden="true" />
               {data.average.toLocaleString("id-ID", {
                 maximumFractionDigits: 1,

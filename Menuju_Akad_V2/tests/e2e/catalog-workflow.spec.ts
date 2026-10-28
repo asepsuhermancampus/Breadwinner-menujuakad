@@ -9,6 +9,7 @@ test("operator creates real vendor, customer requests private quote, unauthorize
   await customerSession(context, baseURL!, "catalog-operator");
   await page.goto("/marketplace");
   await page.getByRole("button", { name: "Tambah vendor", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "Tambah vendor", exact: true })).toBeVisible();
   await page.getByLabel("Nama vendor", { exact: true }).fill("Vendor terdaftar");
   await page.getByLabel("Kategori", { exact: true }).fill("Dekorasi");
   await page.getByLabel("Harga penawaran (Rp)").fill("250000");
@@ -26,6 +27,8 @@ test("operator creates real vendor, customer requests private quote, unauthorize
   expect(denied.status()).toBe(403);
   await page.getByLabel("Pilih Vendor terdaftar", { exact: true }).click();
   await expect(page.getByLabel("Pilih Vendor terdaftar", { exact: true })).toBeChecked();
+  await page.getByRole("button", { name: "Minta penawaran", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "Minta penawaran vendor" })).toBeVisible();
   await page.getByLabel("Kebutuhan acara").fill("Acara keluarga");
   await page.getByRole("button", { name: "Kirim permintaan penawaran" }).click();
   await expect(page).toHaveURL(/\/orders\/[a-f0-9-]+$/);

@@ -28,7 +28,7 @@ export function SecurityScreen({
         <div className="flex flex-wrap items-center gap-4">
           <Link
             href="/auth/recovery"
-            className="inline-flex min-h-11 items-center text-sm text-primary underline"
+            className="inline-flex min-h-11 items-center text-sm text-brand-secondary underline"
           >
             Ubah kata sandi / PIN →
           </Link>

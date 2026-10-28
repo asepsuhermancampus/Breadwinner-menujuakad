@@ -1,5 +1,14 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "../styles/scrollbars.css";
+@import "../styles/customer-interface.css";
+@import "../styles/customer-tabs.css";
+
+.app-frame {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin-inline: auto;
+}
 
 @layer base {
   * {
@@ -9,7 +18,7 @@
     margin: 0;
     background: var(--canvas);
     color: var(--foreground);
-    font-family: var(--font-jakarta), sans-serif;
+    font-family: var(--font-inter), sans-serif;
   }
   button,
   input,
@@ -53,8 +62,13 @@
   p {
     overflow-wrap: break-word;
   }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-jakarta), sans-serif;
+  }
   ::selection {
-    background: #c9a66b44;
+    background: #10b98133;
   }
   @media (prefers-reduced-motion: reduce) {
     *,

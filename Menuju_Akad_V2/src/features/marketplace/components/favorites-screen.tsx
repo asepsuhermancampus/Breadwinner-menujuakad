@@ -44,7 +44,7 @@ export function FavoritesScreen() {
         </div>
         <a
           href="/marketplace/bundles"
-          className="text-xs font-semibold px-3 py-2 bg-primary text-white rounded-control hover:bg-primary-hover"
+          className="text-xs font-semibold px-3 py-2 bg-primary text-on-primary rounded-control hover:bg-primary-hover"
         >
           Lihat Racik Paket (PKT-SIM-204) →
         </a>
@@ -96,7 +96,7 @@ export function FavoritesScreen() {
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <h3 className="font-bold text-sm text-foreground">Draf Paket Utama</h3>
-              <span className="font-mono text-xs font-bold text-primary bg-subtle px-2 py-0.5 rounded">
+              <span className="font-mono text-xs font-bold text-brand-secondary bg-subtle px-2 py-0.5 rounded">
                 PKT-SIM-204
               </span>
             </div>
@@ -118,7 +118,7 @@ export function FavoritesScreen() {
 
           <a
             href="/marketplace/bundles"
-            className="block text-center w-full py-2.5 text-xs font-semibold rounded-control bg-primary text-white hover:bg-primary-hover"
+            className="block text-center w-full py-2.5 text-xs font-semibold rounded-control bg-primary text-on-primary hover:bg-primary-hover"
           >
             Buka Editor Racik Paket
           </a>

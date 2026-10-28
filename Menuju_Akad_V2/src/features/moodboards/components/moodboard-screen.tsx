@@ -2,7 +2,9 @@
 import { useState, useMemo } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import Image from "next/image";
+import { CardOrnament } from "@/components/ui/card-ornament";
 import { Button } from "@/components/ui/button";
+import { PageHeading } from "@/components/ui/page-heading";
 import { Icon } from "@/components/ui/icon";
 import type { MoodboardItem, AgreedColor } from "../types/moodboard";
 import { SaveInspirationDialog } from "./save-inspiration-dialog";
@@ -34,14 +36,10 @@ export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
   return (
     <section className={styles.container}>
       <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
-            Bayangkan hari kalian
-          </h1>
-          <p className="text-sm text-secondary">
-            Kumpulkan referensi, selaraskan selera, lalu bagikan arahnya ke vendor.
-          </p>
-        </div>
+        <PageHeading
+          title="Bayangkan hari kalian"
+          description="Kumpulkan referensi, selaraskan selera, lalu bagikan arahnya ke vendor."
+        />
         <Button
           onClick={() => {
             setEditing(null);
@@ -54,6 +52,7 @@ export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
       </header>
 
       <section className={styles.paletteCard} aria-labelledby="palette-title">
+        <CardOrnament variant={3} />
         <div className="flex items-center justify-between">
           <div>
             <h2 id="palette-title" className="text-sm font-semibold text-foreground">
@@ -93,9 +92,9 @@ export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
               key={cat}
               role="tab"
               aria-selected={filter === cat}
-              className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
+              className={`customer-control rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
                 filter === cat
-                  ? "bg-surface text-primary shadow-sm font-semibold"
+                  ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                   : "text-secondary hover:text-foreground"
               }`}
               onClick={() => setFilter(cat)}
@@ -111,7 +110,7 @@ export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari inspirasi..."
-            className="w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
+            className="customer-control w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
           />
         </div>
       </div>

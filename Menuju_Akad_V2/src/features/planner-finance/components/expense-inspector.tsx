@@ -19,7 +19,9 @@ export function ExpenseInspector({ expense, onClose }: Props) {
       <div className="flex flex-col gap-5 p-5">
         <div className="flex items-start justify-between">
           <div>
-            <span className="font-mono text-xs font-semibold text-primary">{expense.id}</span>
+            <span className="font-mono text-xs font-semibold text-brand-secondary">
+              {expense.id}
+            </span>
             <h3 className="font-semibold text-foreground text-base mt-0.5">{expense.title}</h3>
             <span className="text-xs text-secondary">{expense.date}</span>
           </div>
@@ -36,7 +38,7 @@ export function ExpenseInspector({ expense, onClose }: Props) {
 
         <div className="rounded-card bg-ux-dock p-4 border border-border flex flex-col gap-1">
           <span className="text-xs text-secondary">Nominal Pembayaran</span>
-          <strong className="font-mono text-2xl text-primary font-semibold">
+          <strong className="font-mono text-2xl text-brand-secondary font-semibold">
             {formatRupiah(expense.amount)}
           </strong>
         </div>
@@ -70,7 +72,7 @@ export function ExpenseInspector({ expense, onClose }: Props) {
           </span>
           <div className="flex items-center justify-between rounded-control bg-ux-dock p-2.5 border border-border text-xs">
             <div className="flex items-center gap-2">
-              <Icon name="link" size={16} className="text-primary" />
+              <Icon name="link" size={16} className="text-brand-secondary" />
               <span className="font-medium text-foreground">
                 {expense.proofName || "bukti-pembayaran.pdf"}
               </span>

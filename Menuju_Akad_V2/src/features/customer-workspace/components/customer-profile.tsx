@@ -1,131 +1,129 @@
-"use client";
-import Link from "next/link";
-import { useState } from "react";
+﻿"use client";
+import { useId, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Field } from "@/components/ui/field";
+import { CardOrnament } from "@/components/ui/card-ornament";
 import type { CustomerWorkspace } from "../types";
 import { PartnerAccess } from "./partner-access";
+import { CoupleProfileCard } from "./couple-profile-card";
+import { ProfileAccessConnector } from "./profile-access-connector";
+import { useProfileDraft } from "../hooks/use-profile-draft";
 import styles from "@/features/account/components/account.module.css";
 import visuals from "./customer-settings.module.css";
+import portraits from "./profile-portraits.module.css";
+const subscribe = () => () => {};
+const readyClient = () => true;
+const readyServer = () => false;
 export function CustomerProfile({ workspace }: { workspace: CustomerWorkspace }) {
-  const [name, setName] = useState(workspace.profile.fullName);
-  const [partner, setPartner] = useState(workspace.profile.partnerName ?? "");
+  const ready = useSyncExternalStore(subscribe, readyClient, readyServer);
+  const profileFormId = useId();
+  const profile = useProfileDraft(workspace);
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const router = useRouter();
-  const canEdit = workspace.role === "owner";
-  const expiry = workspace.subscription.expiresAt;
+  const order = ["owner", "partner"] as const;
+  function title(slot: "owner" | "partner") {
+    if (!workspace.ownerSide)
+      return slot === (workspace.role === "owner" ? "owner" : "partner")
+        ? "Profil Anda"
+        : "Profil pasangan";
+    const side =
+      slot === "owner" ? workspace.ownerSide : workspace.ownerSide === "groom" ? "bride" : "groom";
+    return side === "bride" ? "Profil pasangan wanita" : "Profil pasangan pria";
+  }
   return (
-    <div className={styles.stack}>
-      <section aria-labelledby="role-access">
-        <div className="mb-3 flex flex-wrap justify-between gap-3">
-          <h2 id="role-access" className="text-sm font-semibold">
-            Akses peran
-          </h2>
-          <span className={styles.finePrint}>Ruang perencanaan kalian</span>
+    <div className={portraits.layout}>
+      <form
+        id={profileFormId}
+        className={`${styles.stack} ${portraits.profileForm}`}
+        onSubmit={async (event) => {
+          event.preventDefault();
+          if (pending || !profile.dirty) return;
+          setPending(true);
+          setMessage("");
+          try {
+            const response = await fetch("/api/workspace", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(profile.body()),
+            });
+            const body = (await response.json()) as {
+              error?: string;
+              workspace?: CustomerWorkspace;
+            };
+            if (!response.ok || !body.workspace)
+              throw new Error(body.error ?? "Profil belum tersimpan");
+            profile.saved(body.workspace);
+            router.refresh();
+          } catch (cause) {
+            setMessage(cause instanceof Error ? cause.message : "Profil gagal disimpan");
+          } finally {
+            setPending(false);
+          }
+        }}
+      >
+        <div className={portraits.cards}>
+          {order.map((slot) => (
+            <CoupleProfileCard
+              key={slot}
+              slot={slot}
+              title={title(slot)}
+              workspace={workspace}
+              name={profile.draft[slot].fullName}
+              nickname={profile.draft[slot].nickname}
+              photo={profile.photo(slot)}
+              disabled={
+                !ready ||
+                pending ||
+                (slot === "partner" && workspace.partnerAccess?.state !== "connected")
+              }
+              photoDisabled={
+                !ready ||
+                pending ||
+                (slot === "partner" && workspace.partnerAccess?.state !== "connected")
+              }
+              setName={(value) => profile.update(slot, "fullName", value)}
+              setNickname={(value) => profile.update(slot, "nickname", value)}
+              photoChanged={(value) => profile.setPhoto(slot, value)}
+              side={profile.draft.ownerSide}
+              setSide={profile.setSide}
+            />
+          ))}
         </div>
-        <div className={visuals.role}>
-          <div>
-            <p className="text-sm font-medium">Pasangan</p>
-            <p className={styles.finePrint}>
-              {canEdit ? "Pemilik ruang" : "Akses bersama pasangan"}
-            </p>
-          </div>
-        </div>
-      </section>
-      <div className={styles.columns}>
-        <form
-          className={`${styles.panel} ${styles.stack}`}
-          onSubmit={async (event) => {
-            event.preventDefault();
-            if (!canEdit || pending) return;
-            setPending(true);
-            setMessage("");
-            try {
-              const response = await fetch("/api/workspace", {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fullName: name, partnerName: partner || null }),
-              });
-              const body = (await response.json()) as { error?: string };
-              if (!response.ok) throw new Error(body.error ?? "Profil belum tersimpan");
-              setMessage("Profil tersimpan.");
-              router.refresh();
-            } catch (cause) {
-              setMessage(cause instanceof Error ? cause.message : "Profil gagal disimpan");
-            } finally {
-              setPending(false);
-            }
-          }}
-        >
-          <div className="flex flex-wrap justify-between gap-3">
-            <h2>Profil pribadi</h2>
-            <span className={styles.finePrint}>{canEdit ? "Pemilik ruang" : "Pasangan"}</span>
-          </div>
-          <Field
-            label="Nama lengkap"
-            name="fullName"
-            value={name}
-            autoComplete="name"
-            maxLength={160}
-            disabled={!canEdit || pending}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <Field
-            label="Nama pasangan"
-            name="partnerName"
-            value={partner}
-            maxLength={160}
-            disabled={!canEdit || pending}
-            onChange={(event) => setPartner(event.target.value)}
-          />
-          <p className={styles.finePrint}>
-            {canEdit
-              ? "Profil dapat dilengkapi kapan saja dan tidak menghalangi akses paket."
-              : "Profil ruang dikelola oleh pemilik. Kalian tetap dapat merencanakan bersama."}
+      </form>
+      <div className={portraits.profileFooter}>
+        <p className={portraits.hint}>
+          Nama panggilan dan foto digunakan pada header serta fitur perencanaan. Simpan perubahan
+          setelah selesai mengatur profil kalian.
+        </p>
+        {message && (
+          <p role="alert" className="text-sm text-danger">
+            {message}
           </p>
-          <div className={styles.actions}>
-            <Button type="submit" disabled={pending || !canEdit}>
-              {pending ? "Menyimpan…" : "Simpan perubahan"}
-            </Button>
-          </div>
-          {message && (
-            <p role="status" className={styles.finePrint}>
-              {message}
-            </p>
-          )}
-        </form>
-        <aside className={styles.stack}>
-          <section className={styles.panel}>
-            <p className="text-sm text-secondary">Pasanganmu</p>
-            <h2 className="mt-3">{workspace.profile.partnerName || "Rencanakan bersama"}</h2>
-            <p className={styles.finePrint}>
-              Dua akun, satu ruang perencanaan. Kelola undangan dan akses pasangan.
-            </p>
-            <details className={visuals.partnerDetails}>
-              <summary>Kelola pasangan</summary>
-              <PartnerAccess partner={workspace.role === "partner"} />
-            </details>
-          </section>
-          <section className={visuals.planSummary}>
-            <p className="text-xs font-semibold uppercase tracking-wider">
-              Paket {workspace.subscription.planId}
-            </p>
-            <p className={styles.description}>
-              {expiry
-                ? `Aktif hingga ${new Date(expiry).toLocaleDateString("id-ID", { dateStyle: "long" })}`
-                : "Tanpa kedaluwarsa"}
-            </p>
-            <p className={styles.finePrint}>
-              Jaga rencana tetap berjalan dengan dukungan yang pas untuk kalian.
-            </p>
-            <Link href="/account/plans" className={visuals.textLink}>
-              Kelola paket & upgrade ↗
-            </Link>
-          </section>
-        </aside>
+        )}
+        <div className={styles.actions}>
+          <Button
+            type="submit"
+            form={profileFormId}
+            disabled={pending || !profile.dirty}
+            className={portraits.saveButton}
+          >
+            {pending ? "Menyimpan..." : "Simpan perubahan"}
+          </Button>
+        </div>
       </div>
+      <aside className={portraits.support}>
+        <section
+          className={`${styles.panel} ${visuals.accessCard}`}
+          aria-label="Akses pasangan"
+          data-partner-access-card
+        >
+          <CardOrnament variant={2} />
+          <h2>Akses pasangan</h2>
+          <PartnerAccess workspace={workspace} />
+        </section>
+      </aside>
+      <ProfileAccessConnector connected={workspace.partnerAccess?.state === "connected"} />
     </div>
   );
 }

@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { DocumentItem } from "@/features/kua-documents/domain/document-template";
+import { Icon } from "@/components/ui/icon";
+import styles from "./customer-documents.module.css";
 export function DocumentEditForm({
   item,
   save,
@@ -17,7 +19,7 @@ export function DocumentEditForm({
     [busy, setBusy] = useState(false);
   return (
     <form
-      className="grid gap-3 rounded-card border border-ux-border p-5"
+      className={styles.editor}
       onSubmit={async (e) => {
         e.preventDefault();
         if (busy) return;
@@ -30,27 +32,37 @@ export function DocumentEditForm({
         }
       }}
     >
-      <label className="grid gap-1 text-sm">
+      <div className={styles.intro}>
+        <span className={styles.documentIcon}>
+          <Icon name="pencil" size={20} />
+        </span>
+        <div>
+          <h2>Edit dokumen</h2>
+          <p>Perbarui nama dan catatan berkas kalian.</p>
+        </div>
+      </div>
+      <label className={styles.field}>
         Nama dokumen
         <input
           required
           maxLength={160}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="rounded-control border border-ux-border bg-canvas p-3"
+          className={styles.input}
         />
       </label>
-      <label className="grid gap-1 text-sm">
+      <label className={styles.field}>
         Catatan
         <textarea
           maxLength={2000}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="rounded-control border border-ux-border bg-canvas p-3"
+          className={styles.input}
+          rows={3}
         />
       </label>
       {error && <p role="alert">{error}</p>}
-      <div className="flex gap-3">
+      <div className={styles.editorActions}>
         <Button type="submit" disabled={busy}>
           Simpan dokumen
         </Button>

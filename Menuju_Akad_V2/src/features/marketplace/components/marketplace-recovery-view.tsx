@@ -8,7 +8,7 @@ export function MarketplaceRecoveryView() {
             Panduan arsitektur keamanan untuk rilis produksi dan pemulihan data pesanan historis.
           </p>
         </div>
-        <span className="text-xs font-mono bg-subtle px-2.5 py-1 rounded text-primary font-bold">
+        <span className="text-xs font-mono bg-subtle px-2.5 py-1 rounded text-brand-secondary font-bold">
           Release #43
         </span>
       </div>

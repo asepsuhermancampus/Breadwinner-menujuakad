@@ -4,6 +4,7 @@ import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { SecretField } from "./secret-field";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 export function AccountSecurity() {
   const router = useRouter();
   const [info, setInfo] = useState<{ hasPassword: boolean; googleLinked: boolean } | null>(null);
@@ -68,6 +69,9 @@ export function AccountSecurity() {
       setMessage(error instanceof Error ? error.message : "Coba kembali.");
       setBusy(false);
     }
+  }
+  if (!info && !message) {
+    return <PageSkeleton variant="form" label="Memuat keamanan akun" />;
   }
   return (
     <section className="max-w-lg space-y-5 rounded-card border border-ux-border bg-surface p-6">

@@ -1,26 +1,50 @@
 .shell {
   display: grid;
   grid-template-columns: 272px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
   padding: 12px;
   min-height: 100dvh;
+  height: 100dvh;
   background: var(--ux-shell);
   transition: grid-template-columns 280ms ease;
 }
 .shellCompact {
   grid-template-columns: 68px minmax(0, 1fr);
 }
+
+.shell.edgeToEdge {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.edgeToEdge .canvas {
+  border: 0;
+  border-radius: 0;
+}
 .dockRegion {
   min-width: 0;
+  min-height: 0;
 }
 .canvas {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
-  border: 1px solid var(--ux-border);
-  border-radius: 20px;
+  min-height: 0;
+  height: 100%;
+  border: 1px solid var(--control-border);
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
   background: var(--surface);
   overflow: hidden;
 }
 .body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   padding: 32px;
   display: grid;
   align-content: start;
@@ -50,8 +74,9 @@
     display: none;
   }
   .canvas {
-    border-radius: 16px;
-    min-height: calc(100dvh - 16px);
+    border-left: 1px solid var(--control-border);
+    border-radius: 10px;
+    min-height: 0;
   }
   .body {
     padding: 24px 16px;

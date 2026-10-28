@@ -1,4 +1,5 @@
 import type { PlanningMetricData } from "../types/overview";
+import { SummaryCard } from "@/components/ui/summary-card";
 import styles from "./overview.module.css";
 
 type Props = {
@@ -8,16 +9,15 @@ type Props = {
 export function OverviewMetrics({ metrics }: Props) {
   return (
     <section className={styles.metricsGrid} aria-label="Metrik perencanaan" role="region">
-      {metrics.map((metric) => (
-        <article key={metric.id} className={styles.metricCard}>
-          <span className="text-xs font-medium text-secondary">{metric.label}</span>
-          <span
-            className={`text-[26px] font-medium tracking-[-0.8px] text-primary ${metric.isMono ? "font-mono" : ""}`}
-          >
-            {metric.value}
-          </span>
-          <span className="text-xs text-secondary">{metric.detail}</span>
-        </article>
+      {metrics.map((metric, index) => (
+        <SummaryCard
+          key={metric.id}
+          label={metric.label}
+          value={metric.value}
+          detail={metric.detail}
+          ornament={((index % 4) + 1) as 1 | 2 | 3 | 4}
+          highlight={index === 0}
+        />
       ))}
     </section>
   );

@@ -23,6 +23,7 @@
 }
 .screen button[class*="bg-foreground"] {
   background: var(--primary);
+  color: var(--on-primary);
 }
 .card {
   border: 1px solid var(--border);
@@ -136,15 +137,15 @@
   background: var(--subtle);
 }
 .success {
-  color: var(--success);
+  color: var(--success-ink);
   background: var(--success-bg);
 }
 .warning {
-  color: var(--warning);
+  color: var(--warning-ink);
   background: var(--warning-bg);
 }
 .mono {
-  font-family: var(--font-geist), monospace;
+  font-family: var(--font-jetbrains), monospace;
   font-variant-numeric: tabular-nums;
 }
 .simulator {

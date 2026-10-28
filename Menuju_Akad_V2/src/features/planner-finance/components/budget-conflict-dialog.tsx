@@ -34,8 +34,8 @@ export function BudgetConflictDialog({ open, onClose, onResolve }: Props) {
           </div>
 
           <div className="rounded-card border border-primary bg-primary/5 p-3">
-            <span className="text-primary font-semibold block mb-1">Server (v18)</span>
-            <strong className="font-mono text-sm text-primary block">Rp 31.000.000</strong>
+            <span className="text-brand-secondary font-semibold block mb-1">Server (v18)</span>
+            <strong className="font-mono text-sm text-brand-secondary block">Rp 31.000.000</strong>
             <span className="text-[10px] text-secondary">Diperbarui pasangan</span>
           </div>
 

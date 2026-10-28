@@ -87,7 +87,7 @@ export function ManagerScreen() {
             aria-current={view === key ? "page" : undefined}
             className={`min-h-11 rounded-control px-3 text-xs font-semibold ${
               view === key
-                ? "bg-primary text-white"
+                ? "bg-primary text-on-primary"
                 : "bg-subtle text-secondary hover:text-foreground"
             }`}
           >

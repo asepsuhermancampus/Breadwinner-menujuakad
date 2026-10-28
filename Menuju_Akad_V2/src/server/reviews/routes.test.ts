@@ -107,6 +107,22 @@ it("denies fabricated role cookies, wrong credentials and cross-origin writes", 
   ).toBe(403);
   expect(state.repository!.list({ page: 1 }).total).toBe(0);
 });
+it("keeps review inbox private from customer and admin roles", async () => {
+  for (const role of ["customer", "admin"] as const) {
+    state.session = {
+      user: { id: "other-account", email: `${role}@example.test`, role },
+      expires: new Date(Date.now() + 60000).toISOString(),
+    };
+    expect((await inbox(request("/api/superadmin/reviews"))).status).toBe(401);
+    expect(
+      (
+        await moderate(request("/api/superadmin/reviews/test", "PATCH", { status: "published" }), {
+          params: Promise.resolve({ id: "test" }),
+        })
+      ).status,
+    ).toBe(401);
+  }
+});
 it("limits submissions and rejects invalid input and oversized bodies", async () => {
   expect((await submit(request("/api/reviews", "POST", { ...input, rating: 8 }))).status).toBe(400);
   expect(

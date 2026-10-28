@@ -31,3 +31,13 @@ it("preserves only known local checkout destinations", () => {
   ])
     expect(safeReturnTo(value)).toBe("/account");
 });
+it("returns to the exact settings tabs after login and rejects altered destinations", () => {
+  for (const path of ["/account/domain", "/account/support"]) expect(safeReturnTo(path)).toBe(path);
+  for (const path of [
+    "/account/domain?next=https://evil.com",
+    "/account/support/../security",
+    "/account/domain#external",
+    "//evil.com/account/support",
+  ])
+    expect(safeReturnTo(path)).toBe("/account");
+});

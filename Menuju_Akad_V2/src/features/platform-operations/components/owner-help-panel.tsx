@@ -25,7 +25,7 @@ export function OwnerHelpPanel() {
   }
   return (
     <div className="mx-auto grid w-full max-w-2xl gap-6" data-platform-view="owner-help">
-      <p className="text-[10px] font-semibold tracking-[0.24em] text-primary">
+      <p className="text-[10px] font-semibold tracking-[0.24em] text-brand-secondary">
         ANDI & RISA · PREMIUM
       </p>
       <h1 className="max-w-xs text-3xl leading-tight font-semibold tracking-tight">
@@ -92,7 +92,10 @@ export function OwnerHelpPanel() {
           <Icon name="mail" />
           Undangan
         </Link>
-        <span aria-current="page" className="grid min-h-11 justify-items-center gap-2 text-primary">
+        <span
+          aria-current="page"
+          className="grid min-h-11 justify-items-center gap-2 text-brand-secondary"
+        >
           <Icon name="help" />
           Bantuan
         </span>

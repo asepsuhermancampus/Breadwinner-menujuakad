@@ -3,12 +3,15 @@ import { customerSession, seedCustomerPayment } from "../helpers/customer-sessio
 test("logout clears account data in another open tab", async ({ context, page, baseURL }) => {
   await customerSession(context, baseURL!, "dashboard-two-tabs");
   await page.goto("/planner/kua");
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
   await page.getByLabel("Nama dokumen").fill("Data akun privat dua tab");
   await page.getByRole("button", { name: "Tambah", exact: true }).click();
   await expect(page.getByLabel("Nama dokumen")).toHaveValue("");
   const other = await context.newPage();
   await other.goto("/planner/kua");
   await expect(other.getByText("Data akun privat dua tab", { exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Pengaturan", exact: true }).click();
+  await page.waitForURL("**/account");
   await page.getByRole("button", { name: "Keluar", exact: true }).click();
   await expect(other.getByText("Mode percobaan", { exact: true })).toBeVisible();
   await expect(other.getByText("Data akun privat dua tab", { exact: true })).toHaveCount(0);
@@ -22,6 +25,9 @@ test("paid moodboard preserves a rejected draft and shows no falsely saved inspi
   seedCustomerPayment(owner, "premium", true);
   await page.goto("/dashboard");
   await page.getByRole("button", { name: "Nanti saja" }).click();
+  await expect(
+    page.getByRole("dialog", { name: "Fitur paket kalian sudah terbuka" }),
+  ).not.toBeVisible();
   await page.goto("/planner/moodboard");
   await page.route("**/api/workspace/resources/moodboard?*", async (route) => {
     if (route.request().method() === "PUT")
@@ -46,6 +52,7 @@ test("Free account exceeds ten mutations, has correct nav and signs out into iso
     page.getByRole("link", { name: "Coba dashboard gratis", exact: true }).first(),
   ).toHaveAttribute("href", "/dashboard");
   await page.goto("/planner/kua");
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
   await page.getByLabel("Nama dokumen").fill("Dokumen trial terpisah");
   await page.getByRole("button", { name: "Tambah", exact: true }).click();
   await expect(page.getByText("0 dari 5 checklist aktif", { exact: true })).toBeVisible();
@@ -57,6 +64,7 @@ test("Free account exceeds ten mutations, has correct nav and signs out into iso
   ).toHaveCount(0);
   await page.goto("/planner/kua");
   await expect(page.getByText("Dokumen trial terpisah", { exact: true })).toHaveCount(0);
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
   for (let n = 0; n < 11; n++) {
     await page.getByLabel("Nama dokumen").fill(`Dokumen akun ${n}`);
     await page.getByRole("button", { name: "Tambah", exact: true }).click();

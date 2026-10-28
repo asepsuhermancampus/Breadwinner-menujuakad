@@ -1,4 +1,5 @@
 "use client";
+import { SummaryCard } from "@/components/ui/summary-card";
 import { useState } from "react";
 import type { EmergencyBag } from "../types/emergency";
 import styles from "./emergency.module.css";
@@ -29,7 +30,7 @@ export function EmergencyScreen({ initialBags }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+        <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
           Perlengkapan darurat Hari-H
         </h1>
         <p className="text-sm text-secondary">
@@ -37,22 +38,13 @@ export function EmergencyScreen({ initialBags }: Props) {
         </p>
       </header>
 
-      <section className={styles.overviewCard} aria-labelledby="ready-title">
-        <div>
-          <span className="font-mono text-3xl font-semibold text-primary">
-            {totalReady}/{totalItems}
-          </span>
-          <h2 id="ready-title" className="text-base font-semibold text-foreground">
-            Barang sudah siap dibawa
-          </h2>
-          <p className="mt-1 text-xs text-secondary">
-            Template 24 barang sudah terisi. Sesuaikan isi tas, PIC, dan tempat penyimpanannya.
-          </p>
-        </div>
-        <div className="rounded-control bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-800">
-          {pendingCount} belum siap
-        </div>
-      </section>
+      <SummaryCard
+        label="Barang sudah siap dibawa"
+        value={`${totalReady}/${totalItems}`}
+        detail={`${pendingCount} belum siap ? Sesuaikan isi tas, PIC, dan tempat penyimpanannya.`}
+        ornament={4}
+        highlight
+      />
 
       <section className={styles.bagsGrid} aria-label="Daftar tas perlengkapan">
         {bags.map((bag) => {
@@ -65,7 +57,7 @@ export function EmergencyScreen({ initialBags }: Props) {
                   <h3 className="text-sm font-semibold text-foreground">{bag.name}</h3>
                   <p className="text-xs text-secondary">{bag.pic}</p>
                 </div>
-                <span className="font-mono text-xs font-medium text-primary">
+                <span className="font-mono text-xs font-medium text-brand-secondary">
                   {bagReady}/{bagTotal} siap
                 </span>
               </div>
@@ -77,7 +69,7 @@ export function EmergencyScreen({ initialBags }: Props) {
                       type="checkbox"
                       checked={item.ready}
                       onChange={() => handleToggleItem(bag.id, item.id)}
-                      className="size-4 cursor-pointer rounded border-border text-primary focus:ring-primary"
+                      className="size-4 cursor-pointer rounded border-border text-brand-secondary focus:ring-primary"
                     />
                     <span
                       className={item.ready ? "line-through text-secondary" : "text-foreground"}

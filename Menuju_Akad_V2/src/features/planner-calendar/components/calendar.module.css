@@ -16,7 +16,7 @@
 .calendarCard {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;

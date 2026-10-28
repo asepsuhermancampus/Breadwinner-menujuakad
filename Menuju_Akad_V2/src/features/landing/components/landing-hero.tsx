@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/icon";
 
 export function LandingHero() {
   return (
-    <section className="relative overflow-hidden bg-primary py-24 text-white lg:py-32">
+    <section className="relative overflow-hidden bg-brand-secondary py-24 text-white lg:py-32">
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/images/auth-editorial.png"
@@ -27,9 +27,9 @@ export function LandingHero() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
         <div className="max-w-2xl space-y-6">
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-champagne/30 bg-primary/40 px-3.5 py-1.5 backdrop-blur-sm">
-            <span className="size-2 rounded-full bg-[#E4D3AC]" />
-            <span className="font-sans text-xs font-semibold tracking-wider text-[#E4D3AC] uppercase">
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-champagne/30 bg-brand-secondary/40 px-3.5 py-1.5 backdrop-blur-sm">
+            <span className="size-2 rounded-full bg-emerald-200" />
+            <span className="font-sans text-xs font-semibold tracking-wider text-emerald-200 uppercase">
               Wedding Planner & Undangan Digital
             </span>
           </div>
@@ -39,7 +39,7 @@ export function LandingHero() {
             <br />
             Langkah kecil.
             <br />
-            <span className="text-[#E4D3AC]">Selalu berdua.</span>
+            <span className="text-emerald-200">Selalu berdua.</span>
           </h1>
 
           <p className="max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">

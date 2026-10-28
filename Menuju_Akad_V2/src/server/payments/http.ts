@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { auth } from "@/server/auth";
 import { PaymentError } from "@/server/payments/errors";
 import { ownerForSession } from "@/server/identity/policy";
+import { isLocalOriginAlias } from "@/server/http/local-origin";
+import { isConfiguredApplicationOrigin } from "@/server/http/application-origin";
 
 export const NO_CACHE_HEADERS = {
   "Cache-Control": "private, no-store",
@@ -49,23 +51,8 @@ export function validateSameOrigin(req: Request): NextResponse<{ error: string }
   } catch {
     return jsonResponse({ error: "Format URL permintaan tidak valid." }, 400);
   }
-  let localAlias = false;
-  if (process.env.NODE_ENV !== "production") {
-    try {
-      const target = new URL(req.url),
-        source = new URL(origin),
-        loopback = ["localhost", "127.0.0.1", "[::1]"];
-      localAlias =
-        loopback.includes(target.hostname) &&
-        loopback.includes(source.hostname) &&
-        source.protocol === target.protocol &&
-        source.port === target.port &&
-        req.headers.get("host") === source.host;
-    } catch {
-      /* Invalid origins remain denied. */
-    }
-  }
-  if (origin !== expectedOrigin && !localAlias) {
+  const localAlias = isLocalOriginAlias(req, origin);
+  if (origin !== expectedOrigin && !localAlias && !isConfiguredApplicationOrigin(origin)) {
     return jsonResponse({ error: "Akses lintas-asal ditolak." }, 403);
   }
   return null;

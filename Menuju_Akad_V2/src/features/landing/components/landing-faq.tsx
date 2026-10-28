@@ -33,7 +33,7 @@ export function LandingFaq() {
             <span className="font-sans text-xs font-semibold tracking-wider text-rose uppercase">
               05 / Sebelum Melangkah
             </span>
-            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-primary sm:text-4xl">
+            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
               Pertanyaan?
               <br />
               Kita bahas.
@@ -59,8 +59,10 @@ export function LandingFaq() {
                     aria-expanded={isOpen}
                     className="flex w-full items-center justify-between p-6 text-left"
                   >
-                    <span className="font-sans text-base font-semibold text-primary">{faq.q}</span>
-                    <span className="ml-4 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface border border-ux-border text-primary">
+                    <span className="font-sans text-base font-semibold text-brand-secondary">
+                      {faq.q}
+                    </span>
+                    <span className="ml-4 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface border border-ux-border text-brand-secondary">
                       <Icon name={isOpen ? "x" : "plus"} size={16} />
                     </span>
                   </button>

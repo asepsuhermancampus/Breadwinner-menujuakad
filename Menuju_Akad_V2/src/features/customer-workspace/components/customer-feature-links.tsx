@@ -7,8 +7,8 @@ const features = [
   ["moodboard", "Moodboard", "/planner/moodboard"],
   ["pdf", "Ekspor rencana PDF", "/planner/wedding-kit"],
   ["multi-invitation", "Multi-undangan", "/planner/invitations"],
-  ["custom-domain", "Custom domain", "/account?section=domain"],
-  ["priority-support", "Prioritas bantuan", "/account?section=support"],
+  ["custom-domain", "Custom domain", "/account/domain"],
+  ["priority-support", "Prioritas bantuan", "/account/support"],
 ] as const;
 export function CustomerFeatureLinks() {
   return (
@@ -21,7 +21,7 @@ export function CustomerFeatureLinks() {
           key={id}
           id={`feature-${id}`}
           href={href}
-          className="flex min-h-11 items-center rounded-control px-2 text-xs text-secondary hover:bg-subtle hover:text-primary"
+          className="flex min-h-11 items-center rounded-control px-2 text-xs text-secondary hover:bg-subtle hover:text-brand-secondary"
         >
           {title} ↗
         </Link>

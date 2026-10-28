@@ -60,7 +60,7 @@ export function ReviewForm({ open, onClose }: { open: boolean; onClose: () => vo
       {success ? (
         <div className="space-y-5 py-3 text-center" role="status">
           <CheckCircle2
-            className="mx-auto text-primary"
+            className="mx-auto text-brand-secondary"
             size={48}
             strokeWidth={1.3}
             aria-hidden="true"

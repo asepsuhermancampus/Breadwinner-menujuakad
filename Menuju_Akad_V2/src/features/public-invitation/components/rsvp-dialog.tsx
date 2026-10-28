@@ -43,7 +43,7 @@ export function RsvpDialog({ open, onClose, invitation, onSaveRsvp }: Props) {
             onClick={() => setStatus("ATTENDING")}
             className={`flex-1 py-2.5 text-xs font-semibold rounded-control border transition-colors ${
               status === "ATTENDING"
-                ? "bg-primary text-white border-primary"
+                ? "bg-primary text-on-primary border-primary"
                 : "bg-surface text-secondary border-border hover:bg-subtle"
             }`}
           >

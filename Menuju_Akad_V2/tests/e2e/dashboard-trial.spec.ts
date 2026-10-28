@@ -1,13 +1,30 @@
 import { test, expect } from "@playwright/test";
+
+test("canceling a new invitation popup leaves the list and trial allowance unchanged", async ({
+  page,
+}) => {
+  await page.goto("/planner/invitations");
+  await page.getByRole("button", { name: "Tambah undangan", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Tambah undangan", exact: true });
+  await dialog.getByLabel("Judul undangan").fill("Draf yang dibatalkan");
+  await dialog.getByRole("button", { name: "Batal", exact: true }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page.getByRole("button", { name: "Kelola undangan", exact: true })).toHaveCount(0);
+  await expect(page.getByText("Sisa 5 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
+});
 test("an invitation update from another tab preserves an unsaved draft and rejects overwrite", async ({
   context,
   page,
 }) => {
   await page.goto("/planner/invitations");
   await page.getByRole("button", { name: "Tambah undangan", exact: true }).click();
+  await page.getByLabel("Judul undangan").fill("Undangan bersama");
+  await page.getByRole("button", { name: "Simpan undangan" }).click();
+  await page.getByRole("button", { name: "Kelola undangan", exact: true }).click();
   await page.getByLabel("Judul undangan").fill("Draf pertama belum disimpan");
   const other = await context.newPage();
   await other.goto("/planner/invitations");
+  await other.getByRole("button", { name: "Kelola undangan", exact: true }).click();
   await other.getByLabel("Judul undangan").fill("Judul dari tab kedua");
   await other.getByRole("button", { name: "Simpan undangan" }).click();
   await expect(page.getByText("Sisa 3 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
@@ -24,10 +41,13 @@ test("stale task drafts cannot overwrite a change committed in another tab", asy
 }) => {
   await page.goto("/planner/tasks");
   await page.getByRole("button", { name: "Tambah tugas", exact: true }).click();
+  await page.getByLabel("Nama tugas").fill("Tugas bersama");
+  await page.getByRole("button", { name: "Simpan perubahan", exact: true }).click();
+  await page.getByText("Tugas bersama", { exact: true }).click();
   await page.getByLabel("Nama tugas").fill("Draf tab pertama");
   const other = await context.newPage();
   await other.goto("/planner/tasks");
-  const status = other.getByRole("checkbox", { name: "Tandai Tugas baru tanpa judul" });
+  const status = other.getByRole("checkbox", { name: "Tandai Tugas bersama" });
   await status.click();
   await expect(status).toBeChecked();
   await expect(page.getByText("Sisa 3 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
@@ -45,6 +65,10 @@ test("KUA templates enforce five active checks across tabs and support edit", as
   context,
 }) => {
   await page.goto("/planner/kua");
+  await page.getByRole("button", { name: "Mulai berkas utama", exact: true }).click();
+  const preview = page.getByRole("region", { name: "Pratinjau Berkas Utama", exact: true });
+  await preview.getByRole("checkbox").check();
+  await preview.getByRole("button", { name: "Terapkan template" }).click();
   const checks = page.getByRole("checkbox");
   await expect.poll(() => checks.count()).toBeGreaterThan(5);
   for (let i = 0; i < 5; i++) {
@@ -62,7 +86,10 @@ test("KUA templates enforce five active checks across tabs and support edit", as
   await expect(other.getByRole("checkbox").nth(5)).toBeChecked();
   await page.reload();
   await expect(page.getByRole("checkbox").nth(5)).toBeChecked();
-  await page.getByRole("button", { name: "Edit", exact: true }).first().click();
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
+  await page.getByLabel("Nama dokumen", { exact: true }).fill("Dokumen tambahan uji");
+  await page.getByRole("button", { name: "Tambah", exact: true }).click();
+  await page.getByRole("button", { name: "Edit Dokumen tambahan uji", exact: true }).click();
   await page
     .locator("form")
     .filter({ has: page.getByRole("button", { name: "Simpan dokumen" }) })
@@ -87,6 +114,7 @@ test("storage failure preserves the form draft without claiming a successful sav
     };
   });
   await page.goto("/planner/kua");
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
   await page.getByLabel("Nama dokumen").fill("Draf yang belum tersimpan");
   await page.getByRole("button", { name: "Tambah", exact: true }).click();
   await expect(page.getByLabel("Nama dokumen")).toHaveValue("Draf yang belum tersimpan");
@@ -99,8 +127,12 @@ test("task and guest forms have independent trial and guest external actions sta
 }) => {
   await page.goto("/planner/tasks");
   await page.getByRole("button", { name: "Tambah tugas", exact: true }).click();
-  await expect(page.getByText("Sisa 4 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Tutup panel" }).click();
+  await expect(page.getByText("Sisa 5 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
+  await page
+    .getByRole("dialog", { name: "Tambah tugas" })
+    .getByRole("button", { name: "Tutup dialog" })
+    .click();
+  await expect(page.getByRole("row")).toHaveCount(1);
   await page.goto("/planner/guests");
   await page
     .getByRole("button", { name: /Tambah.*Tamu|Tambah.*Undangan/i })
@@ -125,25 +157,32 @@ test("five changes per feature persist locally and the sixth requires login", as
     if (req.url().includes("/api/workspace") && req.method() !== "GET") writes.push(req.url());
   });
   await page.goto("/planner/finance");
+  await page.getByRole("tab", { name: "Anggaran", exact: true }).click();
   for (let i = 0; i < 5; i++) {
-    await page.getByRole("button", { name: "+ Catat anggaran", exact: true }).click();
+    await page.getByRole("button", { name: "Catat anggaran", exact: true }).click();
     await page.getByLabel("Nama anggaran").fill("Budget " + i);
-    await page.getByLabel("Nominal (Rp)").fill("5000");
+    await page.getByLabel("Target (Rp)", { exact: true }).fill("5000");
     await page.getByRole("button", { name: "Simpan", exact: true }).click();
     await expect(page.getByLabel("Nama anggaran")).toHaveCount(0);
-    await expect(page.getByRole("cell", { name: "Budget " + i, exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Edit Budget " + i, exact: true })).toBeVisible();
   }
   await page.reload();
+  await page.getByRole("tab", { name: "Anggaran", exact: true }).click();
   await expect(page.getByText("Sisa 0 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "+ Catat anggaran", exact: true }).click();
+  await page.getByRole("button", { name: "Catat anggaran", exact: true }).click();
   await page.getByLabel("Nama anggaran").fill("Sixth draft");
-  await page.getByLabel("Nominal (Rp)").fill("100");
+  await page.getByLabel("Target (Rp)", { exact: true }).fill("100");
   await page.getByRole("button", { name: "Simpan", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Masuk untuk melanjutkan" })).toBeVisible();
-  await page.getByRole("button", { name: "Tutup dialog" }).click();
+  await page
+    .getByRole("dialog", { name: "Masuk untuk melanjutkan" })
+    .getByRole("button", { name: "Tutup dialog" })
+    .click();
   await expect(page.getByLabel("Nama anggaran")).toHaveValue("Sixth draft");
   await page.goto("/planner/tasks");
   await page.getByRole("button", { name: "Tambah tugas", exact: true }).click();
+  await page.getByLabel("Nama tugas").fill("Tugas pertama");
+  await page.getByRole("button", { name: "Simpan perubahan", exact: true }).click();
   await expect(page.getByText("Sisa 4 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
   expect(writes).toEqual([]);
 });
@@ -153,14 +192,19 @@ test("guest invitations count saves rather than typing and paid editors are avai
 }) => {
   await page.goto("/planner/invitations");
   await page.getByRole("button", { name: "Tambah undangan", exact: true }).click();
-  await expect(page.getByText("Sisa 4 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Tambah undangan", exact: true })).toBeVisible();
+  await expect(page.getByText("Sisa 5 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
   await page.getByLabel("Judul undangan").fill("Pernikahan kami");
   await page.getByLabel("Nama pertama").fill("Budi");
   await page.getByLabel("Nama pasangan").fill("Sari");
-  await expect(page.getByText("Sisa 4 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
+  await expect(page.getByText("Sisa 5 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Simpan undangan" }).click();
-  await expect(page.getByText("Sisa 3 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("dialog", { name: "Tambah undangan", exact: true }),
+  ).not.toBeVisible();
+  await expect(page.getByText("Sisa 4 dari 5 percobaan per fitur", { exact: true })).toBeVisible();
   await page.reload();
+  await page.getByRole("button", { name: "Kelola undangan", exact: true }).click();
   await expect(page.getByLabel("Judul undangan")).toHaveValue("Pernikahan kami");
   await page.goto("/planner/moodboard");
   await expect(page.getByText("Moodboard terkunci")).toHaveCount(0);

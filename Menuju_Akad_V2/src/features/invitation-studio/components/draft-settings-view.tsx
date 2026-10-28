@@ -99,7 +99,7 @@ export function DraftSettingsView({ settings, onUpdateSetting, onOpenPublish }: 
             </div>
             <div className="p-4 bg-canvas rounded-lg border border-border text-center space-y-2">
               <div className="text-[10px] tracking-widest uppercase text-muted">The Wedding of</div>
-              <div className="font-serif text-lg font-bold text-primary">Andi & Risa</div>
+              <div className="font-serif text-lg font-bold text-brand-secondary">Nama pasangan</div>
               <div className="text-xs font-semibold text-foreground">
                 Minggu, 14 Februari 2027
                 <br />

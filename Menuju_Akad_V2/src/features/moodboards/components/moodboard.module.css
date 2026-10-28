@@ -32,7 +32,7 @@
 .card {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -46,15 +46,22 @@
 }
 
 .paletteCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background-color: var(--ux-dock);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
+.paletteCard > :not(i) {
+  position: relative;
+  z-index: 1;
+}
 .swatchRow {
   display: flex;
   gap: 0.75rem;

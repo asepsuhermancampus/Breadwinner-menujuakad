@@ -3,6 +3,7 @@ export type TrialResourceKind =
   | "documents"
   | "guests"
   | "finance"
+  | "savings"
   | "invitations"
   | "moodboard"
   | "studio-drafts"

@@ -26,7 +26,7 @@ export function LandingPlannerPreview() {
           <span className="font-sans text-xs font-semibold tracking-wider text-rose uppercase">
             01 / Ruang untuk Merencanakan
           </span>
-          <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-primary sm:text-4xl">
+          <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
             Tahu yang perlu dilakukan.
             <br />
             Lebih tenang melangkah.
@@ -42,7 +42,9 @@ export function LandingPlannerPreview() {
             {benefits.map((b) => (
               <div key={b.num} className="border-l-2 border-ux-border pl-5">
                 <span className="font-mono text-xs font-semibold text-rose">{b.num}</span>
-                <h3 className="mt-1 font-sans text-lg font-semibold text-primary">{b.title}</h3>
+                <h3 className="mt-1 font-sans text-lg font-semibold text-brand-secondary">
+                  {b.title}
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-secondary">{b.desc}</p>
               </div>
             ))}
@@ -52,15 +54,15 @@ export function LandingPlannerPreview() {
             <div className="overflow-hidden rounded-card border border-ux-border bg-surface shadow-md">
               <div className="flex items-center justify-between border-b border-ux-border bg-ux-dock px-5 py-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-primary text-xs">menuju akad</span>
+                  <span className="font-semibold text-brand-secondary text-xs">menuju akad</span>
                   <span className="text-secondary text-xs">·</span>
                   <span className="text-xs text-secondary">Rencana kita</span>
                 </div>
                 <div className="flex items-center -space-x-1.5">
-                  <span className="flex size-6 items-center justify-center rounded-full bg-[#E9EBDD] font-mono text-[10px] font-bold text-primary">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-ux-soft font-mono text-[10px] font-bold text-brand-secondary">
                     A
                   </span>
-                  <span className="flex size-6 items-center justify-center rounded-full bg-[#F4E6DC] font-mono text-[10px] font-bold text-rose">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-ux-soft font-mono text-[10px] font-bold text-rose">
                     R
                   </span>
                 </div>
@@ -72,17 +74,17 @@ export function LandingPlannerPreview() {
                     <span className="font-mono text-[10px] text-secondary">
                       MINGGU, 25 OKTOBER 2026
                     </span>
-                    <h4 className="font-sans text-xl font-semibold text-primary">
+                    <h4 className="font-sans text-xl font-semibold text-brand-secondary">
                       Selamat pagi, Andi & Risa.
                     </h4>
                   </div>
-                  <span className="rounded-full bg-ux-dock border border-ux-border px-3 py-1 font-mono text-xs font-semibold text-primary">
+                  <span className="rounded-full bg-ux-dock border border-ux-border px-3 py-1 font-mono text-xs font-semibold text-brand-secondary">
                     14 Feb 2027
                   </span>
                 </div>
 
                 <div className="flex gap-2 border-b border-ux-border pb-3 text-xs">
-                  <span className="font-semibold text-primary border-b-2 border-primary pb-3 -mb-3">
+                  <span className="font-semibold text-brand-secondary border-b-2 border-primary pb-3 -mb-3">
                     Ringkasan
                   </span>
                   <span className="text-secondary px-3">Checklist</span>
@@ -92,7 +94,7 @@ export function LandingPlannerPreview() {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-3 rounded-control bg-ux-dock/60 border border-ux-border p-3.5">
-                    <p className="font-sans text-xs font-semibold text-primary">
+                    <p className="font-sans text-xs font-semibold text-brand-secondary">
                       Langkah kecil minggu ini
                     </p>
                     <div className="space-y-2 text-xs">
@@ -108,7 +110,7 @@ export function LandingPlannerPreview() {
                         </span>
                         <span className="text-[10px] text-muted">Risa</span>
                       </div>
-                      <div className="flex items-center justify-between font-medium text-primary">
+                      <div className="flex items-center justify-between font-medium text-brand-secondary">
                         <span className="flex items-center gap-2">
                           <span className="text-muted">○</span> Lengkapi daftar tamu
                         </span>
@@ -119,7 +121,9 @@ export function LandingPlannerPreview() {
 
                   <div className="space-y-3 rounded-control bg-ux-dock/60 border border-ux-border p-3.5">
                     <div className="flex items-center justify-between">
-                      <p className="font-sans text-xs font-semibold text-primary">Anggaran kita</p>
+                      <p className="font-sans text-xs font-semibold text-brand-secondary">
+                        Anggaran kita
+                      </p>
                       <span className="text-[10px] text-secondary">Tercatat. Terkendali.</span>
                     </div>
                     <div className="space-y-2 text-xs">
@@ -148,7 +152,7 @@ export function LandingPlannerPreview() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 rounded-control bg-[#F3F6EE] border border-ux-border px-3.5 py-2.5 text-xs text-primary">
+                <div className="flex items-center gap-2 rounded-control bg-ux-soft border border-ux-border px-3.5 py-2.5 text-xs text-brand-secondary">
                   <Icon name="check" size={14} className="text-emerald-700" />
                   <span>Risa menandai survei tempat akad selesai.</span>
                 </div>

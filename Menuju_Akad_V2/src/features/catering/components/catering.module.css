@@ -18,7 +18,7 @@
   color: var(--ux-gold-ink);
   border: 1px solid var(--ux-border);
   padding: 1rem 1.25rem;
-  border-radius: var(--radius-control);
+  border-radius: 0;
   font-size: 0.875rem;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@
 .card {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
 .resultBox {
   background-color: var(--ux-dock);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-control);
+  border-radius: 0;
   padding: 1.25rem;
   display: flex;
   flex-direction: column;

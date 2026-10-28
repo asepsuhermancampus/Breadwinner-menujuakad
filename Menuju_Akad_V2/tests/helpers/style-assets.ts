@@ -10,7 +10,7 @@ export async function assertPageStylesAndAssets(
   options: StyleAssetCheckOptions = {},
 ): Promise<void> {
   const failedResources: string[] = [];
-  const expectedBg = options.expectedBgColor ?? "rgb(251, 251, 249)";
+  const expectedBg = options.expectedBgColor ?? "rgb(244, 251, 247)";
 
   const responseHandler = (response: Response): void => {
     const resourceType = response.request().resourceType();
@@ -64,11 +64,11 @@ export async function assertPageStylesAndAssets(
       const hasLoadedMatch = loadedFaces.some((font) => normalize(font.family) === primaryFamily);
 
       return {
-        hasJakarta: primaryFamily.includes("jakarta"),
+        hasInter: primaryFamily.includes("inter"),
         hasLoadedMatch,
       };
     });
-    expect(fontStatus.hasJakarta).toBe(true);
+    expect(fontStatus.hasInter).toBe(true);
     expect(fontStatus.hasLoadedMatch).toBe(true);
 
     const flexComputed = await page.evaluate(() => {

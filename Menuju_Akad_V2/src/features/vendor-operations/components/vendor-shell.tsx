@@ -46,7 +46,7 @@ export function VendorShell({ children, view, onNavigate, name }: Props) {
   }
   const dockProps = { view, onNavigate: navigate, onUnavailable: setUnavailable };
   return (
-    <div className={cn(styles.shell, compact && styles.compact)}>
+    <div className={cn("app-frame", styles.shell, compact && styles.compact)}>
       <aside className={styles.desktopDock}>
         <VendorDock {...dockProps} compact={compact} onToggle={() => setCompact(!compact)} />
       </aside>

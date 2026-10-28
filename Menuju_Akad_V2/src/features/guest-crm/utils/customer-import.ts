@@ -1,4 +1,9 @@
-import type { GuestInvitation, GuestGroup } from "../types/guest";
+import { parseGuestGroup } from "./guest-groups";
+import {
+  defaultSideNames,
+  type SideNames,
+} from "@/features/customer-workspace/domain/side-profile-names";
+import type { GuestInvitation } from "../types/guest";
 export const newGuestIdentity = () => ({
   id: crypto.randomUUID(),
   personalToken: crypto.randomUUID(),
@@ -29,7 +34,10 @@ function csvRows(text: string): string[][] {
   if (row.some(Boolean)) rows.push(row);
   return rows;
 }
-export function parseGuestCsv(text: string): GuestInvitation[] {
+export function parseGuestCsv(
+  text: string,
+  names: SideNames = defaultSideNames,
+): GuestInvitation[] {
   if (text.length > 1e6) throw Error("CSV maksimal 1 MB.");
   const rows = csvRows(text.replace(/^\uFEFF/, "")),
     header = rows.shift()?.map((v) => v.toLowerCase()) ?? [];
@@ -41,14 +49,14 @@ export function parseGuestCsv(text: string): GuestInvitation[] {
     const get = (name: string) => row[header.indexOf(name)] ?? "",
       name = row[nameIndex] ?? "",
       quota = get("kuota") ? Number(get("kuota")) : 1,
-      group = get("grup") || "Teman";
+      group = parseGuestGroup(get("grup") || "Teman", names);
     if (
       !name ||
       name.length > 160 ||
       !Number.isInteger(quota) ||
       quota < 1 ||
       quota > 1000 ||
-      !["Keluarga Andi", "Keluarga Risa", "Teman", "Kolega", "Rekanan", "VIP"].includes(group) ||
+      !group ||
       get("telepon").length > 80
     )
       throw Error("Periksa nama, kuota atau grup pada baris " + (i + 2));
@@ -56,7 +64,7 @@ export function parseGuestCsv(text: string): GuestInvitation[] {
       ...newGuestIdentity(),
       name,
       quota,
-      group: group as GuestGroup,
+      group: group!,
       contactPhone: get("telepon"),
       rsvpStatus: "PENDING",
       attendingCount: 0,

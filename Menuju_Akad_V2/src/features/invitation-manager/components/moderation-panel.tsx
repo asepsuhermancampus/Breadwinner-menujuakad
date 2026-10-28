@@ -129,7 +129,7 @@ export function ModerationPanel() {
                   {item.kind} · {item.submittedAt}
                 </span>
               </span>
-              <span className="text-xs font-bold text-primary">Tinjau →</span>
+              <span className="text-xs font-bold text-brand-secondary">Tinjau →</span>
             </button>
           ))}
           {pending.length === 0 && (

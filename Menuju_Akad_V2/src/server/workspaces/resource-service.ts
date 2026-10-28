@@ -1,8 +1,19 @@
-import { createDocumentTemplate } from "@/features/kua-documents/domain/document-template";
+import {
+  createDocumentTemplate,
+  preservesMainDocuments,
+  type DocumentItem,
+} from "@/features/kua-documents/domain/document-template";
 import "server-only";
 import type { WorkspaceService } from "./service";
 import { validateResource, type ResourceKind } from "./resource-policy";
 import { PaymentError } from "@/server/payments/errors";
+import {
+  assertBudgetChanges,
+  financeBookSchema,
+} from "@/features/planner-finance/domain/finance-ledger";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import { financeDomainError } from "./finance-service";
+import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
 export class ResourceService {
   constructor(private readonly workspaces: WorkspaceService) {}
   readResource(
@@ -17,9 +28,23 @@ export class ResourceService {
           "INSERT OR IGNORE INTO workspace_resources(workspace_id,kind,data,revision) VALUES(?,?,?,0)",
         )
         .run(workspace.id, kind, JSON.stringify(createDocumentTemplate()));
-    const row = this.workspaces.db
+    let row = this.workspaces.db
       .prepare("SELECT * FROM workspace_resources WHERE workspace_id=? AND kind=?")
       .get(workspace.id, kind);
+    if (kind === "documents" && row) {
+      const previous = JSON.parse(String(row["data"])) as DocumentItem[];
+      const cleaned = removeLegacyDocumentDefaults(previous);
+      if (cleaned.length !== previous.length) {
+        this.workspaces.db
+          .prepare(
+            "UPDATE workspace_resources SET data=?,revision=revision+1 WHERE workspace_id=? AND kind='documents' AND revision=? AND data=?",
+          )
+          .run(JSON.stringify(cleaned), workspace.id, Number(row["revision"]), String(row["data"]));
+        row = this.workspaces.db
+          .prepare("SELECT * FROM workspace_resources WHERE workspace_id=? AND kind=?")
+          .get(workspace.id, kind);
+      }
+    }
     return row
       ? { revision: Number(row["revision"]), data: JSON.parse(String(row["data"])) as unknown[] }
       : { revision: 0, data: [] };
@@ -48,8 +73,38 @@ export class ResourceService {
       )
         throw new PaymentError("Token tamu telah digunakan workspace lain", 400);
       const current = this.readResource(account, kind, workspaceId);
+      if (
+        kind === "documents" &&
+        !preservesMainDocuments(current.data as DocumentItem[], items as DocumentItem[])
+      )
+        throw new PaymentError(
+          "Berkas utama hanya dapat dicentang atau dilepas sebagai satu template. Isinya tidak dapat diubah satu per satu.",
+          400,
+        );
       if (!Number.isSafeInteger(expectedRevision) || expectedRevision !== current.revision)
         throw new PaymentError("Data telah berubah. Muat ulang sebelum menyimpan.", 409);
+      if (kind === "finance") {
+        const ledger = db
+          .prepare("SELECT data FROM workspace_finance WHERE workspace_id=?")
+          .get(workspace.id);
+        const book = ledger ? financeBookSchema.parse(JSON.parse(String(ledger["data"]))) : null;
+        try {
+          assertBudgetChanges(
+            current.data as CustomerBudget[],
+            items as CustomerBudget[],
+            book?.allocations ?? [],
+          );
+        } catch (error) {
+          throw financeDomainError(error);
+        }
+        if (book) {
+          book.revision += 1;
+          db.prepare("UPDATE workspace_finance SET data=? WHERE workspace_id=?").run(
+            JSON.stringify(book),
+            workspace.id,
+          );
+        }
+      }
       db.prepare(
         `INSERT INTO workspace_resources(workspace_id,kind,data,revision) VALUES(?,?,?,?)
         ON CONFLICT(workspace_id,kind) DO UPDATE SET data=excluded.data,revision=excluded.revision`,

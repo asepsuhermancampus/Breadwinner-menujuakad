@@ -24,7 +24,7 @@
 }
 
 .toggleRow input {
-  accent-color: var(--primary);
+  accent-color: var(--brand-secondary);
   cursor: pointer;
   flex-shrink: 0;
   height: 2.75rem;
@@ -54,7 +54,7 @@
 }
 
 .dangerZone h2 {
-  color: var(--danger);
+  color: var(--danger-ink);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -80,7 +80,7 @@
 }
 
 .acknowledgment input {
-  accent-color: var(--primary);
+  accent-color: var(--brand-secondary);
   flex-shrink: 0;
   height: 1.25rem;
   margin: 0.75rem;

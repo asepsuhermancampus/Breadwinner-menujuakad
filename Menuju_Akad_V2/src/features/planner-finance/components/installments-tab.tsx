@@ -43,7 +43,7 @@ export function InstallmentsTab({
       </div>
 
       <div className={styles.disclaimerCard}>
-        <Icon name="shield" size={18} className="text-primary mt-0.5 shrink-0" />
+        <Icon name="shield" size={18} className="text-brand-secondary mt-0.5 shrink-0" />
         <div>
           <strong className="block font-medium text-foreground">
             Vendor Hidden · catatan mandiri.

@@ -18,7 +18,7 @@ export function WorkspaceShell({
   const [compact, setCompact] = useState(false);
   const [mobile, setMobile] = useState(false);
   return (
-    <div className={cn(styles.shell, compact && styles.shellCompact)}>
+    <div className={cn("app-frame", styles.shell, compact && styles.shellCompact)}>
       <div className={styles.dockRegion}>
         <WorkspaceDock
           compact={compact}
@@ -29,7 +29,7 @@ export function WorkspaceShell({
       </div>
       <div className={styles.canvas}>
         <WorkspaceHeader onOpenMenu={() => setMobile(true)} />
-        <main id="main-content" className={styles.body}>
+        <main id="main-content" tabIndex={-1} className={cn("app-scroll", styles.body)}>
           {children}
         </main>
       </div>

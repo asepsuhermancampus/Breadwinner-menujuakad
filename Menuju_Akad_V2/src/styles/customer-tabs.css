@@ -1,0 +1,68 @@
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--control-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+[data-customer-ui]
+  :is([data-customer-tabs], [role="tablist"])
+  > :is(button, a, span[aria-current="page"]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-height: 36px;
+  height: auto;
+  max-width: 100%;
+  padding: 6px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) > :is(button, a):hover {
+  background: var(--nav-active);
+}
+[data-customer-ui]
+  :is([data-customer-tabs], [role="tablist"])
+  > :is(button, a, span):is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"]),
+[data-customer-ui]
+  :is([data-customer-tabs], [role="tablist"])
+  > :is(button, a):is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"]):hover {
+  border-bottom-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+}
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) > :is(button, a):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+[data-customer-ui] [data-customer-tabs] > span[aria-current="page"] {
+  cursor: default;
+}
+@media (max-width: 640px) {
+  [data-customer-ui]
+    :is([data-customer-tabs], [role="tablist"])
+    > :is(button, a, span[aria-current="page"]) {
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+}

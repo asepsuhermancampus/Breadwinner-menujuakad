@@ -6,7 +6,7 @@
   gap: 16px;
 }
 .heading {
-  color: var(--primary);
+  color: var(--brand-secondary);
   font-size: 30px;
   font-weight: 600;
   letter-spacing: -0.9px;
@@ -21,9 +21,7 @@
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  padding: 20px 0;
-  border-block: 1px solid var(--ux-border);
+  gap: 16px;
 }
 .metrics dt {
   font-size: 11px;
@@ -33,7 +31,7 @@
   font-family: var(--font-mono), monospace;
   font-size: 24px;
   margin-top: 6px;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .grid {
   display: grid;
@@ -43,14 +41,14 @@
 .card {
   min-width: 0;
   border: 1px solid var(--ux-border);
-  border-radius: 16px;
+  border-radius: 0;
   padding: 24px;
 }
 .card:first-child {
   grid-column: 1 / -1;
 }
 .card[data-published="true"] {
-  background: var(--ux-dock);
+  background: var(--ux-soft);
 }
 .summary {
   display: flex;
@@ -67,9 +65,9 @@
   width: 140px;
   min-height: 180px;
   padding: 20px 12px;
-  border-radius: 10px;
+  border-radius: 0;
   background: var(--primary);
-  color: var(--canvas);
+  color: var(--on-primary);
   text-align: center;
 }
 .cover span {
@@ -89,7 +87,7 @@
   overflow-wrap: anywhere;
 }
 .status {
-  color: var(--primary);
+  color: var(--brand-secondary);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -102,14 +100,14 @@
 }
 .links a,
 .editor summary {
-  min-height: 44px;
+  min-height: 36px;
   display: inline-flex;
   align-items: center;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: var(--radius-control);
   border: 1px solid var(--ux-border);
   background: var(--surface);
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
 }
 .editor {
@@ -119,6 +117,9 @@
   margin-top: 16px;
 }
 @media (max-width: 760px) {
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .grid {
     grid-template-columns: minmax(0, 1fr);
   }

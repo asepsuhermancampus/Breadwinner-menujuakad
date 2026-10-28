@@ -41,7 +41,7 @@ export function DisputeSubmissionDialog({ open, onClose, onSubmitted }: Props) {
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Dana DP yang Dipersengketakan</span>
-            <span className="font-mono font-bold text-primary">{formatIdr(4500000)}</span>
+            <span className="font-mono font-bold text-brand-secondary">{formatIdr(4500000)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-secondary">Batas Waktu Hak Sengketa</span>

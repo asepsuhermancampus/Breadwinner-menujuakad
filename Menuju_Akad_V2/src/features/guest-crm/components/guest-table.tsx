@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
+import { guestGroupLabel, guestGroups } from "../utils/guest-groups";
 import type { GuestInvitation } from "../types/guest";
 import { filterGuests } from "../utils/guest-filter";
 import { Button } from "@/components/ui/button";
@@ -15,13 +17,14 @@ type Props = {
 };
 
 export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }: Props) {
+  const names = useCustomerNames();
   const [query, setQuery] = useState("");
   const [groupFilter, setGroupFilter] = useState("Semua grup");
   const [rsvpFilter, setRsvpFilter] = useState("Semua RSVP");
   const [page, setPage] = useState(1);
   const pageSize = 8;
 
-  const filtered = filterGuests(guests, query, groupFilter, rsvpFilter);
+  const filtered = filterGuests(guests, query, groupFilter, rsvpFilter, names);
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
   const effectivePage = Math.min(Math.max(1, page), totalPages);
   const currentRows = filtered.slice((effectivePage - 1) * pageSize, effectivePage * pageSize);
@@ -51,12 +54,11 @@ export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }
             className="rounded-control border border-border bg-canvas px-3 py-2 text-sm text-foreground"
           >
             <option>Semua grup</option>
-            <option>Keluarga Andi</option>
-            <option>Keluarga Risa</option>
-            <option>Teman</option>
-            <option>Kolega</option>
-            <option>Rekanan</option>
-            <option>VIP</option>
+            {guestGroups.map((value) => (
+              <option key={value} value={value}>
+                {guestGroupLabel(value, names)}
+              </option>
+            ))}
           </select>
           <select
             value={rsvpFilter}
@@ -83,7 +85,7 @@ export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="app-scroll overflow-x-auto">
         <table className={styles.tableContent}>
           <thead>
             <tr>
@@ -119,7 +121,7 @@ export function GuestTable({ guests, onSelectGuest, onOpenCreate, onOpenImport }
                   </td>
                   <td>
                     <span className="text-xs font-medium px-2 py-1 rounded bg-subtle">
-                      {g.group}
+                      {guestGroupLabel(g.group, names)}
                     </span>
                   </td>
                   <td className="font-mono text-sm">{g.quota} pax</td>

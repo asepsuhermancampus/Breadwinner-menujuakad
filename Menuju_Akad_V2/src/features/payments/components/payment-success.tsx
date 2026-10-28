@@ -18,7 +18,7 @@ export function PaymentSuccess({
   const link = (
     <Link
       href={href}
-      className="inline-flex justify-center rounded-control bg-primary px-5 py-3 text-sm font-semibold text-white"
+      className="inline-flex justify-center rounded-control bg-primary px-5 py-3 text-sm font-semibold text-on-primary"
     >
       {label}
     </Link>
@@ -48,7 +48,7 @@ export function PaymentSuccess({
           </p>
           {link}
           {invoice.settlementIssue && (
-            <Link href="/account?section=support" className="block text-sm underline">
+            <Link href="/account/support" className="block text-sm underline">
               Lihat bantuan untuk pesanan ini
             </Link>
           )}

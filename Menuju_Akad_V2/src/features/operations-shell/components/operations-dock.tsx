@@ -32,12 +32,12 @@ export function OperationsDock({
     (item) => item.view === active || item.children?.some((child) => child.view === active),
   );
   return (
-    <div className="flex h-full min-h-[600px] min-w-0 flex-col gap-[18px] rounded-shell border border-ux-border bg-ux-dock p-3">
+    <div className="flex h-full min-h-[600px] min-w-0 flex-col gap-[18px] rounded-[10px] border border-control-border bg-ux-dock lg:rounded-r-none p-3">
       <div className="flex min-h-10 items-center gap-2">
         {!compact && (
           <>
             <BrandLogo width={32} height={16} className="h-auto shrink-0" />
-            <span className="flex-1 text-sm font-semibold text-primary">menuju akad</span>
+            <span className="flex-1 text-sm font-semibold text-brand-secondary">menuju akad</span>
           </>
         )}
         <button
@@ -49,10 +49,10 @@ export function OperationsDock({
         </button>
       </div>
       {!compact && (
-        <div className="grid gap-3 rounded-control bg-primary p-3.5 text-white">
+        <div className="grid gap-3 rounded-control bg-ux-soft p-3.5 text-foreground">
           <p className="text-[10px] font-semibold tracking-wider">{roleLabel}</p>
           <p className="text-base font-semibold">{identity}</p>
-          <p className="text-xs text-ux-on-dark">{description}</p>
+          <p className="text-xs text-secondary">{description}</p>
         </div>
       )}
       <nav aria-label={`Navigasi ${roleLabel}`} className="grid content-start gap-1">
@@ -60,7 +60,7 @@ export function OperationsDock({
           const chosen = item === first;
           const main = (
             <span
-              className={`flex min-h-11 items-center gap-2.5 rounded-control px-3 text-xs ${chosen ? "bg-primary text-white" : "text-secondary hover:bg-subtle"}`}
+              className={`flex min-h-11 items-center gap-2.5 rounded-control px-3 text-xs ${chosen ? "bg-nav-active text-foreground" : "text-secondary hover:bg-subtle"}`}
             >
               <Icon name={item.icon} size={17} />
               {!compact && item.label}
@@ -76,7 +76,7 @@ export function OperationsDock({
                   <button
                     key={child.view}
                     aria-current={active === child.view ? "page" : undefined}
-                    className={`min-h-11 rounded-control px-3 text-left text-xs ${active === child.view ? "font-semibold text-primary" : "text-secondary hover:bg-subtle"}`}
+                    className={`min-h-11 rounded-control px-3 text-left text-xs ${active === child.view ? "font-semibold text-brand-secondary" : "text-secondary hover:bg-subtle"}`}
                     onClick={() => onNavigate(child.view)}
                   >
                     {child.label}
@@ -104,7 +104,7 @@ export function OperationsDock({
       <div className="flex-1" />
       {!compact && (
         <div className="grid gap-2 rounded-control border border-ux-border bg-canvas p-3 text-xs">
-          <p className="font-medium text-primary">
+          <p className="font-medium text-brand-secondary">
             {live ? "Lingkup operasional" : "Sandbox · Preset 3"}
           </p>
           <p className="text-secondary">

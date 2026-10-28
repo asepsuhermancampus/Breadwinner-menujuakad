@@ -1,20 +1,24 @@
-"use client";
-import { useState } from "react";
+﻿"use client";
+import { SummaryCard } from "@/components/ui/summary-card";
 import { Field } from "@/components/ui/field";
-import { calculateCatering } from "@/features/catering/utils/calculator";
 import type { PlanningViewProps } from "../domain/planning-view";
-import original from "@/features/catering/components/catering.module.css";
+import type { CateringEstimate } from "./use-catering-estimate";
+import { CateringSavedMenus } from "./catering-saved-menus";
+import catering from "./planning-catering.module.css";
 import styles from "./planning.module.css";
-export function PlanningCatering({ items, edit, remove }: PlanningViewProps) {
-  const [input, setInput] = useState({
-    invitations: 0,
-    multiplier: 2,
-    bufferPercent: 10,
-    buffetPercent: 60,
-    stallDishesCount: 4,
-  });
-  const result = calculateCatering(input);
-  const menus = items.filter((item) => "portions" in item);
+export function PlanningCatering({
+  items,
+  edit,
+  remove,
+  estimate,
+  guestError,
+  guestsLoading,
+}: PlanningViewProps & {
+  estimate: CateringEstimate;
+  guestError: string;
+  guestsLoading: boolean;
+}) {
+  const { input, manual, setInput, result, automatic, setUseGuests, summary } = estimate;
   const fields = [
     ["invitations", "Jumlah undangan"],
     ["multiplier", "Orang / undangan"],
@@ -24,90 +28,104 @@ export function PlanningCatering({ items, edit, remove }: PlanningViewProps) {
   ] as const;
   return (
     <div className={styles.stack}>
-      <div className={original.calculatorGrid}>
-        <section className={original.card}>
+      <div className={catering.summaries}>
+        <SummaryCard
+          label="Estimasi tamu"
+          value={result.totalWithBuffer.toLocaleString("id-ID")}
+          detail={`Termasuk ${result.bufferPax.toLocaleString("id-ID")} tamu cadangan`}
+          ornament={1}
+          highlight
+        />
+        <SummaryCard
+          label="Buffet utama"
+          value={result.buffetPax.toLocaleString("id-ID")}
+          detail={`${input.buffetPercent}% dari estimasi tamu`}
+          ornament={2}
+        />
+        <SummaryCard
+          label="Porsi gubukan"
+          value={result.stallPortionsTotal.toLocaleString("id-ID")}
+          detail={`${input.stallDishesCount} variasi sajian`}
+          ornament={3}
+        />
+        <SummaryCard
+          label="Total sajian"
+          value={result.totalPortions.toLocaleString("id-ID")}
+          detail="Porsi buffet dan gubukan"
+          ornament={4}
+          highlight
+        />
+      </div>
+      <div className={catering.content}>
+        <section
+          className={`${styles.card} ${styles.stack}`}
+          aria-label="Dasar perhitungan katering"
+        >
           <h2 className="text-sm font-semibold">Dasar perhitungan</h2>
-          {fields.map(([key, label]) => (
-            <Field
-              key={key}
-              label={label}
-              type="number"
-              min={0}
-              max={key.endsWith("Percent") ? 100 : 100000}
-              value={input[key]}
-              onChange={(e) =>
-                setInput({
-                  ...input,
-                  [key]: Math.max(
-                    0,
-                    Math.min(key.endsWith("Percent") ? 100 : 100000, Number(e.target.value) || 0),
-                  ),
-                })
-              }
-            />
-          ))}
+          {summary.guests > 0 ? (
+            <div className={styles.notice}>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={automatic}
+                  onChange={(event) => setUseGuests(event.target.checked)}
+                />
+                Gunakan daftar tamu otomatis
+              </label>
+              <p className="mt-2">
+                {summary.invitations.toLocaleString("id-ID")} undangan ·{" "}
+                {summary.guests.toLocaleString("id-ID")} orang berdasarkan kuota di CRM Tamu.
+              </p>
+            </div>
+          ) : (
+            <p className={styles.notice}>
+              {guestsLoading
+                ? "Memuat daftar tamu. Jumlah tetap bisa diisi manual."
+                : guestError
+                  ? "Daftar tamu belum dapat dimuat. Isi jumlah undangan secara manual untuk melanjutkan."
+                  : "Belum ada daftar tamu. Isi jumlah undangan di bawah atau tambahkan tamu melalui CRM Tamu."}
+            </p>
+          )}
+          <div className={catering.fields}>
+            {fields
+              .filter(([key]) => !automatic || (key !== "invitations" && key !== "multiplier"))
+              .map(([key, label]) => (
+                <Field
+                  key={key}
+                  label={label}
+                  type="number"
+                  min={0}
+                  max={key.endsWith("Percent") ? 100 : 100000}
+                  value={manual[key]}
+                  onChange={(event) =>
+                    setInput({
+                      ...manual,
+                      [key]: Math.max(
+                        0,
+                        Math.min(
+                          key.endsWith("Percent") ? 100 : 100000,
+                          Number(event.target.value) || 0,
+                        ),
+                      ),
+                    })
+                  }
+                />
+              ))}
+          </div>
           <div className={styles.notice}>
             <strong>Rumus yang dipakai</strong>
             <p className="font-mono mt-2">
-              {input.invitations} × {input.multiplier} = {result.totalBaseGuests}
-              <br />+ buffer {input.bufferPercent}% = {result.totalWithBuffer} tamu
+              {automatic
+                ? `${summary.guests.toLocaleString("id-ID")} orang dari daftar tamu`
+                : `${input.invitations} × ${input.multiplier} = ${result.totalBaseGuests}`}
+              <br />+ cadangan {input.bufferPercent}% ={" "}
+              {result.totalWithBuffer.toLocaleString("id-ID")} tamu
             </p>
             <p className="mt-2">Estimasi ini bukan jaminan jumlah tamu yang datang.</p>
           </div>
         </section>
-        <section className={original.card}>
-          <h2 className="text-sm font-semibold">Estimasi tamu termasuk cadangan</h2>
-          <p className="font-mono text-4xl font-semibold text-primary">
-            {result.totalWithBuffer.toLocaleString("id-ID")}
-          </p>
-          <p className="text-xs text-secondary">+{result.bufferPax} pax buffer</p>
-          <h3 className="text-sm font-semibold">Pembagian buffet & gubukan</h3>
-          <dl className={styles.stats}>
-            <div>
-              <dt>Buffet utama</dt>
-              <dd>{result.buffetPax}</dd>
-            </div>
-            <div>
-              <dt>Total gubukan</dt>
-              <dd>{result.stallPortionsTotal}</dd>
-            </div>
-            <div>
-              <dt>Total sajian</dt>
-              <dd>{result.totalPortions}</dd>
-            </div>
-          </dl>
-          <p className={styles.notice}>
-            Orang tidak sama dengan porsi. Satu tamu dapat menikmati beberapa sajian gubukan. Simpan
-            kebutuhan menu melalui tombol Menu katering.
-          </p>
-        </section>
+        <CateringSavedMenus items={items} edit={edit} remove={remove} />
       </div>
-      <section className={styles.card}>
-        <div className={styles.row}>
-          <h2 className="text-sm font-semibold">Menu katering tersimpan</h2>
-          <span className="font-mono text-sm">
-            Rp {menus.reduce((sum, i) => sum + i.portions * i.unitCost, 0).toLocaleString("id-ID")}
-          </span>
-        </div>
-        {menus.map((item) => (
-          <div key={item.id} className={styles.check}>
-            <div className="flex-1">
-              <strong>{item.title}</strong>
-              <small>
-                {item.portions} porsi × Rp {item.unitCost.toLocaleString("id-ID")}
-              </small>
-              {item.notes && <small>{item.notes}</small>}
-            </div>
-            <div className={styles.actions}>
-              <button onClick={() => edit(item)}>Edit</button>
-              <button data-delete onClick={() => remove(item)}>
-                Hapus
-              </button>
-            </div>
-          </div>
-        ))}
-        {!menus.length && <p className={styles.empty}>Belum ada menu tersimpan.</p>}
-      </section>
     </div>
   );
 }

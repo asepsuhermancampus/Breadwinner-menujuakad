@@ -48,7 +48,7 @@ export function ProfileScreen({
           <section className={styles.panel}>
             <p className="text-sm text-secondary">Pasanganmu</p>
             <h2 className="mt-3">{partner?.fullName ?? "Rencanakan bersama"}</h2>
-            <p className="mb-3 text-xs text-primary">
+            <p className="mb-3 text-xs text-brand-secondary">
               {partner ? "● Terhubung" : "Belum terhubung"}
             </p>
             {partner && <p className="break-all text-xs text-secondary">{partner.email}</p>}
@@ -64,7 +64,7 @@ export function ProfileScreen({
             ) : (
               <Link
                 href="/onboarding/partner"
-                className="inline-flex min-h-11 items-center text-sm text-primary underline"
+                className="inline-flex min-h-11 items-center text-sm text-brand-secondary underline"
               >
                 Undang pasangan
               </Link>
@@ -80,7 +80,7 @@ export function ProfileScreen({
             </p>
             <Link
               href="/account/plans"
-              className="mt-5 inline-flex min-h-11 items-center text-xs font-medium text-primary"
+              className="mt-5 inline-flex min-h-11 items-center text-xs font-medium text-brand-secondary"
             >
               Kelola paket & upgrade ↗
             </Link>

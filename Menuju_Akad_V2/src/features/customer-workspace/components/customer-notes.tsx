@@ -3,6 +3,9 @@ import { DocumentEditForm } from "./document-edit-form";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import { PageHeading } from "@/components/ui/page-heading";
+import styles from "./customer-documents.module.css";
 type Note = { id: string; title: string; completed?: boolean; amount?: number; notes?: string };
 export function CustomerNotes({
   initial,
@@ -22,14 +25,15 @@ export function CustomerNotes({
   }
   return (
     <section className="space-y-5">
-      <h1 className="text-3xl font-semibold">
-        {finance ? "Catatan anggaran" : "Checklist dokumen"}
-      </h1>
-      {!finance && (
-        <p className="text-sm text-secondary">
-          Template persiapan dapat diedit. Sesuaikan persyaratan dengan KUA setempat.
-        </p>
-      )}
+      <PageHeading
+        key={finance ? "finance" : "documents"}
+        title={finance ? "Catatan anggaran" : "Checklist dokumen"}
+        description={
+          finance
+            ? "Catat kebutuhan dan nominal anggaran acara kalian."
+            : "Template persiapan dapat diedit. Sesuaikan persyaratan dengan KUA setempat."
+        }
+      />
       {editing && (
         <DocumentEditForm
           key={editing.id}
@@ -49,7 +53,11 @@ export function CustomerNotes({
         </p>
       )}
       <form
-        className="flex flex-wrap gap-3 rounded-card border border-ux-border bg-surface p-5"
+        className={
+          finance
+            ? "flex flex-wrap gap-3 rounded-card border border-ux-border bg-surface p-5"
+            : styles.create
+        }
         onSubmit={async (e) => {
           e.preventDefault();
           if (!title.trim()) return;
@@ -66,14 +74,29 @@ export function CustomerNotes({
           setAmount("");
         }}
       >
-        <label className="grid flex-1 gap-1 text-sm">
+        {!finance && (
+          <div className={styles.intro}>
+            <span className={styles.documentIcon}>
+              <Icon name="file-text" size={20} />
+            </span>
+            <div>
+              <h2>Tambah dokumen</h2>
+              <p>Lengkapi checklist dengan berkas yang kalian butuhkan.</p>
+            </div>
+          </div>
+        )}
+        <label className={finance ? "grid flex-1 gap-1 text-sm" : styles.field}>
           {finance ? "Nama anggaran" : "Nama dokumen"}
           <input
             required
             maxLength={160}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="rounded-control border border-ux-border bg-canvas p-3"
+            className={
+              finance ? "rounded-control border border-ux-border bg-canvas p-3" : styles.input
+            }
+            placeholder={finance ? undefined : "Contoh: Surat rekomendasi nikah"}
+            aria-describedby={finance ? undefined : "document-name-help"}
           />
         </label>
         {finance && (
@@ -91,7 +114,14 @@ export function CustomerNotes({
             />
           </label>
         )}
-        <Button type="submit">Tambah</Button>
+        <Button type="submit" className={finance ? undefined : styles.add}>
+          {!finance && <Icon name="plus" size={18} />}Tambah
+        </Button>
+        {!finance && (
+          <p id="document-name-help" className={styles.helper}>
+            Nama berkas bisa disesuaikan dengan persyaratan KUA setempat.
+          </p>
+        )}
       </form>
       {items.length === 0 && (
         <p className="text-sm text-secondary">Belum ada catatan. Mulai dari kebutuhan kalian.</p>
@@ -100,7 +130,11 @@ export function CustomerNotes({
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex flex-wrap items-center gap-3 rounded-card border border-ux-border bg-surface p-4"
+            className={
+              finance
+                ? "flex flex-wrap items-center gap-3 rounded-card border border-ux-border bg-surface p-4"
+                : styles.row
+            }
           >
             {!finance && (
               <input
@@ -114,21 +148,32 @@ export function CustomerNotes({
                 }
               />
             )}
-            <span className="flex-1">
+            <span className={finance ? "flex-1" : styles.details}>
               {item.title}
               {item.notes && <small className="block text-secondary">{item.notes}</small>}
             </span>
             {!finance && (
-              <button className="text-sm underline" onClick={() => setEditing(item)}>
-                Edit
+              <button
+                type="button"
+                className={styles.action}
+                aria-label={`Edit ${item.title}`}
+                title={`Edit ${item.title}`}
+                onClick={() => setEditing(item)}
+              >
+                <Icon name="pencil" size={17} />
               </button>
             )}
             {finance && <span>Rp {(item.amount ?? 0).toLocaleString("id-ID")}</span>}
             <button
-              className="text-xs text-danger underline"
+              type="button"
+              className={
+                finance ? "text-xs text-danger underline" : `${styles.action} ${styles.remove}`
+              }
+              aria-label={finance ? undefined : `Hapus ${item.title}`}
+              title={finance ? undefined : `Hapus ${item.title}`}
               onClick={() => update(items.filter((n) => n.id !== item.id))}
             >
-              Hapus
+              {finance ? "Hapus" : <Icon name="trash" size={17} />}
             </button>
           </li>
         ))}

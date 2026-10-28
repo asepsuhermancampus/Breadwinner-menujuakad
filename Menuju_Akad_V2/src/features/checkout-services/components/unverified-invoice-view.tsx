@@ -82,7 +82,7 @@ export function UnverifiedInvoiceView({ tx }: UnverifiedInvoiceProps) {
                 <tr key={item.id} className="border-b border-border">
                   <td className="p-3 font-semibold text-foreground">{item.label}</td>
                   <td className="p-3 font-mono">{formatIdr(item.totalPriceIdr)}</td>
-                  <td className="p-3 font-mono text-primary font-bold">
+                  <td className="p-3 font-mono text-brand-secondary font-bold">
                     {formatIdr(item.paidAmountIdr)}
                   </td>
                   <td className="p-3 text-secondary">
@@ -97,7 +97,7 @@ export function UnverifiedInvoiceView({ tx }: UnverifiedInvoiceProps) {
                 <td className="p-3 font-mono text-sm text-foreground">
                   {formatIdr(tx.totalAmountIdr)}
                 </td>
-                <td className="p-3 font-mono text-sm text-primary">
+                <td className="p-3 font-mono text-sm text-brand-secondary">
                   {formatIdr(tx.paidAmountIdr)}
                 </td>
                 <td className={`p-3 ${isWaiting ? "text-warning" : "text-danger"}`}>

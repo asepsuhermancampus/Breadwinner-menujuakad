@@ -24,7 +24,7 @@ export function CheckinStatesView() {
           type="button"
           onClick={() => setSelectedCase("offline")}
           className={`px-3 py-1.5 text-xs font-semibold rounded ${
-            selectedCase === "offline" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            selectedCase === "offline" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           1. Kasus Offline
@@ -33,7 +33,7 @@ export function CheckinStatesView() {
           type="button"
           onClick={() => setSelectedCase("duplicate")}
           className={`px-3 py-1.5 text-xs font-semibold rounded ${
-            selectedCase === "duplicate" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            selectedCase === "duplicate" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           2. Tiket Sudah Dipakai (Duplikat)
@@ -42,7 +42,7 @@ export function CheckinStatesView() {
           type="button"
           onClick={() => setSelectedCase("overquota")}
           className={`px-3 py-1.5 text-xs font-semibold rounded ${
-            selectedCase === "overquota" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            selectedCase === "overquota" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           3. Melebihi Sisa Kuota

@@ -32,7 +32,7 @@ export function StudioLayers({
             key={item.id}
             role="option"
             aria-selected={selected === item.id}
-            className={`min-h-11 rounded-control px-3 text-left text-xs ${selected === item.id ? "bg-ux-soft font-semibold text-primary" : "hover:bg-subtle"}`}
+            className={`min-h-11 rounded-control px-3 text-left text-xs ${selected === item.id ? "bg-ux-soft font-semibold text-brand-secondary" : "hover:bg-subtle"}`}
             onClick={() => onSelect(item.id)}
           >
             {item.name}

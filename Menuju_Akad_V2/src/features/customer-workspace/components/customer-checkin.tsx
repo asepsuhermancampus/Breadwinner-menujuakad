@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useCustomerResource } from "../hooks/use-customer-resource";
 import { useTrialResource } from "@/features/dashboard-trial/hooks/use-trial-resource";
 import { Button } from "@/components/ui/button";
+import { PageHeading } from "@/components/ui/page-heading";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 type Guest = {
   id: string;
   name: string;
@@ -54,14 +56,20 @@ function Entry({ guest, save }: { guest: Guest; save: (n: number) => Promise<boo
 }
 function Content({ state }: { state: State }) {
   const guests = (state.data ?? []) as Guest[];
+  if (state.data === null && !state.error) {
+    return <PageSkeleton label="Memuat tamu" />;
+  }
   return (
     <section className="space-y-4">
-      <h1 className="text-3xl font-semibold">Check-in tamu</h1>
-      <p>Total kedatangan: {guests.reduce((n, g) => n + (g.checkedInCount ?? 0), 0)} orang.</p>
+      <PageHeading
+        title="Check-in tamu"
+        description="Catat jumlah tamu yang hadir saat acara berlangsung."
+      />
+      {state.data !== null && (
+        <p>Total kedatangan: {guests.reduce((n, g) => n + (g.checkedInCount ?? 0), 0)} orang.</p>
+      )}
       {state.error && <p role="alert">{state.error}</p>}
-      {state.data === null ? (
-        <p>Memuat tamu...</p>
-      ) : guests.length === 0 ? (
+      {state.data === null ? null : guests.length === 0 ? (
         <p>Tambahkan tamu melalui menu Tamu & RSVP.</p>
       ) : (
         guests

@@ -68,7 +68,7 @@ export function VendorCatalog({
           <button
             key={label}
             aria-pressed={label === tab}
-            className={`min-h-11 text-sm ${label === tab ? "font-semibold text-primary" : "text-secondary"}`}
+            className={`min-h-11 text-sm ${label === tab ? "font-semibold text-brand-secondary" : "text-secondary"}`}
             onClick={() => (label === "Dokumen & KYB" ? onKyb() : setTab(label))}
           >
             {label}

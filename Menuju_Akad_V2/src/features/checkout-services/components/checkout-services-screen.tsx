@@ -132,7 +132,9 @@ export function CheckoutServicesScreen() {
 
                   <div className="pt-3 border-t border-border mt-3 flex justify-between items-center text-sm font-bold">
                     <span>Total Nilai Layanan:</span>
-                    <span className="font-mono text-primary text-base">{formatIdr(35000000)}</span>
+                    <span className="font-mono text-brand-secondary text-base">
+                      {formatIdr(35000000)}
+                    </span>
                   </div>
                 </div>
 

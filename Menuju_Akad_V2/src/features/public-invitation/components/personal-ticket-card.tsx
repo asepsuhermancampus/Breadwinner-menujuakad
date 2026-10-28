@@ -43,7 +43,7 @@ export function PersonalTicketCard({
 
       <div>
         <div className="text-[11px] uppercase tracking-widest text-muted">Sampai Bertemu!</div>
-        <h3 className="font-serif text-2xl font-bold text-primary mt-0.5">Andi & Risa</h3>
+        <h3 className="font-serif text-2xl font-bold text-brand-secondary mt-0.5">Andi & Risa</h3>
         <p className="text-xs text-secondary mt-0.5">{invitation.eventDateText}</p>
       </div>
 
@@ -76,7 +76,7 @@ export function PersonalTicketCard({
         <button
           type="button"
           onClick={onClose}
-          className="text-xs font-semibold text-primary hover:underline block mx-auto pt-1"
+          className="text-xs font-semibold text-brand-secondary hover:underline block mx-auto pt-1"
         >
           ← Kembali ke Undangan
         </button>

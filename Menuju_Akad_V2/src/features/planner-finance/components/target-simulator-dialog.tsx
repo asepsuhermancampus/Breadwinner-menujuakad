@@ -40,7 +40,9 @@ export function TargetSimulatorDialog({
     <Dialog open={open} onClose={onClose} title="Simulasi Target Dana & Kontribusi">
       <div className="flex flex-col gap-4 p-5 max-w-md">
         <div>
-          <h3 className="font-serif text-xl font-medium text-primary">Bagi target, bukan beban.</h3>
+          <h3 className="font-serif text-xl font-medium text-brand-secondary">
+            Bagi target, bukan beban.
+          </h3>
           <p className="text-xs text-secondary">
             Atur ritme menabung yang masuk akal untuk kalian berdua.
           </p>
@@ -59,7 +61,7 @@ export function TargetSimulatorDialog({
 
         <div className="flex items-center justify-between text-xs">
           <span className="text-secondary">Kekurangan dana (Gap)</span>
-          <strong className="font-mono text-primary text-sm">{formatRupiah(gap)}</strong>
+          <strong className="font-mono text-brand-secondary text-sm">{formatRupiah(gap)}</strong>
         </div>
 
         <div className="grid min-w-0 gap-2">
@@ -71,7 +73,7 @@ export function TargetSimulatorDialog({
                 type="button"
                 className={`flex-1 py-1.5 text-xs rounded-control border transition-all ${
                   periods === p
-                    ? "bg-primary text-canvas border-primary font-semibold"
+                    ? "bg-primary text-on-primary border-primary font-semibold"
                     : "border-border bg-surface text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setPeriods(p)}

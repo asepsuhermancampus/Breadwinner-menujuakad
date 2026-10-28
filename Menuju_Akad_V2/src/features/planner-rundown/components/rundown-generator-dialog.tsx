@@ -45,7 +45,7 @@ export function RundownGeneratorDialog({ open, onClose, onApply, currentItems }:
               type="checkbox"
               checked={config.lockAnchors}
               onChange={(e) => setConfig((c) => ({ ...c, lockAnchors: e.target.checked }))}
-              className="size-4 rounded border-border text-primary focus:ring-primary"
+              className="size-4 rounded border-border text-brand-secondary focus:ring-primary"
             />
           </label>
 
@@ -57,7 +57,7 @@ export function RundownGeneratorDialog({ open, onClose, onApply, currentItems }:
               onChange={(e) =>
                 setConfig((c) => ({ ...c, respectVendorConstraints: e.target.checked }))
               }
-              className="size-4 rounded border-border text-primary focus:ring-primary"
+              className="size-4 rounded border-border text-brand-secondary focus:ring-primary"
             />
           </label>
 
@@ -88,7 +88,7 @@ export function RundownGeneratorDialog({ open, onClose, onApply, currentItems }:
           </div>
         ) : (
           <div className="flex items-center gap-2 text-xs text-secondary">
-            <Icon name="info" size={15} className="text-primary shrink-0" />
+            <Icon name="info" size={15} className="text-brand-secondary shrink-0" />
             <span>
               Hasil generator selalu berupa pratinjau yang butuh persetujuan sebelum diterapkan.
             </span>

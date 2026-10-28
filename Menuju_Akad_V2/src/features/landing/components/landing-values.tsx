@@ -28,11 +28,11 @@ export function LandingValues() {
               key={v.title}
               className="flex items-center gap-4 rounded-control border border-ux-border bg-ux-dock/50 p-4 transition hover:bg-ux-dock"
             >
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-control bg-primary/10 text-primary">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-control bg-primary/10 text-brand-secondary">
                 <Icon name={v.icon} size={20} />
               </div>
               <div>
-                <h3 className="font-sans text-sm font-semibold text-primary">{v.title}</h3>
+                <h3 className="font-sans text-sm font-semibold text-brand-secondary">{v.title}</h3>
                 <p className="mt-0.5 text-xs text-secondary">{v.description}</p>
               </div>
             </div>

@@ -133,14 +133,14 @@ export function BundlerScreen({ initialItems }: Props) {
             <div className="text-2xl font-bold font-mono text-foreground">
               {formatIdr(total.subtotalIdr)}
             </div>
-            <div className="text-xs text-primary font-medium mt-0.5">
+            <div className="text-xs text-brand-secondary font-medium mt-0.5">
               DP 30% ditawarkan saat kontrak disetujui: {formatIdr(total.dp30PercentIdr)}
             </div>
           </div>
           <div className="flex gap-2">
             <a
               href="/checkout/services"
-              className="inline-flex items-center justify-center px-5 py-3 rounded-control bg-primary text-white font-semibold text-sm hover:bg-primary-hover shadow-sm"
+              className="inline-flex items-center justify-center px-5 py-3 rounded-control bg-primary text-on-primary font-semibold text-sm hover:bg-primary-hover shadow-sm"
             >
               Lanjut ke Checkout Jasa ({formatIdr(total.subtotalIdr)}) →
             </a>

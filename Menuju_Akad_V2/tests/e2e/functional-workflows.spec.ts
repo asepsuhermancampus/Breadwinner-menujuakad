@@ -90,7 +90,13 @@ test("guest moodboard supports actual add edit delete", async ({ page }) => {
 
 test("switching KUA edit target never copies another document title", async ({ page }) => {
   await page.goto("/planner/kua");
-  const buttons = page.getByRole("button", { name: "Edit", exact: true });
+  await page.getByText("Tambah dokumen sendiri", { exact: true }).click();
+  for (const title of ["Dokumen pertama", "Dokumen kedua"]) {
+    await page.getByLabel("Nama dokumen", { exact: true }).fill(title);
+    await page.getByRole("button", { name: "Tambah", exact: true }).click();
+    await expect(page.getByLabel("Nama dokumen", { exact: true })).toHaveValue("");
+  }
+  const buttons = page.getByRole("button", { name: /^Edit / });
   await expect.poll(() => buttons.count()).toBeGreaterThan(1);
   await buttons.nth(0).click();
   const field = page
@@ -98,6 +104,7 @@ test("switching KUA edit target never copies another document title", async ({ p
     .filter({ has: page.getByRole("button", { name: "Simpan dokumen", exact: true }) })
     .getByLabel("Nama dokumen", { exact: true });
   const first = await field.inputValue();
+  await page.getByRole("dialog").getByRole("button", { name: "Batal", exact: true }).click();
   await buttons.nth(1).click();
   await expect(field).not.toHaveValue(first);
 });

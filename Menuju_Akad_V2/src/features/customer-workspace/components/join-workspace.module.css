@@ -1,0 +1,98 @@
+.page {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+  background: var(--canvas);
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 24px;
+  width: min(100%, 480px);
+  min-width: 0;
+  padding: 32px;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+}
+.card > :not([data-card-ornament]) {
+  position: relative;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand-secondary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.heading,
+.form,
+.form fieldset {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.heading h1 {
+  color: var(--brand-secondary);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.heading p,
+.form p,
+.back {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--secondary);
+}
+.successActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.openLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  min-height: 44px;
+  border-radius: var(--radius-control);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+.notice {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--secondary);
+}
+.form fieldset {
+  border: 0;
+  padding: 0;
+}
+.position {
+  padding: 10px 12px;
+  border: 1px solid var(--ux-border);
+  background: var(--subtle);
+}
+.error {
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.back {
+  justify-self: start;
+}
+@media (max-width: 480px) {
+  .card {
+    padding: 24px;
+  }
+  .successActions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

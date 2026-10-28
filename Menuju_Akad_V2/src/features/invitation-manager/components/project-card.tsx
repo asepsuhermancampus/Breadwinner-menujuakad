@@ -43,7 +43,7 @@ export function ProjectCard({
             <button
               type="button"
               onClick={() => onOpenAddress(project)}
-              className="mt-1 inline-flex items-center gap-1 font-mono text-xs text-primary underline underline-offset-2"
+              className="mt-1 inline-flex items-center gap-1 font-mono text-xs text-brand-secondary underline underline-offset-2"
             >
               menujuakad.id/{project.slug}
             </button>

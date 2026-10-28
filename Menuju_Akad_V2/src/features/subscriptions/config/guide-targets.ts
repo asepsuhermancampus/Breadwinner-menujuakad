@@ -57,13 +57,13 @@ export const guideTargets: Partial<Record<Capability, GuideTarget>> = {
   "custom-domain": target(
     "custom-domain",
     "Custom domain",
-    "/account?section=domain",
+    "/account/domain",
     "Daftarkan domain dan verifikasi DNS; aktivasi memerlukan hosting dan HTTPS yang sesuai.",
   ),
   "priority-support": target(
     "priority-support",
     "Prioritas bantuan",
-    "/account?section=support",
+    "/account/support",
     "Permintaan bantuan kalian masuk antrean prioritas Lifetime.",
   ),
 };

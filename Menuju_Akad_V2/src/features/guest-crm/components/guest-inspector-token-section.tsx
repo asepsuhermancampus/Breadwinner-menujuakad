@@ -41,7 +41,7 @@ export function GuestInspectorTokenSection({ personalToken }: Props) {
         href={`/i/${personalToken}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block text-xs text-primary font-semibold hover:underline pt-1"
+        className="inline-block text-xs text-brand-secondary font-semibold hover:underline pt-1"
       >
         Buka tampilan undangan tamu ↗
       </a>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
+import { guestGroupLabel, guestGroups } from "../utils/guest-groups";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, GuestInvitation } from "../types/guest";
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export function GuestCreateDialog({ open, onClose, onSave }: Props) {
+  const names = useCustomerNames();
   const [name, setName] = useState("");
   const [group, setGroup] = useState<GuestGroup>("Teman");
   const [quota, setQuota] = useState(2);
@@ -48,7 +51,7 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
       rsvpStatus: "PENDING",
       attendingCount: 0,
       waConsent: hasConsent,
-      waConsentDate: hasConsent ? "25 Okt 2026" : undefined,
+      waConsentDate: hasConsent ? new Date().toISOString() : undefined,
       waConsentSource: hasConsent ? "Input langsung formulir" : undefined,
     });
     if (saved === false) {
@@ -95,12 +98,11 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
               onChange={(e) => setGroup(e.target.value as GuestGroup)}
               className="w-full rounded-control border border-border bg-canvas px-3 py-2 text-sm"
             >
-              <option>Keluarga Andi</option>
-              <option>Keluarga Risa</option>
-              <option>Teman</option>
-              <option>Kolega</option>
-              <option>Rekanan</option>
-              <option>VIP</option>
+              {guestGroups.map((value) => (
+                <option key={value} value={value}>
+                  {guestGroupLabel(value, names)}
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -137,9 +139,6 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
         </div>
 
         <div className="rounded-control bg-subtle p-3 border border-border space-y-2">
-          <div className="text-xs font-semibold text-foreground">
-            Kebijakan Komunikasi & Izin WA
-          </div>
           <p className="text-xs text-secondary leading-relaxed">
             Menyimpan nomor tidak berarti boleh mengirim pesan massal. Tambahkan bukti persetujuan
             tamu sebelum memasukkannya ke antrean WhatsApp.
@@ -152,10 +151,6 @@ export function GuestCreateDialog({ open, onClose, onSave }: Props) {
             />
             <span>Tamu telah memberikan izin tertulis / formulir untuk dihubungi</span>
           </label>
-        </div>
-
-        <div className="text-xs text-secondary italic">
-          Tautan personal unik (token opak) akan otomatis dibuat saat undangan disimpan.
         </div>
 
         <div className="flex justify-end gap-2 pt-2 border-t border-border">

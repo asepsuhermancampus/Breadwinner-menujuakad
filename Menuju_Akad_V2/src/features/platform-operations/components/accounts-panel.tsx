@@ -57,7 +57,7 @@ export function AccountsPanel({ context }: PanelProps) {
         >
           {account.id === "farah" ? (
             <>
-              <ul className="grid gap-3 text-xs text-primary">
+              <ul className="grid gap-3 text-xs text-brand-secondary">
                 {supportPermissions.map((permission) => (
                   <li key={permission}>✓ {permission}</li>
                 ))}

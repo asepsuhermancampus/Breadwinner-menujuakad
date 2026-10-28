@@ -19,7 +19,7 @@ export function RundownScreen({ initialItems }: Props) {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+            <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
               Rundown acara
             </h1>
             <span className="rounded-full bg-ux-dock border border-ux-border px-2.5 py-0.5 text-xs text-secondary font-mono">

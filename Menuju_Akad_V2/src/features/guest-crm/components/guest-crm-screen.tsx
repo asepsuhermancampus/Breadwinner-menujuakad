@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHeading } from "@/components/ui/page-heading";
 import { useCommittedList } from "@/hooks/use-committed-list";
 import type { GuestInvitation } from "../types/guest";
 import { canUpdateGuestQuota } from "../utils/guest-filter";
@@ -78,18 +79,22 @@ export function GuestCrmScreen({
 
   return (
     <div className={styles.crmContainer}>
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Daftar Tamu & RSVP</h1>
-        <p className="text-xs text-secondary mt-1">
-          {guests.filter((g) => !g.isArchived).length} undangan ·{" "}
-          {customerLabel ?? "Pernikahan Andi & Risa"}
-        </p>
-      </div>
+      <PageHeading
+        title="Daftar Tamu & RSVP"
+        description={
+          <>
+            Kelola daftar tamu, pantau RSVP, dan siapkan tindak lanjut WhatsApp. Saat ini ada{" "}
+            {guests.filter((g) => !g.isArchived).length} undangan ·{" "}
+            {customerLabel ?? "Rencana pernikahan kalian"}
+          </>
+        }
+      />
 
-      <div className={styles.tabBar}>
+      <div className={`app-scroll ${styles.tabBar}`} data-customer-tabs>
         <button
           type="button"
           onClick={() => setActiveTab("guests")}
+          aria-pressed={activeTab === "guests"}
           className={`${styles.tabButton} ${activeTab === "guests" ? styles.tabButtonActive : ""}`}
         >
           Tamu & RSVP
@@ -97,6 +102,7 @@ export function GuestCrmScreen({
         <button
           type="button"
           onClick={() => setActiveTab("seating")}
+          aria-pressed={activeTab === "seating"}
           className={`${styles.tabButton} ${activeTab === "seating" ? styles.tabButtonActive : ""}`}
         >
           Penempatan Meja
@@ -104,6 +110,7 @@ export function GuestCrmScreen({
         <button
           type="button"
           onClick={() => setActiveTab("whatsapp")}
+          aria-pressed={activeTab === "whatsapp"}
           className={`${styles.tabButton} ${activeTab === "whatsapp" ? styles.tabButtonActive : ""}`}
         >
           Pengiriman WA
@@ -111,6 +118,7 @@ export function GuestCrmScreen({
         <button
           type="button"
           onClick={() => setActiveTab("followup")}
+          aria-pressed={activeTab === "followup"}
           className={`${styles.tabButton} ${activeTab === "followup" ? styles.tabButtonActive : ""}`}
         >
           Tindak Lanjut

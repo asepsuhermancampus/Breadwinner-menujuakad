@@ -31,7 +31,7 @@ export function FeatureLock({
           aria-label={`${title} terkunci`}
           className="w-full max-w-sm space-y-4 rounded-card border border-ux-border bg-surface p-6 text-center shadow-lg"
         >
-          <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-subtle text-primary">
+          <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-subtle text-brand-secondary">
             <LockKeyhole aria-hidden="true" size={24} />
           </span>
           <h2 className="text-xl font-semibold">{title} terkunci</h2>
@@ -42,7 +42,7 @@ export function FeatureLock({
           {showPlans && (
             <Link
               href="/account/plans"
-              className="inline-flex rounded-control bg-primary px-5 py-3 text-sm font-semibold text-white"
+              className="customer-control inline-flex rounded-control bg-primary font-semibold text-on-primary"
             >
               Lihat paket
             </Link>

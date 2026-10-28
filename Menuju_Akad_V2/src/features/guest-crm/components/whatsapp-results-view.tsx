@@ -89,7 +89,7 @@ export function WhatsappResultsView({ initialItems }: { initialItems?: WaMessage
       </div>
 
       <div className="bg-surface rounded-control border border-border overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="app-scroll overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead className="bg-subtle text-secondary font-semibold border-b border-border">
               <tr>

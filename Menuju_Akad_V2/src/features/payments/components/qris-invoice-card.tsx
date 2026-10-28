@@ -89,7 +89,7 @@ export function QrisInvoiceCard({
         )}
         <div className="mt-2 flex flex-col gap-1 border-t border-border pt-2 text-sm font-bold text-foreground sm:flex-row sm:justify-between">
           <span>{amountMismatch ? "Nominal dari penyedia:" : "Total pembayaran:"}</span>
-          <span className="shrink-0 text-primary">
+          <span className="shrink-0 text-brand-secondary">
             {invoice.totalAmount === null
               ? "Menunggu nominal resmi"
               : formatRupiah(invoice.totalAmount)}

@@ -34,7 +34,7 @@ export function OnboardingLayout({
             event.preventDefault();
             onNavigate("profile");
           }}
-          className="flex items-center gap-2.5 text-xl font-semibold tracking-[-0.6px] text-primary md:text-2xl"
+          className="flex items-center gap-2.5 text-xl font-semibold tracking-[-0.6px] text-brand-secondary md:text-2xl"
         >
           <BrandLogo variant="cypress" width={38} height={18} />
           <span>menuju akad</span>
@@ -61,14 +61,16 @@ export function OnboardingLayout({
                   className={cn(
                     "flex min-h-11 w-full items-center justify-center gap-2 rounded-control px-2 py-2 text-xs font-medium md:gap-2.5 md:px-4 md:text-[13px] transition-all",
                     index === active
-                      ? "bg-surface text-primary shadow-sm font-semibold"
+                      ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                       : "text-secondary hover:text-foreground",
                   )}
                 >
                   <span
                     className={cn(
                       "flex size-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px]",
-                      index === active ? "bg-foreground text-white" : "bg-primary/8 text-primary",
+                      index === active
+                        ? "bg-foreground text-on-primary"
+                        : "bg-primary/8 text-brand-secondary",
                     )}
                   >
                     {index < active ? "✓" : `0${index + 1}`}

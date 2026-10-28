@@ -14,10 +14,11 @@
 }
 
 .tabButton {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 13px;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: transparent;
   border: none;
   color: var(--secondary);
@@ -31,10 +32,14 @@
 }
 
 .tabButtonActive {
-  background: var(--surface);
-  color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+.tabButtonActive:hover {
+  background: var(--primary-hover);
+  color: var(--on-primary);
 }
 
 .statsGrid {
@@ -46,7 +51,7 @@
 .statCard {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1rem 1.25rem;
 }
 
@@ -65,7 +70,7 @@
 .tableWrapper {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -121,6 +126,6 @@
 .tableCard {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1rem;
 }

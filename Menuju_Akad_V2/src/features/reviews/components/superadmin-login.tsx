@@ -39,16 +39,18 @@ export function SuperadminLogin() {
       className="flex min-h-dvh items-center justify-center bg-ux-shell px-5 py-12"
     >
       <div className="w-full max-w-md rounded-shell border border-ux-border bg-surface p-6 shadow-sm sm:p-9">
-        <Link href="/" className="text-sm font-semibold text-primary">
+        <Link href="/" className="text-sm font-semibold text-brand-secondary">
           menuju akad.
         </Link>
-        <div className="mt-9 flex size-12 items-center justify-center rounded-card bg-ux-soft text-primary">
+        <div className="mt-9 flex size-12 items-center justify-center rounded-card bg-ux-soft text-brand-secondary">
           <ShieldCheck size={25} strokeWidth={1.4} aria-hidden="true" />
         </div>
         <p className="mt-5 text-xs font-semibold tracking-widest text-rose uppercase">
           Ruang superadmin
         </p>
-        <h1 className="mt-2 text-2xl font-semibold text-primary">Mendengar, lalu bertumbuh.</h1>
+        <h1 className="mt-2 text-2xl font-semibold text-brand-secondary">
+          Mendengar, lalu bertumbuh.
+        </h1>
         <p className="mt-3 text-sm leading-7 text-secondary">
           Masuk untuk membaca masukan pengguna dan memilih cerita yang ingin Anda bagikan.
         </p>

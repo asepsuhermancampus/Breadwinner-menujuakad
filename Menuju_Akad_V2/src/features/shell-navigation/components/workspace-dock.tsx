@@ -33,7 +33,7 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
           >
             <BrandLogo variant="cypress" width={compact ? 32 : 40} height={compact ? 15 : 19} />
             {!compact && (
-              <span className="font-sans text-base font-semibold tracking-[-0.6px] text-primary">
+              <span className="font-sans text-base font-semibold tracking-[-0.6px] text-brand-secondary">
                 menuju akad
               </span>
             )}
@@ -50,24 +50,26 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
           </Button>
         ) : (
           <button
-            className="grid gap-1 rounded-control bg-primary text-white p-3 border border-primary text-left transition-opacity hover:opacity-95"
+            className="grid gap-1 rounded-control bg-ux-soft text-foreground p-3 border border-ux-border text-left transition-opacity hover:opacity-95"
             onClick={() => setRoles(true)}
             aria-haspopup="dialog"
           >
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-champagne">
-                <span className="flex size-5 items-center justify-center rounded-full bg-white/10 text-canvas">
+              <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-brand-secondary">
+                <span className="flex size-5 items-center justify-center rounded-full bg-surface text-brand-secondary">
                   <Icon name="users" size={11} />
                 </span>
                 PASANGAN
               </span>
-              <Icon name="chevron-down" size={14} className="text-white/70" />
+              <Icon name="chevron-down" size={14} className="text-secondary" />
             </div>
-            <strong className="text-base text-canvas font-medium mt-0.5">Andi & Risa</strong>
-            <span className="text-xs text-ux-on-dark">Ruang rencana bersama</span>
+            <strong className="font-heading text-base text-foreground font-medium mt-0.5">
+              {name || "Ruang kalian"}
+            </strong>
+            <span className="text-xs text-secondary">Ruang rencana bersama</span>
           </button>
         )}
-        <nav className={styles.navigation}>
+        <nav className={cn("app-scroll", styles.navigation)}>
           {navigationGroups.map((group) => (
             <div key={group.title} className="grid gap-1">
               {!compact && (
@@ -131,8 +133,8 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
         {!compact && (
           <div className="grid gap-2 rounded-control bg-canvas p-3 border border-ux-border text-xs">
             <div className="flex justify-between items-center">
-              <span className="font-medium text-primary text-xs">Siap menuju akad</span>
-              <span className="font-mono text-xs font-semibold text-primary">84%</span>
+              <span className="font-medium text-brand-secondary text-xs">Siap menuju akad</span>
+              <span className="font-mono text-xs font-semibold text-brand-secondary">84%</span>
             </div>
             <span className="text-[11px] text-secondary">Perubahan tersinkronisasi</span>
             <div className="h-1 rounded-full bg-ux-dock overflow-hidden">
@@ -142,7 +144,7 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
               <span className="font-semibold text-ux-gold-ink text-[11px]">Premium</span>
               <Link
                 href="/account/plans"
-                className="text-secondary hover:text-primary transition-colors text-[11px]"
+                className="text-secondary hover:text-brand-secondary transition-colors text-[11px]"
               >
                 Upgrade Lifetime ↗
               </Link>
@@ -150,7 +152,7 @@ export function WorkspaceDock({ compact, toggle, name, memberships, mobile = fal
           </div>
         )}
         <Link href="/account" className={cn(styles.account, compact && styles.iconButton)}>
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ux-dock text-xs font-bold text-primary">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ux-dock text-xs font-bold text-brand-secondary">
             R
           </span>
           {!compact && (

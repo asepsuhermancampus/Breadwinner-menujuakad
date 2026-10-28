@@ -93,7 +93,7 @@ export function AccountsTab({
             </div>
             <div>
               <span className="text-xs text-secondary block">Saldo Alokasi Acara</span>
-              <strong className="font-mono text-2xl font-semibold text-primary block mt-0.5">
+              <strong className="font-mono text-2xl font-semibold text-brand-secondary block mt-0.5">
                 {formatRupiah(acc.currentBalance)}
               </strong>
             </div>

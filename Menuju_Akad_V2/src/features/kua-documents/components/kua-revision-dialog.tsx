@@ -155,7 +155,7 @@ export function KuaRevisionDialog({ document, spouse, onClose, onUploaded }: Pro
         )}
 
         <div className="rounded-control border border-border bg-subtle p-3 text-xs text-secondary flex items-start gap-2">
-          <Icon name="shield" size={16} className="text-primary mt-0.5 shrink-0" />
+          <Icon name="shield" size={16} className="text-brand-secondary mt-0.5 shrink-0" />
           <span>
             Berkas tersimpan aman dan terenkripsi. Berkas versi lama tetap tersimpan sampai berkas
             baru terverifikasi resmi.

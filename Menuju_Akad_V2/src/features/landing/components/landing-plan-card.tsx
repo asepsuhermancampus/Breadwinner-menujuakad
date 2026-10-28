@@ -31,7 +31,7 @@ export function LandingPlanCard({ id }: { id: PlanId }) {
     if (intent?.totalAmount != null)
       router.push(`/checkout/qris?intent=${encodeURIComponent(intent.intentId)}`);
   }
-  const buttonClass = `inline-flex w-full items-center justify-center gap-2 rounded-control py-3 text-xs font-semibold transition ${featured ? "bg-primary text-white hover:bg-primary-hover shadow-sm" : "border border-ux-border bg-surface text-primary hover:bg-primary-hover hover:text-white focus-visible:bg-primary-hover focus-visible:text-white"}`;
+  const buttonClass = `inline-flex w-full items-center justify-center gap-2 rounded-control py-3 text-xs font-semibold transition ${featured ? "bg-primary text-on-primary hover:bg-primary-hover shadow-sm" : "border border-ux-border bg-surface text-brand-secondary hover:bg-primary-hover hover:text-on-primary focus-visible:bg-primary-hover focus-visible:text-on-primary"}`;
   return (
     <div
       data-testid={`plan-${id}`}
@@ -46,7 +46,7 @@ export function LandingPlanCard({ id }: { id: PlanId }) {
                 ? "LEBIH LELUASA"
                 : "AKSES JANGKA PANJANG"}
           </span>
-          <h3 className="mt-1 text-2xl font-bold text-primary">{plan.label}</h3>
+          <h3 className="mt-1 text-2xl font-bold text-brand-secondary">{plan.label}</h3>
           {isActive && <p className="mt-2 text-xs font-semibold">Paket aktif</p>}
           {isActive && state.offer?.subscription.expiresAt && (
             <p className="mt-1 text-xs text-secondary">

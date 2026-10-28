@@ -94,7 +94,7 @@ export function DomainPanel({ initialSetup = domainSetup }: { initialSetup?: Dom
         <button
           type="button"
           onClick={simulateVerification}
-          className="min-h-11 rounded-control bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-hover"
+          className="min-h-11 rounded-control bg-primary px-4 text-sm font-semibold text-on-primary hover:bg-primary-hover"
         >
           Simulasikan verifikasi
         </button>

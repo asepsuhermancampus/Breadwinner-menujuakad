@@ -1,0 +1,67 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.grid article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--ux-border);
+  border-radius: 0;
+  min-width: 0;
+  background: var(--surface);
+}
+.grid article > :not(.ornament) {
+  position: relative;
+  z-index: 1;
+}
+.grid article:has(.ornament) > span {
+  padding-right: 76px;
+}
+.ornament {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 104px;
+  height: 104px;
+  background-color: var(--primary);
+  opacity: 0.28;
+  pointer-events: none;
+  -webkit-mask-image: var(--ornament);
+  mask-image: var(--ornament);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: top right;
+}
+.grid span {
+  font-size: 12px;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.grid strong {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--brand-secondary);
+  overflow-wrap: anywhere;
+}
+.grid small {
+  font-size: 12px;
+  color: var(--secondary);
+}
+.grid .total {
+  background: var(--subtle);
+  border-color: var(--primary);
+}
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

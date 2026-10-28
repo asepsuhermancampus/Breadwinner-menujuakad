@@ -34,7 +34,7 @@ const cards = [
     venue: "14 · 02 · 2027 · Bumi Samami, Bandung",
     desc: "Kemewahan arsitektural bernuansa hutan cypress. Dipadukan aksen champagne halus, QR scan presisi, dan susunan rundown multi-sesi.",
     chips: ["Aksen Champagne", "QR Check-in Tamu", "Multi-Sesi RSVP"],
-    bgClass: "bg-primary text-white",
+    bgClass: "bg-[#1e3f32] text-white",
     imgSrc: "/assets/images/editorial-2.png",
   },
   {
@@ -67,7 +67,7 @@ export function LandingInvitations() {
             <span className="font-sans text-xs font-semibold tracking-wider text-rose uppercase">
               03 / Dari Kalian, Untuk Mereka
             </span>
-            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-primary sm:text-4xl">
+            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
               Satu kabar bahagia.
               <br />
               Beragam cara bercerita.
@@ -83,7 +83,7 @@ export function LandingInvitations() {
           {pills.map((pill) => (
             <span
               key={pill}
-              className="inline-flex items-center gap-2 rounded-full border border-ux-border bg-surface px-3.5 py-1.5 text-xs font-medium text-primary shadow-xs"
+              className="inline-flex items-center gap-2 rounded-full border border-ux-border bg-surface px-3.5 py-1.5 text-xs font-medium text-brand-secondary shadow-xs"
             >
               <Icon name="check" size={13} className="text-emerald-700" />
               <span>{pill}</span>
@@ -116,7 +116,9 @@ export function LandingInvitations() {
               <div className="flex flex-1 flex-col justify-between p-6">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-sans text-lg font-semibold text-primary">{c.title}</h4>
+                    <h4 className="font-sans text-lg font-semibold text-brand-secondary">
+                      {c.title}
+                    </h4>
                     <span className="rounded-full bg-ux-dock border border-ux-border px-2.5 py-0.5 text-[10px] font-semibold text-secondary">
                       {c.plan}
                     </span>
@@ -137,7 +139,7 @@ export function LandingInvitations() {
                 <div className="pt-6">
                   <Link
                     href="/auth/register"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-control border border-ux-border bg-surface py-2.5 text-xs font-semibold text-primary transition hover:bg-ux-dock"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-control border border-ux-border bg-surface py-2.5 text-xs font-semibold text-brand-secondary transition hover:bg-ux-dock"
                   >
                     <span>Pilih Tema Ini</span>
                     <Icon name="arrow-right" size={13} />
@@ -151,7 +153,7 @@ export function LandingInvitations() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 rounded-card border border-ux-border bg-surface p-6">
           {techs.map((t) => (
             <div key={t.title} className="space-y-1">
-              <h5 className="font-sans text-xs font-semibold text-primary flex items-center gap-2">
+              <h5 className="font-sans text-xs font-semibold text-brand-secondary flex items-center gap-2">
                 <span className="text-emerald-700">✓</span> {t.title}
               </h5>
               <p className="text-[11px] leading-relaxed text-secondary">{t.desc}</p>

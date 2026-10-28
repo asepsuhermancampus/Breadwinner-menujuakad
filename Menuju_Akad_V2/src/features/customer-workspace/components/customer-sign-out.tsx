@@ -7,7 +7,7 @@ export function CustomerSignOut() {
   return (
     <div>
       <button
-        className="w-full rounded-control border border-ux-border px-4 py-2 text-left text-sm hover:bg-subtle"
+        className="customer-control w-full rounded-control border border-ux-border text-left hover:bg-subtle"
         disabled={pending}
         onClick={async () => {
           setPending(true);

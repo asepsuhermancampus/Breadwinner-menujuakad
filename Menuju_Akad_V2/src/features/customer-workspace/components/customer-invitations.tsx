@@ -1,10 +1,14 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { PageHeading } from "@/components/ui/page-heading";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
+import { SummaryCard } from "@/components/ui/summary-card";
 import type { CustomerWorkspace } from "../types";
 import { useCustomerResource } from "../hooks/use-customer-resource";
 import { useTrialResource } from "@/features/dashboard-trial/hooks/use-trial-resource";
-import type { BasicInvitation } from "./invitation-editor";
+import { InvitationEditor, type BasicInvitation } from "./invitation-editor";
 import { CustomerInvitationCard } from "./customer-invitation-card";
 import styles from "./customer-invitations.module.css";
 import { LockedInvitationFeatures } from "./locked-invitation-features";
@@ -32,49 +36,64 @@ function Invitations({
   state: State;
   trial?: boolean;
 }) {
+  const [creating, setCreating] = useState<BasicInvitation | null>(null);
   const current = state.data as BasicInvitation[] | null;
   const premium = trial || workspace.subscription.capabilities.includes("premium-templates"),
     multi = trial || workspace.subscription.capabilities.includes("multi-invitation");
+  if (state.data === null && !state.error) {
+    return <PageSkeleton variant="cards" label="Memuat undangan" />;
+  }
   return (
     <section className="space-y-5">
       <header id="feature-premium-templates" tabIndex={-1} className={styles.header}>
-        <div>
-          <h1 className={styles.heading}>Undangan yang terasa personal.</h1>
-          <p className="mt-2 text-sm text-secondary">
-            Pernikahan, lamaran, dan setiap momen yang ingin kalian bagi.
-          </p>
-        </div>
+        <PageHeading
+          title="Undangan yang terasa personal."
+          description="Pernikahan, lamaran, dan setiap momen yang ingin kalian bagi."
+        />
         <Button
           disabled={!current || state.saving || (!multi && current.length >= 1)}
           onClick={() =>
-            void state.save([
-              ...(current ?? []),
-              {
-                id: crypto.randomUUID(),
-                title: "Undangan baru",
-                template: "basic",
-                published: false,
-              },
-            ])
+            setCreating({
+              id: crypto.randomUUID(),
+              title: "Undangan baru",
+              template: "basic",
+              published: false,
+            })
           }
         >
           Tambah undangan
         </Button>
       </header>
-      <dl className={styles.metrics}>
-        <div>
-          <dt>Undangan</dt>
-          <dd>{current?.length ?? "—"}</dd>
-        </div>
-        <div>
-          <dt>Terbit</dt>
-          <dd>{current ? current.filter((item) => item.published).length : "—"}</dd>
-        </div>
-        <div>
-          <dt>Draf</dt>
-          <dd>{current ? current.filter((item) => !item.published).length : "—"}</dd>
-        </div>
-      </dl>
+      {creating && (
+        <InvitationEditor
+          item={creating}
+          workspaceId={workspace.id}
+          premium={premium}
+          trial={trial}
+          onClose={() => setCreating(null)}
+          save={(next) => {
+            if (!current || (!multi && current.length >= 1)) return Promise.resolve(false);
+            return state.save([...current, next]);
+          }}
+        />
+      )}
+      {current && (
+        <section className={styles.metrics} aria-label="Ringkasan undangan">
+          <SummaryCard label="Undangan" value={current.length} detail="Seluruh undangan kalian" />
+          <SummaryCard
+            label="Terbit"
+            value={current.filter((item) => item.published).length}
+            detail="Siap dibagikan kepada tamu"
+            ornament={2}
+          />
+          <SummaryCard
+            label="Draf"
+            value={current.filter((item) => !item.published).length}
+            detail="Undangan yang sedang disiapkan"
+            ornament={3}
+          />
+        </section>
+      )}
       {premium && (
         <Link
           id="feature-studio"
@@ -89,12 +108,15 @@ function Invitations({
           Satu undangan aktif. Lifetime menyediakan multi-undangan.
         </p>
       )}
-      <p role="status" className="text-xs text-secondary">
-        {state.saving
-          ? "Menyimpan…"
-          : state.error ||
-            (trial ? "Draf tersimpan di browser ini." : "Perubahan tersimpan di akun kalian.")}
-      </p>
+      {state.error ? (
+        <p role="alert" className="text-xs text-danger">
+          {state.error}
+        </p>
+      ) : state.saving ? (
+        <p role="status" className="text-xs text-secondary">
+          Menyimpan…
+        </p>
+      ) : null}
       <div className={styles.grid}>
         {current?.map((item) => (
           <CustomerInvitationCard

@@ -150,7 +150,7 @@ export function PaymentStatusView({
             ) : (
               <Link
                 href={`/orders/${tx.orderId}`}
-                className="inline-flex items-center px-4 py-2.5 rounded-control bg-primary text-white text-xs font-semibold hover:bg-primary-hover"
+                className="inline-flex items-center px-4 py-2.5 rounded-control bg-primary text-on-primary text-xs font-semibold hover:bg-primary-hover"
               >
                 Buka Invoice & Receipt Resmi →
               </Link>

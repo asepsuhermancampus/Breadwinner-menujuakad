@@ -22,6 +22,32 @@ function environment() {
 }
 const note = (id: string) => ({ id, title: id });
 describe("guest trial storage", () => {
+  it("keeps the initial checklist empty when an older browser still contains automatic samples", async () => {
+    const env = environment();
+    const own = { id: "own", title: "Berkas pilihan saya" };
+    env.values.set(
+      TRIAL_KEY,
+      JSON.stringify({
+        version: 2,
+        revision: 3,
+        used: {},
+        resources: {
+          documents: [
+            {
+              id: "kua-template-1",
+              title: "Identitas calon pasangan",
+              notes: "Sesuaikan kebutuhan dan format dengan KUA setempat.",
+            },
+            own,
+          ],
+        },
+      }),
+    );
+    const store = createTrialStore(env);
+    expect(store.read().resources.documents).toEqual([own]);
+    expect((await store.commit("tasks", [], 3)).ok).toBe(true);
+    expect(store.read().resources.documents).toEqual([own]);
+  });
   it("allows editing legacy checked documents without adding new checks", async () => {
     const env = environment();
     const documents = Array.from({ length: 6 }, (_, i) => ({

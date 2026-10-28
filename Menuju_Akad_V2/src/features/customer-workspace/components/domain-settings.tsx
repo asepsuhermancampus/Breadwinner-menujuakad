@@ -2,18 +2,32 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FeatureLock } from "./feature-lock";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 type Domain = { hostname: string; challenge: string; state: string };
 export function DomainSettings({ enabled, owner = true }: { enabled: boolean; owner?: boolean }) {
   const [domain, setDomain] = useState<Domain | null>(null),
     [hostname, setHostname] = useState("");
   const [message, setMessage] = useState(""),
     [pending, setPending] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
+    const controller = new AbortController();
     if (enabled)
-      void fetch("/api/workspace/domain", { cache: "no-store" })
-        .then((res) => res.json())
-        .then((body: { domain?: Domain }) => setDomain(body.domain ?? null))
-        .catch(() => setMessage("Pengaturan domain belum dapat dimuat."));
+      void fetch("/api/workspace/domain", { cache: "no-store", signal: controller.signal })
+        .then(async (res) => {
+          if (!res.ok) throw new Error("Pengaturan domain belum dapat dimuat.");
+          return res.json();
+        })
+        .then((body: { domain?: Domain }) => {
+          if (!controller.signal.aborted) setDomain(body.domain ?? null);
+        })
+        .catch(() => {
+          if (!controller.signal.aborted) setMessage("Pengaturan domain belum dapat dimuat.");
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) setLoaded(true);
+        });
+    return () => controller.abort();
   }, [enabled]);
   async function submit(verify: boolean) {
     if (!enabled) return;
@@ -30,13 +44,18 @@ export function DomainSettings({ enabled, owner = true }: { enabled: boolean; ow
       if (!res.ok) throw new Error(body.error ?? "Domain belum dapat disimpan");
       setDomain(body.domain ?? null);
       setMessage(
-        verify ? "Pemeriksaan DNS selesai." : "Domain tersimpan. Tambahkan record verifikasi DNS.",
+        verify
+          ? "Pemeriksaan DNS selesai."
+          : "Tambahkan record verifikasi DNS untuk mengaktifkan domain.",
       );
     } catch (cause) {
       setMessage(cause instanceof Error ? cause.message : "Domain gagal diproses");
     } finally {
       setPending(false);
     }
+  }
+  if (enabled && !loaded && !message) {
+    return <PageSkeleton variant="form" label="Memuat pengaturan domain" />;
   }
   const content = (
     <section

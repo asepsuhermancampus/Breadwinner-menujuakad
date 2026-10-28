@@ -1,3 +1,4 @@
+import { activeWorkspace } from "@/server/workspaces/active-workspace";
 import { cookies } from "next/headers";
 import {
   requireAuthOwner,
@@ -13,6 +14,11 @@ export async function GET(req: Request) {
   const auth = await requireAuthOwner(req);
   if ("errorResponse" in auth) return auth.errorResponse;
   try {
+    const token = new URL(req.url).searchParams.get("token");
+    if (token)
+      return jsonResponse({
+        invite: new MembershipService(getWorkspaceService()).previewInvite(auth.owner, token),
+      });
     return jsonResponse({
       workspaces: new MembershipService(getWorkspaceService()).listMemberships(auth.owner),
     });
@@ -28,13 +34,20 @@ export async function POST(req: Request) {
   try {
     const body = await readBoundedJson(req),
       service = new MembershipService(getWorkspaceService());
-    if (body["action"] === "invite") return jsonResponse(service.invitePartner(auth.owner));
+    if (body["action"] === "invite")
+      return jsonResponse(
+        service.invitePartner(auth.owner, (await activeWorkspace(auth.owner)).id),
+      );
     if (body["action"] === "revoke") {
-      service.revokePartner(auth.owner);
+      service.revokePartner(auth.owner, (await activeWorkspace(auth.owner)).id);
       return jsonResponse({ ok: true });
     }
     if (body["action"] === "own") {
-      (await cookies()).delete("ma-workspace");
+      (await cookies()).set(
+        "ma-workspace",
+        getWorkspaceService().getOrCreateWorkspace(auth.owner).id,
+        { path: "/", httpOnly: true, sameSite: "lax" },
+      );
       return jsonResponse({ ok: true });
     }
     if (
@@ -49,7 +62,10 @@ export async function POST(req: Request) {
                 body["workspaceId"] as string,
               ).id,
             }
-          : service.acceptPartnerInvite(auth.owner, body["token"] as string);
+          : service.acceptPartnerInvite(auth.owner, body["token"] as string, {
+              fullName: body["fullName"],
+              nickname: body["nickname"],
+            });
       (await cookies()).set("ma-workspace", result.workspaceId, {
         path: "/",
         httpOnly: true,

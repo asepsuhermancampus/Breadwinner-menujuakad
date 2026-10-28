@@ -32,7 +32,7 @@
 .badge {
   background: var(--ux-dock);
   border-radius: 0.5rem;
-  color: var(--primary);
+  color: var(--brand-secondary);
   font-size: 0.6875rem;
   padding: 0.375rem 0.625rem;
 }
@@ -65,7 +65,7 @@
 }
 
 .features li::before {
-  color: var(--primary);
+  color: var(--brand-secondary);
   content: "✓";
 }
 

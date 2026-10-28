@@ -32,12 +32,15 @@ export function ReviewCard({ review, index = 0 }: { review: PublicReview; index?
       <div className="flex items-center gap-3 border-t border-ux-border/70 pt-5">
         <span
           aria-hidden="true"
-          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ux-soft text-xs font-semibold text-primary"
+          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ux-soft text-xs font-semibold text-brand-secondary"
         >
           {initials}
         </span>
         <div className="min-w-0">
-          <h3 className="break-words text-sm font-semibold text-primary">{review.name}</h3>
+          <h3 className="break-words text-sm font-semibold text-brand-secondary">{review.name}</h3>
+          {Boolean(review.sample) && (
+            <span className={styles.sample}>Contoh ulasan · data dummy</span>
+          )}
           <time dateTime={review.createdAt} className="text-xs text-secondary">
             {new Date(review.createdAt).toLocaleDateString("id-ID", {
               month: "long",

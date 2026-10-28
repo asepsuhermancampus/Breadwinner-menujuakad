@@ -3,6 +3,7 @@ import { LockedStudio } from "@/features/invitation-studio/components/locked-stu
 import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { StudioScreen } from "@/features/invitation-studio/components/studio-screen";
+import { CustomerFeatureLayout } from "@/features/customer-workspace/components/customer-feature-layout";
 
 export const dynamic = "force-dynamic";
 
@@ -31,9 +32,13 @@ export default async function PlannerInvitationStudioPage({
           />
         </div>
       ) : (
-        <FeatureLock title="Studio visual">
-          <LockedStudio />
-        </FeatureLock>
+        <main id="main-content" className="min-h-dvh bg-surface p-4 sm:p-8">
+          <CustomerFeatureLayout>
+            <FeatureLock title="Studio visual">
+              <LockedStudio />
+            </FeatureLock>
+          </CustomerFeatureLayout>
+        </main>
       )}
     </CustomerShell>
   );

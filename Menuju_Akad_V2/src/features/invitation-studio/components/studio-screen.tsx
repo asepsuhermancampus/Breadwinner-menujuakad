@@ -1,5 +1,6 @@
 "use client";
 import { StudioNotice } from "./studio-notice";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -42,13 +43,19 @@ export function StudioScreen({
   const exit = () => router.push("/planner/invitations");
   if (!editor.ready)
     return (
-      <main id="main-content" className="grid min-h-screen place-items-center" aria-busy="true">
+      <main
+        id="main-content"
+        className="grid min-h-screen w-full place-items-center"
+        aria-busy="true"
+      >
         {editor.storageError ? (
           <div role="alert">
             {editor.storageError} <Button onClick={() => location.reload()}>Coba lagi</Button>
           </div>
         ) : (
-          <p role="status">Membuka studio…</p>
+          <div className="w-full p-6">
+            <PageSkeleton variant="cards" label="Membuka studio" />
+          </div>
         )}
       </main>
     );

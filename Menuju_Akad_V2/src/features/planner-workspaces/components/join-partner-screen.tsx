@@ -71,12 +71,12 @@ export function JoinPartnerScreen({
       <Card className="w-full max-w-lg space-y-6 p-6 text-center md:p-10">
         <Link
           href="/"
-          className="inline-flex items-center justify-center gap-2 text-xl font-semibold text-primary"
+          className="inline-flex items-center justify-center gap-2 text-xl font-semibold text-brand-secondary"
         >
           <BrandLogo variant="cypress" width={36} height={17} />
           <span>menuju akad</span>
         </Link>
-        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+        <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
           {joined ? "Kalian sudah terhubung" : "Satu ruang untuk berdua"}
         </h1>
         <p className="text-sm leading-7 text-secondary">

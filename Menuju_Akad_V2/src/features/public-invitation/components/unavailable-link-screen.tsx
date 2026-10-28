@@ -20,7 +20,7 @@ export function UnavailableLinkScreen() {
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-block text-xs text-primary font-semibold hover:underline"
+            className="inline-block text-xs text-brand-secondary font-semibold hover:underline"
           >
             ← Kembali ke Beranda Menuju Akad
           </Link>

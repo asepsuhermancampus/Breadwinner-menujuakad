@@ -1,0 +1,57 @@
+.app-scroll {
+  --app-scroll-thumb: var(--scrollbar-thumb);
+  --app-scroll-track: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-scroll-thumb) var(--app-scroll-track);
+}
+
+.app-scroll:is(:hover, :focus-within) {
+  --app-scroll-thumb: var(--scrollbar-thumb-hover);
+  --app-scroll-track: var(--nav-active);
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .app-scroll {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+  .app-scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .app-scroll::-webkit-scrollbar-track {
+    margin-block: 8px;
+    border-radius: 999px;
+    background: var(--app-scroll-track);
+  }
+  .app-scroll::-webkit-scrollbar-thumb {
+    min-height: 40px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background-color: var(--app-scroll-thumb);
+    background-clip: padding-box;
+  }
+  .app-scroll::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-thumb-active);
+  }
+  .app-scroll::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  .app-scroll::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+@media (forced-colors: active) {
+  .app-scroll {
+    scrollbar-color: auto;
+  }
+  .app-scroll::-webkit-scrollbar-thumb {
+    background-color: ButtonText;
+  }
+  .app-scroll::-webkit-scrollbar-track {
+    background: Canvas;
+  }
+}

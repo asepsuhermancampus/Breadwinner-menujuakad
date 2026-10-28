@@ -114,7 +114,7 @@ export function CsvImportWizard({ open, onClose, accounts = [], onImportComplete
         )}
 
         <div className="flex items-center gap-2 border-b border-border pb-3">
-          <span className="font-semibold text-primary">
+          <span className="font-semibold text-brand-secondary">
             Langkah {step} dari 3: Tinjau & Bandingkan
           </span>
           <span className="ml-auto text-secondary">

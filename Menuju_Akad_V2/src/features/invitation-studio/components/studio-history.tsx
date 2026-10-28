@@ -36,7 +36,7 @@ export function StudioHistory({
         ]
       : []),
     ...(hasHistory
-      ? [{ version: 2, label: "Konten awal", actor: "Risa", time: "24 Okt 2026 · 18.30" }]
+      ? [{ version: 2, label: "Konten awal", actor: "Pasangan", time: "24 Okt 2026 · 18.30" }]
       : []),
   ];
   return (

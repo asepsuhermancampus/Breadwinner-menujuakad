@@ -41,7 +41,10 @@ export function PlanPrice({
         <del className="block text-sm text-secondary">{rupiah(plan.originalAmount)}</del>
       )}
       <div className="flex flex-wrap items-center gap-3">
-        <span data-testid="plan-total" className="font-mono text-3xl font-bold text-primary">
+        <span
+          data-testid="plan-total"
+          className="font-mono text-3xl font-bold text-brand-secondary"
+        >
           {rupiah(total ?? base)}
         </span>
         {id !== "free" && !ready && !blocked && offer?.newBuyer !== false && (
@@ -49,7 +52,7 @@ export function PlanPrice({
             type="button"
             onClick={() => void reserve(true)}
             disabled={pending || loading || Boolean(error)}
-            className="rounded-full border border-primary/30 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/5 disabled:opacity-50"
+            className="rounded-full border border-primary/30 px-3 py-1.5 text-xs font-semibold text-brand-secondary hover:bg-primary/5 disabled:opacity-50"
           >
             {pending ? "Memastikan harga…" : "Klaim diskon tambahan 5%"}
           </button>

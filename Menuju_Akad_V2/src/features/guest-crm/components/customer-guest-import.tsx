@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { GuestInvitation } from "../types/guest";
@@ -13,6 +14,7 @@ export function CustomerGuestImport({
   close: () => void;
   save: (guests: GuestInvitation[]) => Promise<boolean>;
 }) {
+  const names = useCustomerNames();
   const [csv, setCsv] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
@@ -25,7 +27,7 @@ export function CustomerGuestImport({
           if (busy) return;
           setBusy(true);
           try {
-            const guests = parseGuestCsv(csv);
+            const guests = parseGuestCsv(csv, names);
             if (await save(guests)) {
               setCsv("");
               setError("");

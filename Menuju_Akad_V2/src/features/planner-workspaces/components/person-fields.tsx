@@ -48,7 +48,7 @@ export function PersonFields({
   return (
     <section className="min-w-0 space-y-4" aria-label={title}>
       <div className="flex items-center gap-3">
-        <div className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-subtle text-[22px] text-primary">
+        <div className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-subtle text-[22px] text-brand-secondary">
           {value.photoUrl ? (
             // Uploaded preview images may be local data/blob URLs.
             // eslint-disable-next-line @next/next/no-img-element
@@ -65,7 +65,7 @@ export function PersonFields({
           <p className="text-[11px] tracking-[0.7px] text-secondary">{title}</p>
           <Button
             variant="ghost"
-            className="-ml-3 min-h-11 text-xs text-primary"
+            className="-ml-3 min-h-11 text-xs text-brand-secondary"
             disabled={pending}
             onClick={() => input.current?.click()}
           >

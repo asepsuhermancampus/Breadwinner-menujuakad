@@ -1,18 +1,29 @@
-import { createDocumentTemplate } from "@/features/kua-documents/domain/document-template";
+import { createTrialFinance, type TrialStoreEnvironment } from "./trial-finance-commit";
+import {
+  createDocumentTemplate,
+  preservesMainDocuments,
+  type DocumentItem,
+} from "@/features/kua-documents/domain/document-template";
 import type { TrialCommitResult, TrialResourceKind } from "../types";
 import { parseTrial } from "../domain/trial-snapshot";
 import { validateTrialData } from "../domain/trial-validation";
+import {
+  financeBookSchema,
+  assertBudgetChanges,
+} from "@/features/planner-finance/domain/finance-ledger";
+import type { FinanceBook } from "@/features/planner-finance/types/finance-ledger";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
 export const TRIAL_KEY = "menuju-akad:guest-trial:v2";
 export const TRIAL_LOCK = "menuju-akad:guest-trial:v1";
-type Environment = {
-  storage: Pick<Storage, "getItem" | "setItem">;
-  lock?: (<T>(run: () => Promise<T>) => Promise<T>) | undefined;
-};
-export function createTrialStore(env: Environment) {
+export function createTrialStore(env: TrialStoreEnvironment) {
   const read = () => {
     const value = parseTrial(env.storage.getItem(TRIAL_KEY) ?? env.storage.getItem(TRIAL_LOCK));
     if (value.resources.documents === undefined)
       value.resources.documents = createDocumentTemplate();
+    value.resources.documents = removeLegacyDocumentDefaults(
+      value.resources.documents as DocumentItem[],
+    );
     value.documentTemplate = 1;
     return value;
   };
@@ -27,6 +38,7 @@ export function createTrialStore(env: Environment) {
         listeners.delete(listener);
       };
     },
+    finance: createTrialFinance(env, read, notify, TRIAL_KEY),
     async consumeExport(expectedRevision: number): Promise<TrialCommitResult> {
       try {
         if (!env.lock) throw Error("Penyimpanan browser tidak tersedia.");
@@ -69,11 +81,46 @@ export function createTrialStore(env: Environment) {
           );
         return await env.lock(async (): Promise<TrialCommitResult> => {
           const current = read();
+          if (kind === "savings")
+            return {
+              ok: false,
+              reason: "invalid",
+              message: "Gunakan tombol transaksi untuk mengubah tabungan.",
+            };
           let data: unknown[];
           try {
             data = validateTrialData(kind, value);
+            if (
+              kind === "documents" &&
+              !preservesMainDocuments(
+                (current.resources.documents ?? []) as DocumentItem[],
+                data as DocumentItem[],
+              )
+            )
+              throw new Error(
+                "Berkas utama hanya dapat dicentang atau dilepas sebagai satu template. Isinya tidak dapat diubah satu per satu.",
+              );
           } catch (cause) {
             return { ok: false, reason: "invalid", message: (cause as Error).message };
+          }
+          let financeBook: FinanceBook | null = null;
+          if (kind === "finance") {
+            financeBook = current.resources.savings?.[0]
+              ? (financeBookSchema.parse(current.resources.savings[0]) as FinanceBook)
+              : null;
+            try {
+              assertBudgetChanges(
+                (current.resources.finance ?? []) as CustomerBudget[],
+                data as CustomerBudget[],
+                financeBook?.allocations ?? [],
+              );
+            } catch (cause) {
+              return {
+                ok: false,
+                reason: "invalid",
+                message: cause instanceof Error ? cause.message : "Perubahan anggaran tidak valid.",
+              };
+            }
           }
           if (JSON.stringify(current.resources[kind] ?? []) === JSON.stringify(data))
             return { ok: true, snapshot: current, changed: false };
@@ -113,7 +160,13 @@ export function createTrialStore(env: Environment) {
               kind === "documents"
                 ? current.used
                 : { ...current.used, [kind]: (current.used[kind] ?? 0) + 1 },
-            resources: { ...current.resources, [kind]: data },
+            resources: {
+              ...current.resources,
+              [kind]: data,
+              ...(financeBook
+                ? { savings: [{ ...financeBook, revision: financeBook.revision + 1 }] }
+                : {}),
+            },
           };
           env.storage.setItem(TRIAL_KEY, JSON.stringify(snapshot));
           notify();

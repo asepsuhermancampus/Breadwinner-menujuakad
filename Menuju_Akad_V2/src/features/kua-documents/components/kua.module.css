@@ -26,7 +26,7 @@
 .spouseCard {
   background-color: var(--ux-dock);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
   font-weight: 600;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 
 .privateNotice {
@@ -61,7 +61,7 @@
 .tableContainer {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   overflow-x: auto;
 }
 

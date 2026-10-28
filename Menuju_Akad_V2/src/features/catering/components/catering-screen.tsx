@@ -14,7 +14,7 @@ export function CateringScreen() {
     <main id="main-content" className={styles.container}>
       <header>
         <div className="flex items-center gap-2.5">
-          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
             Hitung porsi, tanpa menebak
           </h1>
           <span className="rounded-full bg-champagne/15 border border-champagne/30 px-2.5 py-0.5 text-xs font-semibold text-ux-gold-ink">
@@ -45,7 +45,7 @@ export function CateringScreen() {
 
           <div className="rounded-control bg-subtle p-3 text-xs text-secondary space-y-1">
             <span className="font-semibold text-foreground">Rumus yang dipakai:</span>
-            <p className="font-mono text-primary font-medium">
+            <p className="font-mono text-brand-secondary font-medium">
               {input.invitations} × {input.multiplier} × 100% = {result.totalBaseGuests} + buffer{" "}
               {input.bufferPercent}% = {result.totalWithBuffer} tamu
             </p>
@@ -124,7 +124,7 @@ export function CateringScreen() {
                 <span className="text-xs text-secondary">
                   Buffet utama ({input.buffetPercent}%)
                 </span>
-                <p className="font-mono text-xl font-semibold text-primary">
+                <p className="font-mono text-xl font-semibold text-brand-secondary">
                   {result.buffetPax.toLocaleString("id-ID")}
                 </p>
                 <span className="text-[11px] text-muted">
@@ -144,11 +144,11 @@ export function CateringScreen() {
               </div>
             </div>
 
-            <div className="mt-2 rounded-card bg-primary/10 p-3.5 text-center">
-              <span className="text-xs font-semibold text-primary uppercase tracking-wide">
+            <div className="mt-2 rounded-none bg-primary/10 p-3.5 text-center">
+              <span className="text-xs font-semibold text-brand-secondary uppercase tracking-wide">
                 Total keseluruhan porsi makanan
               </span>
-              <p className="font-mono text-3xl font-bold text-primary mt-1">
+              <p className="font-mono text-3xl font-bold text-brand-secondary mt-1">
                 {result.totalPortions.toLocaleString("id-ID")} Porsi
               </p>
               <p className="text-xs text-secondary mt-1">

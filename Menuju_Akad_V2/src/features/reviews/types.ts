@@ -5,6 +5,7 @@ export type PublicReview = {
   rating: number;
   comment: string;
   createdAt: string;
+  sample?: number;
 };
 export type PrivateReview = PublicReview & {
   status: ReviewStatus;

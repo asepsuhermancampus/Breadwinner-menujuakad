@@ -60,7 +60,7 @@ export function Inspector({
 export function OperationNote({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="flex gap-3 rounded-control bg-ux-dock p-4 text-sm">
-      <Icon name="shield" className="shrink-0 text-primary" />
+      <Icon name="shield" className="shrink-0 text-brand-secondary" />
       <div>
         <h3 className="font-semibold">{title}</h3>
         <p className="mt-1 text-xs leading-relaxed text-secondary">{children}</p>
@@ -122,7 +122,7 @@ export function CheckLine({
 export function Badge({ children, danger = false }: { children: ReactNode; danger?: boolean }) {
   return (
     <span
-      className={`inline-flex rounded-md px-2 py-1 text-[11px] font-medium ${danger ? "bg-danger-bg text-danger" : "bg-ux-dock text-primary"}`}
+      className={`inline-flex rounded-md px-2 py-1 text-[11px] font-medium ${danger ? "bg-danger-bg text-danger" : "bg-ux-dock text-brand-secondary"}`}
     >
       {children}
     </span>

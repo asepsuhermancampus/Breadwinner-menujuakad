@@ -15,7 +15,7 @@ export function EngagementFinanceView({ data }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className={styles.disclaimerCard}>
-        <Icon name="shield" size={18} className="text-primary mt-0.5 shrink-0" />
+        <Icon name="shield" size={18} className="text-brand-secondary mt-0.5 shrink-0" />
         <div>
           <strong className="block font-medium text-foreground">Konteks & Dana Terpisah.</strong>
           <span>
@@ -53,7 +53,7 @@ export function EngagementFinanceView({ data }: Props) {
           <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider">
             Rencana Menabung Mingguan
           </h3>
-          <span className="font-mono text-xs font-semibold text-primary">
+          <span className="font-mono text-xs font-semibold text-brand-secondary">
             {formatRupiah(data.shortfallAmount)} lagi sebelum hari lamaran
           </span>
         </div>

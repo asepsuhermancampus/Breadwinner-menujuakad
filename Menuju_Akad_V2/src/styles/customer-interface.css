@@ -1,0 +1,49 @@
+[data-customer-ui]:not([data-editor-fullscreen]) {
+  --radius-card: 0px;
+}
+[data-customer-ui]:not([data-editor-fullscreen]) .rounded-card {
+  border-radius: 0;
+}
+[data-customer-ui] [data-ui-button]:not([data-ui-size="icon"]),
+[data-customer-ui] .customer-control,
+[data-customer-ui] button[role="tab"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  height: auto;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 20px;
+}
+[data-customer-ui] [data-ui-size="icon"] {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  flex-shrink: 0;
+}
+[data-customer-ui] :is(.customer-control, [data-ui-button], [role="tab"]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+[data-customer-ui] button[role="tab"][aria-selected="true"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+[data-customer-ui] button[role="tab"] {
+  border-radius: var(--radius-control);
+}
+[data-customer-ui] nav button[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+[data-customer-ui] button[role="tab"][aria-selected="true"]:hover {
+  background: var(--primary-hover);
+}
+[data-customer-ui] [data-customer-card] {
+  border-radius: 0;
+}

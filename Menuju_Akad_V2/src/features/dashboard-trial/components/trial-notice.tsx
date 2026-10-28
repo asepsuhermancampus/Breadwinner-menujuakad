@@ -35,7 +35,7 @@ export function TrialNotice({
   return (
     <>
       <aside
-        className="mb-6 rounded-card border border-champagne/40 bg-champagne/10 p-4 text-sm"
+        className="app-frame mb-6 rounded-card border border-champagne/40 bg-champagne/10 p-4 text-sm"
         aria-label="Status trial"
       >
         <strong>Mode percobaan</strong>
@@ -63,7 +63,7 @@ export function TrialNotice({
           Batas lima percobaan fitur atau lima checklist aktif telah tercapai. Data percobaan tetap
           tersedia di browser ini. Masuk untuk menggunakan fitur Free pada akun kalian.
         </p>
-        <Link href={login} className="rounded-control bg-primary px-4 py-3 text-sm text-white">
+        <Link href={login} className="rounded-control bg-primary px-4 py-3 text-sm text-on-primary">
           Masuk atau daftar
         </Link>
       </Dialog>

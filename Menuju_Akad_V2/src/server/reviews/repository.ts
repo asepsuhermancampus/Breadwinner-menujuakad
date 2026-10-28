@@ -10,7 +10,7 @@ import type {
   PublicReviewPage,
 } from "@/features/reviews/types";
 
-const PUBLIC_COLUMNS = "id,name,rating,comment,created_at AS createdAt";
+const PUBLIC_COLUMNS = "id,name,rating,comment,created_at AS createdAt,seed AS sample";
 const PRIVATE_COLUMNS = `${PUBLIC_COLUMNS},status,updated_at AS updatedAt,moderated_at AS moderatedAt,moderated_by AS moderatedBy`;
 const PAGE_SIZE = 12;
 

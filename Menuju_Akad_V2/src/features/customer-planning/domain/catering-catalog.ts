@@ -1,0 +1,56 @@
+export const cateringCategories = [
+  {
+    id: "buffet",
+    label: "Buffet",
+    menus: [
+      "Nasi putih",
+      "Nasi goreng",
+      "Ayam kecap",
+      "Ayam goreng",
+      "Rendang sapi",
+      "Ikan asam manis",
+      "Sop kimlo",
+      "Capcay",
+      "Sambal & kerupuk",
+    ],
+  },
+  {
+    id: "stall",
+    label: "Gubukan",
+    menus: [
+      "Sate ayam",
+      "Bakso",
+      "Siomay",
+      "Soto ayam",
+      "Pempek",
+      "Kambing guling",
+      "Mie ayam",
+      "Dimsum",
+      "Martabak",
+    ],
+  },
+  {
+    id: "dessert",
+    label: "Makanan penutup",
+    menus: ["Es krim", "Puding", "Buah potong", "Es buah", "Es campur", "Es puter", "Kue mini"],
+  },
+  {
+    id: "drinks",
+    label: "Minuman",
+    menus: [
+      "Air mineral",
+      "Teh manis",
+      "Es teh",
+      "Jus buah",
+      "Kopi",
+      "Wedang jahe",
+      "Infused water",
+    ],
+  },
+  {
+    id: "snacks",
+    label: "Kudapan",
+    menus: ["Snack box", "Jajanan pasar", "Lemper", "Pastel", "Risoles", "Kue sus", "Roti mini"],
+  },
+  { id: "other", label: "Lainnya", menus: [] },
+] as const;

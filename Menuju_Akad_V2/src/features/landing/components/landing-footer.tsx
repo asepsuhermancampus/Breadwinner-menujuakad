@@ -9,7 +9,7 @@ export function LandingFooter() {
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5">
               <BrandLogo variant="cypress" width={32} height={15} />
-              <span className="font-sans text-xl font-semibold tracking-tight text-primary">
+              <span className="font-sans text-xl font-semibold tracking-tight text-brand-secondary">
                 menuju akad<span className="text-rose">.</span>
               </span>
             </Link>
@@ -21,7 +21,7 @@ export function LandingFooter() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-sans text-xs font-semibold tracking-wider text-primary uppercase">
+            <h4 className="font-sans text-xs font-semibold tracking-wider text-brand-secondary uppercase">
               Platform
             </h4>
             <ul className="space-y-2 text-xs">
@@ -44,7 +44,7 @@ export function LandingFooter() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-sans text-xs font-semibold tracking-wider text-primary uppercase">
+            <h4 className="font-sans text-xs font-semibold tracking-wider text-brand-secondary uppercase">
               Jelajahi
             </h4>
             <ul className="space-y-2 text-xs">
@@ -62,7 +62,7 @@ export function LandingFooter() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-sans text-xs font-semibold tracking-wider text-primary uppercase">
+            <h4 className="font-sans text-xs font-semibold tracking-wider text-brand-secondary uppercase">
               Ruang Kalian
             </h4>
             <ul className="space-y-2 text-xs">
@@ -80,7 +80,7 @@ export function LandingFooter() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-sans text-xs font-semibold tracking-wider text-primary uppercase">
+            <h4 className="font-sans text-xs font-semibold tracking-wider text-brand-secondary uppercase">
               Informasi
             </h4>
             <ul className="space-y-2 text-xs">

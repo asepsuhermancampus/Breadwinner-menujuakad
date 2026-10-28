@@ -10,7 +10,7 @@ export function DiscountLoginDialog({ open, close }: { open: boolean; close: () 
       <div className="flex flex-wrap gap-3">
         <Link
           href="/login?returnTo=%2Faccount%2Fplans"
-          className="rounded-control bg-primary px-4 py-3 text-sm text-white"
+          className="rounded-control bg-primary px-4 py-3 text-sm text-on-primary"
         >
           Masuk atau daftar
         </Link>

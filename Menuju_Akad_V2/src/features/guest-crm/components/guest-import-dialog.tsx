@@ -101,11 +101,15 @@ export function GuestImportDialog({ open, onClose, onConfirmImport }: Props) {
     <Dialog open={open} onClose={onClose} title="Impor Undangan Tamu (CSV)">
       <div className="space-y-4">
         <div className="flex gap-2 text-xs font-semibold text-secondary pb-2 border-b border-border">
-          <span className={step === 1 ? "text-primary font-bold" : ""}>1 · Unggah CSV</span>
+          <span className={step === 1 ? "text-brand-secondary font-bold" : ""}>1 · Unggah CSV</span>
           <span>→</span>
-          <span className={step === 2 ? "text-primary font-bold" : ""}>2 · Pemetaan Kolom</span>
+          <span className={step === 2 ? "text-brand-secondary font-bold" : ""}>
+            2 · Pemetaan Kolom
+          </span>
           <span>→</span>
-          <span className={step === 3 ? "text-primary font-bold" : ""}>3 · Tinjau Data</span>
+          <span className={step === 3 ? "text-brand-secondary font-bold" : ""}>
+            3 · Tinjau Data
+          </span>
         </div>
 
         <div className="flex gap-2 text-xs">
@@ -120,7 +124,7 @@ export function GuestImportDialog({ open, onClose, onConfirmImport }: Props) {
           </span>
         </div>
 
-        <div className="overflow-x-auto border border-border rounded-control">
+        <div className="app-scroll overflow-x-auto border border-border rounded-control">
           <table className="w-full text-xs text-left">
             <thead className="bg-subtle text-secondary font-semibold border-b border-border">
               <tr>

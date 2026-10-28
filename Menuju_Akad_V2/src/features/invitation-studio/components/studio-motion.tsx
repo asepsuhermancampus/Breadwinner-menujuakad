@@ -68,7 +68,7 @@ export function StudioMotion({ editor }: { editor: StudioEditor }) {
         />
         Preview tanpa gerak
       </label>
-      <p className="rounded-control bg-ux-soft p-3 text-xs leading-relaxed text-primary">
+      <p className="rounded-control bg-ux-soft p-3 text-xs leading-relaxed text-brand-secondary">
         Preferensi perangkat untuk reduced motion selalu dihormati. Efek hanya dinonaktifkan saat
         berlaku; preferensi animasi tersimpan tetap utuh.
       </p>

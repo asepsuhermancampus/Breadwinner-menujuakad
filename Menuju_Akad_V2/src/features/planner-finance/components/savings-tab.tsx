@@ -134,7 +134,7 @@ export function SavingsTab({
                 type="button"
                 className={`px-3 py-1 text-xs rounded-control transition-colors ${
                   filterContributor === c
-                    ? "bg-primary text-canvas font-semibold"
+                    ? "bg-primary text-on-primary font-semibold"
                     : "bg-ux-dock text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setFilterContributor(c)}
@@ -160,7 +160,9 @@ export function SavingsTab({
                 <td className="text-secondary">{d.date}</td>
                 <td className="font-medium text-foreground">{d.contributor}</td>
                 <td className="text-secondary">{d.accountName}</td>
-                <td className="font-mono font-semibold text-primary">{formatRupiah(d.amount)}</td>
+                <td className="font-mono font-semibold text-brand-secondary">
+                  {formatRupiah(d.amount)}
+                </td>
                 <td className="text-xs text-secondary">
                   <span className="inline-flex items-center gap-1">
                     <Icon name="link" size={12} />

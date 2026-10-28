@@ -87,7 +87,7 @@ export function ThemeGallery({
                 <div className="text-[10px] uppercase tracking-widest opacity-70">
                   The Wedding of
                 </div>
-                <div className="font-serif text-lg text-center">Andi & Risa</div>
+                <div className="font-serif text-lg text-center">{activeDocument?.content.coupleTitle || "Nama pasangan"}</div>
                 <div className="text-[10px] text-center opacity-70">
                   14 · 02 · 2027 · Bumi Samami
                 </div>

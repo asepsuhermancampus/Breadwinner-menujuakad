@@ -26,7 +26,7 @@ export function ContractReviewView({ onApproveContract }: Props) {
             Resepsi 10.00–14.00 WIB)
           </p>
         </div>
-        <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-mono text-xs font-bold">
+        <span className="px-3 py-1 rounded-full bg-primary/10 text-brand-secondary font-mono text-xs font-bold">
           Kontrak Draf v9
         </span>
       </div>
@@ -45,7 +45,7 @@ export function ContractReviewView({ onApproveContract }: Props) {
             <tr className="border-b border-border">
               <td className="p-3 font-semibold text-foreground">Aru MUA · Paket Akad</td>
               <td className="p-3 font-mono">{formatIdr(8000000)}</td>
-              <td className="p-3 font-mono text-primary font-bold">{formatIdr(2400000)}</td>
+              <td className="p-3 font-mono text-brand-secondary font-bold">{formatIdr(2400000)}</td>
               <td className="p-3 text-secondary">
                 Rias akad mempelai & 2 ibu · standby 04.30–08.00
               </td>
@@ -53,7 +53,7 @@ export function ContractReviewView({ onApproveContract }: Props) {
             <tr className="border-b border-border">
               <td className="p-3 font-semibold text-foreground">Lensa Teduh · Foto 8 Jam</td>
               <td className="p-3 font-mono">{formatIdr(15000000)}</td>
-              <td className="p-3 font-mono text-primary font-bold">{formatIdr(4500000)}</td>
+              <td className="p-3 font-mono text-brand-secondary font-bold">{formatIdr(4500000)}</td>
               <td className="p-3 text-secondary">
                 2 fotografer · liputan akad & resepsi · galeri digital
               </td>
@@ -61,7 +61,7 @@ export function ContractReviewView({ onApproveContract }: Props) {
             <tr className="border-b border-border">
               <td className="p-3 font-semibold text-foreground">Rona Dekor · Cypress Style</td>
               <td className="p-3 font-mono">{formatIdr(12000000)}</td>
-              <td className="p-3 font-mono text-primary font-bold">{formatIdr(3600000)}</td>
+              <td className="p-3 font-mono text-brand-secondary font-bold">{formatIdr(3600000)}</td>
               <td className="p-3 text-secondary">
                 Dekorasi pelaminan 8m · pergola masuk & floral table
               </td>
@@ -69,7 +69,9 @@ export function ContractReviewView({ onApproveContract }: Props) {
             <tr className="bg-canvas font-bold">
               <td className="p-3 text-foreground">Total Nilai Kontrak</td>
               <td className="p-3 font-mono text-base text-foreground">{formatIdr(35000000)}</td>
-              <td className="p-3 font-mono text-base text-primary">{formatIdr(10500000)}</td>
+              <td className="p-3 font-mono text-base text-brand-secondary">
+                {formatIdr(10500000)}
+              </td>
               <td className="p-3 text-muted font-normal text-[11px]">3 vendor disetujui</td>
             </tr>
           </tbody>
@@ -82,7 +84,7 @@ export function ContractReviewView({ onApproveContract }: Props) {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div className="p-3 bg-surface rounded-lg border border-primary/30">
-            <div className="text-primary font-bold">DP 30% (Tagihan 1)</div>
+            <div className="text-brand-secondary font-bold">DP 30% (Tagihan 1)</div>
             <div className="font-mono text-sm font-bold text-foreground mt-0.5">
               {formatIdr(10500000)}
             </div>

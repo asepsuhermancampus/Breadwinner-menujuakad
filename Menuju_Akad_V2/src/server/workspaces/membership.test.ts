@@ -1,6 +1,7 @@
 import { expect, it, vi } from "vitest";
 import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
+import { saveMemberProfile } from "./member-profile";
 import { MembershipService } from "./membership-service";
 vi.mock("server-only", () => ({}));
 it("limits workspace to two verified members and rejects replay and revoked invites", () => {
@@ -8,8 +9,16 @@ it("limits workspace to two verified members and rejects replay and revoked invi
     workspaces = new WorkspaceService(db.storage());
   const service = new MembershipService(workspaces),
     owner = workspaces.getOrCreateWorkspace("a");
+  saveMemberProfile(workspaces, "a", owner.id, {
+    fullName: "Owner",
+    nickname: "Ow",
+    side: "groom",
+  });
   const invite = service.invitePartner("a");
-  expect(service.acceptPartnerInvite("b", invite.token).workspaceId).toBe(owner.id);
+  expect(
+    service.acceptPartnerInvite("b", invite.token, { fullName: "Partner", nickname: "Pa" })
+      .workspaceId,
+  ).toBe(owner.id);
   expect(workspaces.requireWorkspace("b", owner.id).id).toBe(owner.id);
   expect(service.listMemberships("b").some((w) => w.id === owner.id)).toBe(true);
   expect(() => service.acceptPartnerInvite("c", invite.token)).toThrow();

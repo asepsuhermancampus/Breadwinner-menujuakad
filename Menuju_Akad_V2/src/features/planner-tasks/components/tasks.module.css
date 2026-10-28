@@ -20,7 +20,7 @@
 .summaryCard {
   background-color: var(--canvas);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@
 .tableContainer {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   overflow-x: auto;
 }
 

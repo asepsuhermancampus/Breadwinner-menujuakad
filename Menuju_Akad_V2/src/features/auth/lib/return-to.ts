@@ -19,6 +19,8 @@ export function safeReturnTo(value: string | null): string {
       "/planner/invitations/studio",
       "/planner/wedding-kit",
       "/account/security",
+      "/account/domain",
+      "/account/support",
     ].includes(value)
   )
     return value;

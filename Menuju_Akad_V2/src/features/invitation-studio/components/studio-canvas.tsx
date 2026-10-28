@@ -67,7 +67,7 @@ export function StudioCanvas({ editor, selected, onSelect, zoom }: Props) {
         <div
           data-testid="studio-canvas"
           data-model-width="375"
-          className="relative origin-top-left overflow-hidden rounded-control bg-canvas"
+          className="relative origin-top-left overflow-hidden rounded-control bg-[#fbfbf9] text-[#141413] [font-family:var(--font-jakarta)]"
           style={{ width: 375, height: canvasHeight, transform: `scale(${scale})` }}
         >
           {doc.nodes
@@ -152,7 +152,7 @@ export function StudioCanvas({ editor, selected, onSelect, zoom }: Props) {
             <input
               autoFocus
               aria-label="Edit judul langsung"
-              className="absolute bg-surface text-center font-serif outline-2 outline-primary"
+              className="absolute bg-surface text-center [font-family:var(--font-editorial)] outline-2 outline-primary"
               style={{
                 left: title.x,
                 top: title.y,
@@ -178,7 +178,7 @@ export function StudioCanvas({ editor, selected, onSelect, zoom }: Props) {
             <p className="text-sm text-secondary">
               {doc.content.date} {doc.content.venue}
             </p>
-            <p className="text-center font-serif text-xl">
+            <p className="text-center [font-family:var(--font-editorial)] text-xl">
               Dengan hangat, {doc.content.coupleTitle}
             </p>
           </div>

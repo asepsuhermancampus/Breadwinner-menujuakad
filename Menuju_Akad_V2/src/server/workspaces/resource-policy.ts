@@ -1,4 +1,6 @@
 import { planningSchemas } from "@/features/customer-planning/domain/planning-resource";
+import { documentSchema } from "@/features/kua-documents/domain/document-schema";
+import { customerBudgetSchema } from "@/features/planner-finance/domain/customer-budget-schema";
 import { validGuestIntegrity } from "@/features/guest-crm/utils/guest-integrity";
 import "server-only";
 import { z } from "zod";
@@ -53,13 +55,6 @@ const invitation = z.object({
   venue: text.optional(),
   published: z.boolean().optional(),
 });
-const note = z.object({
-  id,
-  title: text,
-  completed: z.boolean().optional(),
-  amount: z.number().int().min(0).max(1000000000000).optional(),
-  notes: text.optional(),
-});
 const schemas = {
   ...planningSchemas,
   "vendor-favorites": z.object({ id }),
@@ -67,8 +62,8 @@ const schemas = {
   tasks: task,
   moodboard,
   invitations: invitation,
-  documents: note,
-  finance: note,
+  documents: documentSchema,
+  finance: customerBudgetSchema,
   "studio-drafts": z.object({
     id,
     title: text,

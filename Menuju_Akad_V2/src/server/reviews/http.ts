@@ -1,6 +1,8 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { isLocalOriginAlias } from "@/server/http/local-origin";
+import { isConfiguredApplicationOrigin } from "@/server/http/application-origin";
 
 export class ReviewHttpError extends Error {
   constructor(
@@ -15,7 +17,12 @@ export function assertOrigin(request: Request) {
   const allowed = new Set([new URL(request.url).origin]);
   const configured = process.env["REVIEWS_APP_ORIGIN"];
   if (configured) allowed.add(new URL(configured).origin);
-  if (!origin || !allowed.has(origin))
+  if (
+    !origin ||
+    (!allowed.has(origin) &&
+      !isLocalOriginAlias(request, origin) &&
+      !isConfiguredApplicationOrigin(origin))
+  )
     throw new ReviewHttpError("Permintaan tidak diizinkan dari halaman ini.", 403);
 }
 export async function readJson(request: Request): Promise<unknown> {

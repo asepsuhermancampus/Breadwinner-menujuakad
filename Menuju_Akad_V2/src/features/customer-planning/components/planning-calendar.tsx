@@ -72,7 +72,7 @@ export function PlanningCalendar({ items, edit, remove }: PlanningViewProps) {
             ))}
           </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="app-scroll overflow-x-auto">
           <div className={`${calendar.grid} min-w-[560px]`}>
             {["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"].map((value) => (
               <div key={value} className={calendar.weekdayHeader}>
@@ -100,7 +100,7 @@ export function PlanningCalendar({ items, edit, remove }: PlanningViewProps) {
                       onClick={() => {
                         setDay(date);
                       }}
-                      className={`${calendar.eventBadge} bg-primary/10 text-primary text-left`}
+                      className={`${calendar.eventBadge} bg-primary/10 text-brand-secondary text-left`}
                     >
                       <span className="block font-mono">{event.startTime}</span>
                       {event.title}

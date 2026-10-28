@@ -54,7 +54,7 @@ export function DeviceSessions({
             </p>
           </div>
           {session.current ? (
-            <span className="text-xs text-primary">● Aktif sekarang</span>
+            <span className="text-xs text-brand-secondary">● Aktif sekarang</span>
           ) : (
             <Button
               variant="ghost"

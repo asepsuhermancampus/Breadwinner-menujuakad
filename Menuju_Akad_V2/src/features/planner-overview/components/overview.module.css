@@ -15,14 +15,14 @@
 }
 
 .greetingCard {
-  background-color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-card);
-  padding: 28px;
+  background-color: var(--ux-soft);
+  border: 1px solid var(--ux-border);
+  border-radius: 0;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  color: var(--canvas);
+  color: var(--foreground);
 }
 
 @media (min-width: 1024px) {
@@ -30,8 +30,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    min-height: 172px;
-    padding: 28px;
+    min-height: 148px;
+    padding: 24px;
   }
 }
 
@@ -54,7 +54,7 @@
   position: absolute;
   inset: 5px;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--ux-soft);
 }
 
 .metricsGrid {
@@ -78,7 +78,7 @@
 .metricCard {
   background-color: var(--canvas);
   border: 1px solid var(--ux-border);
-  border-radius: 12px;
+  border-radius: 0;
   min-height: 112px;
   padding: 18px;
   display: flex;
@@ -101,7 +101,7 @@
 .panel {
   background-color: var(--surface);
   border: 1px solid var(--ux-border);
-  border-radius: var(--radius-card);
+  border-radius: 0;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;

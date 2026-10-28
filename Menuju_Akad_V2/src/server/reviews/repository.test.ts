@@ -47,6 +47,7 @@ describe("private reviews and publication", () => {
       "id",
       "name",
       "rating",
+      "sample",
     ]);
     repo.moderate(review.id, "hidden", "admin-id");
     expect(repo.publicList(1).items).toEqual([]);
@@ -73,6 +74,7 @@ describe("private reviews and publication", () => {
     const { db, repo } = setup();
     seedReviews(db);
     const first = repo.publicList(1);
+    expect(first.items.every((item) => item.sample === 1)).toBe(true);
     expect(first.total).toBeGreaterThan(2);
     repo.moderate(first.items[0]!.id, "hidden", "admin-id");
     const total = repo.list({ page: 1 }).total;

@@ -1,0 +1,200 @@
+.checklists {
+  display: grid;
+  gap: 18px;
+}
+.checklists[hidden] {
+  display: none;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  margin: 0;
+}
+.templateCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+  overflow: hidden;
+}
+.templateCard > :not(svg):not([aria-hidden]):not(dialog) {
+  position: relative;
+}
+.templateCard > button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.cardHeading {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardHeading h2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+.cardHeading > span {
+  flex-shrink: 0;
+  color: var(--brand-secondary);
+  font-size: 12px;
+  background: var(--nav-active);
+  padding: 4px 8px;
+}
+.description {
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+}
+.templateList {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-left: 18px;
+  padding-right: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  list-style: disc;
+}
+.templateList li {
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+.checklistList {
+  max-height: 680px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.blank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 24px;
+  text-align: center;
+  border: 1px dashed var(--control-border);
+  color: var(--secondary);
+}
+.blank > svg {
+  color: var(--primary);
+}
+.blank h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.blank p {
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.selection {
+  display: grid;
+  gap: 16px;
+  border: 0;
+  padding: 0;
+  margin: 16px 0 0;
+  min-width: 0;
+}
+.optionList {
+  max-height: 380px;
+  overflow: auto;
+  padding-right: 8px;
+}
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ux-border);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.option input {
+  margin-top: 4px;
+  accent-color: var(--primary);
+}
+.option small {
+  display: block;
+  color: var(--secondary);
+  font-size: 11px;
+  margin-top: 4px;
+}
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 16px;
+}
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.navigation {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--control-border);
+}
+.navigation button {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--secondary);
+  cursor: pointer;
+}
+.navigation button[aria-pressed="true"] {
+  background: var(--nav-active);
+  color: var(--brand-secondary);
+  border-bottom-color: var(--brand-secondary);
+  font-weight: 600;
+}
+.navigation button:hover {
+  background: var(--nav-active);
+}
+.navigation button:focus-visible,
+.manual > summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.manual {
+  margin-top: 16px;
+  border-top: 1px solid var(--control-border);
+  padding-top: 8px;
+}
+.manual > summary {
+  min-height: 44px;
+  font-size: 13px;
+  color: var(--brand-secondary);
+  cursor: pointer;
+  list-style: none;
+}
+@media (max-width: 640px) {
+  .navigation button {
+    flex: 1;
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+}

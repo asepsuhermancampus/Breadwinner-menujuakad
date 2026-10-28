@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
+import { SummaryCard } from "@/components/ui/summary-card";
 import { Icon } from "@/components/ui/icon";
 import type { KuaDocumentItem } from "../types/kua";
 import { KuaDocumentTable } from "./kua-document-table";
@@ -58,7 +59,7 @@ export function KuaScreen({ initialDocuments }: Props) {
   return (
     <section className={styles.container}>
       <header>
-        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+        <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
           Dokumen KUA & syarat nikah
         </h1>
         <p className="text-sm text-secondary">
@@ -67,39 +68,23 @@ export function KuaScreen({ initialDocuments }: Props) {
       </header>
 
       <section className={styles.spouseGrid} aria-label="Ringkasan calon pengantin">
-        <article className={styles.spouseCard}>
-          <div className="flex items-center gap-3">
-            <span className={styles.avatar}>A</span>
-            <div>
-              <strong className="block text-sm text-foreground">Andi Ramadhan</strong>
-              <span className="text-xs text-secondary">Mempelai pria</span>
-            </div>
-          </div>
-          <div className="text-right">
-            <span className="font-mono text-2xl font-semibold text-primary">{andiCompleted}/7</span>
-            <span className="block text-xs text-secondary">berkas siap</span>
-          </div>
-        </article>
-
-        <article className={styles.spouseCard}>
-          <div className="flex items-center gap-3">
-            <span className={styles.avatar}>R</span>
-            <div>
-              <strong className="block text-sm text-foreground">Risa Pratiwi</strong>
-              <span className="text-xs text-secondary">Mempelai wanita</span>
-            </div>
-          </div>
-          <div className="text-right">
-            <span className="font-mono text-2xl font-semibold text-emerald-700">
-              {risaCompleted}/7
-            </span>
-            <span className="block text-xs text-secondary">berkas lengkap</span>
-          </div>
-        </article>
+        <SummaryCard
+          label="Andi Ramadhan ? Mempelai pria"
+          value={`${andiCompleted}/7`}
+          detail="berkas siap"
+          ornament={1}
+          highlight
+        />
+        <SummaryCard
+          label="Risa Pratiwi ? Mempelai wanita"
+          value={`${risaCompleted}/7`}
+          detail="berkas lengkap"
+          ornament={2}
+        />
       </section>
 
       <div className={styles.privateNotice} role="note">
-        <Icon name="shield" size={16} className="text-primary shrink-0" />
+        <Icon name="shield" size={16} className="text-brand-secondary shrink-0" />
         <span>
           Berkas pribadi · hanya kalian berdua yang dapat mengakses dan memperbarui salinan ini.
         </span>
@@ -112,9 +97,9 @@ export function KuaScreen({ initialDocuments }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Wajib"}
-          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
+          className={`customer-control rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Wajib"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Wajib")}
@@ -124,9 +109,9 @@ export function KuaScreen({ initialDocuments }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Opsional"}
-          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
+          className={`customer-control rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Opsional"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Opsional")}
@@ -136,9 +121,9 @@ export function KuaScreen({ initialDocuments }: Props) {
         <button
           role="tab"
           aria-selected={filter === "Perhatian"}
-          className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
+          className={`customer-control rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Perhatian"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Perhatian")}

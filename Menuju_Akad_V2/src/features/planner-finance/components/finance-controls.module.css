@@ -1,0 +1,18 @@
+button.compact {
+  min-height: 36px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 20px;
+}
+.compact:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.pdf {
+  justify-self: end;
+}
+.pdf:hover:not(:disabled) {
+  background: var(--surface);
+  border-color: var(--primary);
+}

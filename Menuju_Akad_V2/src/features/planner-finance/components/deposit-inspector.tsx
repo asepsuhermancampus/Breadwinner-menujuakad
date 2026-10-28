@@ -119,7 +119,9 @@ export function DepositInspector({
           </span>
           <span className="text-secondary">
             Proyeksi kontribusi: {formatRupiah(currentTotalContributed)} →{" "}
-            <strong className="text-primary font-mono">{formatRupiah(projectedTotal)}</strong>
+            <strong className="text-brand-secondary font-mono">
+              {formatRupiah(projectedTotal)}
+            </strong>
           </span>
           <span className="text-[11px] text-secondary italic">
             Belum tersimpan di ledger hingga dikonfirmasi.

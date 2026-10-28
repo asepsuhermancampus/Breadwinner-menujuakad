@@ -10,7 +10,7 @@ type Props = {
 
 export function KuaDocumentTable({ documents, onSelectDoc }: Props) {
   return (
-    <div className={styles.tableContainer}>
+    <div className={`${styles.tableContainer} app-scroll`}>
       <table className={styles.table}>
         <thead>
           <tr>

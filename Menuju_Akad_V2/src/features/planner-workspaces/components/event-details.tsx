@@ -50,7 +50,7 @@ export function EventDetails({
         />
       </div>
       <div className="flex flex-wrap items-center gap-3 rounded-xl bg-subtle p-3.5">
-        <Icon name="map-trifold" size={24} className="shrink-0 text-primary" />
+        <Icon name="map-trifold" size={24} className="shrink-0 text-brand-secondary" />
         <div className="min-w-0 flex-1 text-xs leading-6">
           <p className="font-medium">{event.venue || "Venue belum ditentukan"}</p>
           <p className="break-words text-secondary">
@@ -59,7 +59,7 @@ export function EventDetails({
         </div>
         <Button
           variant="ghost"
-          className="text-xs text-primary"
+          className="text-xs text-brand-secondary"
           onClick={() => {
             setAddress(event.address);
             setAddressOpen(true);

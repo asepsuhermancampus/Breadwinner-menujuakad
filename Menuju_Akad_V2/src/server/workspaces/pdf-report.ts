@@ -5,6 +5,37 @@ const escapeHtml = (value: unknown) =>
     (character) =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!,
   );
+
+function budgetDetails(item: Record<string, unknown>): string {
+  const date = (value: unknown, dateOnly = false) => {
+    if (typeof value !== "string" || !value) return "Belum ditentukan";
+    const parsed = new Date(dateOnly ? `${value}T00:00:00Z` : value);
+    return Number.isNaN(parsed.getTime())
+      ? "Belum ditentukan"
+      : parsed.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+          timeZone: dateOnly ? "UTC" : "Asia/Jakarta",
+        });
+  };
+  return [
+    item.title,
+    item.purpose ? `Tujuan: ${item.purpose}` : undefined,
+    typeof item.amount === "number"
+      ? `Target nominal: Rp ${item.amount.toLocaleString("id-ID")}`
+      : undefined,
+    `Tanggal dibuat: ${date(item.createdAt)}`,
+    `Tenggat: ${date(item.dueDate, true)}`,
+    `Prioritas: ${item.priority ?? "Normal"}`,
+    item.completed === true ? "Dana terkumpul" : "Dana belum terkumpul",
+    item.notes ? `Deskripsi: ${item.notes}` : undefined,
+  ]
+    .filter((value) => value !== undefined)
+    .map(escapeHtml)
+    .join(" · ");
+}
+
 export function buildPrintableReport(name: string, resources: Record<string, unknown[]>): string {
   const labels: Record<string, string> = {
     guests: "Daftar tamu",
@@ -20,8 +51,10 @@ export function buildPrintableReport(name: string, resources: Record<string, unk
       ([kind, rows]) =>
         `<section><h2>${escapeHtml(labels[kind] ?? kind)}</h2><ul>${
           rows
+            .filter((row) => kind !== "documents" || !(row as { archived?: boolean }).archived)
             .map((row) => {
               const item = row as Record<string, unknown>;
+              if (kind === "finance") return `<li>${budgetDetails(item)}</li>`;
               return `<li>${fields
                 .filter((field) => field in item)
                 .map((field) =>

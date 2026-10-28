@@ -53,7 +53,7 @@ export function SuperadminInbox({ email }: { email: string }) {
               href="/#ulasan"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-2 text-xs font-semibold text-primary"
+              className="inline-flex min-h-11 items-center gap-2 text-xs font-semibold text-brand-secondary"
             >
               Lihat landing <ArrowUpRight size={16} aria-hidden="true" />
             </Link>
@@ -110,8 +110,10 @@ export function SuperadminInbox({ email }: { email: string }) {
           ))}
           {data?.items.length === 0 && !loading && (
             <div className="rounded-card border border-ux-border bg-surface p-10 text-center">
-              <Inbox className="mx-auto text-primary" aria-hidden="true" />
-              <p className="mt-4 font-medium text-primary">Tidak ada ulasan di halaman ini.</p>
+              <Inbox className="mx-auto text-brand-secondary" aria-hidden="true" />
+              <p className="mt-4 font-medium text-brand-secondary">
+                Tidak ada ulasan di halaman ini.
+              </p>
               <p className="mt-2 text-sm text-secondary">
                 Sesuaikan filter atau kembali ke halaman sebelumnya.
               </p>

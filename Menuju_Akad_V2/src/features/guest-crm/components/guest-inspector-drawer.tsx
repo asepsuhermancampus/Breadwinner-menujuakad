@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
+import { guestGroupLabel } from "../utils/guest-groups";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
@@ -31,6 +33,7 @@ export function GuestInspectorDrawer({
   onArchive,
   trial = false,
 }: Props) {
+  const names = useCustomerNames();
   const [quotaError, setQuotaError] = useState("");
 
   if (!guest) return null;
@@ -71,7 +74,9 @@ export function GuestInspectorDrawer({
                 {guest.contactPhone || "Tanpa nomor kontak"}
               </p>
             </div>
-            <span className="text-xs font-semibold px-2 py-1 bg-subtle rounded">{guest.group}</span>
+            <span className="text-xs font-semibold px-2 py-1 bg-subtle rounded">
+              {guestGroupLabel(guest.group, names)}
+            </span>
           </div>
         </div>
 
@@ -111,7 +116,7 @@ export function GuestInspectorDrawer({
           {guest.tableNumber && (
             <div className="flex justify-between items-center text-sm pt-2 border-t border-border">
               <span className="text-secondary">Alokasi Meja</span>
-              <span className="font-semibold text-primary">
+              <span className="font-semibold text-brand-secondary">
                 Meja {guest.tableNumber} ({guest.tableCategory || "Reguler"})
               </span>
             </div>

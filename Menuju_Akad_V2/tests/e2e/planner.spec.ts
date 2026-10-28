@@ -34,7 +34,7 @@ test.describe("Batch 02 · Planner Modules E2E", () => {
     await expect(inspector).toBeVisible();
 
     // Close inspector
-    await inspector.getByRole("button", { name: "Tutup panel" }).click();
+    await inspector.getByRole("button", { name: "Tutup dialog" }).click();
     await expect(inspector).not.toBeVisible();
   });
 

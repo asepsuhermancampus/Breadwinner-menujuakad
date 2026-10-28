@@ -5,11 +5,11 @@
   flex-direction: column;
   gap: 14px;
   padding: 12px;
-  border-radius: 20px;
+  border-radius: 10px 0 0 10px;
   background: var(--ux-dock);
-  border: 1px solid var(--ux-border);
+  border: 1px solid var(--control-border);
   height: calc(100dvh - 24px);
-  min-height: 560px;
+  min-height: 0;
 }
 .compact {
   align-items: center;
@@ -31,7 +31,6 @@
   align-content: start;
   min-height: 0;
   overflow-y: auto;
-  scrollbar-width: thin;
 }
 .navItem {
   position: relative;
@@ -43,7 +42,7 @@
   min-height: 44px;
   width: 100%;
   padding: 9px 10px;
-  border-radius: 10px;
+  border-radius: 6px;
   text-align: left;
   color: var(--secondary);
   font-size: 11px;
@@ -51,17 +50,17 @@
 .navButton:hover,
 .navButton:focus-visible,
 .navButton[aria-current="page"] {
-  color: var(--primary);
-  background: var(--surface);
+  color: var(--foreground);
+  background: var(--nav-active);
 }
 .navButton small {
   margin-left: auto;
   padding: 4px;
   border-radius: 6px;
-  background: #c9a66b1c;
+  background: var(--ux-soft);
   font-size: 9px;
   white-space: nowrap;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .iconButton {
   width: 44px;
@@ -79,7 +78,7 @@
   background: var(--surface);
   border: 1px solid var(--ux-border);
   border-radius: 12px;
-  box-shadow: 0 8px 24px #1414130c;
+  box-shadow: 0 8px 24px #052e160c;
   font-size: 12px;
 }
 .tooltip span {
@@ -88,7 +87,7 @@
 }
 .tooltip small {
   font-size: 10px;
-  color: var(--primary);
+  color: var(--brand-secondary);
 }
 .navItem:hover .tooltip,
 .navItem:focus-within .tooltip {
@@ -111,4 +110,5 @@
   position: static;
   min-height: auto;
   height: auto;
+  border-radius: 10px;
 }

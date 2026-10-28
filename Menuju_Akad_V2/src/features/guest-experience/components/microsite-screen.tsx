@@ -94,7 +94,7 @@ function HomeSection({ onNavigate }: { onNavigate: (s: GuestSection) => void }) 
               key={s.year}
               className="flex gap-3 rounded-card border border-border bg-canvas p-3"
             >
-              <span className="font-mono text-sm font-bold text-primary">{s.year}</span>
+              <span className="font-mono text-sm font-bold text-brand-secondary">{s.year}</span>
               <span className="text-xs text-secondary">{s.description}</span>
             </div>
           ))}
@@ -108,7 +108,7 @@ function HomeSection({ onNavigate }: { onNavigate: (s: GuestSection) => void }) 
               onClick={() => onNavigate(item.section)}
               className="flex min-h-11 items-center gap-2.5 rounded-control border border-border bg-surface px-3 text-left text-xs font-semibold text-foreground hover:bg-subtle"
             >
-              <Icon name={item.icon} size={15} className="text-primary" />
+              <Icon name={item.icon} size={15} className="text-brand-secondary" />
               <span className="flex-1">{item.label}</span>
               <Icon name="chevron-right" size={14} className="text-muted" />
             </button>

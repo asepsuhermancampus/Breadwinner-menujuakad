@@ -51,7 +51,7 @@ export function GuestGuideSection({ onBack }: { onBack: () => void }) {
         href="https://www.google.com/maps/search/?api=1&query=Bumi+Samami+Bandung"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex min-h-11 items-center justify-center rounded-control bg-primary px-4 text-sm font-semibold text-white"
+        className="flex min-h-11 items-center justify-center rounded-control bg-primary px-4 text-sm font-semibold text-on-primary"
       >
         Cari venue di peta eksternal ↗
       </a>

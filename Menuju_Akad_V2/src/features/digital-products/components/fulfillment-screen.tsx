@@ -28,13 +28,13 @@ export function FulfillmentScreen({ initialOrder }: Props) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <BrandLogo variant="cypress" width={32} height={15} />
-            <span className="font-semibold text-primary text-sm">menuju akad</span>
+            <span className="font-semibold text-brand-secondary text-sm">menuju akad</span>
             <span className="text-secondary text-xs">·</span>
             <span className="text-[10px] font-bold tracking-widest text-secondary uppercase">
               SANDBOX · TIDAK ADA TRANSAKSI
             </span>
           </div>
-          <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+          <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
             Produk digital · setelah pembayaran
           </h1>
         </div>
@@ -54,7 +54,7 @@ export function FulfillmentScreen({ initialOrder }: Props) {
             aria-selected={simStatus === s}
             className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
               simStatus === s
-                ? "bg-surface text-primary shadow-sm font-semibold"
+                ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                 : "text-secondary hover:text-foreground"
             }`}
             onClick={() => {
@@ -153,7 +153,7 @@ export function FulfillmentScreen({ initialOrder }: Props) {
         </div>
 
         <div className="rounded-control border border-ux-border p-3 text-xs text-secondary flex items-start gap-2">
-          <Icon name="info" size={16} className="text-primary mt-0.5 shrink-0" />
+          <Icon name="info" size={16} className="text-brand-secondary mt-0.5 shrink-0" />
           <span>
             <strong>Wedding Kit tetap Maintenance:</strong> Ownership Premium/produk tidak dicabut.
             Jika delivery sedang Maintenance, tampilkan status/fallback dukungan, bukan memaksa beli

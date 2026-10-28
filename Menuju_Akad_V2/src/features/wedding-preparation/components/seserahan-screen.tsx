@@ -52,7 +52,7 @@ export function SeserahanScreen({ initialItems }: Props) {
   return (
     <main id="main-content" className={styles.container}>
       <header>
-        <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
+        <h1 className="font-sans text-3xl font-semibold text-brand-secondary tracking-[-0.9px]">
           Seserahan, satu per satu
         </h1>
         <p className="text-sm text-secondary">
@@ -75,7 +75,7 @@ export function SeserahanScreen({ initialItems }: Props) {
           <span className="text-[11px] font-semibold text-secondary uppercase tracking-wider">
             SUDAH DIBELI
           </span>
-          <span className="font-mono text-xl font-bold text-primary">
+          <span className="font-mono text-xl font-bold text-brand-secondary">
             {boughtCount}/{items.length} barang
           </span>
           <span className="text-xs text-secondary">Progres belanja hantaran</span>
@@ -101,7 +101,7 @@ export function SeserahanScreen({ initialItems }: Props) {
           aria-selected={filter === "Semua"}
           className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Semua"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Semua")}
@@ -113,7 +113,7 @@ export function SeserahanScreen({ initialItems }: Props) {
           aria-selected={filter === "Sudah"}
           className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Sudah"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Sudah")}
@@ -125,7 +125,7 @@ export function SeserahanScreen({ initialItems }: Props) {
           aria-selected={filter === "Belum"}
           className={`rounded-control px-3.5 py-1.5 text-xs font-medium transition ${
             filter === "Belum"
-              ? "bg-surface text-primary shadow-sm font-semibold"
+              ? "bg-surface text-brand-secondary shadow-sm font-semibold"
               : "text-secondary hover:text-foreground"
           }`}
           onClick={() => setFilter("Belum")}
@@ -161,7 +161,7 @@ export function SeserahanScreen({ initialItems }: Props) {
                     type="checkbox"
                     checked={item.isBought}
                     onChange={() => handleToggleBought(item.id)}
-                    className="size-4 cursor-pointer rounded border-border text-primary focus:ring-primary"
+                    className="size-4 cursor-pointer rounded border-border text-brand-secondary focus:ring-primary"
                   />
                   <span
                     className={item.isBought ? "font-medium text-emerald-700" : "text-secondary"}

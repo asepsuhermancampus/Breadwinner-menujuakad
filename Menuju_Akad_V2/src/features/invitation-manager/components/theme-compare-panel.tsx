@@ -69,7 +69,7 @@ export function ThemeComparePanel({ onUseEditorial }: { onUseEditorial: () => vo
         title={`Demo ${preview ?? "tema"}`}
       >
         <div
-          className={`grid gap-4 rounded-card p-5 text-center ${preview === "Cypress Modern" ? "bg-primary text-white" : "bg-canvas text-foreground"}`}
+          className={`grid gap-4 rounded-card p-5 text-center ${preview === "Cypress Modern" ? "bg-[#1e3f32] text-white" : "bg-canvas text-foreground"}`}
         >
           <img
             src={guestExperienceContent.gallery[0]!.src}

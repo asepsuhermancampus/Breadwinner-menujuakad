@@ -24,8 +24,8 @@
 }
 
 .statusBannerPending {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--warning-bg);
+  color: var(--warning-ink);
   padding: 1.25rem;
   border-radius: var(--radius-control);
   display: flex;
@@ -34,8 +34,8 @@
 }
 
 .statusBannerVerified {
-  background-color: #f0fdf4;
-  color: #166534;
+  background-color: var(--success-bg);
+  color: var(--success-ink);
   padding: 1.25rem;
   border-radius: var(--radius-control);
   display: flex;
@@ -44,8 +44,8 @@
 }
 
 .statusBannerFailed {
-  background-color: #fff1f2;
-  color: #be123c;
+  background-color: var(--danger-bg);
+  color: var(--danger-ink);
   padding: 1.25rem;
   border-radius: var(--radius-control);
   display: flex;
@@ -63,4 +63,11 @@
   .infoGrid {
     grid-template-columns: 1fr 1fr;
   }
+}
+.statusBannerVerified a {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.statusBannerVerified a:hover {
+  background: var(--primary-hover);
 }

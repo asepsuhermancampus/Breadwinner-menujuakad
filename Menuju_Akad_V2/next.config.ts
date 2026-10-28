@@ -1,6 +1,17 @@
 import type { NextConfig } from "next";
+const devOrigins = ["127.0.0.1", "[::1]"];
+try {
+  const publicUrl = process.env.AUTH_URL?.trim() || process.env.NEXTAUTH_URL?.trim();
+  if (publicUrl) {
+    const parsed = new URL(publicUrl);
+    if (["http:", "https:"].includes(parsed.protocol)) devOrigins.push(parsed.hostname);
+  }
+} catch {
+  /* Invalid application URLs do not authorize extra development hosts. */
+}
 
 const config: NextConfig = {
+  allowedDevOrigins: devOrigins,
   distDir: process.env["NEXT_DIST_DIR"] || ".next",
   output: "standalone",
   poweredByHeader: false,

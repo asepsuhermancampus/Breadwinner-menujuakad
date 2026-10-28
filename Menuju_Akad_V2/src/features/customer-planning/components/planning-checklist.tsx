@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { SummaryCard } from "@/components/ui/summary-card";
 import { Icon } from "@/components/ui/icon";
 import type { PlanningViewProps } from "../domain/planning-view";
 import styles from "./planning.module.css";
@@ -32,41 +33,34 @@ export function PlanningChecklist({
   return (
     <div className={styles.stack}>
       {kind === "seserahan" ? (
-        <dl className={styles.stats}>
-          <div>
-            <dt>Estimasi keseluruhan</dt>
-            <dd>{money(gifts.reduce((sum, i) => sum + i.quantity * i.unitCost, 0))}</dd>
-          </div>
-          <div>
-            <dt>Sudah dibeli</dt>
-            <dd>
-              {ready}/{items.length} barang
-            </dd>
-          </div>
-          <div>
-            <dt>Nilai barang dibeli</dt>
-            <dd>
-              {money(
-                gifts
-                  .filter((i) => i.completed)
-                  .reduce((sum, i) => sum + i.quantity * i.unitCost, 0),
-              )}
-            </dd>
-          </div>
-        </dl>
-      ) : (
-        <div className={`${styles.card} ${styles.subtle} ${styles.row}`}>
-          <div>
-            <strong className="font-mono text-2xl text-primary">
-              {ready}/{items.length}
-            </strong>
-            <h2 className="text-sm font-semibold">Barang sudah siap dibawa</h2>
-            <p className="mt-1 text-xs text-secondary">
-              Sesuaikan perlengkapan dan kontak penting untuk hari kalian.
-            </p>
-          </div>
-          <span className="text-xs text-secondary">{items.length - ready} belum siap</span>
+        <div className={styles.stats}>
+          <SummaryCard
+            label="Estimasi keseluruhan"
+            value={money(gifts.reduce((sum, i) => sum + i.quantity * i.unitCost, 0))}
+            ornament={1}
+            highlight
+          />
+          <SummaryCard
+            label="Sudah dibeli"
+            value={`${ready}/${items.length} barang`}
+            ornament={2}
+          />
+          <SummaryCard
+            label="Nilai barang dibeli"
+            value={money(
+              gifts.filter((i) => i.completed).reduce((sum, i) => sum + i.quantity * i.unitCost, 0),
+            )}
+            ornament={3}
+          />
         </div>
+      ) : (
+        <SummaryCard
+          label="Barang sudah siap dibawa"
+          value={`${ready}/${items.length}`}
+          detail={`${items.length - ready} belum siap. Sesuaikan perlengkapan dan kontak penting untuk hari kalian.`}
+          ornament={4}
+          highlight
+        />
       )}
       <div
         className={

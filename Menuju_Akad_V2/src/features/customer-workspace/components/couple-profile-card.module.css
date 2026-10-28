@@ -1,0 +1,29 @@
+.lockedCard {
+  background: #f1f2f4;
+  border-color: #d4d7dc;
+}
+.lockedCard > :not(.lockOverlay) {
+  filter: grayscale(1);
+  opacity: 0.45;
+  pointer-events: none;
+  user-select: none;
+}
+.lockedCard[data-profile-slot] > .lockOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  pointer-events: none;
+}
+.lockOverlay [role="img"] {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #ccd1d7;
+  border-radius: 50%;
+  background: #ffffffed;
+  color: #58616b;
+  box-shadow: 0 4px 16px #17212b0a;
+}

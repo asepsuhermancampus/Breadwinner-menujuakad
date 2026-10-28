@@ -1,3 +1,6 @@
+"use client";
+import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
+import { plannerPersonLabel } from "@/features/customer-workspace/domain/side-profile-names";
 import type { PlannerTask } from "../types/tasks";
 import styles from "./tasks.module.css";
 
@@ -8,6 +11,7 @@ type Props = {
 };
 
 export function TaskRow({ task, onToggle, onSelect }: Props) {
+  const names = useCustomerNames();
   const isDone = task.status === "Selesai";
 
   return (
@@ -29,7 +33,7 @@ export function TaskRow({ task, onToggle, onSelect }: Props) {
           checked={isDone}
           onChange={() => onToggle(task.id)}
           aria-label={`Tandai ${task.title}`}
-          className="size-4.5 cursor-pointer rounded border-border text-primary focus:ring-primary"
+          className="size-4.5 cursor-pointer rounded border-border text-brand-secondary focus:ring-primary"
         />
       </td>
       <td className="font-medium text-foreground">
@@ -37,7 +41,7 @@ export function TaskRow({ task, onToggle, onSelect }: Props) {
       </td>
       <td>
         <span className="inline-block rounded-control bg-ux-dock border border-ux-border px-2 py-0.5 text-xs text-secondary">
-          {task.pic}
+          {plannerPersonLabel(task.pic, names)}
         </span>
       </td>
       <td>

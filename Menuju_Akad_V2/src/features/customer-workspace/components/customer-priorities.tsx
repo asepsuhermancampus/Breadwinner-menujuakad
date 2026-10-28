@@ -5,6 +5,7 @@ import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { CustomerWorkspace } from "../types";
 import type { OverviewResources } from "../hooks/use-overview-resources";
 import styles from "./customer-overview.module.css";
+import { sideProfileNames, plannerPersonLabel } from "../domain/side-profile-names";
 type Agenda = {
   id: string;
   title: string;
@@ -74,11 +75,10 @@ export function CustomerPriorities({
               </span>
             </label>
             <small>
-              {task.pic === "Bersama"
-                ? "Bersama"
-                : task.pic === "Andi"
-                  ? workspace.profile.fullName || "Kalian"
-                  : workspace.profile.partnerName || "Pasangan"}{" "}
+              {plannerPersonLabel(
+                task.pic,
+                sideProfileNames(workspace.profile, workspace.ownerSide),
+              )}{" "}
               · {task.dueDate}
             </small>
           </div>

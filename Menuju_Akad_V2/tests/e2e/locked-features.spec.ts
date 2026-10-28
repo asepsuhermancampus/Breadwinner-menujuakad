@@ -32,8 +32,9 @@ test("Free features stay visible under accessible locks without fetching paid re
   }
   expect(paidRequests).toEqual([]);
   expect((await context.request.get(`${baseURL}/api/workspace/export`)).status()).toBe(403);
-  await page.goto("/account");
+  await page.goto("/account/domain");
   await expect(page.getByRole("region", { name: "Custom domain terkunci" })).toBeVisible();
+  await page.goto("/account/support");
   await expect(page.getByRole("region", { name: "Prioritas bantuan terkunci" })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Kirim permintaan bantuan", exact: true }),
@@ -52,6 +53,6 @@ test("Premium opens its features and keeps Lifetime domain locked", async ({
   await page.goto("/planner/moodboard");
   await expect(page.getByRole("button", { name: "Tambah inspirasi" })).toBeVisible();
   await expect(page.locator("[data-feature-content][inert]")).toHaveCount(0);
-  await page.goto("/account");
+  await page.goto("/account/domain");
   await expect(page.getByRole("region", { name: "Custom domain terkunci" })).toBeVisible();
 });

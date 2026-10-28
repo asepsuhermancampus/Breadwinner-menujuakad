@@ -36,7 +36,7 @@ export function OverviewPriorities({
             <h2 id="focus-title" className="text-base font-semibold text-foreground">
               Fokus kecil hari ini
             </h2>
-            <Link href="/planner/tasks" className="text-xs text-primary hover:underline">
+            <Link href="/planner/tasks" className="text-xs text-brand-secondary hover:underline">
               Lihat semua →
             </Link>
           </div>
@@ -48,7 +48,7 @@ export function OverviewPriorities({
                     type="checkbox"
                     checked={task.completed}
                     onChange={() => onToggleTask?.(task.id)}
-                    className="size-4 rounded border-border text-primary focus:ring-primary"
+                    className="size-4 rounded border-border text-brand-secondary focus:ring-primary"
                   />
                   <span className={task.completed ? "line-through text-secondary" : ""}>
                     {task.title}
@@ -74,7 +74,7 @@ export function OverviewPriorities({
             <h2 id="agenda-title" className="text-base font-semibold text-foreground">
               Janji berikutnya
             </h2>
-            <Link href="/planner/calendar" className="text-xs text-primary hover:underline">
+            <Link href="/planner/calendar" className="text-xs text-brand-secondary hover:underline">
               Buka kalender koordinasi →
             </Link>
           </div>
@@ -82,7 +82,9 @@ export function OverviewPriorities({
             {upcomingAgenda.map((item) => (
               <div key={item.id} className={styles.agendaItem}>
                 <div className="w-16 shrink-0 text-center font-mono">
-                  <span className="block text-[11px] font-semibold text-primary">{item.day}</span>
+                  <span className="block text-[11px] font-semibold text-brand-secondary">
+                    {item.day}
+                  </span>
                   <span className="text-xs text-secondary">{item.time}</span>
                 </div>
                 <div>
@@ -98,7 +100,7 @@ export function OverviewPriorities({
             <p className="mt-1">{rundownHintDetail}</p>
             <Link
               href="/planner/rundown"
-              className="mt-2 inline-block font-medium text-primary hover:underline"
+              className="mt-2 inline-block font-medium text-brand-secondary hover:underline"
             >
               Buka susunan rundown →
             </Link>

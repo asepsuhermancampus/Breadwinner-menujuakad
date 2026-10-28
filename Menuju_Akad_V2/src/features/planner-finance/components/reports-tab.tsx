@@ -108,7 +108,7 @@ export function ReportsTab({
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Sisa Kas Alokasi</span>
-          <span className="font-mono text-2xl font-semibold text-primary mt-1">
+          <span className="font-mono text-2xl font-semibold text-brand-secondary mt-1">
             {formatRupiah(cashRemaining)}
           </span>
           <span className={styles.metricDetail}>Alokasi 3 rekening dana acara</span>
@@ -134,7 +134,7 @@ export function ReportsTab({
                 type="button"
                 className={`px-2.5 py-1 text-xs rounded-control transition-colors ${
                   filterPayer === p
-                    ? "bg-primary text-canvas font-semibold"
+                    ? "bg-primary text-on-primary font-semibold"
                     : "bg-ux-dock text-secondary hover:text-foreground"
                 }`}
                 onClick={() => setFilterPayer(p)}

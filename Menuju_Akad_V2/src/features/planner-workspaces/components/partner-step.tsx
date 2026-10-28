@@ -44,7 +44,7 @@ export function PartnerStep({
     <>
       <div className="grid gap-6 md:grid-cols-[minmax(0,540px)_1fr]">
         <Card className="flex min-w-0 flex-col items-center gap-[22px] p-6 text-center md:p-8">
-          <h2 className="w-full font-serif text-[42px] leading-tight tracking-[-0.5px] break-words text-primary">
+          <h2 className="w-full font-serif text-[42px] leading-tight tracking-[-0.5px] break-words text-brand-secondary">
             {names}
           </h2>
           <p className="text-sm leading-6 text-secondary">
@@ -59,7 +59,7 @@ export function PartnerStep({
               <p className="text-xs text-secondary">Pindai tautan simulasi lokal untuk bergabung</p>
             </>
           ) : (
-            <div className="flex size-36 items-center justify-center rounded-full bg-subtle text-primary">
+            <div className="flex size-36 items-center justify-center rounded-full bg-subtle text-brand-secondary">
               <Icon name={connected ? "check-circle" : "users"} size={48} />
             </div>
           )}

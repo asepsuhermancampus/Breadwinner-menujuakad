@@ -28,7 +28,9 @@ export function PublishReviewDialog({ open, onClose, settings, onConfirmPublish 
         <div className="text-xs space-y-2.5 border-t border-b border-border py-3">
           <div className="flex justify-between items-center">
             <span className="text-secondary">Tema Undangan</span>
-            <span className="font-semibold text-primary capitalize">{settings.draftTheme}</span>
+            <span className="font-semibold text-brand-secondary capitalize">
+              {settings.draftTheme}
+            </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-secondary">Batas RSVP</span>

@@ -1,3 +1,8 @@
+import { guestGroupLabel } from "./guest-groups";
+import {
+  defaultSideNames,
+  type SideNames,
+} from "@/features/customer-workspace/domain/side-profile-names";
 import type { GuestInvitation } from "../types/guest";
 
 export function normalizeE164(phone: string): { valid: boolean; normalized: string } {
@@ -92,6 +97,7 @@ export function filterGuests(
   query: string,
   groupFilter: string,
   rsvpFilter: string,
+  names: SideNames = defaultSideNames,
 ): GuestInvitation[] {
   const q = query.trim().toLowerCase();
   return guests.filter((g) => {
@@ -107,7 +113,7 @@ export function filterGuests(
     if (!q) return true;
     return (
       g.name.toLowerCase().includes(q) ||
-      g.group.toLowerCase().includes(q) ||
+      guestGroupLabel(g.group, names).toLowerCase().includes(q) ||
       matchPhoneSearch(g.contactPhone, query)
     );
   });

@@ -1,12 +1,14 @@
 "use client";
 import { useState, useMemo } from "react";
 import { useCommittedList } from "@/hooks/use-committed-list";
+import { SummaryCard } from "@/components/ui/summary-card";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { PlannerTask, TaskCategory } from "../types/tasks";
 import { filterTasks, computeTaskSummary, taskTodayLabel } from "../utils/task-filter";
 import { TaskRow } from "./task-row";
 import { TaskInspector } from "./task-inspector";
+import { TaskHeading } from "./task-heading";
 import styles from "./tasks.module.css";
 
 type Props = {
@@ -20,6 +22,7 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
   const [activeCategory, setActiveCategory] = useState<TaskCategory>("Semua");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTask, setSelectedTask] = useState<PlannerTask | null>(null);
+  const [creating, setCreating] = useState(false);
   const [conflict, setConflict] = useState("");
 
   const eventTasks = useMemo(
@@ -43,30 +46,40 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
   };
 
   const handleSaveTask = async (updated: PlannerTask) => {
-    if (JSON.stringify(tasks.find((t) => t.id === updated.id)) !== JSON.stringify(selectedTask)) {
+    if (
+      (!creating &&
+        JSON.stringify(tasks.find((t) => t.id === updated.id)) !== JSON.stringify(selectedTask)) ||
+      (creating && tasks.some((t) => t.id === updated.id))
+    ) {
       setConflict(
         "Data tugas berubah di tab lain. Salin draf kalian lalu buka ulang tugas terbaru.",
       );
       return false;
     }
     setConflict("");
-    if (!(await setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)))))
+    if (
+      !(await setTasks((prev) =>
+        creating ? [updated, ...prev] : prev.map((t) => (t.id === updated.id ? updated : t)),
+      ))
+    )
       return false;
+    setCreating(false);
     setSelectedTask(null);
     return true;
   };
 
-  const handleAddNew = async () => {
+  const handleAddNew = () => {
     const newTask: PlannerTask = {
-      id: `task-${Date.now()}`,
-      title: "Tugas baru tanpa judul",
+      id: crypto.randomUUID(),
+      title: "",
       pic: "Bersama",
       priority: "Normal",
       dueDate: taskTodayLabel(),
       status: "Menunggu",
       event: event ?? "wedding",
     };
-    if (!(await setTasks((prev) => [newTask, ...prev]))) return;
+    setCreating(true);
+    setConflict("");
     setSelectedTask(newTask);
   };
 
@@ -87,14 +100,7 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
       )}
       <header className={styles.header}>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="font-sans text-3xl font-semibold text-primary tracking-[-0.9px]">
-              Checklist & tugas
-            </h1>
-            <p className="text-sm text-secondary">
-              Bagi tanggung jawab. Selesaikan satu hal pada satu waktu.
-            </p>
-          </div>
+          <TaskHeading />
           <Button onClick={handleAddNew}>
             <Icon name="plus" size={16} />
             Tambah tugas
@@ -102,20 +108,13 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
         </div>
       </header>
 
-      <div className={styles.summaryCard}>
-        <div className="space-y-1">
-          <span className="text-xs text-secondary">Progres pengerjaan</span>
-          <p className="text-sm font-mono font-semibold text-primary">
-            {summary.completed} dari {summary.total} tugas selesai · {summary.percentage}%
-          </p>
-        </div>
-        <div className="h-2 w-48 rounded-full bg-ux-dock overflow-hidden">
-          <div
-            className="h-full bg-primary transition-all duration-300"
-            style={{ width: `${summary.percentage}%` }}
-          />
-        </div>
-      </div>
+      <SummaryCard
+        label="Progres pengerjaan"
+        value={`${summary.percentage}%`}
+        detail={`${summary.completed} dari ${summary.total} tugas selesai`}
+        ornament={2}
+        highlight
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
@@ -127,9 +126,9 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
               key={c.label}
               role="tab"
               aria-selected={activeCategory === c.label}
-              className={`rounded-control px-3 py-1.5 text-xs font-medium transition ${
+              className={`customer-control rounded-control px-3 py-1.5 text-xs font-medium transition ${
                 activeCategory === c.label
-                  ? "bg-surface text-primary shadow-sm font-semibold"
+                  ? "bg-surface text-brand-secondary shadow-sm font-semibold"
                   : "text-secondary hover:text-foreground"
               }`}
               onClick={() => setActiveCategory(c.label)}
@@ -145,12 +144,12 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari tugas…"
-            className="w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
+            className="customer-control w-full rounded-control border border-ux-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-none"
           />
         </div>
       </div>
 
-      <div className={styles.tableContainer}>
+      <div className={`${styles.tableContainer} app-scroll`}>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -168,7 +167,10 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
                 key={task.id}
                 task={task}
                 onToggle={handleToggle}
-                onSelect={(t) => setSelectedTask(t)}
+                onSelect={(t) => {
+                  setCreating(false);
+                  setSelectedTask(t);
+                }}
               />
             ))}
           </tbody>
@@ -183,7 +185,11 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
       <TaskInspector
         key={selectedTask?.id ?? "none"}
         task={selectedTask}
-        onClose={() => setSelectedTask(null)}
+        creating={creating}
+        onClose={() => {
+          setCreating(false);
+          setSelectedTask(null);
+        }}
         onSave={handleSaveTask}
       />
     </section>

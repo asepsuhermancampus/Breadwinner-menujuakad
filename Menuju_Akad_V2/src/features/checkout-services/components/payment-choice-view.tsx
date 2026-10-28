@@ -53,7 +53,9 @@ export function PaymentChoiceView({ onSelectPayment }: Props) {
           >
             <div className="flex justify-between items-center">
               <span className="font-bold text-sm text-foreground">DP 30% (Tagihan Pertama)</span>
-              <span className="font-mono font-bold text-primary">{formatIdr(dpAmount)}</span>
+              <span className="font-mono font-bold text-brand-secondary">
+                {formatIdr(dpAmount)}
+              </span>
             </div>
             <p className="text-xs text-secondary mt-1">
               Kunci slot seluruh 3 vendor. Sisa pembayaran Rp 24.500.000 dibagi dalam 2 termin.
@@ -120,7 +122,7 @@ export function PaymentChoiceView({ onSelectPayment }: Props) {
         </div>
         <div className="flex justify-between font-bold text-foreground text-sm pt-1 border-t border-border">
           <span>Jumlah Tagihan Sekarang:</span>
-          <span className="text-primary">{formatIdr(currentPayAmount)}</span>
+          <span className="text-brand-secondary">{formatIdr(currentPayAmount)}</span>
         </div>
       </div>
 

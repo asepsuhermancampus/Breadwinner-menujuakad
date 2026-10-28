@@ -56,7 +56,7 @@ export function EventsStep({
               )}
             >
               <span className="flex items-center justify-between gap-4">
-                <Icon name={icon} size={26} className="text-primary" />
+                <Icon name={icon} size={26} className="text-brand-secondary" />
                 <input
                   type="radio"
                   name="planning-scope"

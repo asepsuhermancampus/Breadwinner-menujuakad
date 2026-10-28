@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { InvitationEditor, type BasicInvitation } from "./invitation-editor";
 import styles from "./customer-invitations.module.css";
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 };
 export function CustomerInvitationCard(props: Props) {
   const { item, workspaceId, trial, premium } = props;
-  const [editing, setEditing] = useState(item.title === "Undangan baru");
+  const [editing, setEditing] = useState(false);
   return (
     <article className={styles.card} data-published={Boolean(item.published)}>
       <div className={styles.summary}>
@@ -50,14 +51,10 @@ export function CustomerInvitationCard(props: Props) {
           </div>
         </div>
       </div>
-      <details
-        className={styles.editor}
-        open={editing}
-        onToggle={(event) => setEditing(event.currentTarget.open)}
-      >
-        <summary>Kelola undangan</summary>
-        <InvitationEditor {...props} />
-      </details>
+      <Button variant="secondary" onClick={() => setEditing(true)}>
+        Kelola undangan
+      </Button>
+      {editing && <InvitationEditor {...props} onClose={() => setEditing(false)} />}
     </article>
   );
 }

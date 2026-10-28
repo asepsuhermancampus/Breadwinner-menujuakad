@@ -75,11 +75,11 @@ export function CorrectionModalDialog({
             <strong className="text-foreground">Dampak Reversal & Replacement:</strong>
             <span>
               {fromAcc?.name}: {formatRupiah(fromAcc?.currentBalance || 0)} →{" "}
-              <strong className="text-primary font-mono">
+              <strong className="text-brand-secondary font-mono">
                 {formatRupiah(sim.accounts.find((a) => a.id === fromAcc?.id)?.currentBalance || 0)}
               </strong>
               . {toAcc?.name}: {formatRupiah(toAcc?.currentBalance || 0)} →{" "}
-              <strong className="text-primary font-mono">
+              <strong className="text-brand-secondary font-mono">
                 {formatRupiah(sim.accounts.find((a) => a.id === toAcc?.id)?.currentBalance || 0)}
               </strong>
               . Total kas tetap {formatRupiah(totalCash)}.

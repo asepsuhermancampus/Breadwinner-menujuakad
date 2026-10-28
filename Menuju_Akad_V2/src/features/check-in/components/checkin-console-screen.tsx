@@ -116,7 +116,7 @@ export function CheckinConsoleScreen({
           type="button"
           onClick={() => setTab("console")}
           className={`text-xs font-semibold px-3 py-1.5 rounded ${
-            tab === "console" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            tab === "console" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           Riwayat Kedatangan
@@ -125,7 +125,7 @@ export function CheckinConsoleScreen({
           type="button"
           onClick={() => setTab("states")}
           className={`text-xs font-semibold px-3 py-1.5 rounded ${
-            tab === "states" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            tab === "states" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           Simulasi Kasus Edge (Offline / Duplikat)
@@ -134,7 +134,7 @@ export function CheckinConsoleScreen({
           type="button"
           onClick={() => setTab("staff")}
           className={`text-xs font-semibold px-3 py-1.5 rounded ${
-            tab === "staff" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            tab === "staff" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           Kelola Tim Gerbang

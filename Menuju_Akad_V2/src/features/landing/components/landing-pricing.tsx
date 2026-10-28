@@ -9,7 +9,7 @@ export function LandingPricing() {
             <span className="text-xs font-semibold uppercase tracking-wider text-rose">
               04 / Mulai Dari Yang Kalian Butuhkan
             </span>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.9px] text-primary sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
               Pilih ruang yang sesuai
               <br />
               dengan rencana kalian.

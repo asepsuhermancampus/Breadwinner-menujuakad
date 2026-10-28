@@ -27,7 +27,7 @@ export function ExpenseFundingScopeField({
             type="button"
             className={`p-2.5 text-xs text-left rounded-control border transition-all ${
               fundingScope === "event_fund"
-                ? "border-primary bg-primary/5 text-primary font-semibold"
+                ? "border-primary bg-primary/5 text-brand-secondary font-semibold"
                 : "border-border bg-surface text-secondary"
             }`}
             onClick={() => setFundingScope("event_fund")}
@@ -39,7 +39,7 @@ export function ExpenseFundingScopeField({
             type="button"
             className={`p-2.5 text-xs text-left rounded-control border transition-all ${
               fundingScope === "external_private"
-                ? "border-primary bg-primary/5 text-primary font-semibold"
+                ? "border-primary bg-primary/5 text-brand-secondary font-semibold"
                 : "border-border bg-surface text-secondary"
             }`}
             onClick={() => setFundingScope("external_private")}
@@ -92,7 +92,7 @@ export function ExpenseProjectionCard({
       <div className="flex justify-between">
         <span className="text-secondary">Proyeksi Sisa Dana Acara:</span>
         <strong
-          className={`font-mono font-semibold ${fundingScope === "event_fund" ? "text-primary" : "text-success"}`}
+          className={`font-mono font-semibold ${fundingScope === "event_fund" ? "text-brand-secondary" : "text-success"}`}
         >
           {formatRupiah(projectedCash)}
         </strong>

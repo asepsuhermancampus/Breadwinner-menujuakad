@@ -73,7 +73,7 @@ export function PartnerInspector({
       <Dialog open={open} onClose={close} title="Detail pasangan" side>
         <div className={styles.stack}>
           <div>
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-ux-dock border border-ux-border text-xl text-primary font-semibold">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-ux-dock border border-ux-border text-xl text-brand-secondary font-semibold">
               {partner.fullName.charAt(0)}
             </div>
             <h2 className="text-xl font-semibold">{partner.fullName}</h2>

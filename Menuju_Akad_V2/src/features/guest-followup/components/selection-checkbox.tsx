@@ -21,7 +21,9 @@ export function SelectionCheckbox({
       <span
         aria-hidden="true"
         className={`grid size-5 place-items-center rounded border ${
-          checked ? "border-primary bg-primary text-white" : "border-ux-control-border bg-surface"
+          checked
+            ? "border-primary bg-primary text-on-primary"
+            : "border-ux-control-border bg-surface"
         }`}
       >
         {checked === "mixed" ? (

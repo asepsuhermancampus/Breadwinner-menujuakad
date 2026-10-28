@@ -27,7 +27,7 @@ export function FinanceHeader({
           <h1 className={styles.title}>
             {isWedding ? "Dana jelas, rencana tenang." : "Satu lamaran, satu rencana dana."}
           </h1>
-          <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+          <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-brand-secondary">
             {isWedding ? "Pernikahan (Akad & Resepsi)" : "Mode Lamaran"}
           </span>
         </div>

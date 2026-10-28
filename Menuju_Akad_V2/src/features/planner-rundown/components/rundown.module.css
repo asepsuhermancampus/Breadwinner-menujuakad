@@ -42,9 +42,9 @@
 }
 
 .anchorRow {
-  background-color: #fefce8;
+  background-color: var(--warning-bg);
 }
 
 .anchorRow:hover {
-  background-color: #fef9c3;
+  background-color: var(--warning-bg);
 }

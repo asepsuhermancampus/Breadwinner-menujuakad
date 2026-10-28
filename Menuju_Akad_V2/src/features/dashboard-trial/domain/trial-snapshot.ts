@@ -5,6 +5,7 @@ export const trialKinds = [
   "documents",
   "guests",
   "finance",
+  "savings",
   "invitations",
   "moodboard",
   "studio-drafts",

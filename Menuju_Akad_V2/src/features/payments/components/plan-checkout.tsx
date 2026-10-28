@@ -10,7 +10,7 @@ export function PlanCheckout({ intentId }: { intentId: string }) {
   return (
     <div className="space-y-5">
       <header className="rounded-card border border-ux-border bg-surface p-6">
-        <h1 className="text-2xl font-semibold text-primary">
+        <h1 className="text-2xl font-semibold text-brand-secondary">
           Pembayaran paket {state.quote ? getPlan(state.quote.planId).label : "kalian"}
         </h1>
         <p className="mt-2 text-sm text-secondary">

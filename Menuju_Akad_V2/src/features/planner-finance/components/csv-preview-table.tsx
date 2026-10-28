@@ -48,7 +48,7 @@ export function CsvPreviewTable({ rows, onToggleSelect, onFixDate }: Props) {
                     <button
                       type="button"
                       onClick={() => onFixDate(r.rowNumber)}
-                      className="px-2 py-0.5 rounded bg-primary text-canvas font-medium"
+                      className="px-2 py-0.5 rounded bg-primary text-on-primary font-medium"
                     >
                       Perbaiki ke 24 Okt
                     </button>

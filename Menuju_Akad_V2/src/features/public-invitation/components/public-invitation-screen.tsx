@@ -37,7 +37,9 @@ export function PublicInvitationScreen({ initialInvitation }: Props) {
           <div className="text-[11px] font-semibold tracking-widest uppercase text-muted">
             The Wedding of
           </div>
-          <h1 className="font-serif text-3xl font-bold text-primary tracking-tight">Andi & Risa</h1>
+          <h1 className="font-serif text-3xl font-bold text-brand-secondary tracking-tight">
+            Andi & Risa
+          </h1>
           <p className="text-xs text-secondary leading-relaxed px-4">
             Dengan penuh rasa syukur, kami mengundang Anda untuk merayakan awal perjalanan suci
             kami.
@@ -52,7 +54,7 @@ export function PublicInvitationScreen({ initialInvitation }: Props) {
             <>
               {/* Event Schedule */}
               <div className="p-4 bg-canvas rounded-2xl border border-border space-y-3 text-center">
-                <div className="text-xs font-bold text-primary tracking-wider uppercase">
+                <div className="text-xs font-bold text-brand-secondary tracking-wider uppercase">
                   {invitation.eventDateText}
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs py-2 border-y border-border">

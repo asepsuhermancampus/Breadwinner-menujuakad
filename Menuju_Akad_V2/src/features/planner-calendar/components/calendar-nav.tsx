@@ -14,7 +14,7 @@ export function CalendarNav({ weekIndex, totalWeeks, rangeLabel, onPrev, onNext 
         onClick={onPrev}
         disabled={weekIndex <= 0}
         aria-label="Minggu sebelumnya"
-        className="rounded border border-ux-border px-2 py-0.5 text-xs text-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+        className="customer-control rounded border border-ux-border px-2 py-0.5 text-xs text-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
       >
         ←
       </button>
@@ -24,7 +24,7 @@ export function CalendarNav({ weekIndex, totalWeeks, rangeLabel, onPrev, onNext 
         onClick={onNext}
         disabled={weekIndex >= totalWeeks - 1}
         aria-label="Minggu berikutnya"
-        className="rounded border border-ux-border px-2 py-0.5 text-xs text-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+        className="customer-control rounded border border-ux-border px-2 py-0.5 text-xs text-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
       >
         →
       </button>

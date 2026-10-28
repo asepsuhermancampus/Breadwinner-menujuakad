@@ -9,7 +9,7 @@ export function PlanningRundown({ items, edit, remove }: PlanningViewProps) {
         <strong>{rows.length} kegiatan tercatat</strong>
         <span>Jadwal dan PIC dapat diedit dari detail kegiatan.</span>
       </div>
-      <div className={table.tableContainer}>
+      <div className={`${table.tableContainer} app-scroll`}>
         <table className={table.table}>
           <thead>
             <tr>

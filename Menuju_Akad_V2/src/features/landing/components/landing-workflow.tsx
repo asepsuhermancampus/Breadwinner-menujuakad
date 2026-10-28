@@ -20,10 +20,10 @@ const steps = [
 
 export function LandingWorkflow() {
   return (
-    <section id="cara-kerja" className="bg-primary py-20 text-white lg:py-28">
+    <section id="cara-kerja" className="bg-brand-secondary py-20 text-white lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mb-14 max-w-2xl">
-          <span className="font-sans text-xs font-semibold tracking-wider text-[#D4C6A8] uppercase">
+          <span className="font-sans text-xs font-semibold tracking-wider text-emerald-200 uppercase">
             02 / Satu Langkah, Lalu Berikutnya
           </span>
           <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-white sm:text-4xl">
@@ -31,7 +31,7 @@ export function LandingWorkflow() {
             <br />
             Semakin dekat ke hari bahagia.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-[#DEE5DE]">
+          <p className="mt-4 text-base leading-relaxed text-emerald-50">
             Buat akun, rapikan rencana, lalu bagikan undangan. Tidak harus selesai sekaligus.
           </p>
         </div>
@@ -44,13 +44,13 @@ export function LandingWorkflow() {
             >
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <span className="font-mono text-2xl font-bold text-[#D4C6A8]">{s.num}</span>
-                  <div className="flex size-8 items-center justify-center rounded-full bg-white/10 text-[#D4C6A8]">
+                  <span className="font-mono text-2xl font-bold text-emerald-200">{s.num}</span>
+                  <div className="flex size-8 items-center justify-center rounded-full bg-white/10 text-emerald-200">
                     <Icon name="arrow-right" size={14} />
                   </div>
                 </div>
                 <h3 className="mt-6 font-sans text-xl font-semibold text-white">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#DEE5DE]">{s.desc}</p>
+                <p className="mt-3 text-sm leading-relaxed text-emerald-50">{s.desc}</p>
               </div>
             </div>
           ))}

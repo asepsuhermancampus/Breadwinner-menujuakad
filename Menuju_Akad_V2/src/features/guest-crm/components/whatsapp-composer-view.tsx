@@ -54,7 +54,7 @@ export function WhatsappComposerView({
           type="button"
           onClick={() => setActiveSubTab("composer")}
           className={`text-xs font-semibold px-3 py-1.5 rounded ${
-            activeSubTab === "composer" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            activeSubTab === "composer" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           Kirim Undangan WA
@@ -63,7 +63,7 @@ export function WhatsappComposerView({
           type="button"
           onClick={() => setActiveSubTab("results")}
           className={`text-xs font-semibold px-3 py-1.5 rounded ${
-            activeSubTab === "results" ? "bg-primary text-white" : "bg-subtle text-secondary"
+            activeSubTab === "results" ? "bg-primary text-on-primary" : "bg-subtle text-secondary"
           }`}
         >
           Hasil Pengiriman Terkini
@@ -99,7 +99,7 @@ export function WhatsappComposerView({
               <div className="p-3 bg-subtle rounded-control text-xs font-mono whitespace-pre-wrap text-foreground border border-border leading-relaxed">
                 {`Halo {{nama_tamu}},
 
-Dengan bahagia, Andi & Risa mengundang Anda pada pernikahan kami.
+Dengan bahagia, kami mengundang Anda pada pernikahan kami.
 
 Minggu, 14 Februari 2027
 Akad 08.00 · Resepsi 10.00 WIB
@@ -132,18 +132,18 @@ Jika tidak ingin menerima pesan lagi, balas STOP.`}
             <div className="text-xs font-bold text-secondary mb-2 tracking-wide uppercase">
               Pratinjau Pesan · Dewi Anggraini
             </div>
-            <div className="flex-1 bg-[#EFEAE2] p-4 rounded-xl flex flex-col justify-end">
+            <div className="flex-1 bg-ux-soft p-4 rounded-xl flex flex-col justify-end">
               <div className="max-w-[85%] bg-white p-3 rounded-lg shadow-sm text-xs leading-relaxed text-foreground space-y-2">
                 <p>
                   Halo <strong>Dewi Anggraini</strong>,
                 </p>
-                <p>Dengan bahagia, Andi & Risa mengundang Anda pada pernikahan kami.</p>
-                <p className="font-semibold text-primary">
+                <p>Dengan bahagia, kami mengundang Anda pada pernikahan kami.</p>
+                <p className="font-semibold text-brand-secondary">
                   14 Februari 2027
                   <br />
                   Bumi Samami, Bandung
                 </p>
-                <p className="p-1.5 bg-subtle rounded text-primary font-mono text-[11px] underline">
+                <p className="p-1.5 bg-subtle rounded text-brand-secondary font-mono text-[11px] underline">
                   menujuakad.id/i/••••b19d
                 </p>
                 <p className="text-[11px] text-secondary">

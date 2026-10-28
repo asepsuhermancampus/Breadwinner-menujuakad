@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Undo2, Redo2 } from "lucide-react";
+import { Undo2, Redo2 } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button } from "@/components/ui/button";
+import { PageHeading } from "@/components/ui/page-heading";
 import type { StudioEditor } from "../hooks/use-studio-editor";
+import { StudioNavigation } from "./studio-navigation";
 
 type Props = {
   editor: StudioEditor;
@@ -37,7 +39,7 @@ export function StudioHeader({
   const { state, dispatch } = editor;
   const [renaming, setRenaming] = useState(false);
   const status = {
-    saved: "✓ Draf tersimpan di perangkat",
+    saved: "",
     dirty: "Perubahan belum tersimpan",
     saving: "Menyimpan draf…",
     offline: "Offline · draf tetap di perangkat",
@@ -45,25 +47,35 @@ export function StudioHeader({
     forbidden: "Izin mengedit dicabut",
     error: "Gagal menyimpan · draf dipertahankan",
   }[state.saveStatus];
+  const saveMessage = editor.trial
+    ? editor.storageError ||
+      (state.dirty ? "Gunakan Simpan draf trial untuk menyimpan perubahan." : "")
+    : editor.remote
+      ? editor.storageError ||
+        (editor.persisting
+          ? "Menyimpan pada akun…"
+          : state.dirty
+            ? "Perubahan belum tersimpan"
+            : "")
+      : editor.storageError
+        ? "Penyimpanan perangkat gagal · ekspor draf"
+        : status;
   return (
     <>
-      <header className="flex min-h-20 flex-wrap items-center gap-3 border-b border-ux-border bg-canvas px-4 py-3 sm:px-6">
+      <header className="flex min-h-20 flex-wrap items-center gap-3 border-b border-ux-border bg-surface px-4 py-3 sm:px-6">
         <BrandLogo />
         {editor.trial && (
           <Button disabled={editor.persisting} size="small" onClick={() => void editor.saveTrial()}>
             Simpan draf trial
           </Button>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Kembali ke daftar undangan"
-          onClick={onExit}
-        >
-          <ArrowLeft size={18} />
-        </Button>
-        <div className="min-w-0 flex-1">
-          <h1 className="sr-only">Studio Undangan</h1>
+        <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
+          <PageHeading
+            title="Studio Undangan"
+            description="Sesuaikan isi dan tampilan undangan, periksa pratinjau, lalu review sebelum menerbitkan. Gunakan Simpan draf trial saat memakai mode percobaan."
+            headingClassName="text-sm font-semibold text-brand-secondary"
+          />
+          <StudioNavigation onExit={onExit} />
           {renaming ? (
             <input
               aria-label="Nama proyek"
@@ -92,20 +104,11 @@ export function StudioHeader({
             {state.document.activeVersion ? `v${state.document.activeVersion}` : "belum ada"}
           </p>
         </div>
-        <p role="status" className="text-xs text-secondary">
-          {editor.trial
-            ? editor.storageError || "Gunakan Simpan draf trial untuk menyimpan perubahan."
-            : editor.remote
-              ? editor.storageError ||
-                (editor.persisting
-                  ? "Menyimpan pada akun…"
-                  : state.dirty
-                    ? "Perubahan belum tersimpan"
-                    : "✓ Draf tersimpan pada akun")
-              : editor.storageError
-                ? "Penyimpanan perangkat gagal · ekspor draf"
-                : status}
-        </p>
+        {saveMessage && (
+          <p role="status" className="text-xs text-secondary">
+            {saveMessage}
+          </p>
+        )}
         <Button variant="secondary" size="small" disabled={editor.remote} onClick={onHistory}>
           Riwayat versi
         </Button>

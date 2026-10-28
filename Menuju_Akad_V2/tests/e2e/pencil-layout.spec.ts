@@ -29,7 +29,22 @@ for (const plan of ["guest", "free", "premium", "lifetime"] as const) {
         gap: getComputedStyle(element).columnGap,
       };
     });
-    expect(geometry).toEqual({ dock: 272, left: 12, header: 76, radius: "20px", gap: "12px" });
+    expect(geometry).toEqual({
+      dock: 272,
+      left: 0,
+      header: 76,
+      radius: "0px",
+      gap: "0px",
+    });
+    await expect(shell).toHaveCSS("background-color", "rgb(244, 251, 247)");
+    await expect(shell.locator("[data-app-canvas]")).toHaveCSS(
+      "background-color",
+      "rgb(255, 255, 255)",
+    );
+    await expect(page.locator('section[aria-labelledby="greeting-title"]')).toHaveCSS(
+      "background-color",
+      "rgb(236, 253, 245)",
+    );
     await expect(page.locator("#greeting-title")).toBeVisible();
     await expect(
       page.getByRole("region", { name: "Metrik perencanaan" }).locator("article"),
@@ -79,6 +94,11 @@ test("Pencil shell stays usable on mobile without horizontal overflow", async ({
   ]) {
     await page.goto(path);
     await expect(page.getByTestId("customer-shell")).toBeVisible();
+    if (path === "/planner/finance") {
+      const selected = page.getByRole("tab", { name: "Ringkasan", selected: true });
+      await expect(selected).toHaveCSS("background-color", "rgb(16, 185, 129)");
+      await expect(selected).toHaveCSS("color", "rgb(5, 46, 22)");
+    }
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       path,
@@ -114,14 +134,16 @@ test("overview checklist persists in trial and event context follows navigation"
   await expect(page.getByRole("checkbox", { name: "Tandai Rencana dari checklist" })).toBeChecked();
   await page.reload();
   await expect(page.getByRole("checkbox", { name: "Tandai Rencana dari checklist" })).toBeChecked();
-  await page.getByRole("button", { name: "Mode Lamaran", exact: true }).click();
+  await page.evaluate(() => {
+    sessionStorage.setItem("menuju-akad:event-context", "engagement");
+    window.dispatchEvent(new Event("menuju-akad:event-context"));
+  });
   await expect(page.getByRole("checkbox", { name: "Tandai Rencana dari checklist" })).toHaveCount(
     0,
   );
   await page.goto("/planner/tasks");
-  await expect(page.getByRole("button", { name: "Mode Lamaran", exact: true })).toHaveAttribute(
-    "aria-pressed",
-    "true",
+  expect(await page.evaluate(() => sessionStorage.getItem("menuju-akad:event-context"))).toBe(
+    "engagement",
   );
   await expect(page.getByRole("checkbox", { name: "Tandai Rencana dari checklist" })).toHaveCount(
     0,

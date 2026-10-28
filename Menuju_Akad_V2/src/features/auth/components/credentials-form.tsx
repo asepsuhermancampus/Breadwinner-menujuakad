@@ -1,15 +1,19 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import { SecretField } from "./secret-field";
-import { browserAuthDestination } from "../lib/return-to";
+import { browserAuthDestination, browserReturnTo } from "../lib/return-to";
 import { RegisterSuccess } from "./register-success";
+const subscribeReady = () => () => {};
+const readyClient = () => true;
+const readyServer = () => false;
 export function CredentialsForm({ register = false }: { register?: boolean }) {
   const router = useRouter();
+  const ready = useSyncExternalStore(subscribeReady, readyClient, readyServer);
   const [registered, setRegistered] = useState(false);
   const [password, setPassword] = useState(""),
     [confirmation, setConfirmation] = useState("");
@@ -17,7 +21,7 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
     [error, setError] = useState("");
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (pending) return;
+    if (pending || !ready) return;
     const form = event.currentTarget,
       data = new FormData(form);
     const email = String(data.get("email") ?? ""),
@@ -41,6 +45,24 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
         });
         const body = (await response.json()) as { error?: string };
         if (!response.ok) throw new Error(body.error ?? "Akun belum dapat dibuat.");
+        if (/^\/join\/[a-f0-9]{64}$/.test(browserReturnTo())) {
+          try {
+            const result = await signIn("credentials", {
+              email,
+              password: secret,
+              redirect: false,
+            });
+            if (result?.ok && !result.error) {
+              setPassword("");
+              setConfirmation("");
+              router.replace(browserAuthDestination());
+              router.refresh();
+              return;
+            }
+          } catch {
+            /* Registration succeeded; retain the ordinary sign-in fallback. */
+          }
+        }
         setPassword("");
         setConfirmation("");
         form.reset();
@@ -86,7 +108,7 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
           required
           minLength={2}
           maxLength={100}
-          disabled={pending}
+          disabled={pending || !ready}
         />
       )}
       <Field
@@ -96,7 +118,7 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
         autoComplete="username"
         required
         maxLength={254}
-        readOnly={pending}
+        readOnly={pending || !ready}
       />
       <SecretField
         kind="password"
@@ -104,7 +126,7 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
         label="Password"
         value={password}
         onChange={setPassword}
-        readOnly={pending}
+        readOnly={pending || !ready}
         autoComplete={register ? "new-password" : "current-password"}
       />
       {register && (
@@ -118,25 +140,25 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
             label="Konfirmasi password"
             value={confirmation}
             onChange={setConfirmation}
-            readOnly={pending}
+            readOnly={pending || !ready}
             autoComplete="new-password"
           />
           <label className="flex items-start gap-2 text-xs leading-5">
-            <input name="consent" type="checkbox" required className="mt-1" disabled={pending} />
+            <input
+              name="consent"
+              type="checkbox"
+              required
+              className="mt-1"
+              disabled={pending || !ready}
+            />
             Saya setuju membuat akun dan menyimpan data akun untuk menggunakan Menuju Akad.
           </label>
         </>
       )}
       {error && <Status tone="danger">{error}</Status>}
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending || !ready}>
         {pending ? "Memproses…" : register ? "Buat akun" : "Masuk"}
       </Button>
-      {!register && (
-        <p className="text-xs leading-5 text-secondary">
-          Browser dapat menawarkan penyimpanan password dan pengisian otomatis saat kalian masuk
-          kembali.
-        </p>
-      )}
     </form>
   );
 }
