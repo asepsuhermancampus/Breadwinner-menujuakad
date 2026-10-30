@@ -66,74 +66,59 @@ export function TaskMaintenancePanel({
     }
   }
   return (
-    <section className="max-w-3xl space-y-6" aria-label={`Pengaturan ${label}`}>
-      <div className="space-y-4 rounded-card border border-ux-border bg-surface p-5">
-        <h2 className="text-lg font-semibold">{label}</h2>
+    <section
+      className="rounded-card border border-ux-border bg-surface p-4"
+      aria-label={`Pengaturan ${label}`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-sm font-semibold">{label}</h2>
         {state ? (
-          <>
-            <p>
-              Status: <strong>{state.status === "active" ? "Aktif" : "Dalam pemeliharaan"}</strong>
-            </p>
-            <p className="text-sm text-secondary">
-              Saat pemeliharaan, halaman fitur tidak dapat diedit dan server menolak penyimpanan.
-              Data yang sudah ada tetap tersimpan.
-              {feature === "guests" &&
-                " RSVP pada undangan yang sudah diterbitkan tetap dapat diterima."}
-              {(feature === "invitations" || feature === "studio-drafts") &&
-                " Undangan yang sudah diterbitkan dan RSVP tetap dapat diakses."}
-              {feature === "finance" &&
-                " Perubahan katering dan seserahan juga ditahan karena terhubung dengan anggaran. Pembayaran tetap berjalan."}
-            </p>
-            <label className="grid gap-2 text-sm">
-              Alasan perubahan{" "}
-              <textarea
-                className="rounded-control border border-ux-border p-2"
-                maxLength={500}
-                value={reason}
-                onChange={(event) => setReason(event.target.value)}
-              />
-            </label>
-            <Button disabled={busy || !reason.trim()} onClick={() => void save()}>
-              {busy
-                ? "Menyimpan…"
-                : state.status === "active"
-                  ? "Mulai pemeliharaan"
-                  : "Aktifkan kembali"}
-            </Button>
-          </>
-        ) : (
-          <p>Memuat pengaturan…</p>
-        )}
-        {error && (
-          <p role="alert" className="text-danger">
-            {error}{" "}
-            <button className="underline" onClick={() => void load()}>
-              Muat ulang
-            </button>
-          </p>
-        )}
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+              state.status === "active"
+                ? "bg-success-bg text-success"
+                : "bg-warning-bg text-warning"
+            }`}
+          >
+            {state.status === "active" ? "Aktif" : "Pemeliharaan"}
+          </span>
+        ) : null}
       </div>
-      {state && (
-        <section>
-          <h3 className="text-lg font-semibold">Riwayat perubahan terbaru</h3>
-          {state.audit.length === 0 ? (
-            <p>Belum ada perubahan.</p>
-          ) : (
-            <ul className="mt-3 space-y-3">
-              {state.audit.map((entry) => (
-                <li
-                  key={entry.version}
-                  className="rounded-card border border-ux-border p-4 text-sm"
-                >
-                  <strong>{entry.new_status === "active" ? "Diaktifkan" : "Pemeliharaan"}</strong> ·{" "}
-                  {entry.created_at}
-                  <p>{entry.reason}</p>
-                  <p className="text-secondary">Oleh: {entry.actor}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+      {state ? (
+        <>
+          <label className="mt-3 grid gap-1 text-xs">
+            Alasan perubahan
+            <textarea
+              className="rounded-control border border-ux-border p-2 text-sm"
+              maxLength={500}
+              rows={2}
+              value={reason}
+              onChange={(event) => setReason(event.target.value)}
+            />
+          </label>
+          <Button
+            size="small"
+            className="mt-2 w-full"
+            disabled={busy || !reason.trim()}
+            onClick={() => void save()}
+          >
+            {busy
+              ? "Menyimpan…"
+              : state.status === "active"
+                ? "Mulai pemeliharaan"
+                : "Aktifkan kembali"}
+          </Button>
+        </>
+      ) : (
+        <p className="mt-2 text-xs text-secondary">Memuat pengaturan…</p>
+      )}
+      {error && (
+        <p role="alert" className="mt-2 text-xs text-danger">
+          {error}{" "}
+          <button className="underline" onClick={() => void load()}>
+            Muat ulang
+          </button>
+        </p>
       )}
     </section>
   );

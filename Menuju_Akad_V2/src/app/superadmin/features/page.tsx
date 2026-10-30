@@ -25,22 +25,46 @@ export default async function Page() {
             Pengaturan berlaku untuk semua pengguna pada database aplikasi ini.
           </p>
         </header>
-        <DashboardCardsPanel initial={cards} />
-        <FeatureAvailabilityPanel />
-        <FeatureRolloutPanel />
-        <TaskMaintenancePanel />
-        <TaskMaintenancePanel feature="calendar" />
-        <TaskMaintenancePanel feature="rundown" />
-        <TaskMaintenancePanel feature="emergency" />
-        <TaskMaintenancePanel feature="documents" />
-        <TaskMaintenancePanel feature="moodboard" />
-        <TaskMaintenancePanel feature="catering" />
-        <TaskMaintenancePanel feature="seserahan" />
-        <TaskMaintenancePanel feature="guests" />
-        <TaskMaintenancePanel feature="invitations" />
-        <TaskMaintenancePanel feature="studio-drafts" />
-        <TaskMaintenancePanel feature="finance" />
-        <TaskMaintenancePanel feature="pdf" />
+
+        <div className="space-y-8">
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Tampilan Dashboard</h2>
+            <DashboardCardsPanel initial={cards} />
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Ketersediaan Fitur per Kelompok</h2>
+            <FeatureAvailabilityPanel />
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Rilis Fitur Bertahap</h2>
+            <FeatureRolloutPanel />
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Pemeliharaan Fitur Perencanaan</h2>
+            <p className="text-sm text-secondary mb-4">
+              Mengontrol status aktif/pemeliharaan untuk setiap fitur perencanaan.
+              Data yang sudah ada tetap tersimpan saat pemeliharaan.
+            </p>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <TaskMaintenancePanel feature="tasks" />
+              <TaskMaintenancePanel feature="calendar" />
+              <TaskMaintenancePanel feature="rundown" />
+              <TaskMaintenancePanel feature="emergency" />
+              <TaskMaintenancePanel feature="documents" />
+              <TaskMaintenancePanel feature="moodboard" />
+              <TaskMaintenancePanel feature="catering" />
+              <TaskMaintenancePanel feature="seserahan" />
+              <TaskMaintenancePanel feature="guests" />
+              <TaskMaintenancePanel feature="invitations" />
+              <TaskMaintenancePanel feature="studio-drafts" />
+              <TaskMaintenancePanel feature="finance" />
+              <TaskMaintenancePanel feature="pdf" />
+            </div>
+          </section>
+        </div>
       </div>
     </LiveOperationsShell>
   );
