@@ -32,7 +32,7 @@ export function OperationsDock({
     (item) => item.view === active || item.children?.some((child) => child.view === active),
   );
   return (
-    <div className="flex h-full min-h-[600px] min-w-0 flex-col gap-[18px] rounded-[10px] border border-control-border bg-ux-dock lg:rounded-r-none p-3">
+    <div className="flex h-full min-h-[600px] min-w-0 flex-col gap-[18px] bg-ux-dock lg:border-r border-control-border p-3">
       <div className="flex min-h-10 items-center gap-2">
         {!compact && (
           <>
@@ -49,7 +49,7 @@ export function OperationsDock({
         </button>
       </div>
       {!compact && (
-        <div className="grid gap-3 rounded-control bg-ux-soft p-3.5 text-foreground">
+        <div className="grid gap-3 p-3.5 text-foreground">
           <p className="text-[10px] font-semibold tracking-wider">{roleLabel}</p>
           <p className="text-base font-semibold">{identity}</p>
           <p className="text-xs text-secondary">{description}</p>
@@ -103,7 +103,7 @@ export function OperationsDock({
       </nav>
       <div className="flex-1" />
       {!compact && (
-        <div className="grid gap-2 rounded-control border border-ux-border bg-canvas p-3 text-xs">
+        <div className="grid gap-2 p-3 text-xs">
           <p className="font-medium text-brand-secondary">
             {live ? "Lingkup operasional" : "Sandbox · Preset 3"}
           </p>
