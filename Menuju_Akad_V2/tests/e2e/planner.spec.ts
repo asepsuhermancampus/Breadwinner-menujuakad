@@ -85,11 +85,11 @@ test.describe("Batch 02 · Planner Modules E2E", () => {
     await expect(page.getByText("3/6 barang")).toBeVisible();
 
     await page.goto("/planner/moodboard");
-    await expect(page.locator("h1")).toContainText("Bayangkan hari kalian");
+    await expect(page.locator("h1")).toContainText("Inspirasi & moodboard");
     await expect(page.getByText("#1E3F32")).toBeVisible();
 
     await page.goto("/planner/wedding-kit");
-    await expect(page.locator("h1")).toContainText("Wedding Kit");
+    await expect(page.locator("h1")).toContainText("Ringkasan untuk dibagikan");
     await expect(page.getByText("Maintenance", { exact: true })).toBeVisible();
   });
 

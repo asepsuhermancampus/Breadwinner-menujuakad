@@ -6,14 +6,21 @@ import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import { customerNavigation } from "./customer-navigation";
 import { customerNavigationActive } from "../domain/feature-groups";
+import {
+  isAvailableFeaturePath,
+  defaultFeatureAvailability,
+  availableNavigationDestination,
+  type FeatureAvailability,
+} from "../domain/feature-availability-catalog";
 import styles from "./customer-sidebar.module.css";
 
-function Glyph({ name }: { name: string }) {
+function Glyph({ name, label }: { name: string; label: string }) {
   return (
     <span
       aria-hidden="true"
       className={styles.glyph}
       style={{ maskImage: `url(/assets/icons/sidebar/${name}.svg)` }}
+      title={label}
     />
   );
 }
@@ -23,11 +30,13 @@ export function CustomerSidebar({
   compact = false,
   toggle,
   mobile = false,
+  availability = defaultFeatureAvailability(true),
 }: {
   close?: () => void;
   compact?: boolean;
   toggle?: () => void;
   mobile?: boolean;
+  availability?: FeatureAvailability;
 }) {
   const pathname = usePathname();
   const navigate = () => {
@@ -58,38 +67,76 @@ export function CustomerSidebar({
           {compact ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
         <nav className={cn("app-scroll", styles.navigation)} aria-label="Navigasi dashboard">
-          {customerNavigation.map((group) => (
-            <section key={group.title} className={styles.group}>
-              {!compact && <h2>{group.title}</h2>}
-              <div className={styles.rows}>
-                {group.items.map((item) => {
-                  const active = customerNavigationActive(item.href, pathname);
-                  return (
-                    <div className={styles.row} key={item.href}>
-                      <Link
-                        data-sidebar-link
-                        href={item.href}
-                        onClick={navigate}
-                        aria-label={item.label}
-                        aria-current={active ? "page" : undefined}
-                        title={compact ? item.label : undefined}
-                        className={styles.link}
-                      >
-                        <Glyph name={item.icon} />
-                        {!compact && (
-                          <>
-                            <span className={styles.label}>{item.label}</span>
-                            {item.badge && <small className={styles.badge}>{item.badge}</small>}
-                            {item.dot && <span className={styles.dot} aria-hidden="true" />}
-                          </>
+          {customerNavigation.map((group) => {
+            const visibleItems = group.items.filter((item) =>
+              availableNavigationDestination(item, availability),
+            );
+            if (!visibleItems.length) return null;
+            return (
+              <section key={group.title} className={styles.group}>
+                {!compact && <h2>{group.title}</h2>}
+                <div className={styles.rows}>
+                  {visibleItems.map((item) => {
+                    const destination = availableNavigationDestination(item, availability);
+                    if (!destination) return null;
+                    const active = customerNavigationActive(item.href, pathname);
+                    return (
+                      <div className={styles.row} key={item.href}>
+                        <Link
+                          data-sidebar-link
+                          href={destination}
+                          onClick={navigate}
+                          aria-label={item.label}
+                          aria-current={pathname === destination ? "page" : undefined}
+                          data-active={active || undefined}
+                          title={compact ? item.label : undefined}
+                          className={styles.link}
+                        >
+                          <Glyph name={item.icon} label={item.label} />
+                          {!compact && (
+                            <>
+                              <span className={styles.label}>{item.label}</span>
+                              {item.badge && <small className={styles.badge}>{item.badge}</small>}
+                              {item.dot && <span className={styles.dot} aria-hidden="true" />}
+                            </>
+                          )}
+                        </Link>
+                        {!compact && item.children && (
+                          <div className={styles.children}>
+                            {item.children
+                              .filter(
+                                (child) =>
+                                  child.href !== destination &&
+                                  isAvailableFeaturePath(child.href, availability),
+                              )
+                              .map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={navigate}
+                                  aria-current={pathname === child.href ? "page" : undefined}
+                                  className={styles.childLink}
+                                >
+                                  {child.label}
+                                </Link>
+                              ))}
+                          </div>
                         )}
-                      </Link>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+          {customerNavigation.every(
+            (group) =>
+              !group.items.some((item) => availableNavigationDestination(item, availability)),
+          ) && (
+            <div className={styles.empty}>
+              <p className={styles.emptyLabel}>Tidak ada navigasi yang tersedia.</p>
+            </div>
+          )}
         </nav>
         <footer className={styles.account}>
           <Link
@@ -100,7 +147,7 @@ export function CustomerSidebar({
             title={compact ? "Pengaturan" : undefined}
             className={styles.link}
           >
-            <Glyph name="gear-six" />
+            <Glyph name="gear-six" label="Pengaturan" />
             {!compact && <span className={styles.label}>Pengaturan</span>}
           </Link>
         </footer>

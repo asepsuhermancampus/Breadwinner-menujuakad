@@ -38,7 +38,7 @@ export function ResourceEditor({
         </p>
       )}
       {!state.data && !state.error && <ResourceLoading kind={kind} />}
-      {state.error && (
+      {state.error && !trial && (
         <p role="alert" className="rounded-card border border-danger/30 p-3 text-sm text-danger">
           {state.error}{" "}
           <button onClick={() => location.reload()} className="underline">

@@ -7,9 +7,14 @@ import type { FinanceBook, FinanceRequest } from "@/features/planner-finance/typ
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { TrialCommitResult, TrialSnapshot } from "../types";
 import { removeBudgetSources } from "@/features/planner-finance/domain/remove-budget-sources";
+import { affectedExpenseSources } from "../domain/finance-source-maintenance";
+import type { ExpenseKind } from "@/features/planner-finance/domain/expense-budgets";
+import { mergeVisibleBudgets } from "@/features/planner-finance/domain/expense-visibility";
 export type TrialStoreEnvironment = {
   storage: Pick<Storage, "getItem" | "setItem">;
   lock?: (<T>(run: () => Promise<T>) => Promise<T>) | undefined;
+  checkExpenseSources?: ((sources: ExpenseKind[]) => Promise<string | null>) | undefined;
+  restrictedExpenseSources?: (() => Promise<ExpenseKind[]>) | undefined;
 };
 export function createTrialFinance(
   env: TrialStoreEnvironment,
@@ -26,13 +31,41 @@ export function createTrialFinance(
           ? (financeBookSchema.parse(current.resources.savings[0]) as FinanceBook)
           : emptyFinanceBook();
         let result;
+        let effectiveCommand = request.command;
         try {
+          const restricted = (await env.restrictedExpenseSources?.()) ?? [];
+          const previous = (current.resources.finance ?? []) as CustomerBudget[];
+          const command = request.command;
+          const retry = book.receipts.some((receipt) => receipt.requestId === request.requestId);
+          const target =
+            "budgetId" in command ? previous.find((row) => row.id === command.budgetId) : undefined;
+          if (
+            !retry &&
+            "budgetId" in command &&
+            restricted.some(
+              (kind) =>
+                target?.source?.kind === kind || command.budgetId.startsWith(`expense:${kind}:`),
+            )
+          )
+            throw new Error("Anggaran terkait belum tersedia.");
+          const merged =
+            !retry && command.type === "save-budgets"
+              ? {
+                  ...request,
+                  command: {
+                    ...command,
+                    budgets: mergeVisibleBudgets(previous, command.budgets, restricted),
+                  },
+                }
+              : request;
+          effectiveCommand = merged.command;
           result = applyFinanceRequest(
             book,
-            (current.resources.finance ?? []) as CustomerBudget[],
+            previous,
             { id: "trial-customer", name: "Akun percobaan" },
-            request,
+            merged,
             new Date().toISOString(),
+            JSON.stringify(command),
           );
         } catch (cause) {
           const message =
@@ -45,6 +78,12 @@ export function createTrialFinance(
         }
         if (result.book.revision === book.revision)
           return { ok: true, snapshot: current, changed: false };
+        const sources = affectedExpenseSources(
+          effectiveCommand,
+          (current.resources.finance ?? []) as CustomerBudget[],
+        );
+        const blocked = sources.length ? await env.checkExpenseSources?.(sources) : null;
+        if (blocked) return { ok: false, reason: "invalid", message: blocked };
         const feature =
           request.command.type === "entry"
             ? "savings"

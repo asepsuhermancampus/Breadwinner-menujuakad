@@ -8,6 +8,7 @@ import { CateringMenuPicker } from "./catering-menu-picker";
 import { CateringMenuFields } from "./catering-menu-fields";
 import styles from "./catering-form.module.css";
 import { CateringGuestReference } from "./catering-guest-reference";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
 export function CateringForm({
   item,
   guests,
@@ -23,6 +24,10 @@ export function CateringForm({
   save: (items: CateringMenu[]) => Promise<boolean>;
   cancel: () => void;
 }) {
+  const guestsAvailable = useFeatureAvailability()?.guests === true;
+  const [usesGuestData, setUsesGuestData] = useState(guestsAvailable && guestListCount > 0);
+  if (!usesGuestData && guestsAvailable && guestListCount > 0) setUsesGuestData(true);
+  const restrictedDraft = !guestsAvailable && usesGuestData;
   const [mode, setMode] = useState<"unit" | "package">(item?.mode ?? "unit");
   const savedItem = item ? { ...item, dueDate: item.dueDate ?? paymentDueDate ?? "" } : undefined;
   const empty = (): CateringMenu => ({
@@ -59,118 +64,131 @@ export function CateringForm({
     });
   }
   return (
-    <Dialog
-      open
-      title={item ? "Edit menu katering" : "Tambah menu katering"}
-      onClose={() => {
-        if (!pending) cancel();
-      }}
-    >
-      <form
-        className={styles.stack}
-        onSubmit={async (event) => {
-          event.preventDefault();
-          if (pending) return;
-          const parsed = cateringMenuSchema.array().min(1).max(100).safeParse(drafts);
-          if (!parsed.success) {
-            setError(
-              "Periksa nama, porsi (1–100.000), dan harga (maksimal Rp 1.000.000.000). Maksimal 100 menu sekaligus.",
-            );
-            return;
-          }
-          setPending(true);
-          setError("");
-          try {
-            if (!(await save(parsed.data)))
-              setError("Belum tersimpan. Periksa batas percobaan atau muat ulang data terbaru.");
-          } catch {
-            setError("Menu belum tersimpan. Silakan coba lagi.");
-          } finally {
-            setPending(false);
-          }
+    <>
+      {restrictedDraft && (
+        <p role="status">
+          Draf menu menggunakan daftar tamu yang belum tersedia. Draf tetap tersimpan di halaman ini
+          dan dapat dilanjutkan saat akses dipulihkan.{" "}
+          <button className="underline" onClick={cancel}>
+            Tutup draf
+          </button>
+        </p>
+      )}
+      <Dialog
+        open={!restrictedDraft}
+        title={item ? "Edit menu katering" : "Tambah menu katering"}
+        onClose={() => {
+          if (!pending) cancel();
         }}
       >
-        <fieldset disabled={pending} className={styles.stack}>
-          <div className={styles.tabs} role="tablist" aria-label="Cara mencatat katering">
-            {(["unit", "package"] as const).map((value) => (
-              <Button
-                key={value}
-                role="tab"
-                aria-selected={mode === value}
-                variant={mode === value ? "primary" : "secondary"}
-                onClick={() => setMode(value)}
-              >
-                {value === "unit" ? "Menu satuan" : "Paket vendor"}
-              </Button>
-            ))}
-          </div>
-          <p className={styles.hint}>
-            {mode === "unit"
-              ? "Pilih beberapa menu dari satu atau beberapa vendor, lalu sesuaikan harga masing-masing."
-              : "Catat seluruh sajian vendor dalam satu paket. Pilih harga total paket atau harga per tamu."}
-          </p>
-          <CateringGuestReference count={guestListCount} estimate={guests} />
-          {mode === "unit" && !item && <CateringMenuPicker selected={menus} add={add} />}
-          {mode === "package" ? (
-            <CateringMenuFields
-              value={pack}
-              change={setPack}
-              guests={guests}
-              automaticDefault={!item}
-            />
-          ) : (
-            menus.map((menu, index) => (
-              <section key={menu.id} className={styles.menu} aria-label={`Menu ${index + 1}`}>
-                <div className={styles.row}>
-                  <strong>Menu {index + 1}</strong>
-                  {menus.length > 1 && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label={`Hapus isian menu ${index + 1}`}
-                      onClick={() => setMenus(menus.filter((entry) => entry.id !== menu.id))}
-                    >
-                      <Icon name="trash" size={16} />
-                    </Button>
-                  )}
-                </div>
-                <CateringMenuFields
-                  value={menu}
-                  guests={guests}
-                  automaticDefault={!item}
-                  change={(next) =>
-                    setMenus(menus.map((entry) => (entry.id === menu.id ? next : entry)))
-                  }
-                />
-              </section>
-            ))
-          )}
-          <div className={styles.total}>
-            <span>Total biaya{mode === "package" ? " paket" : " menu"}</span>
-            <strong>
-              Rp{" "}
-              {drafts.reduce((sum, entry) => sum + cateringCost(entry), 0).toLocaleString("id-ID")}
-            </strong>
-          </div>
-          {error && (
-            <p role="alert" className="text-sm text-danger">
-              {error}
+        <form
+          className={styles.stack}
+          onSubmit={async (event) => {
+            event.preventDefault();
+            if (pending) return;
+            const parsed = cateringMenuSchema.array().min(1).max(100).safeParse(drafts);
+            if (!parsed.success) {
+              setError(
+                "Periksa nama, porsi (1–100.000), dan harga (maksimal Rp 1.000.000.000). Maksimal 100 menu sekaligus.",
+              );
+              return;
+            }
+            setPending(true);
+            setError("");
+            try {
+              if (!(await save(parsed.data)))
+                setError("Belum tersimpan. Periksa batas percobaan atau muat ulang data terbaru.");
+            } catch {
+              setError("Menu belum tersimpan. Silakan coba lagi.");
+            } finally {
+              setPending(false);
+            }
+          }}
+        >
+          <fieldset disabled={pending} className={styles.stack}>
+            <div className={styles.tabs} role="tablist" aria-label="Cara mencatat katering">
+              {(["unit", "package"] as const).map((value) => (
+                <Button
+                  key={value}
+                  role="tab"
+                  aria-selected={mode === value}
+                  variant={mode === value ? "primary" : "secondary"}
+                  onClick={() => setMode(value)}
+                >
+                  {value === "unit" ? "Menu satuan" : "Paket vendor"}
+                </Button>
+              ))}
+            </div>
+            <p className={styles.hint}>
+              {mode === "unit"
+                ? "Pilih beberapa menu dari satu atau beberapa vendor, lalu sesuaikan harga masing-masing."
+                : "Catat seluruh sajian vendor dalam satu paket. Pilih harga total paket atau harga per tamu."}
             </p>
-          )}
-          <div className={styles.row}>
-            <Button type="submit">
-              {pending
-                ? "Menyimpan..."
-                : menus.length > 1 && mode === "unit"
-                  ? `Simpan ${menus.length} menu`
-                  : "Simpan"}
-            </Button>
-            <Button variant="secondary" onClick={cancel}>
-              Batal
-            </Button>
-          </div>
-        </fieldset>
-      </form>
-    </Dialog>
+            <CateringGuestReference count={guestListCount} estimate={guests} />
+            {mode === "unit" && !item && <CateringMenuPicker selected={menus} add={add} />}
+            {mode === "package" ? (
+              <CateringMenuFields
+                value={pack}
+                change={setPack}
+                guests={guests}
+                automaticDefault={!item}
+              />
+            ) : (
+              menus.map((menu, index) => (
+                <section key={menu.id} className={styles.menu} aria-label={`Menu ${index + 1}`}>
+                  <div className={styles.row}>
+                    <strong>Menu {index + 1}</strong>
+                    {menus.length > 1 && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`Hapus isian menu ${index + 1}`}
+                        onClick={() => setMenus(menus.filter((entry) => entry.id !== menu.id))}
+                      >
+                        <Icon name="trash" size={16} />
+                      </Button>
+                    )}
+                  </div>
+                  <CateringMenuFields
+                    value={menu}
+                    guests={guests}
+                    automaticDefault={!item}
+                    change={(next) =>
+                      setMenus(menus.map((entry) => (entry.id === menu.id ? next : entry)))
+                    }
+                  />
+                </section>
+              ))
+            )}
+            <div className={styles.total}>
+              <span>Total biaya{mode === "package" ? " paket" : " menu"}</span>
+              <strong>
+                Rp{" "}
+                {drafts
+                  .reduce((sum, entry) => sum + cateringCost(entry), 0)
+                  .toLocaleString("id-ID")}
+              </strong>
+            </div>
+            {error && (
+              <p role="alert" className="text-sm text-danger">
+                {error}
+              </p>
+            )}
+            <div className={styles.row}>
+              <Button type="submit">
+                {pending
+                  ? "Menyimpan..."
+                  : menus.length > 1 && mode === "unit"
+                    ? `Simpan ${menus.length} menu`
+                    : "Simpan"}
+              </Button>
+              <Button variant="secondary" onClick={cancel}>
+                Batal
+              </Button>
+            </div>
+          </fieldset>
+        </form>
+      </Dialog>
+    </>
   );
 }

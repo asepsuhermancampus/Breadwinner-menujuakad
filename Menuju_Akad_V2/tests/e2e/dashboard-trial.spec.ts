@@ -1,5 +1,68 @@
 import { test, expect } from "@playwright/test";
 
+test("an empty task list explains how to begin", async ({ page }) => {
+  await page.goto("/planner/tasks");
+  await expect(
+    page.getByText("Belum ada tugas. Tambahkan tugas pertama.", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole("columnheader", { name: "Selesai", exact: true })).toBeVisible();
+});
+
+test("a trial task draft is preserved if maintenance starts after opening the page", async ({
+  page,
+}) => {
+  await page.goto("/planner/tasks");
+  await page.getByRole("button", { name: "Tambah tugas", exact: true }).click();
+  await page.getByLabel("Nama tugas").fill("Draf yang belum disimpan");
+  await page.route("**/api/workspace/task-status", (route) =>
+    route.fulfill({ json: { status: "maintenance" } }),
+  );
+  await page.getByRole("button", { name: "Simpan perubahan", exact: true }).click();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "Tugas sedang dalam pemeliharaan" }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Nama tugas")).toHaveValue("Draf yang belum disimpan");
+  const snapshot = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("menuju-akad:guest-trial:v2")!),
+  );
+  expect(snapshot?.resources?.tasks ?? []).toHaveLength(0);
+});
+
+test("a calendar draft stays open when maintenance starts before saving", async ({ page }) => {
+  await page.goto("/planner/calendar");
+  await page.getByRole("button", { name: "+ Jadwal baru" }).click();
+  const dialog = page.getByRole("dialog", { name: "Tambah jadwal" });
+  await dialog.getByLabel("Nama", { exact: true }).fill("Pertemuan vendor");
+  await dialog.getByLabel("Tanggal").fill("2026-12-01");
+  await dialog.getByLabel("Mulai").fill("09:00");
+  await dialog.getByLabel("Selesai").fill("10:00");
+  await page.route("**/api/workspace/feature-status/calendar", (route) =>
+    route.fulfill({ json: { status: "maintenance" } }),
+  );
+  await dialog.getByRole("button", { name: "Simpan", exact: true }).click();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "Fitur ini sedang dalam pemeliharaan" }),
+  ).toBeVisible();
+  await expect(dialog.getByLabel("Nama", { exact: true })).toHaveValue("Pertemuan vendor");
+  const snapshot = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("menuju-akad:guest-trial:v2")!),
+  );
+  expect(snapshot?.resources?.calendar ?? []).toHaveLength(0);
+});
+
+test("trial print preview is blocked if maintenance starts after the page opens", async ({
+  page,
+}) => {
+  await page.goto("/planner/wedding-kit");
+  await page.route("**/api/workspace/feature-status/pdf", (route) =>
+    route.fulfill({ json: { status: "maintenance" } }),
+  );
+  await page.getByRole("button", { name: "Buka dokumen cetak" }).click();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "Ringkasan cetak sedang dalam pemeliharaan" }),
+  ).toBeVisible();
+});
+
 test("canceling a new invitation popup leaves the list and trial allowance unchanged", async ({
   page,
 }) => {
@@ -65,7 +128,7 @@ test("KUA templates enforce five active checks across tabs and support edit", as
   context,
 }) => {
   await page.goto("/planner/kua");
-  await page.getByRole("button", { name: "Mulai berkas utama", exact: true }).click();
+  await page.getByRole("button", { name: "Pilih dokumen", exact: true }).click();
   const preview = page.getByRole("region", { name: "Pratinjau Berkas Utama", exact: true });
   await preview.getByRole("checkbox").check();
   await preview.getByRole("button", { name: "Terapkan template" }).click();

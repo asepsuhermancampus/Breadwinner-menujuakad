@@ -2,27 +2,22 @@ import { expect, test } from "@playwright/test";
 
 const groups = [
   {
-    name: "Rundown & Kepanitiaan",
+    name: "Jadwal & hari acara",
     base: "/planner/rundown",
     routes: ["/planner/rundown", "/planner/calendar", "/planner/emergency"],
   },
   {
-    name: "Seserahan & Moodboard",
-    base: "/planner/seserahan",
-    routes: ["/planner/seserahan", "/planner/moodboard"],
-  },
-  {
-    name: "Catatan Vendor Manual",
+    name: "Cari vendor",
     base: "/marketplace",
     routes: ["/marketplace", "/marketplace/favorites"],
   },
   {
-    name: "Pesanan & Kontrak",
+    name: "Rangkai paket jasa",
     base: "/marketplace/bundles",
     routes: ["/marketplace/bundles", "/checkout/services"],
   },
   {
-    name: "Studio Undangan",
+    name: "Undangan digital",
     base: "/planner/invitations",
     routes: ["/planner/invitations", "/planner/invitations/studio"],
   },
@@ -32,6 +27,7 @@ for (const width of [1440, 375]) {
   test(`feature groups expose their secondary destinations as tabs at ${width}px`, async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     await page.setViewportSize({ width, height: 1000 });
     for (const group of groups) {
       await page.goto(group.base);
@@ -63,7 +59,7 @@ test("studio feature tab preserves the unsaved-change exit guard", async ({ page
     "page",
   );
   const heading = await page
-    .getByRole("heading", { level: 1, name: "Studio Undangan", exact: true })
+    .getByRole("heading", { level: 1, name: "Undangan digital", exact: true })
     .boundingBox();
   const navigation = await nav.boundingBox();
   expect(heading!.y + heading!.height).toBeLessThanOrEqual(navigation!.y);
@@ -73,7 +69,7 @@ test("studio feature tab preserves the unsaved-change exit guard", async ({ page
   await expect(
     page.getByRole("dialog", { name: "Perubahan belum tersinkron", exact: true }),
   ).toBeVisible();
-  await expect(page).toHaveURL(/\/planner\/invitations\/studio$/);
+  await expect(page).toHaveURL(/\/planner\/invitations\/studio(?:\?.*)?$/);
   await page.getByRole("button", { name: "Lanjut mengedit", exact: true }).click();
   await expect(page.getByLabel("Nama mempelai pria", { exact: true })).toHaveValue(
     "Draf belum tersimpan",

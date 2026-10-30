@@ -27,7 +27,6 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
   const [selectedTask, setSelectedTask] = useState<PlannerTask | null>(null);
   const [creating, setCreating] = useState(false);
   const [conflict, setConflict] = useState("");
-
   const eventTasks = useMemo(
     () => tasks.filter((t) => !event || t.event === event),
     [tasks, event],
@@ -70,7 +69,6 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
     setSelectedTask(null);
     return true;
   };
-
   const handleAddNew = () => {
     const newTask: PlannerTask = {
       id: crypto.randomUUID(),
@@ -156,7 +154,7 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className="w-12 text-center">Status</th>
+              <th className="w-12 text-center">Selesai</th>
               <th>Tugas</th>
               <th>Penanggung jawab</th>
               <th>Prioritas</th>
@@ -180,7 +178,9 @@ export function TasksScreen({ initialTasks, onChange, event }: Props) {
         </table>
         {displayedTasks.length === 0 && (
           <div className="p-8 text-center text-sm text-secondary">
-            Tidak ada tugas yang sesuai filter atau pencarian.
+            {eventTasks.length === 0
+              ? "Belum ada tugas. Tambahkan tugas pertama."
+              : "Tidak ada tugas yang cocok. Ubah pencarian atau filter."}
           </div>
         )}
       </div>

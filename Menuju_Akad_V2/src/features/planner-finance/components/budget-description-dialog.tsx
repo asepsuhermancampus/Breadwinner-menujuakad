@@ -6,13 +6,20 @@ import { budgetDescription } from "../domain/budget-description";
 export function BudgetDescriptionDialog({
   item,
   close,
+  available = true,
 }: {
   item: CustomerBudget | null;
   close: () => void;
+  available?: boolean;
 }) {
   const description = item ? budgetDescription(item) : null;
   return (
-    <Dialog open={!!item} onClose={close} title="Deskripsi kebutuhan" className={styles.dialog}>
+    <Dialog
+      open={!!item && available}
+      onClose={close}
+      title="Deskripsi kebutuhan"
+      className={styles.dialog}
+    >
       <div className={styles.content}>
         <h3>{item?.title}</h3>
         <section

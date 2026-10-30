@@ -1,4 +1,6 @@
 import type { TrialSnapshot } from "../types";
+import { isHiddenBudget } from "@/features/planner-finance/domain/expense-visibility";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 const escape = (value: unknown) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -35,7 +37,18 @@ function budgetDetails(item: Record<string, unknown>): string {
     .join(" / ");
 }
 
-export function trialReport(snapshot: TrialSnapshot): string {
+export function trialReport(
+  snapshot: TrialSnapshot,
+  includeTasks = true,
+  includeEmergency = true,
+  includeCalendar = true,
+  includeDocuments = true,
+  includeRundown = true,
+  includeGuests = true,
+  includeFinance = true,
+  includeSeserahan = true,
+  includeCatering = true,
+): string {
   const labels: Record<string, string> = {
     tasks: "Tugas",
     documents: "Dokumen KUA",
@@ -50,6 +63,18 @@ export function trialReport(snapshot: TrialSnapshot): string {
   return (
     '<!doctype html><html lang="id"><head><meta charset="utf-8"><title>Rencana kalian</title><style>body{font:14px system-ui;margin:40px}li{padding:8px}h2{break-after:avoid}li{break-inside:avoid}</style></head><body><h1>Rencana kalian</h1>' +
     Object.entries(labels)
+      .filter(
+        ([kind]) =>
+          (includeTasks || kind !== "tasks") &&
+          (includeEmergency || kind !== "emergency") &&
+          (includeCalendar || kind !== "calendar") &&
+          (includeDocuments || kind !== "documents") &&
+          (includeGuests || kind !== "guests") &&
+          (includeFinance || kind !== "finance") &&
+          (includeSeserahan || kind !== "seserahan") &&
+          (includeCatering || kind !== "catering") &&
+          (includeRundown || kind !== "rundown"),
+      )
       .map(
         ([kind, label]) =>
           "<section><h2>" +
@@ -57,6 +82,14 @@ export function trialReport(snapshot: TrialSnapshot): string {
           "</h2><ul>" +
           ((snapshot.resources[kind as keyof typeof snapshot.resources] ?? [])
             .filter((row) => kind !== "documents" || !(row as { archived?: boolean }).archived)
+            .filter(
+              (row) =>
+                kind !== "finance" ||
+                !isHiddenBudget(row as CustomerBudget, [
+                  ...(!includeSeserahan ? ["seserahan" as const] : []),
+                  ...(!includeCatering ? ["catering" as const] : []),
+                ]),
+            )
             .map(
               (row) =>
                 "<li>" +

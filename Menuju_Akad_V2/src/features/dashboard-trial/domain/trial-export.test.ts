@@ -70,3 +70,73 @@ it("prints actual resource content safely without invitation credentials", () =>
   expect(html).not.toContain("secret-invitation-token");
   expect(html).not.toContain("private-id");
 });
+it("omits task content when the task feature is unavailable", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.tasks = [{ title: "Tugas pribadi" }];
+  const html = trialReport(snapshot, false);
+  expect(html).not.toContain("Tugas pribadi");
+  expect(html).not.toContain("<h2>Tugas</h2>");
+  expect(snapshot.resources.tasks).toHaveLength(1);
+});
+it("omits emergency content when that feature is unavailable without deleting it", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.emergency = [{ title: "Kotak khusus" }];
+  const html = trialReport(snapshot, true, false);
+  expect(html).not.toContain("Kotak khusus");
+  expect(html).not.toContain("<h2>Emergency</h2>");
+  expect(snapshot.resources.emergency).toHaveLength(1);
+});
+it("omits calendar content when unavailable without deleting it", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.calendar = [{ title: "Janji rahasia" }];
+  const html = trialReport(snapshot, true, true, false);
+  expect(html).not.toContain("Janji rahasia");
+  expect(html).not.toContain("<h2>Kalender</h2>");
+  expect(snapshot.resources.calendar).toHaveLength(1);
+});
+it("omits documents when unavailable without deleting them", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.documents = [{ title: "Dokumen pribadi" }];
+  const html = trialReport(snapshot, true, true, true, false);
+  expect(html).not.toContain("Dokumen pribadi");
+  expect(html).not.toContain("<h2>Dokumen KUA</h2>");
+  expect(snapshot.resources.documents).toHaveLength(1);
+});
+it("omits rundown when unavailable without deleting it", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.rundown = [{ title: "Acara pribadi" }];
+  const html = trialReport(snapshot, true, true, true, true, false);
+  expect(html).not.toContain("Acara pribadi");
+  expect(html).not.toContain("<h2>Rundown</h2>");
+  expect(snapshot.resources.rundown).toHaveLength(1);
+});
+it("omits guest data when guest management is unavailable without deleting it", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.guests = [{ name: "Tamu pribadi" }];
+  const html = trialReport(snapshot, true, true, true, true, true, false);
+  expect(html).not.toContain("Tamu pribadi");
+  expect(html).not.toContain("<h2>Tamu</h2>");
+  expect(snapshot.resources.guests).toHaveLength(1);
+});
+it("omits finance details when finance is unavailable without deleting them", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.finance = [{ title: "Anggaran pribadi", amount: 12345 }];
+  const html = trialReport(snapshot, true, true, true, true, true, true, false);
+  expect(html).not.toContain("Anggaran pribadi");
+  expect(snapshot.resources.finance).toHaveLength(1);
+});
+it("omits restricted seserahan and its linked budget from the trial report", () => {
+  const snapshot = emptyTrial();
+  snapshot.resources.seserahan = [{ title: "Hadiah pribadi" }];
+  snapshot.resources.finance = [
+    {
+      id: "expense:seserahan:gift",
+      title: "Hadiah pribadi",
+      amount: 100,
+      source: { kind: "seserahan", id: "gift" },
+    },
+  ];
+  const html = trialReport(snapshot, true, true, true, true, true, true, true, false, true);
+  expect(html).not.toContain("Hadiah pribadi");
+  expect(snapshot.resources.finance).toHaveLength(1);
+});

@@ -17,7 +17,7 @@ export function GuestAccountPanel({ tab }: { tab: Exclude<AccountTab, "plans"> }
       "Masuk untuk mengelola alamat undangan kalian. Custom domain tersedia untuk pemilik ruang dengan paket Lifetime.",
     ],
     support: [
-      "Prioritas bantuan",
+      "Bantuan",
       "Masuk untuk mengirim permintaan bantuan. Paket Lifetime mendapatkan antrean prioritas.",
     ],
   }[tab];
@@ -40,7 +40,7 @@ export function GuestAccountPanel({ tab }: { tab: Exclude<AccountTab, "plans"> }
       <aside className="rounded-card bg-ux-dock p-6">
         <h2 className="text-sm font-semibold text-brand-secondary">Ruang percobaan kalian</h2>
         <p className={`${styles.description} mt-3`}>
-          Jelajahi perencanaan, undangan, dan Wedding Kit dari navigasi yang sama.
+          Jelajahi perencanaan, undangan, dan ringkasan untuk dibagikan dari navigasi yang sama.
         </p>
         <Link
           href="/dashboard"

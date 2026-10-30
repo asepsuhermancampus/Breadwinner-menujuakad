@@ -15,6 +15,7 @@ import type { FinanceBook } from "@/features/planner-finance/types/finance-ledge
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
 import { syncTrialExpenseResources } from "../domain/trial-expense-budgets";
+import { mergeVisibleBudgets } from "@/features/planner-finance/domain/expense-visibility";
 export const TRIAL_KEY = "menuju-akad:guest-trial:v2";
 export const TRIAL_LOCK = "menuju-akad:guest-trial:v1";
 export function createTrialStore(env: TrialStoreEnvironment) {
@@ -111,6 +112,12 @@ export function createTrialStore(env: TrialStoreEnvironment) {
               ? (financeBookSchema.parse(current.resources.savings[0]) as FinanceBook)
               : null;
             try {
+              data = mergeVisibleBudgets(
+                (current.resources.finance ?? []) as CustomerBudget[],
+                data as CustomerBudget[],
+                (await env.restrictedExpenseSources?.()) ?? [],
+              );
+              data = validateTrialData(kind, data);
               assertBudgetChanges(
                 (current.resources.finance ?? []) as CustomerBudget[],
                 data as CustomerBudget[],

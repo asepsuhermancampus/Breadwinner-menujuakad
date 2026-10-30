@@ -1,8 +1,11 @@
-import { auth } from "@/server/auth";
+﻿import { auth } from "@/server/auth";
 import { isOperator } from "@/server/identity/policy";
 import { MarketplaceCatalog } from "@/server/marketplace/catalog";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { readBoundedJson } from "@/server/payments/checkout-request";
+import { activeWorkspace } from "@/server/workspaces/active-workspace";
+import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
+import { PaymentError } from "@/server/payments/errors";
 import {
   jsonResponse,
   validateSameOrigin,
@@ -16,6 +19,9 @@ export async function POST(req: Request) {
   const owner = await requireAuthOwner(req);
   if ("errorResponse" in owner) return owner.errorResponse;
   try {
+    const workspace = await activeWorkspace(owner.owner);
+    if (!readFeatureAvailability(getWorkspaceService().db, "vendors", workspace.role, workspace).available)
+      throw new PaymentError("Vendor belum tersedia untuk akun ini.", 403);
     const body = await readBoundedJson(req, 8192);
     return jsonResponse({
       order: new MarketplaceCatalog(getWorkspaceService().db).request(
@@ -50,3 +56,4 @@ export async function PATCH(req: Request) {
     return handlePaymentApiError(e);
   }
 }
+

@@ -1,4 +1,4 @@
-import "server-only";
+﻿import "server-only";
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import type { CustomerWorkspace, CustomerProfile } from "@/features/customer-workspace/types";
@@ -8,10 +8,22 @@ import { PaymentError } from "@/server/payments/errors";
 import { workspaceOwnerSide } from "./couple-side";
 import { partnerAccess } from "./partner-access";
 import { profilePhotoUrls } from "./profile-photo-storage";
+import { initializeTaskMaintenance } from "./task-maintenance";
+import { initializePlanningMaintenance } from "./planning-maintenance";
+import { initializeDashboardCards } from "./dashboard-cards";
+import { initializeFeatureAvailability } from "./feature-availability";
+import { initializeRollouts } from "./feature-rollout";
+import { initializeAdminMembership } from "./admin-membership";
 
 export class WorkspaceService {
   constructor(readonly db: DatabaseSync) {
     initializeWorkspaceSchema(db);
+    initializeTaskMaintenance(db);
+    initializePlanningMaintenance(db);
+    initializeDashboardCards(db);
+    initializeFeatureAvailability(db);
+    initializeRollouts(db);
+    initializeAdminMembership(db);
   }
 
   getOrCreateWorkspace(account: string): CustomerWorkspace {
@@ -101,3 +113,4 @@ export class WorkspaceService {
     return { ...this.getOrCreateWorkspace(String(row["owner"])), role: "partner" as const };
   }
 }
+

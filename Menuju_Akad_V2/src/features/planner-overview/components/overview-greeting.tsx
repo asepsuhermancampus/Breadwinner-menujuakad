@@ -10,6 +10,7 @@ type Props = {
   eventDetail: string;
   readinessPercent: number | null;
   readinessLabel: string;
+  tasksAvailable?: boolean;
 };
 
 export function OverviewGreeting({
@@ -19,6 +20,7 @@ export function OverviewGreeting({
   eventDetail,
   readinessPercent,
   readinessLabel,
+  tasksAvailable = true,
 }: Props) {
   return (
     <section className={styles.greetingCard} aria-labelledby="greeting-title">
@@ -53,12 +55,14 @@ export function OverviewGreeting({
             {readinessPercent === null ? "—" : `${readinessPercent}%`}
           </span>
           <span className="text-xs text-secondary">{readinessLabel}</span>
-          <Link
-            href="/planner/tasks"
-            className="mt-2 block text-xs font-medium text-brand-secondary hover:underline"
-          >
-            Lihat rincian kesiapan →
-          </Link>
+          {tasksAvailable && (
+            <Link
+              href="/planner/tasks"
+              className="mt-2 block text-xs font-medium text-brand-secondary hover:underline"
+            >
+              Lihat rincian kesiapan →
+            </Link>
+          )}
         </div>
       </div>
     </section>

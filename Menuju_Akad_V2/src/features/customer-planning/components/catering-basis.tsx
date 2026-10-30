@@ -5,6 +5,7 @@ import type { CateringEstimate } from "./use-catering-estimate";
 import styles from "./catering-basis.module.css";
 import layout from "./catering-basis-layout.module.css";
 import { integerValue } from "@/lib/integer-input";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
 const number = (value: number) => value.toLocaleString("id-ID");
 export function CateringBasis({
   estimate,
@@ -16,6 +17,7 @@ export function CateringBasis({
   guestsLoading: boolean;
 }) {
   const { input, manual, setInput, result, automatic, setUseGuests, summary } = estimate;
+  const guestsAvailable = useFeatureAvailability()?.guests === true;
   function field(key: keyof typeof manual, label: string, hint: string) {
     return (
       <Field
@@ -82,9 +84,11 @@ export function CateringBasis({
             {field("multiplier", "Orang per undangan", "Contoh: 2 orang untuk setiap undangan.")}
           </div>
         )}
-        <Link href="/planner/guests" className={styles.guestLink}>
-          Kelola daftar tamu →
-        </Link>
+        {guestsAvailable && (
+          <Link href="/planner/guests" className={styles.guestLink}>
+            Kelola daftar tamu →
+          </Link>
+        )}
       </div>
       <div className={styles.step} data-catering-step>
         <h3>

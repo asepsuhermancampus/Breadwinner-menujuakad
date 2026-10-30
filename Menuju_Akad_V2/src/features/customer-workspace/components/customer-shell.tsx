@@ -18,20 +18,28 @@ import { orderedCoupleIdentities } from "../domain/profile-names";
 import { CustomerFeatureLayout } from "./customer-feature-layout";
 import { CustomerNamesContext } from "./customer-names-context";
 import { defaultSideNames, sideProfileNames } from "../domain/side-profile-names";
+import { FeatureAvailabilityContext } from "./feature-availability-context";
+import { FeatureAvailabilityGate } from "./feature-availability-gate";
+import { useFeatureAvailabilityStatus } from "../hooks/use-feature-availability-status";
+import { defaultFeatureAvailability } from "../domain/feature-availability-catalog";
 export function CustomerShell({
   access,
   children,
   autoStartGuide = false,
   fullScreen = false,
+  initialFeatureUnavailable = false,
 }: {
   access: DashboardAccess;
   children: ReactNode;
   autoStartGuide?: boolean;
   fullScreen?: boolean;
+  initialFeatureUnavailable?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const [narrow, setNarrow] = useState(false);
+  const availability = useFeatureAvailabilityStatus(access);
+  const navigationAvailability = availability ?? defaultFeatureAvailability(false);
   const [event] = useEventPreference();
   const invalidated = useDashboardSession(access);
   useWorkspaceMembership(access);
@@ -39,7 +47,15 @@ export function CustomerShell({
     access.mode === "account"
       ? sideProfileNames(access.workspace.profile, access.workspace.ownerSide)
       : defaultSideNames;
-  const content = <CustomerNamesContext value={sideNames}>{children}</CustomerNamesContext>;
+  const content = (
+    <FeatureAvailabilityContext value={availability}>
+      <CustomerNamesContext value={sideNames}>
+        <FeatureAvailabilityGate initiallyUnavailable={initialFeatureUnavailable}>
+          {children}
+        </FeatureAvailabilityGate>
+      </CustomerNamesContext>
+    </FeatureAvailabilityContext>
+  );
   const identities = orderedCoupleIdentities(access.workspace.profile, access.workspace.ownerSide);
   useEffect(() => {
     const query = matchMedia("(min-width: 768px) and (max-width: 1023px)");
@@ -77,6 +93,7 @@ export function CustomerShell({
       >
         <div className={styles.dockRegion}>
           <CustomerSidebar
+            availability={navigationAvailability}
             compact={compact || narrow}
             toggle={() => {
               setCompact(!(compact || narrow));
@@ -86,6 +103,7 @@ export function CustomerShell({
         </div>
         <div data-app-canvas className={styles.canvas}>
           <WorkspaceHeader
+            availability={navigationAvailability}
             onOpenMenu={() => setOpen(true)}
             name={identities[0]?.name || "Ruang kalian"}
             partnerName={identities[1]?.name || null}
@@ -94,13 +112,22 @@ export function CustomerShell({
             plan={getPlan(access.workspace.subscription.planId).label}
           />
           <main id="main-content" tabIndex={-1} className={cn("app-scroll", styles.body)}>
-            <CustomerFeatureLayout>
+            <CustomerFeatureLayout availability={navigationAvailability}>
               {access.mode === "guest" ? <TrialProvider>{content}</TrialProvider> : content}
             </CustomerFeatureLayout>
           </main>
         </div>
-        <Dialog open={open} onClose={() => setOpen(false)} title="Ruang rencana kalian" side>
-          <CustomerSidebar close={() => setOpen(false)} mobile />
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Ruang rencana kalian"
+          side
+        >
+          <CustomerSidebar
+            close={() => setOpen(false)}
+            mobile
+            availability={navigationAvailability}
+          />
         </Dialog>
         {access.mode === "account" && access.workspace.role === "owner" && (
           <SubscriptionExperience key={access.workspace.id} autoStart={autoStartGuide} />

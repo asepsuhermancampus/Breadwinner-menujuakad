@@ -12,9 +12,12 @@ import type { CustomerBudget } from "../types/customer-budget";
 import { CustomerFinance } from "./customer-finance";
 
 import type { FinanceConnection } from "../types/finance-connection";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
+import { restrictFinanceSnapshot } from "../domain/expense-visibility";
 
 export function AccountFinanceWorkspace({ workspaceId }: { workspaceId: string }) {
   const connection = useAccountFinance(workspaceId);
+  const availability = useFeatureAvailability();
   const router = useRouter();
   if (!connection.snapshot)
     return connection.error ? (
@@ -27,26 +30,39 @@ export function AccountFinanceWorkspace({ workspaceId }: { workspaceId: string }
     ) : (
       <PageSkeleton variant="cards" label="Memuat tabungan dan anggaran" />
     );
+  const snapshot = restrictFinanceSnapshot(connection.snapshot, [
+    ...(availability?.seserahan === true ? [] : ["seserahan" as const]),
+    ...(availability?.catering === true ? [] : ["catering" as const]),
+  ]);
   return (
-    <CustomerFinance
-      initial={connection.snapshot.budgets}
-      onChange={(budgets) => connection.command({ type: "save-budgets", budgets })}
-      finance={{
-        ...connection,
-        snapshot: connection.snapshot,
-        trial: false,
-        command: async (action) => {
-          const ok = await connection.command(action);
-          if (ok && action.type === "claim") router.refresh();
-          return ok;
-        },
-      }}
-    />
+    <>
+      {snapshot.hiddenActivity && (
+        <p role="status">
+          Sebagian rincian anggaran dan riwayat disembunyikan. Saldo tetap mencakup seluruh
+          transaksi.
+        </p>
+      )}
+      <CustomerFinance
+        initial={snapshot.budgets}
+        onChange={(budgets) => connection.command({ type: "save-budgets", budgets })}
+        finance={{
+          ...connection,
+          snapshot,
+          trial: false,
+          command: async (action) => {
+            const ok = await connection.command(action);
+            if (ok && action.type === "claim") router.refresh();
+            return ok;
+          },
+        }}
+      />
+    </>
   );
 }
 
 export function TrialFinanceWorkspace() {
   const trial = useTrial();
+  const availability = useFeatureAvailability();
   const [pending, setPending] = useState(false);
   const busy = useRef(false);
   if (!trial?.snapshot)
@@ -59,10 +75,16 @@ export function TrialFinanceWorkspace() {
     );
   const book =
     (trial.snapshot.resources.savings?.[0] as FinanceBook | undefined) ?? emptyFinanceBook();
-  const snapshot = financeSnapshot(
-    book,
-    (trial.snapshot.resources.finance ?? []) as CustomerBudget[],
-    "trial-customer",
+  const snapshot = restrictFinanceSnapshot(
+    financeSnapshot(
+      book,
+      (trial.snapshot.resources.finance ?? []) as CustomerBudget[],
+      "trial-customer",
+    ),
+    [
+      ...(availability?.seserahan === true ? [] : ["seserahan" as const]),
+      ...(availability?.catering === true ? [] : ["catering" as const]),
+    ],
   );
   const command = async (action: FinanceCommand) => {
     if (busy.current) return false;
@@ -88,10 +110,18 @@ export function TrialFinanceWorkspace() {
     consumeExport: trial.consumeExport,
   };
   return (
-    <CustomerFinance
-      initial={snapshot.budgets}
-      onChange={(budgets) => command({ type: "save-budgets", budgets })}
-      finance={finance}
-    />
+    <>
+      {snapshot.hiddenActivity && (
+        <p role="status">
+          Sebagian rincian anggaran dan riwayat disembunyikan. Saldo tetap mencakup seluruh
+          transaksi.
+        </p>
+      )}
+      <CustomerFinance
+        initial={snapshot.budgets}
+        onChange={(budgets) => command({ type: "save-budgets", budgets })}
+        finance={finance}
+      />
+    </>
   );
 }

@@ -21,7 +21,11 @@ export function LiveOperationsShell({
     { label: "Notifikasi & Helpdesk", icon: "mail", view: "/admin#bantuan" },
     { label: "Permintaan Pelanggan", icon: "orders", view: "/admin#permintaan" },
     ...(superadmin
-      ? [{ label: "CMS & Konten", icon: "file-text", view: "/superadmin/reviews" }]
+      ? [
+          { label: "CMS & Konten", icon: "file-text", view: "/superadmin/reviews" },
+          { label: "Fitur & pemeliharaan", icon: "settings", view: "/superadmin/features" },
+          { label: "Pengguna", icon: "users", view: "/superadmin/accounts" },
+        ]
       : []),
     { label: "Keamanan Akun", icon: "shield", view: "/account/security" },
   ];

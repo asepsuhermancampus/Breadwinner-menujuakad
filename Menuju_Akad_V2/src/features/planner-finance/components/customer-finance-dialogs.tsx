@@ -6,6 +6,8 @@ import type { FinanceConnection } from "../types/finance-connection";
 import { CustomerBudgetForm } from "./customer-budget-form";
 import { BudgetFundingDialog } from "./budget-funding-dialog";
 import layout from "./customer-finance.module.css";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
+import { isHiddenBudget } from "../domain/expense-visibility";
 const money = (value: number) => `Rp ${value.toLocaleString("id-ID")}`;
 export function CustomerFinanceDialogs({
   state,
@@ -14,6 +16,11 @@ export function CustomerFinanceDialogs({
   state: ReturnType<typeof useCustomerFinance>;
   finance: FinanceConnection | undefined;
 }) {
+  const availability = useFeatureAvailability();
+  const restricted = [
+    ...(availability?.seserahan === true ? [] : ["seserahan" as const]),
+    ...(availability?.catering === true ? [] : ["catering" as const]),
+  ];
   const {
     editor,
     setEditor,
@@ -32,6 +39,7 @@ export function CustomerFinanceDialogs({
     <>
       {editor && (
         <CustomerBudgetForm
+          open={!editor.item || !isHiddenBudget(editor.item, restricted)}
           item={editor.item}
           mode={editor.mode}
           pending={pending}
@@ -50,7 +58,7 @@ export function CustomerFinanceDialogs({
       )}
       {deleting && (
         <Dialog
-          open
+          open={!isHiddenBudget(deleting, restricted)}
           title="Hapus anggaran?"
           onClose={() => {
             if (!pending) {
@@ -93,6 +101,7 @@ export function CustomerFinanceDialogs({
       )}
       {funding && finance && (
         <BudgetFundingDialog
+          open={!isHiddenBudget(funding.item, restricted)}
           item={funding.item}
           complete={funding.complete}
           snapshot={finance.snapshot}

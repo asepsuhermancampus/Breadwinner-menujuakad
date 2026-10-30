@@ -79,7 +79,7 @@ export function DocumentChecklistScreen({
           <div className={styles.actions}>
             <Button disabled={pending} onClick={() => setManual(true)}>
               <Icon name="plus" size={16} />
-              Mulai berkas utama
+              Pilih dokumen
             </Button>
             <DocumentExportButton items={items} disabled={pending} />
           </div>
@@ -96,7 +96,7 @@ export function DocumentChecklistScreen({
             <Icon name="documents" size={34} />
             <h2>Belum ada berkas di checklist kalian</h2>
             <p>
-              Pilih berkas secara manual melalui Mulai berkas utama, atau gunakan template untuk
+              Pilih berkas secara manual melalui Pilih dokumen, atau gunakan template untuk
               menyiapkan daftar sesuai kebutuhan kalian.
             </p>
             <Button variant="secondary" onClick={() => setView("templates")}>

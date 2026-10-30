@@ -12,6 +12,22 @@ it("keeps every grouped destination reachable as tabs with the correct parent ac
     }
   }
 });
+it("exposes seserahan and moodboard as separate customer destinations", () => {
+  const items = customerNavigation.flatMap((group) => group.items);
+  expect(items.find((item) => item.href === "/planner/seserahan")?.label).toBe("Seserahan");
+  expect(items.find((item) => item.href === "/planner/moodboard")?.label).toBe(
+    "Inspirasi & moodboard",
+  );
+  expect(customerNavigationActive("/planner/seserahan", "/planner/moodboard")).toBe(false);
+});
+it("offers the vendor catalog and saved vendors directly in customer navigation", () => {
+  const vendor = customerNavigation
+    .flatMap((group) => group.items)
+    .find((item) => item.href === "/marketplace");
+  expect(vendor?.label).toBe("Cari vendor");
+  expect(vendor?.children?.some((item) => item.href === "/marketplace/favorites")).toBe(true);
+  expect(customerNavigationActive("/marketplace", "/marketplace/favorites")).toBe(true);
+});
 it("matches vendor details without stealing orders or unrelated sidebar selections", () => {
   expect(customerFeatureGroup("/marketplace/vendor/test")?.href).toBe("/marketplace");
   expect(customerNavigationActive("/marketplace", "/marketplace/bundles")).toBe(false);

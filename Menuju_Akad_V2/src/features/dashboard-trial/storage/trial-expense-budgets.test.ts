@@ -2,7 +2,9 @@ import { expect, it } from "vitest";
 import { createTrialStore, TRIAL_KEY } from "./trial-store";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { FinanceBook, FinanceCommand } from "@/features/planner-finance/types/finance-ledger";
-function setup() {
+function setup(
+  checkExpenseSources?: (sources: ("catering" | "seserahan")[]) => Promise<string | null>,
+) {
   const data = new Map<string, string>();
   const store = createTrialStore({
     storage: {
@@ -12,6 +14,7 @@ function setup() {
       },
     },
     lock: async (run) => run(),
+    checkExpenseSources,
   });
   let counter = 0;
   const run = (command: FinanceCommand) =>
@@ -30,6 +33,17 @@ const menu = {
   mode: "package",
   pricing: "total",
 };
+it("keeps the source and budget when a linked feature is under maintenance", async () => {
+  const { store, run } = setup(async (sources) =>
+    sources.includes("catering") ? "Fitur terkait sedang dalam pemeliharaan." : null,
+  );
+  expect((await store.commit("catering", [menu], 0)).ok).toBe(true);
+  const before = store.read();
+  const budget = before.resources.finance![0] as CustomerBudget;
+  const result = await run({ type: "delete-budget", budgetId: budget.id });
+  expect(result.ok).toBe(false);
+  expect(store.read()).toEqual(before);
+});
 it("atomically links trial catering and uses only the catering trial quota", async () => {
   const { store, run } = setup();
   expect((await store.commit("catering", [menu], 0)).ok).toBe(true);

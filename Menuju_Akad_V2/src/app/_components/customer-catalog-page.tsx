@@ -1,4 +1,4 @@
-import { CatalogRequests } from "@/features/marketplace/components/catalog-requests";
+﻿import { CatalogRequests } from "@/features/marketplace/components/catalog-requests";
 import { notFound } from "next/navigation";
 import { auth } from "@/server/auth";
 import { isOperator } from "@/server/identity/policy";
@@ -7,6 +7,7 @@ import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { AccountCatalog, TrialCatalog } from "@/features/marketplace/components/catalog-adapters";
 import { dashboardContext } from "./dashboard-context";
+import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
 export async function CustomerCatalogPage({
   favorites = false,
   vendorId,
@@ -16,6 +17,15 @@ export async function CustomerCatalogPage({
 }) {
   const access = await dashboardContext(),
     session = access.mode === "account" ? await auth() : null;
+  const audience = access.mode === "guest" ? "guest" : access.workspace.role;
+  const unavailable = !readFeatureAvailability(getWorkspaceService().db, "vendors", audience, access.mode === "guest" ? null : access.workspace)
+    .available;
+  if (unavailable)
+    return (
+      <CustomerShell access={access} initialFeatureUnavailable>
+        <p role="status">Vendor belum tersedia untuk kelompok ini.</p>
+      </CustomerShell>
+    );
   const all = new MarketplaceCatalog(getWorkspaceService().db).list(),
     vendors = vendorId ? all.filter((v) => v.id === vendorId) : all;
   if (vendorId && vendors.length === 0) notFound();
@@ -33,3 +43,4 @@ export async function CustomerCatalogPage({
     </CustomerShell>
   );
 }
+

@@ -12,6 +12,7 @@ import { InvitationEditor, type BasicInvitation } from "./invitation-editor";
 import { CustomerInvitationCard } from "./customer-invitation-card";
 import styles from "./customer-invitations.module.css";
 import { LockedInvitationFeatures } from "./locked-invitation-features";
+import { useFeatureAvailability } from "./feature-availability-context";
 type State = {
   data: unknown[] | null;
   error: string;
@@ -19,24 +20,41 @@ type State = {
   save: (data: unknown[]) => Promise<boolean>;
   revision: number;
 };
-export function CustomerInvitations({ workspace }: { workspace: CustomerWorkspace }) {
+export function CustomerInvitations({
+  workspace,
+  studioAvailable = true,
+}: {
+  workspace: CustomerWorkspace;
+  studioAvailable?: boolean;
+}) {
   const state = useCustomerResource("invitations", workspace.id);
-  return <Invitations workspace={workspace} state={state} />;
+  return <Invitations workspace={workspace} state={state} studioAvailable={studioAvailable} />;
 }
-export function TrialInvitations({ workspace }: { workspace: CustomerWorkspace }) {
+export function TrialInvitations({
+  workspace,
+  studioAvailable = true,
+}: {
+  workspace: CustomerWorkspace;
+  studioAvailable?: boolean;
+}) {
   const state = useTrialResource("invitations");
-  return <Invitations workspace={workspace} state={state} trial />;
+  return (
+    <Invitations workspace={workspace} state={state} trial studioAvailable={studioAvailable} />
+  );
 }
 function Invitations({
   workspace,
   state,
   trial = false,
+  studioAvailable,
 }: {
   workspace: CustomerWorkspace;
   state: State;
   trial?: boolean;
+  studioAvailable: boolean;
 }) {
   const [creating, setCreating] = useState<BasicInvitation | null>(null);
+  const effectiveStudio = useFeatureAvailability()?.["studio-drafts"] ?? studioAvailable;
   const current = state.data as BasicInvitation[] | null;
   const premium = trial || workspace.subscription.capabilities.includes("premium-templates"),
     multi = trial || workspace.subscription.capabilities.includes("multi-invitation");
@@ -94,7 +112,7 @@ function Invitations({
           />
         </section>
       )}
-      {premium && (
+      {premium && effectiveStudio && (
         <Link
           id="feature-studio"
           href="/planner/invitations/studio"
@@ -105,7 +123,7 @@ function Invitations({
       )}
       {!multi && (
         <p className="text-sm text-secondary">
-          Satu undangan aktif. Lifetime menyediakan multi-undangan.
+          Paket ini dapat membuat 1 undangan. Untuk membuat beberapa undangan, lihat paket Lifetime.
         </p>
       )}
       {state.error ? (
@@ -124,6 +142,7 @@ function Invitations({
             item={item}
             workspaceId={workspace.id}
             premium={premium}
+            studioAvailable={effectiveStudio}
             trial={trial}
             save={(next) => state.save(current.map((n) => (n.id === item.id ? next : n)))}
             remove={() => state.save(current.filter((n) => n.id !== item.id))}
@@ -141,7 +160,7 @@ function Invitations({
       <div id="feature-multi-invitation" tabIndex={-1} className="text-sm text-secondary">
         {multi
           ? "Multi-undangan sudah terbuka; setiap acara mempunyai undangan tersendiri."
-          : "Upgrade Lifetime untuk beberapa undangan."}
+          : "Lihat paket Lifetime untuk membuat beberapa undangan."}
       </div>
       {(!premium || !multi) && <LockedInvitationFeatures premium={premium} multi={multi} />}
     </section>

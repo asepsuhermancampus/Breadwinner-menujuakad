@@ -16,6 +16,7 @@ export function BudgetFundingDialog({
   error,
   onClose,
   onConfirm,
+  open = true,
 }: {
   item: CustomerBudget;
   complete: boolean;
@@ -24,6 +25,7 @@ export function BudgetFundingDialog({
   error: string;
   onClose: () => void;
   onConfirm: (side: SavingsSide) => Promise<void>;
+  open?: boolean;
 }) {
   const [side, setSide] = useState<SavingsSide>(snapshot.actorSide ?? "groom");
   const allocation = snapshot.allocations.find((value) => value.budgetId === item.id);
@@ -31,7 +33,7 @@ export function BudgetFundingDialog({
   const enough = amount > 0 && snapshot.balances[side] >= amount;
   return (
     <Dialog
-      open
+      open={open}
       title={complete ? "Gunakan tabungan untuk anggaran" : "Batalkan alokasi anggaran?"}
       onClose={() => !pending && onClose()}
     >

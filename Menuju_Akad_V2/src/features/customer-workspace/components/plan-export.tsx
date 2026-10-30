@@ -5,13 +5,38 @@ import { PageHeading } from "@/components/ui/page-heading";
 import { CardOrnament } from "@/components/ui/card-ornament";
 import { WeddingKitPreview } from "@/features/wedding-kit/components/wedding-kit-preview";
 import styles from "@/features/wedding-kit/components/wedding-kit.module.css";
+import { useFeatureAvailability } from "./feature-availability-context";
 const sections = ["Daftar tamu", "Tugas & persiapan", "Ringkasan dokumen", "Anggaran acara"];
-export function PlanExport({ showHeading = true }: { showHeading?: boolean }) {
+export function PlanExport({
+  showHeading = true,
+  tasksAvailable = true,
+  documentsAvailable = true,
+  guestsAvailable = true,
+  financeAvailable = true,
+}: {
+  showHeading?: boolean;
+  tasksAvailable?: boolean;
+  documentsAvailable?: boolean;
+  guestsAvailable?: boolean;
+  financeAvailable?: boolean;
+}) {
+  const latest = useFeatureAvailability();
+  const effectiveTasks = latest?.tasks ?? tasksAvailable;
+  const effectiveDocuments = latest?.documents ?? documentsAvailable;
+  const effectiveGuests = latest?.guests ?? guestsAvailable;
+  const effectiveFinance = latest?.finance ?? financeAvailable;
+  const visibleSections = sections.filter(
+    (label) =>
+      (effectiveTasks || label !== "Tugas & persiapan") &&
+      (effectiveGuests || label !== "Daftar tamu") &&
+      (effectiveFinance || label !== "Anggaran acara") &&
+      (effectiveDocuments || label !== "Ringkasan dokumen"),
+  );
   return (
     <section id="feature-pdf" tabIndex={-1} className="space-y-6">
       {showHeading && (
         <PageHeading
-          title="Wedding Kit"
+          title="Ringkasan untuk dibagikan"
           description="Ringkasan praktis untuk keluarga, PIC, dan vendor. Siap dibagikan atau dicetak."
         />
       )}
@@ -20,7 +45,7 @@ export function PlanExport({ showHeading = true }: { showHeading?: boolean }) {
           <CardOrnament variant={2} />
           <h2 className="text-lg font-semibold">Bagian dalam dokumen kalian</h2>
           <div className="grid gap-3">
-            {sections.map((label) => (
+            {visibleSections.map((label) => (
               <div key={label} className={styles.sectionItem}>
                 <span className="text-sm">{label}</span>
                 <Icon name="check" size={18} />
@@ -43,7 +68,7 @@ export function PlanExport({ showHeading = true }: { showHeading?: boolean }) {
           </p>
         </section>
         <WeddingKitPreview
-          sections={sections}
+          sections={visibleSections}
           footer="Buka dokumen cetak untuk melihat seluruh data terbaru."
         />
       </div>

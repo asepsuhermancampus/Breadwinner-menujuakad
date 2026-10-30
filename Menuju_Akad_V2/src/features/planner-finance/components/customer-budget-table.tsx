@@ -7,6 +7,8 @@ import type { BudgetFilters } from "../domain/customer-budget";
 import { createBudgetTableCells } from "./customer-budget-cells";
 import type { CustomerBudget } from "../types/customer-budget";
 import styles from "./customer-budget-table.module.css";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
+import { isHiddenBudget } from "../domain/expense-visibility";
 type Props = {
   items: CustomerBudget[];
   pending: boolean;
@@ -45,6 +47,11 @@ export function CustomerBudgetTable({
   purposes,
 }: Props) {
   const [description, setDescription] = useState<CustomerBudget | null>(null);
+  const availability = useFeatureAvailability();
+  const restricted = [
+    ...(availability?.seserahan === true ? [] : ["seserahan" as const]),
+    ...(availability?.catering === true ? [] : ["catering" as const]),
+  ];
   const { renderDescription, renderStatus, renderActions, renderPriority } = createBudgetTableCells(
     { pending, allocationMode, edit, remove, onStatusChange },
     setDescription,
@@ -137,7 +144,11 @@ export function CustomerBudgetTable({
           </table>
         </div>
       </div>
-      <BudgetDescriptionDialog item={description} close={() => setDescription(null)} />
+      <BudgetDescriptionDialog
+        item={description}
+        available={!description || !isHiddenBudget(description, restricted)}
+        close={() => setDescription(null)}
+      />
     </div>
   );
 }

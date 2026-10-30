@@ -26,7 +26,7 @@ export const accountTabs = [
   {
     id: "support",
     href: "/account/support",
-    label: "Prioritas bantuan",
+    label: "Bantuan",
     description: "Hubungi tim bantuan dan pantau permintaan dari ruang kalian.",
   },
 ] as const;

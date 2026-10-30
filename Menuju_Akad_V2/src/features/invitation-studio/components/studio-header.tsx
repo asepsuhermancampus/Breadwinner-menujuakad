@@ -21,6 +21,7 @@ type Props = {
   onPreview: () => void;
   onSettings: () => void;
   onExit: () => void;
+  invitationsAvailable?: boolean;
 };
 export function StudioHeader({
   editor,
@@ -35,6 +36,7 @@ export function StudioHeader({
   onPreview,
   onSettings,
   onExit,
+  invitationsAvailable = true,
 }: Props) {
   const { state, dispatch } = editor;
   const [renaming, setRenaming] = useState(false);
@@ -71,11 +73,11 @@ export function StudioHeader({
         )}
         <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
           <PageHeading
-            title="Studio Undangan"
+            title="Undangan digital"
             description="Sesuaikan isi dan tampilan undangan, periksa pratinjau, lalu review sebelum menerbitkan. Gunakan Simpan draf trial saat memakai mode percobaan."
             headingClassName="text-sm font-semibold text-brand-secondary"
           />
-          <StudioNavigation onExit={onExit} />
+          <StudioNavigation onExit={onExit} invitationsAvailable={invitationsAvailable} />
           {renaming ? (
             <input
               aria-label="Nama proyek"

@@ -38,11 +38,11 @@ export function Catalog({
           title={
             orderPage
               ? pathname === "/checkout/services"
-                ? "Checkout jasa"
+                ? "Katalog jasa"
                 : "Rangkai paket"
               : favorites
-                ? "Vendor pilihan"
-                : "Marketplace vendor"
+                ? "Vendor tersimpan"
+                : "Semua vendor"
           }
           description={
             orderPage

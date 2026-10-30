@@ -21,7 +21,7 @@ for (const width of [375, 1600]) {
       page.getByRole("heading", { name: "Belum ada berkas di checklist kalian", exact: true }),
     ).toBeVisible();
     await expect(page.getByRole("region", { name: "Berkas wajib", exact: true })).toHaveCount(0);
-    const start = page.getByRole("button", { name: "Mulai berkas utama", exact: true });
+    const start = page.getByRole("button", { name: "Pilih dokumen", exact: true });
     const exportButton = page.getByRole("button", { name: "Export berkas", exact: true });
     await expect(exportButton).toBeDisabled();
     if (width > 1000) {

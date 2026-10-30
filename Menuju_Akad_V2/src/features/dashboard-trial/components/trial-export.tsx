@@ -8,6 +8,10 @@ import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { CardOrnament } from "@/components/ui/card-ornament";
 import { WeddingKitPreview } from "@/features/wedding-kit/components/wedding-kit-preview";
 import styles from "@/features/wedding-kit/components/wedding-kit.module.css";
+import { readTrialReportAvailability } from "../domain/report-availability";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
+import { isHiddenBudget } from "@/features/planner-finance/domain/expense-visibility";
+import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 const sections = [
   ["guests", "Daftar tamu"],
   ["tasks", "Tugas & persiapan"],
@@ -19,10 +23,42 @@ const sections = [
   ["emergency", "Perlengkapan darurat"],
   ["catering", "Katering"],
 ] as const;
-export function TrialExport({ showHeading = true }: { showHeading?: boolean }) {
+export function TrialExport({
+  showHeading = true,
+  tasksAvailable = true,
+  emergencyAvailable = true,
+  calendarAvailable = true,
+  documentsAvailable = true,
+  rundownAvailable = true,
+  guestsAvailable = true,
+  financeAvailable = true,
+  seserahanAvailable = true,
+  cateringAvailable = true,
+}: {
+  showHeading?: boolean;
+  tasksAvailable?: boolean;
+  emergencyAvailable?: boolean;
+  calendarAvailable?: boolean;
+  documentsAvailable?: boolean;
+  rundownAvailable?: boolean;
+  guestsAvailable?: boolean;
+  financeAvailable?: boolean;
+  seserahanAvailable?: boolean;
+  cateringAvailable?: boolean;
+}) {
   const trial = useTrial(),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const latest = useFeatureAvailability();
+  const effectiveTasks = latest?.tasks ?? tasksAvailable;
+  const effectiveEmergency = latest?.emergency ?? emergencyAvailable;
+  const effectiveCalendar = latest?.calendar ?? calendarAvailable;
+  const effectiveDocuments = latest?.documents ?? documentsAvailable;
+  const effectiveRundown = latest?.rundown ?? rundownAvailable;
+  const effectiveGuests = latest?.guests ?? guestsAvailable;
+  const effectiveFinance = latest?.finance ?? financeAvailable;
+  const effectiveSeserahan = latest?.seserahan ?? seserahanAvailable;
+  const effectiveCatering = latest?.catering ?? cateringAvailable;
   async function open(exporting = false) {
     if (!trial?.snapshot || busy) return;
     const tab = window.open("about:blank", "_blank");
@@ -33,7 +69,24 @@ export function TrialExport({ showHeading = true }: { showHeading?: boolean }) {
     tab.opener = null;
     setBusy(true);
     try {
-      const html = trialReport(trial.snapshot);
+      const status = await readTrialReportAvailability();
+      if ("error" in status) {
+        tab.close();
+        setError(status.error);
+        return;
+      }
+      const html = trialReport(
+        trial.snapshot,
+        status.tasks,
+        status.emergency,
+        status.calendar,
+        status.documents,
+        status.rundown,
+        status.guests,
+        status.finance,
+        status.seserahan,
+        status.catering,
+      );
       tab.document.open();
       tab.document.write(html);
       tab.document.close();
@@ -74,17 +127,36 @@ export function TrialExport({ showHeading = true }: { showHeading?: boolean }) {
               Dokumen berisi rencana yang kalian simpan di browser ini.
             </p>
             <div className="grid gap-2">
-              {sections.map(([key, label]) => (
-                <div key={key} className={styles.sectionItem}>
-                  <span className="text-sm">{label}</span>
-                  <span className="font-mono text-xs text-secondary">
-                    {trial?.snapshot?.resources[key]?.filter(
-                      (row) => key !== "documents" || !(row as { archived?: boolean }).archived,
-                    ).length ?? 0}{" "}
-                    data
-                  </span>
-                </div>
-              ))}
+              {sections
+                .filter(
+                  ([key]) =>
+                    (effectiveTasks || key !== "tasks") &&
+                    (effectiveEmergency || key !== "emergency") &&
+                    (effectiveCalendar || key !== "calendar") &&
+                    (effectiveDocuments || key !== "documents") &&
+                    (effectiveGuests || key !== "guests") &&
+                    (effectiveFinance || key !== "finance") &&
+                    (effectiveSeserahan || key !== "seserahan") &&
+                    (effectiveCatering || key !== "catering") &&
+                    (effectiveRundown || key !== "rundown"),
+                )
+                .map(([key, label]) => (
+                  <div key={key} className={styles.sectionItem}>
+                    <span className="text-sm">{label}</span>
+                    <span className="font-mono text-xs text-secondary">
+                      {trial?.snapshot?.resources[key]?.filter(
+                        (row) =>
+                          (key !== "documents" || !(row as { archived?: boolean }).archived) &&
+                          (key !== "finance" ||
+                            !isHiddenBudget(row as CustomerBudget, [
+                              ...(!effectiveSeserahan ? ["seserahan" as const] : []),
+                              ...(!effectiveCatering ? ["catering" as const] : []),
+                            ])),
+                      ).length ?? 0}{" "}
+                      data
+                    </span>
+                  </div>
+                ))}
             </div>
             <p className="rounded-control bg-ux-dock p-4 text-xs leading-relaxed text-secondary">
               Sisa {5 - (trial?.snapshot?.used.pdf ?? 0)} dari 5 ekspor. Gunakan Cetak pada tab
@@ -103,7 +175,20 @@ export function TrialExport({ showHeading = true }: { showHeading?: boolean }) {
             {error && <p role="alert">{error}</p>}
           </section>
           <WeddingKitPreview
-            sections={sections.map(([, label]) => label)}
+            sections={sections
+              .filter(
+                ([key]) =>
+                  (effectiveTasks || key !== "tasks") &&
+                  (effectiveEmergency || key !== "emergency") &&
+                  (effectiveCalendar || key !== "calendar") &&
+                  (effectiveDocuments || key !== "documents") &&
+                  (effectiveGuests || key !== "guests") &&
+                  (effectiveFinance || key !== "finance") &&
+                  (effectiveSeserahan || key !== "seserahan") &&
+                  (effectiveCatering || key !== "catering") &&
+                  (effectiveRundown || key !== "rundown"),
+              )
+              .map(([, label]) => label)}
             description="Daftar tamu, persiapan, dokumen, anggaran, dan koordinasi acara dari ruang percobaan kalian."
             footer="Buka dokumen cetak untuk melihat seluruh data terbaru. Melihat dokumen tidak mengurangi jatah ekspor."
           />

@@ -24,6 +24,8 @@ export function initializeWorkspaceSchema(db: DatabaseSync) {
     CREATE TABLE IF NOT EXISTS workspace_domains (
       workspace_id TEXT PRIMARY KEY, hostname TEXT NOT NULL UNIQUE, challenge TEXT NOT NULL,
       state TEXT NOT NULL, checked_at TEXT);
+    CREATE TABLE IF NOT EXISTS workspace_domain_verifications (
+      workspace_id TEXT PRIMARY KEY, revision INTEGER NOT NULL CHECK(revision > 0));
   `);
   const columns = new Set(
     db

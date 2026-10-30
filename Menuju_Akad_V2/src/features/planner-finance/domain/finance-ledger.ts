@@ -49,12 +49,13 @@ export function applyFinanceRequest(
   actor: FinanceActor,
   raw: FinanceRequest,
   now: string,
+  receiptFingerprint?: string,
 ): { book: FinanceBook; budgets: CustomerBudget[] } {
   actor = { ...actor, name: actor.name.trim().slice(0, 160) || "Pasangan" };
   const parsed = financeRequestSchema.safeParse(raw);
   if (!parsed.success) throw new Error("Perintah keuangan tidak valid.");
   const request = parsed.data;
-  const fingerprint = JSON.stringify(request.command);
+  const fingerprint = receiptFingerprint ?? JSON.stringify(request.command);
   const receipt = book.receipts.find((item) => item.requestId === request.requestId);
   if (receipt) {
     if (receipt.actorId !== actor.id || receipt.fingerprint !== fingerprint)

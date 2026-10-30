@@ -1,6 +1,7 @@
 import "server-only";
 import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
+import { initializeAccountAdministration } from "./account-administration";
 
 export type Account = {
   id: string;
@@ -32,6 +33,7 @@ export class Accounts {
       CREATE TABLE IF NOT EXISTS account_sessions(token TEXT PRIMARY KEY,account_id TEXT NOT NULL REFERENCES accounts(id),expires INTEGER NOT NULL);
       CREATE TABLE IF NOT EXISTS account_links(token TEXT PRIMARY KEY,account_id TEXT NOT NULL REFERENCES accounts(id),expires INTEGER NOT NULL);`);
     db.exec("CREATE TABLE IF NOT EXISTS legacy_migrations(jti TEXT PRIMARY KEY)");
+    initializeAccountAdministration(db);
     db.exec(
       "CREATE TABLE IF NOT EXISTS legacy_google(account_id TEXT PRIMARY KEY,blocked INTEGER NOT NULL DEFAULT 0)",
     );

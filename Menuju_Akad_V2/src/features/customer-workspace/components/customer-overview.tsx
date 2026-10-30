@@ -1,10 +1,6 @@
 "use client";
 import Link from "next/link";
-import {
-  useAccountOverview,
-  useGuestOverview,
-  type OverviewResources,
-} from "../hooks/use-overview-resources";
+import type { OverviewResources } from "../hooks/use-overview-resources";
 import type { CustomerWorkspace } from "../types";
 import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import { OverviewGreeting } from "@/features/planner-overview/components/overview-greeting";
@@ -16,20 +12,42 @@ import { SubscriptionReminder } from "./subscription-reminder";
 import styles from "./customer-overview.module.css";
 import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { orderedCoupleNames } from "../domain/profile-names";
-export function AccountOverview({ workspace }: { workspace: CustomerWorkspace }) {
-  return <CustomerOverview workspace={workspace} resources={useAccountOverview(workspace.id)} />;
-}
-export function GuestOverview({ workspace }: { workspace: CustomerWorkspace }) {
-  return <CustomerOverview workspace={workspace} resources={useGuestOverview()} guest />;
-}
-function CustomerOverview({
+import type { DashboardCard } from "../domain/dashboard-card-catalog";
+export type OverviewProps = {
+  workspace: CustomerWorkspace;
+  visibleCards: DashboardCard[];
+  tasksAvailable: boolean;
+  calendarAvailable: boolean;
+  documentsAvailable: boolean;
+  rundownAvailable: boolean;
+  pdfAvailable: boolean;
+  guestsAvailable: boolean;
+  financeAvailable: boolean;
+};
+export function CustomerOverview({
   workspace,
   resources,
   guest = false,
+  visibleCards,
+  tasksAvailable,
+  calendarAvailable,
+  documentsAvailable,
+  rundownAvailable,
+  pdfAvailable,
+  guestsAvailable,
+  financeAvailable,
 }: {
   workspace: CustomerWorkspace;
   resources: OverviewResources;
   guest?: boolean;
+  visibleCards: DashboardCard[];
+  tasksAvailable: boolean;
+  calendarAvailable: boolean;
+  documentsAvailable: boolean;
+  rundownAvailable: boolean;
+  pdfAvailable: boolean;
+  guestsAvailable: boolean;
+  financeAvailable: boolean;
 }) {
   const event = useCustomerEvent();
   const allTasks = (resources.tasks.data ?? []) as PlannerTask[];
@@ -41,6 +59,8 @@ function CustomerOverview({
   const readyDocuments = documents.filter((d) => d.completed).length;
   const total = tasks.length + documents.length;
   const readiness =
+    !tasksAvailable ||
+    !documentsAvailable ||
     resources.tasks.data === null ||
     resources.documents.data === null ||
     resources.tasks.error ||
@@ -87,6 +107,15 @@ function CustomerOverview({
       isMono: true,
     },
   ];
+  const visible = new Set<string>(visibleCards);
+  const visibleMetrics = metrics.filter(
+    (metric) =>
+      visible.has(metric.id) &&
+      (tasksAvailable || metric.id !== "tasks") &&
+      (documentsAvailable || metric.id !== "documents") &&
+      (guestsAvailable || metric.id !== "guests") &&
+      (financeAvailable || metric.id !== "budget"),
+  );
   return (
     <div className={styles.overview}>
       <OverviewGreeting
@@ -102,31 +131,40 @@ function CustomerOverview({
         eventDetail={`Paket ${getPlan(workspace.subscription.planId).label}`}
         readinessPercent={readiness}
         readinessLabel="Checklist & berkas siap"
+        tasksAvailable={tasksAvailable}
       />
       {error && (
         <p role="alert" className="text-sm text-danger">
           {error}
         </p>
       )}
-      <OverviewMetrics metrics={metrics} />
-      <CustomerPriorities
-        workspace={workspace}
-        tasks={tasks}
-        allTasks={allTasks}
-        resources={resources}
-        loading={loading}
-      />
-      <section className={styles.quickLinks} aria-label="Langkah perencanaan berikutnya">
-        <div>
-          <h2>Rundown tak perlu dimulai dari nol.</h2>
-          <p>Susun agenda dan pembagian tugas untuk hari istimewa kalian.</p>
-        </div>
-        <Link href="/planner/rundown">Buat draft rundown</Link>
-        <Link href="/planner/wedding-kit">Wedding Kit</Link>
-      </section>
-      <footer className={styles.activity}>
-        <Link href="/planner/tasks">+ Tugas / pengeluaran</Link>
-      </footer>
+      {visibleMetrics.length > 0 && <OverviewMetrics metrics={visibleMetrics} />}
+      {visible.has("priorities") && (
+        <CustomerPriorities
+          tasksAvailable={tasksAvailable}
+          calendarAvailable={calendarAvailable}
+          workspace={workspace}
+          tasks={tasks}
+          allTasks={allTasks}
+          resources={resources}
+          loading={loading}
+        />
+      )}
+      {visible.has("quick-links") && (
+        <section className={styles.quickLinks} aria-label="Langkah perencanaan berikutnya">
+          <div>
+            <h2>Susun acara bersama.</h2>
+            <p>Susun agenda dan pembagian tugas untuk hari istimewa kalian.</p>
+          </div>
+          {rundownAvailable && <Link href="/planner/rundown">Buka rundown</Link>}
+          {pdfAvailable && <Link href="/planner/wedding-kit">Ringkasan untuk dibagikan</Link>}
+        </section>
+      )}
+      {tasksAvailable && (
+        <footer className={styles.activity}>
+          <Link href="/planner/tasks">Lihat tugas</Link>
+        </footer>
+      )}
       {!guest && !workspace.profile.fullName && (
         <p className="text-xs text-secondary">
           Kalian sudah dapat memakai fitur paket.{" "}

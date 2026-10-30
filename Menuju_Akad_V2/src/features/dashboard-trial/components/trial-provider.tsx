@@ -12,6 +12,12 @@ import type { TrialResourceKind, TrialSnapshot } from "../types";
 import { createTrialStore, TRIAL_KEY, TRIAL_LOCK } from "../storage/trial-store";
 import { TrialNotice } from "./trial-notice";
 import type { FinanceRequest } from "@/features/planner-finance/types/finance-ledger";
+import {
+  taskAvailability,
+  planningAvailability,
+  vendorAvailability,
+} from "../domain/task-availability";
+import { isMaintainedPlanningFeature } from "@/features/customer-planning/domain/maintenance-catalog";
 type Context = {
   snapshot: TrialSnapshot | null;
   error: string;
@@ -30,6 +36,27 @@ export function TrialProvider({ children }: { children: ReactNode }) {
     try {
       store.current = createTrialStore({
         storage: localStorage,
+        restrictedExpenseSources: async () => {
+          const sources = ["seserahan", "catering"] as const;
+          const statuses = await Promise.all(sources.map((source) => planningAvailability(source)));
+          if (statuses.includes("unavailable"))
+            throw new Error(
+              "Status fitur terkait belum dapat diperiksa. Perubahan belum disimpan.",
+            );
+          return sources.filter((_, index) => statuses[index] === "disabled");
+        },
+        checkExpenseSources: async (sources) => {
+          for (const source of sources) {
+            const status = await planningAvailability(source);
+            if (status !== "active")
+              return status === "maintenance"
+                ? "Fitur terkait sedang dalam pemeliharaan. Perubahan belum disimpan."
+                : status === "disabled"
+                  ? "Fitur terkait belum tersedia. Perubahan belum disimpan."
+                  : "Status fitur terkait belum dapat diperiksa. Perubahan belum disimpan.";
+          }
+          return null;
+        },
         lock: navigator.locks
           ? async (run) => await navigator.locks.request(TRIAL_LOCK, async () => await run())
           : undefined,
@@ -62,6 +89,45 @@ export function TrialProvider({ children }: { children: ReactNode }) {
   }, []);
   const save = useCallback(async (kind: TrialResourceKind, data: unknown[], revision: number) => {
     if (!store.current) return false;
+    if (kind === "vendor-favorites" && (await vendorAvailability()) !== "active") {
+      setError(
+        "Status vendor belum tersedia atau belum dapat diperiksa. Perubahan belum disimpan.",
+      );
+      return false;
+    }
+    const maintained =
+      kind === "catering-settings" ? "catering" : kind === "savings" ? "finance" : kind;
+    if (kind === "tasks" || isMaintainedPlanningFeature(maintained)) {
+      const status =
+        kind === "tasks"
+          ? await taskAvailability()
+          : isMaintainedPlanningFeature(maintained)
+            ? await planningAvailability(maintained)
+            : "unavailable";
+      if (status !== "active") {
+        setError(
+          status === "maintenance"
+            ? `${kind === "tasks" ? "Tugas" : "Fitur ini"} sedang dalam pemeliharaan. Perubahan belum disimpan.`
+            : status === "disabled"
+              ? "Fitur ini belum tersedia untuk pengguna percobaan. Perubahan belum disimpan."
+              : "Status fitur belum dapat diperiksa. Periksa koneksi dan coba lagi; perubahan belum disimpan.",
+        );
+        return false;
+      }
+    }
+    if (kind === "catering" || kind === "seserahan") {
+      const financeStatus = await planningAvailability("finance");
+      if (financeStatus !== "active") {
+        setError(
+          financeStatus === "maintenance"
+            ? "Keuangan terkait sedang dalam pemeliharaan. Perubahan belum disimpan."
+            : financeStatus === "disabled"
+              ? "Keuangan terkait belum tersedia. Perubahan belum disimpan."
+              : "Status keuangan belum dapat diperiksa. Perubahan belum disimpan.",
+        );
+        return false;
+      }
+    }
     const result = await store.current.commit(kind, data, revision);
     if (result.ok) {
       setError("");
@@ -75,6 +141,17 @@ export function TrialProvider({ children }: { children: ReactNode }) {
   }, []);
   const finance = async (request: FinanceRequest) => {
     if (!store.current) return false;
+    const status = await planningAvailability("finance");
+    if (status !== "active") {
+      setError(
+        status === "maintenance"
+          ? "Keuangan sedang dalam pemeliharaan. Perubahan belum disimpan."
+          : status === "disabled"
+            ? "Keuangan belum tersedia. Perubahan belum disimpan."
+            : "Status keuangan belum dapat diperiksa. Perubahan belum disimpan.",
+      );
+      return false;
+    }
     const result = await store.current.finance(request);
     if (result.ok) {
       setSnapshot(result.snapshot);
@@ -88,6 +165,17 @@ export function TrialProvider({ children }: { children: ReactNode }) {
   };
   const consumeExport = async () => {
     if (!store.current || !snapshot) return false;
+    const status = await planningAvailability("pdf");
+    if (status !== "active") {
+      setError(
+        status === "maintenance"
+          ? "Ringkasan cetak sedang dalam pemeliharaan."
+          : status === "disabled"
+            ? "Ringkasan cetak belum tersedia untuk pengguna percobaan."
+            : "Status ringkasan belum dapat diperiksa. Periksa koneksi dan coba lagi.",
+      );
+      return false;
+    }
     const result = await store.current.consumeExport(snapshot.revision);
     if (result.ok) {
       setSnapshot(result.snapshot);

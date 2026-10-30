@@ -8,12 +8,13 @@ type Props = {
   item: BasicInvitation;
   workspaceId: string;
   premium: boolean;
+  studioAvailable: boolean;
   trial: boolean;
   save: (next: BasicInvitation) => Promise<boolean>;
   remove: () => Promise<boolean>;
 };
 export function CustomerInvitationCard(props: Props) {
-  const { item, workspaceId, trial, premium } = props;
+  const { item, workspaceId, trial, premium, studioAvailable } = props;
   const [editing, setEditing] = useState(false);
   return (
     <article className={styles.card} data-published={Boolean(item.published)}>
@@ -35,7 +36,7 @@ export function CustomerInvitationCard(props: Props) {
             {[item.date, item.venue].filter(Boolean).join(" · ") || "Detail acara belum dilengkapi"}
           </p>
           <div className={styles.links}>
-            {premium && (
+            {premium && studioAvailable && (
               <Link href={`/planner/invitations/studio?project=${encodeURIComponent(item.id)}`}>
                 Buka studio visual ↗
               </Link>

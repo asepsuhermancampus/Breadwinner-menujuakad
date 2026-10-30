@@ -23,9 +23,21 @@ export function Dialog({ open, onClose, title, children, side = false, className
       return;
     }
     const previous = document.activeElement;
-    if (!dialog?.open) dialog?.showModal();
+    if (!dialog) return;
+    const syncVisibility = () => {
+      if (dialog.closest("[hidden], [inert]")) {
+        if (dialog.open) dialog.close();
+      } else if (!dialog.open) {
+        dialog.showModal();
+      }
+    };
+    const observer = new MutationObserver(syncVisibility);
+    for (let ancestor = dialog.parentElement; ancestor; ancestor = ancestor.parentElement)
+      observer.observe(ancestor, { attributes: true, attributeFilter: ["hidden", "inert"] });
+    syncVisibility();
     return () => {
-      if (dialog?.open) dialog.close();
+      observer.disconnect();
+      if (dialog.open) dialog.close();
       if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
     };
   }, [open]);

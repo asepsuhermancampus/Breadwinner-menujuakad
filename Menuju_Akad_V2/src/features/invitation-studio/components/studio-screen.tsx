@@ -17,6 +17,7 @@ import { StudioMotion } from "./studio-motion";
 import { StudioResilience } from "./studio-resilience";
 import styles from "./studio.module.css";
 import { StudioDialogs, type StudioModal } from "./studio-dialogs";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
 export function StudioScreen({
   projectId = "inv-wedding-main",
   previewActive = false,
@@ -32,13 +33,14 @@ export function StudioScreen({
 }) {
   const editor = useStudioEditor(projectId, remote, workspaceId, readOnly);
   const router = useRouter();
+  const invitationsAvailable = useFeatureAvailability()?.invitations ?? true;
   const { mode, setMode, panel, setPanel, mobile, setMobile } = useStudioNavigation();
   const [selected, setSelected] = useState("couple-title");
   const [section, setSection] = useState("cover");
   const [zoom, setZoom] = useState(125);
   const [viewport, setViewport] = useState(375);
   const [modal, setModal] = useState<StudioModal>(previewActive ? "active-preview" : null);
-  const exit = () => router.push("/planner/invitations");
+  const exit = () => router.push(invitationsAvailable ? "/planner/invitations" : "/dashboard");
   if (!editor.ready)
     return (
       <main
@@ -66,6 +68,7 @@ export function StudioScreen({
     >
       <StudioHeader
         editor={editor}
+        invitationsAvailable={invitationsAvailable}
         mode={mode}
         onMode={(value) => {
           setMode(value);

@@ -18,6 +18,7 @@ export function CustomerBudgetForm({
   onClose,
   allocationMode = false,
   funded = false,
+  open = true,
 }: {
   item: CustomerBudget | undefined;
   mode: "create" | "edit" | "duplicate";
@@ -27,6 +28,7 @@ export function CustomerBudgetForm({
   onClose: () => void;
   allocationMode?: boolean;
   funded?: boolean;
+  open?: boolean;
 }) {
   const [draft, setDraft] = useState(() => createBudgetDraft(item, mode === "duplicate"));
   const categoryList = useId();
@@ -37,7 +39,7 @@ export function CustomerBudgetForm({
   }
   return (
     <Dialog
-      open
+      open={open}
       onClose={() => !pending && onClose()}
       title={
         mode === "edit"

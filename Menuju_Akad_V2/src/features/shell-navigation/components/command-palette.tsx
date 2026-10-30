@@ -6,11 +6,25 @@ import { Field } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { commands } from "../config/navigation";
+import {
+  isAvailableFeaturePath,
+  defaultFeatureAvailability,
+  type FeatureAvailability,
+} from "@/features/customer-workspace/domain/feature-availability-catalog";
 import styles from "./workspace-header.module.css";
 
-export function CommandPalette() {
+export function CommandPalette({
+  availability = defaultFeatureAvailability(true),
+}: {
+  availability?: FeatureAvailability;
+}) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const results = commands.filter(
+    (item) =>
+      isAvailableFeaturePath(item.href, availability) &&
+      item.label.toLowerCase().includes(query.toLowerCase()),
+  );
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
@@ -45,21 +59,19 @@ export function CommandPalette() {
           autoFocus
         />
         <nav aria-label="Hasil pencarian" className="mt-4 grid gap-1">
-          {commands
-            .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
-            .map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="flex min-h-11 items-center gap-3 rounded-control p-3 text-sm hover:bg-subtle"
-              >
-                <Icon name={item.icon} />
-                {item.label}
-                <Icon name="arrow-right" className="ml-auto" />
-              </Link>
-            ))}
-          {!commands.some((item) => item.label.toLowerCase().includes(query.toLowerCase())) && (
+          {results.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="flex min-h-11 items-center gap-3 rounded-control p-3 text-sm hover:bg-subtle"
+            >
+              <Icon name={item.icon} />
+              {item.label}
+              <Icon name="arrow-right" className="ml-auto" />
+            </Link>
+          ))}
+          {results.length === 0 && (
             <p role="status" className="py-6 text-sm text-secondary">
               Belum ada halaman yang cocok.
             </p>

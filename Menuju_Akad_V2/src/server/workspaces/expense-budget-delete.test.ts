@@ -3,6 +3,8 @@ import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
 import { ResourceService } from "./resource-service";
 import { FinanceService } from "./finance-service";
+import { updatePlanningMaintenance } from "./planning-maintenance";
+import { updateFeatureAvailability } from "./feature-availability";
 vi.mock("server-only", () => ({}));
 let db: PaymentDatabase, resources: ResourceService, finance: FinanceService, id: string;
 const menu = {
@@ -23,6 +25,40 @@ beforeEach(() => {
   finance = new FinanceService(service);
 });
 afterEach(() => db.close());
+it("preserves linked budgets while seserahan is restricted", () => {
+  const item = { id: "gift", title: "Sepatu", quantity: 1, unitCost: 10000 };
+  resources.writeResource("owner", "seserahan", 0, [item], id);
+  const before = finance.read("owner", id);
+  updateFeatureAvailability(db.storage(), "root", "seserahan", "owner", false, "Uji", 0);
+  expect(finance.read("owner", id).budgets).toHaveLength(0);
+  expect(() => resources.readResource("owner", "seserahan", id)).toThrow(/tersedia/i);
+  updateFeatureAvailability(db.storage(), "root", "seserahan", "owner", true, "Pulihkan", 1);
+  expect(finance.read("owner", id).budgets).toEqual(before.budgets);
+  expect(resources.readResource("owner", "seserahan", id).data).toEqual([item]);
+});
+it.each(["catering", "seserahan"] as const)(
+  "preserves %s data when a linked budget is deleted during maintenance",
+  (kind) => {
+    const item =
+      kind === "catering" ? menu : { id: "gift", title: "Sepatu", quantity: 1, unitCost: 10000 };
+    resources.writeResource("owner", kind, 0, [item], id);
+    const before = finance.read("owner", id);
+    updatePlanningMaintenance(db.storage(), "admin", kind, "maintenance", "Perbaikan", 0);
+    expect(() =>
+      finance.execute(
+        { id: "owner", name: "Owner" },
+        {
+          revision: before.revision,
+          requestId: "delete-source",
+          command: { type: "delete-budget", budgetId: before.budgets[0]!.id },
+        },
+        id,
+      ),
+    ).toThrow(/pemeliharaan/i);
+    expect(resources.readResource("owner", kind, id).data).toEqual([item]);
+    expect(finance.read("owner", id).budgets).toHaveLength(1);
+  },
+);
 it("deletes linked sources atomically, refunds allocations once and preserves other items", () => {
   resources.writeResource("owner", "catering", 0, [menu, { ...menu, id: "keep" }], id);
   let state = finance.read("owner", id);

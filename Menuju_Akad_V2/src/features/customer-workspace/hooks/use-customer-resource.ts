@@ -1,8 +1,13 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-export function useCustomerResource(kind: string, workspaceId: string) {
+export function useCustomerResource(
+  kind: string,
+  workspaceId: string,
+  enabled = true,
+  handleAvailability = false,
+) {
   const url = "/api/workspace/resources/" + kind + "?workspace=" + encodeURIComponent(workspaceId);
-  const [data, setData] = useState<unknown[] | null>(null),
+  const [data, setData] = useState<unknown[] | null>(enabled ? null : []),
     [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [version, setVersion] = useState(0);
@@ -10,10 +15,23 @@ export function useCustomerResource(kind: string, workspaceId: string) {
     saved = useRef("[]"),
     busy = useRef(false);
   useEffect(() => {
+    if (!enabled) return;
     const abort = new AbortController();
     void fetch(url, { cache: "no-store", signal: abort.signal })
       .then(async (res) => {
         const value = await res.json();
+        if (
+          handleAvailability &&
+          res.status === 403 &&
+          value.error === "Fitur belum tersedia untuk akun ini."
+        ) {
+          if (!abort.signal.aborted) {
+            setData([]);
+            setError("");
+            window.dispatchEvent(new Event("feature-availability-changed"));
+          }
+          return;
+        }
         if (!res.ok) throw new Error(value.error ?? "Data gagal dimuat");
         if (!abort.signal.aborted) {
           revision.current = value.revision;
@@ -27,9 +45,10 @@ export function useCustomerResource(kind: string, workspaceId: string) {
           setError(cause instanceof Error ? cause.message : "Data gagal dimuat");
       });
     return () => abort.abort();
-  }, [url]);
+  }, [url, enabled, handleAvailability]);
   const save = useCallback(
     async (value: unknown[]): Promise<boolean> => {
+      if (!enabled) return false;
       if (busy.current) return false;
       const serialized = JSON.stringify(value);
       if (serialized === saved.current) return true;
@@ -58,7 +77,7 @@ export function useCustomerResource(kind: string, workspaceId: string) {
         setSaving(false);
       }
     },
-    [url],
+    [url, enabled],
   );
   return { data, error, saving, save, revision: version };
 }

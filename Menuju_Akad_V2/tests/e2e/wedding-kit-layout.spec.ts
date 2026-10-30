@@ -17,7 +17,7 @@ for (const mode of ["trial", "premium"] as const) {
       if (mode === "premium")
         await page.getByRole("button", { name: "Nanti saja", exact: true }).click();
       await expect(
-        page.getByRole("heading", { name: "Wedding Kit", exact: true, level: 1 }),
+        page.getByRole("heading", { name: "Ringkasan untuk dibagikan", exact: true, level: 1 }),
       ).toHaveCount(1);
       const feature = page.locator("#feature-pdf");
       await expect(feature.locator("[data-card-ornament]")).toHaveCount(2);

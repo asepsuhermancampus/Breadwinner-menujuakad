@@ -1,5 +1,31 @@
 import { expect, test } from "@playwright/test";
 
+test("secondary planning destinations are accessible directly from the sidebar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.goto("/dashboard");
+  const navigation = page.getByRole("navigation", { name: "Navigasi dashboard" });
+  await navigation.getByRole("link", { name: "Kalender Koordinasi", exact: true }).click();
+  await expect(page).toHaveURL(/\/planner\/calendar$/);
+  await expect(
+    navigation.getByRole("link", { name: "Kalender Koordinasi", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+});
+
+test("vendor catalog and saved vendors are reachable from the sidebar", async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.goto("/dashboard");
+  const navigation = page.getByRole("navigation", { name: "Navigasi dashboard" });
+  await navigation.getByRole("link", { name: "Vendor tersimpan", exact: true }).click();
+  await expect(page).toHaveURL(/\/marketplace\/favorites$/);
+  await expect(
+    navigation.getByRole("link", { name: "Vendor tersimpan", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await navigation.getByRole("link", { name: "Cari vendor", exact: true }).click();
+  await expect(page).toHaveURL(/\/marketplace$/);
+});
+
 test("sidebar matches the current Pencil dock without losing secondary destinations", async ({
   page,
 }) => {
@@ -10,8 +36,10 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
   await expect(navigation.locator(":scope > section > h2")).toHaveText([
     "Perencanaan",
     "Keuangan",
+    "Vendor",
     "Tamu & undangan",
   ]);
+  await expect(navigation.getByRole("link", { name: "Checklist & Tugas" })).toBeVisible();
   expect(
     await navigation
       .locator("a[data-sidebar-link]")
@@ -20,14 +48,17 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
     "Ringkasan Kesiapan",
     "Checklist & Tugas",
     "Persyaratan KUA",
-    "Rundown & Kepanitiaan",
-    "Seserahan & Moodboard",
+    "Jadwal & hari acara",
+    "Seserahan",
+    "Inspirasi & moodboard",
     "Tabungan & Anggaran",
     "Kalkulator Katering",
-    "Pesanan & Kontrak",
-    "CRM Tamu & WhatsApp",
-    "Studio Undangan",
-    "Wedding Kit",
+    "Cari vendor",
+    "Rangkai paket jasa",
+    "Daftar tamu & RSVP",
+    "Undangan digital",
+    "Kehadiran tamu",
+    "Ringkasan untuk dibagikan",
   ]);
   const active = navigation.getByRole("link", { name: "Ringkasan Kesiapan", exact: true });
   await expect(active).toHaveCSS("height", "38px");
@@ -37,14 +68,10 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
   await expect(dock.getByText("Ruang rencana bersama", { exact: true })).toHaveCount(0);
   await expect(dock.getByRole("link", { name: "Pengaturan", exact: true })).toBeVisible();
   await expect(dock.getByRole("button", { name: /^Pilihan / })).toHaveCount(0);
-  await navigation.getByRole("link", { name: "Seserahan & Moodboard", exact: true }).click();
-  await page
-    .getByRole("navigation", { name: "Bagian Seserahan & Moodboard" })
-    .getByRole("link", { name: "Moodboard", exact: true })
-    .click();
+  await navigation.getByRole("link", { name: "Inspirasi & moodboard", exact: true }).click();
   await expect(page).toHaveURL(/\/planner\/moodboard$/);
   await expect(
-    navigation.getByRole("link", { name: "Seserahan & Moodboard", exact: true }),
+    navigation.getByRole("link", { name: "Inspirasi & moodboard", exact: true }),
   ).toHaveAttribute("aria-current", "page");
   await expect(dock.getByRole("button", { name: "Buka menu akun" })).toHaveCount(0);
   await dock.getByRole("link", { name: "Pengaturan", exact: true }).click();
@@ -61,7 +88,7 @@ test("sidebar matches the current Pencil dock without losing secondary destinati
   await expect.poll(async () => (await dock.boundingBox())?.width).toBe(272);
   await dock.getByRole("button", { name: "Ringkas navigasi" }).click();
   await expect.poll(async () => (await dock.boundingBox())?.width).toBe(68);
-  await navigation.getByRole("link", { name: "Seserahan & Moodboard", exact: true }).click();
+  await navigation.getByRole("link", { name: "Seserahan", exact: true }).click();
   await expect(page).toHaveURL(/\/planner\/seserahan$/);
 });
 
@@ -71,9 +98,9 @@ test("mobile sidebar keeps contextual links and account actions reachable", asyn
   await page.getByRole("button", { name: "Buka navigasi", exact: true }).click();
   const drawer = page.getByRole("dialog", { name: "Ruang rencana kalian" });
   await expect(drawer.getByRole("link", { name: "Pengaturan", exact: true })).toBeVisible();
-  await drawer.getByRole("link", { name: "Rundown & Kepanitiaan", exact: true }).click();
+  await drawer.getByRole("link", { name: "Jadwal & hari acara", exact: true }).click();
   await page
-    .getByRole("navigation", { name: "Bagian Rundown & Kepanitiaan" })
+    .getByRole("navigation", { name: "Bagian Jadwal & hari acara" })
     .getByRole("link", { name: "Kalender Koordinasi" })
     .click();
   await expect(page).toHaveURL(/\/planner\/calendar$/);

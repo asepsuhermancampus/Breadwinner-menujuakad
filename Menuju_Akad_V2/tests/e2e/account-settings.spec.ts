@@ -6,7 +6,7 @@ const tabs = [
   ["Paket & langganan", "/account/plans"],
   ["Privasi & keamanan", "/account/security"],
   ["Custom domain", "/account/domain"],
-  ["Prioritas bantuan", "/account/support"],
+  ["Bantuan", "/account/support"],
 ] as const;
 
 for (const width of [1600, 375]) {
@@ -48,7 +48,7 @@ test("legacy domain and support links resolve to their dedicated settings tab", 
 }) => {
   for (const [section, label] of [
     ["domain", "Custom domain"],
-    ["support", "Prioritas bantuan"],
+    ["support", "Bantuan"],
   ] as const) {
     await page.goto(`/account?section=${section}`);
     await expect(page).toHaveURL(new RegExp(`/account/${section}$`));

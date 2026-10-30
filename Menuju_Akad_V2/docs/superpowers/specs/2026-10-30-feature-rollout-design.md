@@ -1,0 +1,7 @@
+﻿# Rilis fitur bertahap
+
+Superadmin mengatur sasaran fitur terdaftar melalui draf yang dapat dipratinjau, divalidasi, diterbitkan segera atau dijadwalkan, serta dikembalikan ke versi terdahulu. Aturan membatasi akses berdasarkan kelompok, paket workspace pemilik dan daftar workspace. Hak paket, keanggotaan, pemeliharaan, dan sakelar ketersediaan tetap berlaku; rilis tidak menambah hak. Aturan lama tetap berlaku sampai publikasi. RSVP publik, pembayaran, dan pesanan yang sudah berjalan tidak diubah.
+
+Konfigurasi dan snapshot versi disimpan dalam database aplikasi. Perubahan memakai revisi optimistis dan transaksi SQLite; jadwal yang jatuh tempo dipilih saat pembacaan berdasarkan waktu server. Riwayat dan rollback mempertahankan data pelanggan. Validasi dependensi mengidentifikasi hubungan finansial dan Katering/tamu, dengan penjelasan dampak. Mode tamu memakai paket Free tanpa ID workspace. Workspace pasangan menggunakan paket dan ID workspace pemilik. Semua gerbang server dan tampilan harus memakai konteks yang sama.
+
+Pendekatan alternatif: mengubah sakelar kelompok secara langsung tidak mendukung sasaran atau rollback; layanan konfigurasi eksternal membutuhkan infrastruktur yang belum tersedia. Database aplikasi adalah pilihan saat ini. Instance dengan database SQLite terpisah tidak tersinkronisasi dan memerlukan penyimpanan bersama sebelum deployment multi-instance; jangan mengklaim dukungan lintas instance.

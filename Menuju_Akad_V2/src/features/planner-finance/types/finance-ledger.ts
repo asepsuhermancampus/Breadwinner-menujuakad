@@ -38,6 +38,7 @@ export type FinanceSnapshot = {
   allocations: FinanceAllocation[];
   balances: { groom: number; bride: number; total: number };
   actorSide: SavingsSide | null;
+  hiddenActivity?: boolean;
   sideNames?: { groom: string; bride: string };
 };
 export type FinanceCommand =

@@ -70,7 +70,13 @@ function Content({ state }: { state: State }) {
       )}
       {state.error && <p role="alert">{state.error}</p>}
       {state.data === null ? null : guests.length === 0 ? (
-        <p>Tambahkan tamu melalui menu Tamu & RSVP.</p>
+        <p>
+          Tambahkan tamu di{" "}
+          <a className="underline" href="/planner/guests">
+            Daftar tamu & RSVP
+          </a>
+          .
+        </p>
       ) : (
         guests
           .filter((g) => !g.isArchived)

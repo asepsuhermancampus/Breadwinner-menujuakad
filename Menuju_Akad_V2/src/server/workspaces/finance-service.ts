@@ -1,4 +1,4 @@
-import "server-only";
+﻿import "server-only";
 import {
   applyFinanceRequest,
   emptyFinanceBook,
@@ -17,6 +17,13 @@ import { bindFinanceMembers } from "./finance-member-binding";
 import { withFinanceProfileNames } from "./finance-profile-snapshot";
 import { syncWorkspaceExpenseBudgets } from "./expense-budget-sync";
 import { removeWorkspaceBudgetSources } from "./remove-budget-sources";
+import { readPlanningMaintenance } from "./planning-maintenance";
+import { readFeatureAvailability } from "./feature-availability";
+import { restrictedExpenseSources } from "./restricted-expense-sources";
+import {
+  mergeVisibleBudgets,
+  restrictFinanceSnapshot,
+} from "@/features/planner-finance/domain/expense-visibility";
 
 export function financeDomainError(error: unknown): PaymentError {
   const message = error instanceof Error ? error.message : "Perintah keuangan tidak valid.";
@@ -46,6 +53,8 @@ export class FinanceService {
         .get(workspace.id, account)
     )
       throw new PaymentError("Akses workspace ditolak.", 403);
+    if (!readFeatureAvailability(this.workspaces.db, "finance", workspace.role, workspace).available)
+      throw new PaymentError("Keuangan belum tersedia untuk akun ini.", 403);
     return workspace.id;
   }
   private state(workspaceId: string): {
@@ -81,7 +90,14 @@ export class FinanceService {
       if (bindingsChanged) {
         book.revision += 1;
       }
-      const snapshot = withFinanceProfileNames(db, id, financeSnapshot(book, budgets, account));
+      const snapshot = withFinanceProfileNames(
+        db,
+        id,
+        restrictFinanceSnapshot(
+          financeSnapshot(book, budgets, account),
+          restrictedExpenseSources(this.workspaces, account, id),
+        ),
+      );
       db.prepare("INSERT OR IGNORE INTO workspace_finance(workspace_id,data) VALUES(?,?)").run(
         id,
         JSON.stringify(book),
@@ -108,12 +124,48 @@ export class FinanceService {
     db.exec("BEGIN IMMEDIATE");
     try {
       const id = this.requireMember(actor.id, workspaceId);
+      if (readPlanningMaintenance(db, "finance").status === "maintenance")
+        throw new PaymentError(
+          "Keuangan sedang dalam pemeliharaan. Perubahan belum disimpan.",
+          503,
+        );
       const { book, budgets, resourceRevision } = this.state(id);
       bindFinanceMembers(db, id, book);
       const current = book;
+      const restricted = restrictedExpenseSources(this.workspaces, actor.id, id);
+      const command = request.command;
+      const retry = current.receipts.some((receipt) => receipt.requestId === request.requestId);
+      const target =
+        "budgetId" in command ? budgets.find((row) => row.id === command.budgetId) : undefined;
+      if (
+        !retry &&
+        "budgetId" in command &&
+        restricted.some(
+          (kind) =>
+            target?.source?.kind === kind || command.budgetId.startsWith(`expense:${kind}:`),
+        )
+      )
+        throw new PaymentError("Anggaran terkait belum tersedia.", 403);
       let result;
       try {
-        result = applyFinanceRequest(current, budgets, actor, request, now);
+        const mergedRequest =
+          !retry && command.type === "save-budgets"
+            ? {
+                ...request,
+                command: {
+                  ...command,
+                  budgets: mergeVisibleBudgets(budgets, command.budgets, restricted),
+                },
+              }
+            : request;
+        result = applyFinanceRequest(
+          current,
+          budgets,
+          actor,
+          mergedRequest,
+          now,
+          JSON.stringify(command),
+        );
       } catch (error) {
         throw financeDomainError(error);
       }
@@ -129,7 +181,7 @@ export class FinanceService {
       const snapshot = withFinanceProfileNames(
         db,
         id,
-        financeSnapshot(result.book, result.budgets, actor.id),
+        restrictFinanceSnapshot(financeSnapshot(result.book, result.budgets, actor.id), restricted),
       );
       db.exec("COMMIT");
       return snapshot;
@@ -139,3 +191,4 @@ export class FinanceService {
     }
   }
 }
+

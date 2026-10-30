@@ -6,6 +6,8 @@ import {
   type ExpenseResources,
 } from "@/features/planner-finance/domain/expense-budgets";
 import { removeBudgetSources } from "@/features/planner-finance/domain/remove-budget-sources";
+import { readPlanningMaintenance } from "./planning-maintenance";
+import { PaymentError } from "@/server/payments/errors";
 export function removeWorkspaceBudgetSources(
   db: DatabaseSync,
   workspaceId: string,
@@ -21,9 +23,15 @@ export function removeWorkspaceBudgetSources(
   }
   const updated = removeBudgetSources(sources, previous, next);
   for (const kind of expenseKinds) {
-    if (updated[kind] !== sources[kind])
+    if (updated[kind] !== sources[kind]) {
+      if (readPlanningMaintenance(db, kind).status === "maintenance")
+        throw new PaymentError(
+          "Fitur terkait sedang dalam pemeliharaan. Perubahan belum disimpan.",
+          503,
+        );
       db.prepare(
         "UPDATE workspace_resources SET data=?,revision=revision+1 WHERE workspace_id=? AND kind=?",
       ).run(JSON.stringify(updated[kind]), workspaceId, kind);
+    }
   }
 }

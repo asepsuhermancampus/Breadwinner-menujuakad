@@ -3,6 +3,7 @@ import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
 import { FinanceService } from "./finance-service";
 import { ResourceService } from "./resource-service";
+import { updatePlanningMaintenance } from "./planning-maintenance";
 vi.mock("server-only", () => ({}));
 let db: PaymentDatabase;
 let workspaces: WorkspaceService;
@@ -15,6 +16,35 @@ beforeEach(() => {
   service = new FinanceService(workspaces);
 });
 afterEach(() => db.close());
+it("preserves finance data and linked planning sources during finance maintenance", () => {
+  const resources = new ResourceService(workspaces);
+  resources.writeResource(
+    "a",
+    "seserahan",
+    0,
+    [{ id: "gift", title: "Sepatu", quantity: 1, unitCost: 10000 }],
+    workspace,
+  );
+  const before = service.read("a", workspace);
+  updatePlanningMaintenance(db.storage(), "admin", "finance", "maintenance", "Perbaikan", 0);
+  expect(() =>
+    service.execute(
+      { id: "a", name: "Andi" },
+      {
+        revision: before.revision,
+        requestId: "claim-maintenance",
+        command: { type: "claim", side: "groom" },
+      },
+      workspace,
+    ),
+  ).toThrow(/pemeliharaan/i);
+  expect(() => resources.writeResource("a", "finance", 1, [], workspace)).toThrow(/pemeliharaan/i);
+  expect(() => resources.writeResource("a", "seserahan", 1, [], workspace)).toThrow(
+    /pemeliharaan/i,
+  );
+  expect(service.read("a", workspace)).toEqual(before);
+  expect(resources.readResource("a", "seserahan", workspace).data).toHaveLength(1);
+});
 it("rolls back failed commands and guards the generic budget API", () => {
   const resources = new ResourceService(workspaces);
   resources.writeResource(

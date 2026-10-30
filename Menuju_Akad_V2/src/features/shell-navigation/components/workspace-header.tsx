@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { CommandPalette } from "./command-palette";
 import { WorkspaceAvatar } from "./workspace-avatar";
 import styles from "./workspace-header.module.css";
+import type { FeatureAvailability } from "@/features/customer-workspace/domain/feature-availability-catalog";
 
 export function WorkspaceHeader({
   onOpenMenu,
@@ -13,6 +14,7 @@ export function WorkspaceHeader({
   photoUrl,
   partnerPhotoUrl,
   plan = "Free",
+  availability,
 }: {
   onOpenMenu: () => void;
   name?: string;
@@ -20,6 +22,7 @@ export function WorkspaceHeader({
   photoUrl?: string | null | undefined;
   partnerPhotoUrl?: string | null | undefined;
   plan?: string;
+  availability?: FeatureAvailability;
 }) {
   const displayName = partnerName ? `${name} & ${partnerName}` : name;
   return (
@@ -44,7 +47,7 @@ export function WorkspaceHeader({
         </div>
       </div>
       <div className={styles.tools}>
-        <CommandPalette />
+        <CommandPalette {...(availability ? { availability } : {})} />
         <Link href="/account/plans" className={`${styles.planLink} customer-control`}>
           <Icon name="sparkles" size={16} />
           {plan}

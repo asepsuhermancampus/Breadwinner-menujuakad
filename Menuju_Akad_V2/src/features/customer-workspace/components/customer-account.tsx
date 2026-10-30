@@ -14,6 +14,7 @@ import { accountTabs, type AccountTab } from "../config/account-tabs";
 import styles from "@/features/account/components/account.module.css";
 import visuals from "./customer-settings.module.css";
 import layout from "./customer-settings-navigation.module.css";
+import { useFeatureAvailability } from "./feature-availability-context";
 export function CustomerAccount({
   workspace,
   tab,
@@ -26,6 +27,8 @@ export function CustomerAccount({
   guest?: boolean;
 }) {
   const active = accountTabs.find((item) => item.id === tab)!;
+  const supportAvailable = useFeatureAvailability()?.support === true;
+  const domainAvailable = useFeatureAvailability()?.domain === true;
   return (
     <div className={`${styles.screen} ${visuals.settings}`}>
       <header className={layout.header}>
@@ -47,16 +50,21 @@ export function CustomerAccount({
         </div>
       </header>
       <nav className={layout.tabs} aria-label="Pengaturan akun" data-customer-tabs>
-        {accountTabs.map(({ id, href, label }) => (
-          <Link
-            key={id}
-            href={href}
-            className={styles.tab}
-            aria-current={tab === id ? "page" : undefined}
-          >
-            {label}
-          </Link>
-        ))}
+        {accountTabs
+          .filter(
+            ({ id }) =>
+              (id !== "support" || supportAvailable) && (id !== "domain" || domainAvailable),
+          )
+          .map(({ id, href, label }) => (
+            <Link
+              key={id}
+              href={href}
+              className={styles.tab}
+              aria-current={tab === id ? "page" : undefined}
+            >
+              {label}
+            </Link>
+          ))}
       </nav>
       <section data-settings-panel role="region" aria-label={active.label}>
         {tab === "plans" && <CustomerPlans workspace={workspace} guest={guest} />}

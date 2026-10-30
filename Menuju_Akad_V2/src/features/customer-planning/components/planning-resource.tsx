@@ -7,6 +7,7 @@ import type { PlanningKind, PlanningItem } from "../domain/planning-resource";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import { useAccountFinance } from "@/features/planner-finance/hooks/use-account-finance";
 import type { CateringSettings } from "../domain/catering-settings";
+import { useFeatureAvailability } from "@/features/customer-workspace/components/feature-availability-context";
 type State = { data: unknown[] | null; error: string; save: (data: unknown[]) => Promise<boolean> };
 function Content({
   kind,
@@ -16,6 +17,7 @@ function Content({
   budgets = null,
   budgetError = "",
   settings,
+  trial = false,
 }: {
   kind: PlanningKind;
   state: State;
@@ -24,15 +26,16 @@ function Content({
   budgets?: CustomerBudget[] | null;
   budgetError?: string;
   settings?: State;
+  trial?: boolean;
 }) {
   return (
     <>
-      {state.error && (
+      {!trial && state.error && (
         <p role="alert" className="mb-4 text-sm text-danger">
           {state.error}
         </p>
       )}
-      {settings?.error && (
+      {!trial && settings?.error && (
         <p role="alert" className="mb-4 text-sm text-danger">
           {settings.error}
         </p>
@@ -80,38 +83,45 @@ export function TrialPlanning({ kind }: { kind: PlanningKind }) {
 }
 function TrialContent({ kind }: { kind: PlanningKind }) {
   const state = useTrialResource(kind);
-  return <Content kind={kind} state={state} />;
+  return <Content kind={kind} state={state} trial />;
 }
 function AccountCatering({ workspaceId }: { workspaceId: string }) {
   const state = useCustomerResource("catering", workspaceId);
-  const guests = useCustomerResource("guests", workspaceId);
+  const availability = useFeatureAvailability();
+  const guestsAvailable = availability?.guests === true;
+  const financeAvailable = availability?.finance === true;
+  const guests = useCustomerResource("guests", workspaceId, guestsAvailable, true);
   const finance = useAccountFinance(workspaceId);
   const settings = useCustomerResource("catering-settings", workspaceId);
   return (
     <Content
       kind="catering"
       state={state}
-      guests={guests.data}
-      guestError={guests.error}
-      budgets={finance.snapshot?.budgets ?? null}
-      budgetError={finance.error}
+      guests={guestsAvailable ? guests.data : []}
+      guestError={guestsAvailable ? guests.error : "Daftar tamu belum tersedia."}
+      budgets={financeAvailable ? (finance.snapshot?.budgets ?? null) : []}
+      budgetError={financeAvailable ? finance.error : "Keuangan belum tersedia."}
       settings={settings}
     />
   );
 }
 function TrialCatering() {
   const state = useTrialResource("catering");
+  const availability = useFeatureAvailability();
+  const guestsAvailable = availability?.guests === true;
+  const financeAvailable = availability?.finance === true;
   const guests = useTrialResource("guests");
   const finance = useTrialResource("finance");
   const settings = useTrialResource("catering-settings");
   return (
     <Content
       kind="catering"
+      trial
       state={state}
-      guests={guests.data}
-      guestError={guests.error}
-      budgets={finance.data as CustomerBudget[] | null}
-      budgetError={finance.error}
+      guests={guestsAvailable ? guests.data : []}
+      guestError={guestsAvailable ? guests.error : "Daftar tamu belum tersedia."}
+      budgets={financeAvailable ? (finance.data as CustomerBudget[] | null) : []}
+      budgetError={financeAvailable ? finance.error : "Keuangan belum tersedia."}
       settings={settings}
     />
   );

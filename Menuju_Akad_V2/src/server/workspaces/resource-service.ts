@@ -1,4 +1,4 @@
-import {
+﻿import {
   createDocumentTemplate,
   preservesMainDocuments,
   type DocumentItem,
@@ -15,6 +15,16 @@ import type { CustomerBudget } from "@/features/planner-finance/types/customer-b
 import { financeDomainError } from "./finance-service";
 import { removeLegacyDocumentDefaults } from "@/features/kua-documents/domain/legacy-document-defaults";
 import { syncWorkspaceExpenseBudgets } from "./expense-budget-sync";
+import { readTaskMaintenance } from "./task-maintenance";
+import { readPlanningMaintenance } from "./planning-maintenance";
+import { readFeatureAvailability } from "./feature-availability";
+import { assertResourceAvailable } from "./resource-availability";
+import { isMaintainedPlanningFeature } from "@/features/customer-planning/domain/maintenance-catalog";
+import { restrictedExpenseSources } from "./restricted-expense-sources";
+import {
+  isHiddenBudget,
+  mergeVisibleBudgets,
+} from "@/features/planner-finance/domain/expense-visibility";
 export class ResourceService {
   constructor(private readonly workspaces: WorkspaceService) {}
   readResource(
@@ -23,6 +33,7 @@ export class ResourceService {
     workspaceId?: string,
   ): { revision: number; data: unknown[] } {
     const workspace = this.workspaces.requireWorkspace(account, workspaceId);
+    assertResourceAvailable(this.workspaces.db, kind, workspace);
     if (kind === "finance") syncWorkspaceExpenseBudgets(this.workspaces.db, workspace.id);
     if (kind === "documents")
       this.workspaces.db
@@ -47,8 +58,17 @@ export class ResourceService {
           .get(workspace.id, kind);
       }
     }
+    const data = row ? (JSON.parse(String(row["data"])) as unknown[]) : [];
+    const restricted =
+      kind === "finance" ? restrictedExpenseSources(this.workspaces, account, workspace.id) : [];
     return row
-      ? { revision: Number(row["revision"]), data: JSON.parse(String(row["data"])) as unknown[] }
+      ? {
+          revision: Number(row["revision"]),
+          data:
+            kind === "finance"
+              ? (data as CustomerBudget[]).filter((item) => !isHiddenBudget(item, restricted))
+              : data,
+        }
       : { revision: 0, data: [] };
   }
   writeResource(
@@ -62,7 +82,29 @@ export class ResourceService {
     db.exec("BEGIN IMMEDIATE");
     try {
       const workspace = this.workspaces.requireWorkspace(account, workspaceId);
-      const items = validateResource(kind, data, workspace.subscription);
+      assertResourceAvailable(db, kind, workspace);
+      if (kind === "tasks" && readTaskMaintenance(db).status === "maintenance")
+        throw new PaymentError("Tugas sedang dalam pemeliharaan. Perubahan belum disimpan.", 503);
+      const maintained = kind === "catering-settings" ? "catering" : kind;
+      if (
+        isMaintainedPlanningFeature(maintained) &&
+        readPlanningMaintenance(db, maintained).status === "maintenance"
+      )
+        throw new PaymentError("Fitur sedang dalam pemeliharaan. Perubahan belum disimpan.", 503);
+      if (
+        (kind === "catering" || kind === "seserahan") &&
+        readPlanningMaintenance(db, "finance").status === "maintenance"
+      )
+        throw new PaymentError(
+          "Keuangan terkait sedang dalam pemeliharaan. Perubahan belum disimpan.",
+          503,
+        );
+      if (
+        (kind === "catering" || kind === "seserahan") &&
+        !readFeatureAvailability(db, "finance", workspace.role, workspace).available
+      )
+        throw new PaymentError("Keuangan terkait belum tersedia. Perubahan belum disimpan.", 403);
+      let items = validateResource(kind, data, workspace.subscription);
       if (
         kind === "guests" &&
         db
@@ -75,6 +117,23 @@ export class ResourceService {
       )
         throw new PaymentError("Token tamu telah digunakan workspace lain", 400);
       const current = this.readResource(account, kind, workspaceId);
+      let priorFinance = current.data as CustomerBudget[];
+      if (kind === "finance") {
+        const full = db
+          .prepare("SELECT data FROM workspace_resources WHERE workspace_id=? AND kind='finance'")
+          .get(workspace.id);
+        priorFinance = full ? (JSON.parse(String(full["data"])) as CustomerBudget[]) : [];
+        try {
+          items = mergeVisibleBudgets(
+            priorFinance,
+            items as CustomerBudget[],
+            restrictedExpenseSources(this.workspaces, account, workspace.id),
+          );
+          items = validateResource(kind, items, workspace.subscription);
+        } catch {
+          throw new PaymentError("Anggaran terkait belum tersedia.", 403);
+        }
+      }
       if (
         kind === "documents" &&
         !preservesMainDocuments(current.data as DocumentItem[], items as DocumentItem[])
@@ -93,11 +152,7 @@ export class ResourceService {
           .get(workspace.id);
         const book = ledger ? financeBookSchema.parse(JSON.parse(String(ledger["data"]))) : null;
         try {
-          assertBudgetChanges(
-            current.data as CustomerBudget[],
-            items as CustomerBudget[],
-            book?.allocations ?? [],
-          );
+          assertBudgetChanges(priorFinance, items as CustomerBudget[], book?.allocations ?? []);
         } catch (error) {
           throw financeDomainError(error);
         }
@@ -121,3 +176,5 @@ export class ResourceService {
     }
   }
 }
+
+

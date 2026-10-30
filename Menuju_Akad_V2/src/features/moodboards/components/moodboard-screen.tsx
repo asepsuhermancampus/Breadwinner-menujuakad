@@ -42,7 +42,7 @@ export function MoodboardScreen({ initialItems, palette, onChange }: Props) {
     <section className={styles.container}>
       <header className="flex flex-wrap items-center justify-between gap-4">
         <PageHeading
-          title="Bayangkan hari kalian"
+          title="Inspirasi & moodboard"
           description="Kumpulkan referensi, selaraskan selera, lalu bagikan arahnya ke vendor."
         />
         <Button
