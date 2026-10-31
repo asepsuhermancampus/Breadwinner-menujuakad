@@ -1,9 +1,9 @@
 import "server-only";
 import type { DatabaseSync } from "node:sqlite";
 import { PaymentError } from "@/server/payments/errors";
-type Access = { role: "customer" | "admin"; active: boolean };
+type Access = { role: "customer" | "admin" | "vendor" | "ambassador"; active: boolean };
 type ExpectedAccess = {
-  role: "customer" | "admin" | "superadmin";
+  role: "customer" | "admin" | "superadmin" | "vendor" | "ambassador";
   active: boolean;
   version: number;
 };
@@ -30,9 +30,9 @@ export function changeAccountAccess(
     !target.trim() ||
     !note ||
     note.length > 500 ||
-    !["customer", "admin"].includes(next.role) ||
+    !["customer", "admin", "vendor", "ambassador"].includes(next.role) ||
     typeof next.active !== "boolean" ||
-    !["customer", "admin", "superadmin"].includes(expected.role) ||
+    !["customer", "admin", "superadmin", "vendor", "ambassador"].includes(expected.role) ||
     typeof expected.active !== "boolean" ||
     !Number.isSafeInteger(expected.version) ||
     expected.version < 0

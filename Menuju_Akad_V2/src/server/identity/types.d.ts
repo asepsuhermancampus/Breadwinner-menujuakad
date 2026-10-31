@@ -4,7 +4,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id?: string;
       ownerKey?: string;
-      role?: "customer" | "admin" | "superadmin";
+      role?: "customer" | "admin" | "superadmin" | "vendor" | "ambassador";
       authMethod?: string;
       authenticatedAt?: number;
     };

@@ -1,4 +1,4 @@
-﻿import { expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import type { Session } from "next-auth";
 import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
@@ -34,7 +34,10 @@ it("only lets superadmins publish valid drafts with current revisions", async ()
   };
   expect((await POST(request(draft, "https://evil.example"))).status).toBe(403);
   expect((await POST(request({ ...draft, feature: "payments" }))).status).toBe(400);
-  expect((await POST(request({ ...draft, policy: { ...draft.policy, workspaces: ["tidak-ada"] } }))).status).toBe(400);
+  expect(
+    (await POST(request({ ...draft, policy: { ...draft.policy, workspaces: ["tidak-ada"] } })))
+      .status,
+  ).toBe(400);
   expect((await POST(request(draft))).status).toBe(200);
   expect((await POST(request(draft))).status).toBe(409);
   expect(
@@ -45,4 +48,3 @@ it("only lets superadmins publish valid drafts with current revisions", async ()
   expect(result.releases.tasks.history[0].actor).toBe("root");
   database.close();
 });
-

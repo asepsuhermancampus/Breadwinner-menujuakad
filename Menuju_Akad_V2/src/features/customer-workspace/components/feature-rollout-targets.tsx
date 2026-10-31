@@ -3,7 +3,12 @@ import type { AvailabilityFeature } from "../domain/feature-availability-catalog
 import type { PlanId } from "@/features/plans/types/plans";
 import { planNames, type Policy, type Workspace } from "./feature-rollout-types";
 export function RolloutLoading({ message }: { message: string }) {
-  return <section aria-labelledby="rollout-loading-title"><h2 id="rollout-loading-title">Rilis fitur bertahap</h2><p role="status">{message || "Memuat pengaturan rilis…"}</p></section>;
+  return (
+    <section aria-labelledby="rollout-loading-title">
+      <h2 id="rollout-loading-title">Rilis fitur bertahap</h2>
+      <p role="status">{message || "Memuat pengaturan rilis…"}</p>
+    </section>
+  );
 }
 export function RolloutTargets({
   policy,

@@ -7,7 +7,7 @@ export type Account = {
   id: string;
   email: string;
   name: string;
-  role: "customer" | "admin" | "superadmin";
+  role: "customer" | "admin" | "superadmin" | "vendor" | "ambassador";
   owner_key: string;
   password_hash: string | null;
   active: number;
@@ -27,7 +27,7 @@ export class Accounts {
   constructor(readonly db: DatabaseSync) {
     db.exec(`PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
       CREATE TABLE IF NOT EXISTS accounts(id TEXT PRIMARY KEY,email TEXT UNIQUE NOT NULL,name TEXT NOT NULL,
-      role TEXT NOT NULL DEFAULT 'customer' CHECK(role IN ('customer','admin','superadmin')),owner_key TEXT UNIQUE NOT NULL,
+      role TEXT NOT NULL DEFAULT 'customer' CHECK(role IN ('customer','admin','superadmin','vendor','ambassador')),owner_key TEXT UNIQUE NOT NULL,
       password_hash TEXT,active INTEGER NOT NULL DEFAULT 1);
       CREATE TABLE IF NOT EXISTS identities(subject TEXT PRIMARY KEY,account_id TEXT NOT NULL REFERENCES accounts(id));
       CREATE TABLE IF NOT EXISTS account_sessions(token TEXT PRIMARY KEY,account_id TEXT NOT NULL REFERENCES accounts(id),expires INTEGER NOT NULL);

@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import type { CustomerWorkspace, CustomerProfile } from "@/features/customer-workspace/types";
@@ -113,4 +113,3 @@ export class WorkspaceService {
     return { ...this.getOrCreateWorkspace(String(row["owner"])), role: "partner" as const };
   }
 }
-

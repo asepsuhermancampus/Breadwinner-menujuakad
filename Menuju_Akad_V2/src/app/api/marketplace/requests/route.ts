@@ -1,4 +1,4 @@
-﻿import { auth } from "@/server/auth";
+import { auth } from "@/server/auth";
 import { isOperator } from "@/server/identity/policy";
 import { MarketplaceCatalog } from "@/server/marketplace/catalog";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
@@ -20,7 +20,10 @@ export async function POST(req: Request) {
   if ("errorResponse" in owner) return owner.errorResponse;
   try {
     const workspace = await activeWorkspace(owner.owner);
-    if (!readFeatureAvailability(getWorkspaceService().db, "vendors", workspace.role, workspace).available)
+    if (
+      !readFeatureAvailability(getWorkspaceService().db, "vendors", workspace.role, workspace)
+        .available
+    )
       throw new PaymentError("Vendor belum tersedia untuk akun ini.", 403);
     const body = await readBoundedJson(req, 8192);
     return jsonResponse({
@@ -56,4 +59,3 @@ export async function PATCH(req: Request) {
     return handlePaymentApiError(e);
   }
 }
-

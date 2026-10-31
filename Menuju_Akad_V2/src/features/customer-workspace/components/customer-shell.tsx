@@ -117,12 +117,7 @@ export function CustomerShell({
             </CustomerFeatureLayout>
           </main>
         </div>
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          title="Ruang rencana kalian"
-          side
-        >
+        <Dialog open={open} onClose={() => setOpen(false)} title="Ruang rencana kalian" side>
           <CustomerSidebar
             close={() => setOpen(false)}
             mobile

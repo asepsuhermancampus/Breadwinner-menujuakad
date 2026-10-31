@@ -13,6 +13,26 @@ export function ownerForSession(session: Session) {
 export function isOperator(session: Session | null) {
   return session?.user?.role === "admin" || session?.user?.role === "superadmin";
 }
+export function isVendor(session: Session | null) {
+  return session?.user?.role === "vendor";
+}
+export function isAmbassador(session: Session | null) {
+  return session?.user?.role === "ambassador";
+}
+export function isVendorOrOperator(session: Session | null) {
+  return (
+    session?.user?.role === "vendor" ||
+    session?.user?.role === "admin" ||
+    session?.user?.role === "superadmin"
+  );
+}
+export function isAmbassadorOrOperator(session: Session | null) {
+  return (
+    session?.user?.role === "ambassador" ||
+    session?.user?.role === "admin" ||
+    session?.user?.role === "superadmin"
+  );
+}
 export function limitAuth(request: Request, email: string, action: "login" | "register") {
   const { db } = getReviewRepository();
   const identity = requestIdentity(request, db);

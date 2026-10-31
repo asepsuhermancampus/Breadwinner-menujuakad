@@ -1,4 +1,4 @@
-﻿import { Icon } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
 import { CardOrnament } from "@/components/ui/card-ornament";
 import {
   activeDocuments,

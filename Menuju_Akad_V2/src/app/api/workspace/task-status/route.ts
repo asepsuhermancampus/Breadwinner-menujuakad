@@ -1,4 +1,4 @@
-﻿import { getWorkspaceService } from "@/server/workspaces/runtime";
+import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { readTaskMaintenance } from "@/server/workspaces/task-maintenance";
 import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
 
@@ -10,7 +10,9 @@ export function GET() {
     const status = readTaskMaintenance(db).status;
     return Response.json(
       {
-        status: !readFeatureAvailability(db, "tasks", "guest", null).available ? "disabled" : status,
+        status: !readFeatureAvailability(db, "tasks", "guest", null).available
+          ? "disabled"
+          : status,
       },
       { headers: { "Cache-Control": "no-store" } },
     );
@@ -21,4 +23,3 @@ export function GET() {
     );
   }
 }
-

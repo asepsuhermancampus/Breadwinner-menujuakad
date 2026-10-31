@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { Dialog } from "@/components/ui/dialog";
 import { DocumentEditForm } from "@/features/customer-workspace/components/document-edit-form";
 import type { DocumentItem } from "../domain/document-template";

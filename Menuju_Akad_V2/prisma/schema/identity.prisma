@@ -17,6 +17,10 @@ model User {
   role         UserRole   @default(CLIENT)
   status       UserStatus @default(ACTIVE)
   sessions     Session[]
+  memberships  Membership[]
+  assignedTasks Task[]
+  reviews      Review[]
+  auditLogs    AuditLog[]
   createdAt    DateTime   @default(now()) @db.Timestamptz(3)
 }
 

@@ -1,4 +1,4 @@
-﻿import { expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
 import {
@@ -51,8 +51,22 @@ it("schedules, rejects stale updates, and rolls back without leaving a future pu
   expect(rolloutAllowed(db, "tasks", { audience: "owner", plan: "free", workspaceId: "x" })).toBe(
     true,
   );
-  expect(rolloutAllowed(db, "tasks", { audience: "partner", plan: "free", workspaceId: "x" }, new Date("2100-01-01"))).toBe(true);
-  expect(rolloutAllowed(db, "tasks", { audience: "owner", plan: "free", workspaceId: "x" }, new Date("2100-01-01"))).toBe(false);
+  expect(
+    rolloutAllowed(
+      db,
+      "tasks",
+      { audience: "partner", plan: "free", workspaceId: "x" },
+      new Date("2100-01-01"),
+    ),
+  ).toBe(true);
+  expect(
+    rolloutAllowed(
+      db,
+      "tasks",
+      { audience: "owner", plan: "free", workspaceId: "x" },
+      new Date("2100-01-01"),
+    ),
+  ).toBe(false);
   rollbackRollout(db, "root", "tasks", 2, "Kembalikan", 4);
   expect(readRollout(db, "tasks").revision).toBe(5);
   expect(

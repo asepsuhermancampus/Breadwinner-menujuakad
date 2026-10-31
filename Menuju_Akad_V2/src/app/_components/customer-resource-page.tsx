@@ -1,4 +1,4 @@
-﻿import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
+import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
 import { MoodboardScreen } from "@/features/moodboards/components/moodboard-screen";
 import { dashboardContext } from "./dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
@@ -28,7 +28,12 @@ export async function CustomerResourcePage({
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
   const unavailable =
     isAvailabilityFeature(kind) &&
-    !readFeatureAvailability(getWorkspaceService().db, kind, audience, access.mode === "guest" ? null : access.workspace).available;
+    !readFeatureAvailability(
+      getWorkspaceService().db,
+      kind,
+      audience,
+      access.mode === "guest" ? null : access.workspace,
+    ).available;
   const tasksMaintenance =
     kind === "tasks" && readTaskMaintenance(getWorkspaceService().db).status === "maintenance";
   const resourceMaintenance =
@@ -72,4 +77,3 @@ export async function CustomerResourcePage({
     </CustomerShell>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿import { PaymentError } from "@/server/payments/errors";
+import { PaymentError } from "@/server/payments/errors";
 import {
   isControllableFeature,
   type AvailabilityFeature,

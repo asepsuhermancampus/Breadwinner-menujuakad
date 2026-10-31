@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import type { PaidPlanId } from "@/features/plans/domain/catalog";
 import { usePlanPurchase } from "./plan-purchase-context";
 export function usePlanQuote(planId: PaidPlanId | "free") {

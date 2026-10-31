@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import type { DatabaseSync } from "node:sqlite";
 import { PaymentError } from "@/server/payments/errors";
 import { validateRollout, type RolloutPolicy } from "./feature-rollout-validation";

@@ -1,4 +1,4 @@
-﻿import { Icon } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
 import type { VendorWorkspace } from "../types/vendor";
 
 export function VendorKybNotice({ pending }: { pending: boolean }) {

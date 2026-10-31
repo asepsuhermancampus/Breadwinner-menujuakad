@@ -1,4 +1,4 @@
-﻿import { TrialExport } from "@/features/dashboard-trial/components/trial-export";
+import { TrialExport } from "@/features/dashboard-trial/components/trial-export";
 import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
 import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";

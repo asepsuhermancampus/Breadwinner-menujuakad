@@ -11,6 +11,8 @@ export default async function Complete({
   if (!session?.user) redirect("/login");
   if (session.user.role === "superadmin") redirect("/superadmin/reviews");
   if (session.user.role === "admin") redirect("/admin");
+  if (session.user.role === "vendor") redirect("/vendor");
+  if (session.user.role === "ambassador") redirect("/ba");
   const { returnTo } = await searchParams;
   redirect(returnTo ? safeReturnTo(returnTo) : "/dashboard");
 }

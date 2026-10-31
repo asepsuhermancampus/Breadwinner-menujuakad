@@ -51,7 +51,7 @@ export function OperationsShell(props: Props) {
   };
   return (
     <div
-      className={`app-frame grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-0 bg-ux-shell ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[240px_minmax(0,1fr)]"}`}
+      className={`app-frame grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-0 bg-ux-shell ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[272px_minmax(0,1fr)]"}`}
     >
       <aside className="hidden min-w-0 lg:block">
         <OperationsDock {...dockProps} compact={compact} onToggle={() => setCompact(!compact)} />
@@ -80,10 +80,7 @@ export function OperationsShell(props: Props) {
             <kbd>⌘K</kbd>
           </button>
         </header>
-        <main
-          id="main-content"
-          className="grid min-w-0 content-start gap-7 [&>*]:min-w-0"
-        >
+        <main id="main-content" className="grid min-w-0 content-start gap-6 p-8 [&>*]:min-w-0">
           {props.children}
         </main>
       </div>

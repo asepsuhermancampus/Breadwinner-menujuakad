@@ -156,9 +156,20 @@
   border-radius: 50%;
   background: var(--maintenance);
 }
-.account { flex-shrink: 0; margin-top: auto; margin-inline-end: 5px; }
-.empty { padding: 12px; text-align: center; }
-.emptyLabel { font-size: 13px; color: var(--secondary); opacity: 0.7; }
+.account {
+  flex-shrink: 0;
+  margin-top: auto;
+  margin-inline-end: 5px;
+}
+.empty {
+  padding: 12px;
+  text-align: center;
+}
+.emptyLabel {
+  font-size: 13px;
+  color: var(--secondary);
+  opacity: 0.7;
+}
 .compact {
   --nav-side-inset: 7px;
   --nav-scroll-gap: 7px;

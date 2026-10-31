@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import type { DatabaseSync } from "node:sqlite";
 import type { AvailabilityFeature } from "@/features/customer-workspace/domain/feature-availability-catalog";
 import type { DashboardAudience } from "@/features/customer-workspace/domain/dashboard-card-catalog";

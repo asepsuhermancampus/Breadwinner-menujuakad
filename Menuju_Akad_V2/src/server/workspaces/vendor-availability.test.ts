@@ -12,30 +12,14 @@ it("restricts saved vendors without deleting them", () => {
     const workspace = workspaces.getOrCreateWorkspace("owner");
     const resources = new ResourceService(workspaces);
     resources.writeResource("owner", "vendor-favorites", 0, [{ id: "vendor-one" }], workspace.id);
-    updateFeatureAvailability(
-      database.storage(),
-      "root",
-      "vendors",
-      "owner",
-      false,
-      "Uji",
-      0,
-    );
+    updateFeatureAvailability(database.storage(), "root", "vendors", "owner", false, "Uji", 0);
     expect(() => resources.readResource("owner", "vendor-favorites", workspace.id)).toThrow(
       /tersedia/i,
     );
     expect(() => resources.writeResource("owner", "vendor-favorites", 1, [], workspace.id)).toThrow(
       /tersedia/i,
     );
-    updateFeatureAvailability(
-      database.storage(),
-      "root",
-      "vendors",
-      "owner",
-      true,
-      "Pulihkan",
-      1,
-    );
+    updateFeatureAvailability(database.storage(), "root", "vendors", "owner", true, "Pulihkan", 1);
     expect(resources.readResource("owner", "vendor-favorites", workspace.id).data).toEqual([
       { id: "vendor-one" },
     ]);

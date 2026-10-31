@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useId, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";

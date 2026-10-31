@@ -1,4 +1,4 @@
-﻿import { dashboardContext } from "./dashboard-context";
+import { dashboardContext } from "./dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import {
   AccountPlanning,
@@ -22,7 +22,12 @@ export async function CustomerPlanningPage({ kind }: { kind: PlanningKind }) {
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
   const unavailable =
     isAvailabilityFeature(kind) &&
-    !readFeatureAvailability(getWorkspaceService().db, kind, audience, access.mode === "guest" ? null : access.workspace).available;
+    !readFeatureAvailability(
+      getWorkspaceService().db,
+      kind,
+      audience,
+      access.mode === "guest" ? null : access.workspace,
+    ).available;
   const maintenance =
     isMaintainedPlanningFeature(kind) &&
     readPlanningMaintenance(getWorkspaceService().db, kind).status === "maintenance";
@@ -67,4 +72,3 @@ export async function CustomerPlanningPage({ kind }: { kind: PlanningKind }) {
     </CustomerShell>
   );
 }
-

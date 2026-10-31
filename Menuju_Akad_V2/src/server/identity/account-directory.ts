@@ -2,15 +2,12 @@ import "server-only";
 import type { DatabaseSync } from "node:sqlite";
 
 export function listAccountDirectory(db: DatabaseSync, query: string, page: number) {
-  const search = query
-    .trim()
-    .slice(0, 100)
-    .replace(/[\\%_]/g, "\\$&");
+  const search = query.trim().slice(0, 100).replace(/[\%_]/g, "\$&");
   const safePage = Number.isSafeInteger(page) ? Math.min(10000, Math.max(1, page)) : 1;
   const rows = db
     .prepare(
       `SELECT id,email,name,role,active,access_revision FROM accounts
-    WHERE name LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\'
+    WHERE name LIKE ? ESCAPE '\' OR email LIKE ? ESCAPE '\'
     ORDER BY name COLLATE NOCASE, id LIMIT 51 OFFSET ?`,
     )
     .all(`%${search}%`, `%${search}%`, (safePage - 1) * 50);

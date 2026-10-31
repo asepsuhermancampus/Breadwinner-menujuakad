@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import type { DatabaseSync } from "node:sqlite";
 import type { ResourceKind } from "./resource-policy";
 import type { CustomerWorkspace } from "@/features/customer-workspace/types";

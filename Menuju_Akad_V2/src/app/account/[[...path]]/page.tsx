@@ -1,4 +1,4 @@
-﻿import { notFound, redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { auth } from "@/server/auth";
 import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
@@ -25,7 +25,12 @@ export default async function AccountPage({
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
   const unavailable =
     (tab === "support" || tab === "domain") &&
-    !readFeatureAvailability(getWorkspaceService().db, tab, audience, access.mode === "guest" ? null : access.workspace).available;
+    !readFeatureAvailability(
+      getWorkspaceService().db,
+      tab,
+      audience,
+      access.mode === "guest" ? null : access.workspace,
+    ).available;
   const session = access.mode === "account" ? await auth() : null;
   return (
     <CustomerShell access={access} initialFeatureUnavailable={unavailable}>
@@ -46,4 +51,3 @@ export default async function AccountPage({
     </CustomerShell>
   );
 }
-

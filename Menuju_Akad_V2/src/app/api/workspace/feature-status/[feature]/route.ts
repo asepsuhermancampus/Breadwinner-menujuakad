@@ -1,4 +1,4 @@
-﻿import { getWorkspaceService } from "@/server/workspaces/runtime";
+import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { readPlanningMaintenance } from "@/server/workspaces/planning-maintenance";
 import { isMaintainedPlanningFeature } from "@/features/customer-planning/domain/maintenance-catalog";
 import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
@@ -17,7 +17,8 @@ export async function GET(_request: Request, context: { params: Promise<{ featur
         ? readFeatureAvailability(db, "vendors", "guest", null).available
           ? "active"
           : "disabled"
-        : isAvailabilityFeature(feature) && !readFeatureAvailability(db, feature, "guest", null).available
+        : isAvailabilityFeature(feature) &&
+            !readFeatureAvailability(db, feature, "guest", null).available
           ? "disabled"
           : readPlanningMaintenance(db, feature).status;
     return Response.json({ status }, { headers });
@@ -28,4 +29,3 @@ export async function GET(_request: Request, context: { params: Promise<{ featur
     );
   }
 }
-

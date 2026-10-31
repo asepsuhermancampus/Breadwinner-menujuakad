@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import { randomUUID } from "node:crypto";
 import type { WorkspaceService } from "./service";
 import { PaymentError } from "@/server/payments/errors";
@@ -23,4 +23,3 @@ export function createSupportRequest(
     .run(id, owner, message.trim(), priority, new Date().toISOString());
   return { id, priority };
 }
-

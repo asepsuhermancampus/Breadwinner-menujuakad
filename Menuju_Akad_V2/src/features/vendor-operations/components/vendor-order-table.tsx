@@ -1,4 +1,4 @@
-﻿import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import type { VendorOrder } from "../types/vendor";
 import { vendorOrderDate } from "./vendor-order-terms";
 

@@ -32,7 +32,7 @@ export function OperationsDock({
     (item) => item.view === active || item.children?.some((child) => child.view === active),
   );
   return (
-    <div className="flex h-full min-h-[600px] min-w-0 flex-col gap-[18px] bg-ux-dock lg:border-r border-control-border p-3">
+    <div className="flex h-full min-h-0 min-w-0 flex-col gap-4 bg-surface lg:border-r border-control-border p-[11px]">
       <div className="flex min-h-10 items-center gap-2">
         {!compact && (
           <>

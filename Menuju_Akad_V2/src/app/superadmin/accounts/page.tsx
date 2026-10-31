@@ -30,7 +30,7 @@ export default async function Page({
     `/superadmin/accounts?${new URLSearchParams({ q: query, page: String(next) })}`;
   return (
     <LiveOperationsShell account={account.email} superadmin active="/superadmin/accounts">
-      <section className="max-w-4xl space-y-5">
+      <section className="space-y-6 w-full">
         <div>
           <h1 className="text-2xl font-semibold">Pengguna</h1>
           <p className="mt-2 text-sm text-secondary">
@@ -76,7 +76,10 @@ export default async function Page({
                     <td className="p-3">{item.active ? "Aktif" : "Tidak aktif"}</td>
                     <td className="p-3">
                       <AccountMemberships id={item.id} email={item.email} />{" "}
-                      {item.role === "customer" || item.role === "admin" ? (
+                      {item.role === "customer" ||
+                      item.role === "admin" ||
+                      item.role === "vendor" ||
+                      item.role === "ambassador" ? (
                         <AccountAccessEditor
                           key={`${item.id}:${item.version}`}
                           account={{

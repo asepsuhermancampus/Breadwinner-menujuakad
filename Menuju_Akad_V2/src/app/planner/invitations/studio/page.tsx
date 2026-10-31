@@ -1,4 +1,4 @@
-﻿import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
+import { FeatureLock } from "@/features/customer-workspace/components/feature-lock";
 import { LockedStudio } from "@/features/invitation-studio/components/locked-studio";
 import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
@@ -31,15 +31,25 @@ export default async function PlannerInvitationStudioPage({
   const invitationsAvailable = readFeatureAvailability(
     getWorkspaceService().db,
     "invitations",
-    audience, access.mode === "guest" ? null : access.workspace,
+    audience,
+    access.mode === "guest" ? null : access.workspace,
   ).available;
-  const unavailable = !readFeatureAvailability(getWorkspaceService().db, "studio-drafts", audience, access.mode === "guest" ? null : access.workspace)
-    .available;
+  const unavailable = !readFeatureAvailability(
+    getWorkspaceService().db,
+    "studio-drafts",
+    audience,
+    access.mode === "guest" ? null : access.workspace,
+  ).available;
   const db = getWorkspaceService().db;
   const availability = Object.fromEntries(
     (Object.keys(availabilityFeatures) as AvailabilityFeature[]).map((feature) => [
       feature,
-      readFeatureAvailability(db, feature, audience, access.mode === "guest" ? null : access.workspace).available,
+      readFeatureAvailability(
+        db,
+        feature,
+        audience,
+        access.mode === "guest" ? null : access.workspace,
+      ).available,
     ]),
   ) as FeatureAvailability;
   return (
@@ -96,4 +106,3 @@ export default async function PlannerInvitationStudioPage({
     </CustomerShell>
   );
 }
-

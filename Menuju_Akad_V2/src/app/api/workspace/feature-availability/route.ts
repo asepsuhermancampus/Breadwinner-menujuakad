@@ -1,4 +1,4 @@
-﻿import { dashboardContext } from "@/app/_components/dashboard-context";
+import { dashboardContext } from "@/app/_components/dashboard-context";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
 import {
@@ -16,7 +16,12 @@ export async function GET() {
     const settings = Object.fromEntries(
       (Object.keys(availabilityFeatures) as AvailabilityFeature[]).map((feature) => [
         feature,
-        readFeatureAvailability(db, feature, audience, access.mode === "guest" ? null : access.workspace).available,
+        readFeatureAvailability(
+          db,
+          feature,
+          audience,
+          access.mode === "guest" ? null : access.workspace,
+        ).available,
       ]),
     );
     return Response.json(settings, { headers: { "Cache-Control": "no-store" } });
@@ -27,4 +32,3 @@ export async function GET() {
     );
   }
 }
-

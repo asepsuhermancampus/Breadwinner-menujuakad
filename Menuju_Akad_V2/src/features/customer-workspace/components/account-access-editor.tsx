@@ -6,7 +6,7 @@ import { Dialog } from "@/components/ui/dialog";
 type Account = {
   id: string;
   email: string;
-  role: "customer" | "admin";
+  role: "customer" | "admin" | "vendor" | "ambassador";
   active: boolean;
   version: number;
 };
@@ -80,6 +80,8 @@ export function AccountAccessEditor({ account }: { account: Account }) {
             >
               <option value="customer">Pelanggan</option>
               <option value="admin">Admin</option>
+              <option value="vendor">Vendor</option>
+              <option value="ambassador">Brand Ambassador</option>
             </select>
           </label>
           <label className="flex gap-2 text-sm">

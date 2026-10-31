@@ -1,4 +1,4 @@
-﻿import { dashboardContext } from "../_components/dashboard-context";
+import { dashboardContext } from "../_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { CustomerDashboard } from "@/features/customer-workspace/components/customer-dashboard";
 import { getWorkspaceService } from "@/server/workspaces/runtime";

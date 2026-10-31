@@ -3,5 +3,7 @@ import { defineConfig } from "prisma/config";
 export default defineConfig({
   schema: "prisma/schema",
   migrations: { path: "prisma/migrations" },
-  datasource: { url: process.env.DIRECT_URL || "postgresql://v2:v2@localhost:5432/menujuakad_v2" },
+  datasource: {
+    url: process.env.DIRECT_URL || process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/menujuakad_v2",
+  },
 });

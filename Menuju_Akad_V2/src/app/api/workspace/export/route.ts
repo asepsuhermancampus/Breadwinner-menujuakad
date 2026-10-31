@@ -1,4 +1,4 @@
-﻿import {
+import {
   requireAuthOwner,
   jsonResponse,
   NO_CACHE_HEADERS,
@@ -45,4 +45,3 @@ export async function GET(req: Request) {
     return handlePaymentApiError(cause);
   }
 }
-

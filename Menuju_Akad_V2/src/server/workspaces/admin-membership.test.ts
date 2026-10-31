@@ -73,8 +73,12 @@ it("cancels only the matching pending invite, records the action and preserves l
   expect(() => cancelAdminInvite(db, "root", workspace.id, invite, "reason")).toThrow(/berubah/i);
   expect(membership.previewInvite("partner", second.token)).toBeDefined();
   const latest = listAdminMemberships(db, "owner")[0]!.invite!;
-  db.exec("CREATE TRIGGER reject_invite_audit BEFORE INSERT ON workspace_membership_audit BEGIN SELECT RAISE(ABORT, 'audit failed'); END");
-  expect(() => cancelAdminInvite(db, "root", workspace.id, latest, "reason")).toThrow(/audit failed/);
+  db.exec(
+    "CREATE TRIGGER reject_invite_audit BEFORE INSERT ON workspace_membership_audit BEGIN SELECT RAISE(ABORT, 'audit failed'); END",
+  );
+  expect(() => cancelAdminInvite(db, "root", workspace.id, latest, "reason")).toThrow(
+    /audit failed/,
+  );
   expect(membership.previewInvite("partner", second.token)).toBeDefined();
   db.exec("DROP TRIGGER reject_invite_audit");
   cancelAdminInvite(db, "root", workspace.id, latest, "  Permintaan pemilik ");

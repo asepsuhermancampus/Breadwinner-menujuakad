@@ -1,4 +1,4 @@
-﻿import { expect, it, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 import { PaymentDatabase } from "@/server/payments/db";
 import { WorkspaceService } from "./service";
 import { updateFeatureAvailability } from "./feature-availability";

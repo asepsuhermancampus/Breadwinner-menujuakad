@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import {
   applyFinanceRequest,
   emptyFinanceBook,
@@ -53,7 +53,9 @@ export class FinanceService {
         .get(workspace.id, account)
     )
       throw new PaymentError("Akses workspace ditolak.", 403);
-    if (!readFeatureAvailability(this.workspaces.db, "finance", workspace.role, workspace).available)
+    if (
+      !readFeatureAvailability(this.workspaces.db, "finance", workspace.role, workspace).available
+    )
       throw new PaymentError("Keuangan belum tersedia untuk akun ini.", 403);
     return workspace.id;
   }
@@ -191,4 +193,3 @@ export class FinanceService {
     }
   }
 }
-

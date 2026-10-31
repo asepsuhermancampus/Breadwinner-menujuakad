@@ -25,7 +25,14 @@ export function safeReturnTo(value: string | null): string {
   )
     return value;
   if (value && /^\/join\/[a-f0-9]{64}$/.test(value)) return value;
-  if (value === "/account" || value === "/dashboard" || value === "/checkout/qris") return value;
+  if (
+    value === "/account" ||
+    value === "/dashboard" ||
+    value === "/vendor" ||
+    value === "/ba" ||
+    value === "/checkout/qris"
+  )
+    return value;
   if (
     value &&
     /^\/checkout\/qris\?intent=[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(

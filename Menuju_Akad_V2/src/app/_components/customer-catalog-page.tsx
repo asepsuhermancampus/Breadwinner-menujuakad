@@ -1,4 +1,4 @@
-﻿import { CatalogRequests } from "@/features/marketplace/components/catalog-requests";
+import { CatalogRequests } from "@/features/marketplace/components/catalog-requests";
 import { notFound } from "next/navigation";
 import { auth } from "@/server/auth";
 import { isOperator } from "@/server/identity/policy";
@@ -18,8 +18,12 @@ export async function CustomerCatalogPage({
   const access = await dashboardContext(),
     session = access.mode === "account" ? await auth() : null;
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
-  const unavailable = !readFeatureAvailability(getWorkspaceService().db, "vendors", audience, access.mode === "guest" ? null : access.workspace)
-    .available;
+  const unavailable = !readFeatureAvailability(
+    getWorkspaceService().db,
+    "vendors",
+    audience,
+    access.mode === "guest" ? null : access.workspace,
+  ).available;
   if (unavailable)
     return (
       <CustomerShell access={access} initialFeatureUnavailable>
@@ -43,4 +47,3 @@ export async function CustomerCatalogPage({
     </CustomerShell>
   );
 }
-

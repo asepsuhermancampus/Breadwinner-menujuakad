@@ -1,4 +1,4 @@
-﻿import {
+import {
   requireAuthOwner,
   jsonResponse,
   handlePaymentApiError,
@@ -18,7 +18,8 @@ export async function GET(req: Request) {
     const workspace = await activeWorkspace(auth.owner);
     if (
       workspace.role !== "owner" ||
-      !readFeatureAvailability(getWorkspaceService().db, "domain", workspace.role, workspace).available
+      !readFeatureAvailability(getWorkspaceService().db, "domain", workspace.role, workspace)
+        .available
     )
       throw new PaymentError("Custom domain belum tersedia untuk akun ini.", 403);
     return jsonResponse({ domain: new DomainService(getWorkspaceService()).get(auth.owner) });
@@ -35,7 +36,8 @@ export async function POST(req: Request) {
     const workspace = await activeWorkspace(auth.owner);
     if (
       workspace.role !== "owner" ||
-      !readFeatureAvailability(getWorkspaceService().db, "domain", workspace.role, workspace).available
+      !readFeatureAvailability(getWorkspaceService().db, "domain", workspace.role, workspace)
+        .available
     )
       throw new PaymentError("Custom domain belum tersedia untuk akun ini.", 403);
     const body = await readBoundedJson(req),
@@ -49,4 +51,3 @@ export async function POST(req: Request) {
     return handlePaymentApiError(cause);
   }
 }
-

@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 import { randomBytes } from "node:crypto";
 import { resolveTxt } from "node:dns/promises";
 import { PaymentError } from "@/server/payments/errors";
@@ -77,8 +77,12 @@ export class DomainService {
       if (!domain) throw new PaymentError("Daftarkan domain dahulu", 400);
       current = domain;
       workspaceId = this.workspaces.getOrCreateWorkspace(owner).id;
-      const row = db.prepare(`INSERT INTO workspace_domain_verifications(workspace_id,revision) VALUES(?,1)
-        ON CONFLICT(workspace_id) DO UPDATE SET revision=revision+1 RETURNING revision`).get(workspaceId)!;
+      const row = db
+        .prepare(
+          `INSERT INTO workspace_domain_verifications(workspace_id,revision) VALUES(?,1)
+        ON CONFLICT(workspace_id) DO UPDATE SET revision=revision+1 RETURNING revision`,
+        )
+        .get(workspaceId)!;
       revision = Number(row["revision"]);
       db.exec("COMMIT");
     } catch (error) {
@@ -97,9 +101,14 @@ export class DomainService {
       const latest = this.get(owner);
       if (!latest || latest.hostname !== current.hostname || latest.challenge !== current.challenge)
         throw new PaymentError("Domain berubah. Periksa data terbaru sebelum memverifikasi.", 409);
-      const marker = db.prepare("SELECT revision FROM workspace_domain_verifications WHERE workspace_id=?").get(workspaceId);
+      const marker = db
+        .prepare("SELECT revision FROM workspace_domain_verifications WHERE workspace_id=?")
+        .get(workspaceId);
       if (Number(marker?.["revision"]) !== revision)
-        throw new PaymentError("Ada pemeriksaan domain yang lebih baru. Periksa status terbaru.", 409);
+        throw new PaymentError(
+          "Ada pemeriksaan domain yang lebih baru. Periksa status terbaru.",
+          409,
+        );
       const w = this.workspaces.getOrCreateWorkspace(owner);
       // Local hosting cannot provision routing/TLS. DNS proof alone never means active.
       db.prepare("UPDATE workspace_domains SET state=?,checked_at=? WHERE workspace_id=?").run(
@@ -116,4 +125,3 @@ export class DomainService {
     }
   }
 }
-

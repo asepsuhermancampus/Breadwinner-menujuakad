@@ -1,4 +1,4 @@
-﻿import { dashboardContext } from "@/app/_components/dashboard-context";
+import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
@@ -14,8 +14,12 @@ export default async function Page() {
   const maintenance =
     readPlanningMaintenance(getWorkspaceService().db, "guests").status === "maintenance";
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
-  const unavailable = !readFeatureAvailability(getWorkspaceService().db, "guests", audience, access.mode === "guest" ? null : access.workspace)
-    .available;
+  const unavailable = !readFeatureAvailability(
+    getWorkspaceService().db,
+    "guests",
+    audience,
+    access.mode === "guest" ? null : access.workspace,
+  ).available;
   return (
     <CustomerShell access={access} initialFeatureUnavailable={unavailable}>
       {unavailable ? (
@@ -40,4 +44,3 @@ export default async function Page() {
     </CustomerShell>
   );
 }
-

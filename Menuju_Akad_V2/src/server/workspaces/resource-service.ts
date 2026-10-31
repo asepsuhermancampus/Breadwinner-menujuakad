@@ -1,4 +1,4 @@
-﻿import {
+import {
   createDocumentTemplate,
   preservesMainDocuments,
   type DocumentItem,
@@ -176,5 +176,3 @@ export class ResourceService {
     }
   }
 }
-
-

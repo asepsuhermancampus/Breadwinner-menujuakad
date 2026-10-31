@@ -1,4 +1,4 @@
-﻿import { dashboardContext } from "@/app/_components/dashboard-context";
+import { dashboardContext } from "@/app/_components/dashboard-context";
 import { CustomerShell } from "@/features/customer-workspace/components/customer-shell";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
@@ -12,12 +12,17 @@ export const dynamic = "force-dynamic";
 export default async function InvitationsPage() {
   const access = await dashboardContext();
   const audience = access.mode === "guest" ? "guest" : access.workspace.role;
-  const unavailable = !readFeatureAvailability(getWorkspaceService().db, "invitations", audience, access.mode === "guest" ? null : access.workspace)
-    .available;
+  const unavailable = !readFeatureAvailability(
+    getWorkspaceService().db,
+    "invitations",
+    audience,
+    access.mode === "guest" ? null : access.workspace,
+  ).available;
   const studioAvailable = readFeatureAvailability(
     getWorkspaceService().db,
     "studio-drafts",
-    audience, access.mode === "guest" ? null : access.workspace,
+    audience,
+    access.mode === "guest" ? null : access.workspace,
   ).available;
   const maintenance =
     readPlanningMaintenance(getWorkspaceService().db, "invitations").status === "maintenance";
@@ -45,4 +50,3 @@ export default async function InvitationsPage() {
     </CustomerShell>
   );
 }
-

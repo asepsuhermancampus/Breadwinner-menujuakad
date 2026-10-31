@@ -8,11 +8,13 @@
 **Spec:** docs/superpowers/specs/2026-10-30-feature-rollout-design.md
 
 ## Global Constraints
+
 - Data dan draf pelanggan tidak dihapus; proses publik dan transaksi yang berjalan tetap tersedia.
 - Tidak ada akses tambahan di luar hak paket, keanggotaan dan pembatasan fitur yang ada.
 - Database SQLite terpisah antar instance tidak tersinkronisasi.
 
 ## Review Focus
+
 - Partner memakai paket workspace pemilik; akses API langsung tidak melewati aturan.
 - Dua admin dan jadwal bersaing: revisi lama ditolak, snapshot tidak tertimpa.
 - Rollback tidak menghapus data dan jadwal sebelumnya tidak diam-diam membatalkan rollback.
@@ -20,6 +22,7 @@
 - Fitur terkait Keuangan, Katering, RSVP dan transaksi mempertahankan perilaku aman.
 
 ## Tasks
+
 1. Tes dan implementasikan model draf, validasi, preview, publikasi terjadwal, riwayat, dan rollback dengan konflik revisi.
 2. Tes lalu sambungkan evaluator ke seluruh jalur halaman dan API menggunakan workspace dan paket yang benar, termasuk guest dan partner.
 3. Tes API superadmin, otorisasi, input dan konflik; buat panel untuk mengelola dan memeriksa rilis.

@@ -92,17 +92,39 @@ it("does not let an older DNS check overwrite a newer result", async () => {
   try {
     const db = database.storage();
     database.reserveInvoice("owner", "production", "domain-order", 1000);
-    db.prepare("INSERT INTO subscription_grants VALUES(?,?,?,?,?,?,?)").run("grant", "domain-order", "owner", "lifetime", new Date().toISOString(), null, JSON.stringify(capabilitiesFor("lifetime")));
+    db.prepare("INSERT INTO subscription_grants VALUES(?,?,?,?,?,?,?)").run(
+      "grant",
+      "domain-order",
+      "owner",
+      "lifetime",
+      new Date().toISOString(),
+      null,
+      JSON.stringify(capabilitiesFor("lifetime")),
+    );
     const domain = new DomainService(new WorkspaceService(db));
     const before = domain.requestDomain("owner", "wedding-example.com")!;
     let finishOld!: (records: string[][]) => void;
     let finishNew!: (records: string[][]) => void;
-    const old = domain.verifyDomain("owner", () => new Promise((resolve) => { finishOld = resolve; }));
-    const newer = domain.verifyDomain("owner", () => new Promise((resolve) => { finishNew = resolve; }));
+    const old = domain.verifyDomain(
+      "owner",
+      () =>
+        new Promise((resolve) => {
+          finishOld = resolve;
+        }),
+    );
+    const newer = domain.verifyDomain(
+      "owner",
+      () =>
+        new Promise((resolve) => {
+          finishNew = resolve;
+        }),
+    );
     finishNew([[before.challenge]]);
     expect((await newer)?.state).toBe("pending-hosting");
     finishOld([]);
     await expect(old).rejects.toThrow(/berubah|lebih baru/i);
     expect(domain.get("owner")?.state).toBe("pending-hosting");
-  } finally { database.close(); }
+  } finally {
+    database.close();
+  }
 });
