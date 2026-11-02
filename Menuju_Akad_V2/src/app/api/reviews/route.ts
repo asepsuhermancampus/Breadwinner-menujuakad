@@ -45,8 +45,7 @@ export function POST(request: Request) {
     });
     return reviewJson(
       {
-        message:
-          "Terima kasih! Ulasan Anda sudah diterima dan akan diverifikasi oleh superadmin sebelum ditampilkan.",
+        message: "Terima kasih! Cerita ulasan Anda telah berhasil disimpan.",
       },
       201,
     );

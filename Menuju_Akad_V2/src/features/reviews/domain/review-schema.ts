@@ -2,7 +2,13 @@ import { z } from "zod";
 
 export const reviewInputSchema = z.object({
   name: z.string().trim().min(2, "Nama minimal 2 karakter.").max(80),
-  rating: z.number().int().min(1).max(5),
+  rating: z
+    .number()
+    .min(1, "Rating minimal 1 bintang.")
+    .max(5, "Rating maksimal 5 bintang.")
+    .refine((val) => Math.abs(val * 2 - Math.round(val * 2)) < 1e-6, {
+      message: "Rating harus kelipatan 0.5 (contoh: 4.5 atau 5).",
+    }),
   comment: z.string().trim().min(10, "Komentar minimal 10 karakter.").max(2000),
 });
 export type ReviewInput = z.infer<typeof reviewInputSchema>;
@@ -14,6 +20,6 @@ export const loginSchema = z.object({
 export const reviewQuerySchema = z.object({
   page: z.coerce.number().int().min(1).max(1_000_000).default(1),
   status: z.enum(["pending", "published", "hidden"]).optional(),
-  rating: z.coerce.number().int().min(1).max(5).optional(),
+  rating: z.coerce.number().min(1).max(5).optional(),
   search: z.string().trim().max(80).optional(),
 });

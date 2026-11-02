@@ -38,8 +38,8 @@ export function ReviewAuthGate({ onClose }: { onClose: () => void }) {
         <div className="flex items-start gap-2.5">
           <span className="font-bold text-foreground">2.</span>
           <p>
-            <strong className="text-foreground">Moderasi Superadmin:</strong> Semua ulasan akan
-            dipantau terlebih dahulu di panel Superadmin sebelum tampil di beranda.
+            <strong className="text-foreground">Komunitas Pengantin:</strong> Berbagi inspirasi dan
+            tips persiapan nyata untuk calon pengantin lainnya.
           </p>
         </div>
       </div>

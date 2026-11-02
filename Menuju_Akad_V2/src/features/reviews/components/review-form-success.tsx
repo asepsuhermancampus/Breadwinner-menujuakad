@@ -15,8 +15,8 @@ export function ReviewFormSuccess({ onClose }: { onClose: () => void }) {
       <div>
         <h3 className="text-lg font-bold text-foreground">Terima Kasih atas Cerita Anda!</h3>
         <p className="mt-2 text-xs leading-relaxed text-secondary sm:text-sm">
-          Ulasan Anda telah masuk ke antrean panel <strong>Superadmin</strong>. Tim kami akan
-          memverifikasinya sebelum ditampilkan di beranda publik.
+          Cerita dan ulasan pengalaman Anda telah berhasil kami terima. Masukan Anda sangat berarti
+          untuk membantu calon pengantin lainnya serta menyempurnakan Menuju Akad.
         </p>
       </div>
       <Button onClick={onClose} className="w-full">

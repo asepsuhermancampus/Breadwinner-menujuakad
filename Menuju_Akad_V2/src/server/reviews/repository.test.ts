@@ -24,9 +24,11 @@ afterEach(() => {
 });
 
 describe("private reviews and publication", () => {
-  it("validates integer stars and bounded trimmed text", () => {
+  it("validates fractional half-stars and bounded trimmed text", () => {
     expect(reviewInputSchema.parse({ ...input, name: " Nadia " }).name).toBe("Nadia");
-    for (const rating of [0, 6, 1.5, "5", null])
+    expect(reviewInputSchema.parse({ ...input, rating: 4.5 }).rating).toBe(4.5);
+    expect(reviewInputSchema.parse({ ...input, rating: 1.5 }).rating).toBe(1.5);
+    for (const rating of [0, 6, 4.23, "5", null])
       expect(reviewInputSchema.safeParse({ ...input, rating }).success).toBe(false);
     for (const comment of ["short", "x".repeat(2001), " ".repeat(20)])
       expect(reviewInputSchema.safeParse({ ...input, comment }).success).toBe(false);
@@ -53,6 +55,15 @@ describe("private reviews and publication", () => {
     repo.moderate(review.id, "hidden", "admin-id");
     expect(repo.publicList(1).items).toEqual([]);
     expect(repo.list({ page: 1, status: "hidden" }).items[0]?.moderatedBy).toBe("admin-id");
+  });
+  it("stores and publishes half-star reviews such as 4.5", () => {
+    const { repo } = setup();
+    const review = repo.submit({ ...input, rating: 4.5 });
+    expect(review.rating).toBe(4.5);
+    repo.moderate(review.id, "published", "admin-id");
+    const visible = repo.publicList(1);
+    expect(visible.items[0]?.rating).toBe(4.5);
+    expect(visible.average).toBe(4.5);
   });
   it("has no publication cap and filters literal searches", () => {
     const { repo } = setup();

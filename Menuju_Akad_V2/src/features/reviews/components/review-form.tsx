@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { Send, Star, ShieldCheck } from "lucide-react";
+import { Send, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Field } from "@/components/ui/field";
@@ -10,6 +10,7 @@ import { reviewRequest } from "../lib/review-request";
 import { ReviewPackageBadge } from "./review-package-badge";
 import { ReviewAuthGate } from "./review-auth-gate";
 import { ReviewFormSuccess } from "./review-form-success";
+import { ReviewRatingPicker } from "./review-rating-picker";
 import type { ReviewTier } from "../types";
 import styles from "./reviews.module.css";
 
@@ -21,7 +22,7 @@ type AuthIdentity = {
 export function ReviewForm({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [authData, setAuthData] = useState<AuthIdentity | null>(null);
   const [name, setName] = useState(""), [comment, setComment] = useState("");
-  const [rating, setRating] = useState(5), [hover, setHover] = useState(0);
+  const [rating, setRating] = useState(5);
   const [busy, setBusy] = useState(false), [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const submitting = useRef(false);
@@ -105,40 +106,12 @@ export function ReviewForm({ open, onClose }: { open: boolean; onClose: () => vo
             </div>
           )}
 
-          <fieldset disabled={busy}>
-            <legend className="mb-2 text-xs font-semibold text-secondary">Penilaian Anda</legend>
-            <div className="flex gap-1.5" onMouseLeave={() => setHover(0)}>
-              {[1, 2, 3, 4, 5].map((val) => {
-                const filled = val <= (hover || rating);
-                return (
-                  <label
-                    key={val}
-                    className="cursor-pointer transition-transform hover:scale-110"
-                    onMouseEnter={() => setHover(val)}
-                  >
-                    <input
-                      type="radio"
-                      name="review-rating"
-                      value={val}
-                      checked={rating === val}
-                      onChange={() => setRating(val)}
-                      aria-label={`${val} bintang`}
-                      className="sr-only"
-                    />
-                    <Star
-                      size={30}
-                      strokeWidth={1.3}
-                      className={filled ? "fill-amber-400 text-amber-400" : "text-amber-400/30"}
-                      aria-hidden="true"
-                    />
-                  </label>
-                );
-              })}
-            </div>
-            <p className="mt-1 text-xs font-medium text-foreground">
-              {rating} dari 5 bintang {rating === 5 ? "· Sempurna!" : ""}
-            </p>
-          </fieldset>
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-secondary">
+              Penilaian Anda
+            </label>
+            <ReviewRatingPicker value={rating} onChange={setRating} disabled={busy} />
+          </div>
 
           <Field
             label="Nama pasangan / panggilan"
@@ -172,11 +145,6 @@ export function ReviewForm({ open, onClose }: { open: boolean; onClose: () => vo
             </span>
           </div>
 
-          <div className="rounded-lg border border-ux-border/50 bg-subtle/50 p-3 text-[11px] text-muted leading-relaxed">
-            🛡️ Ulasan Anda akan dimoderasi terlebih dahulu di panel Superadmin sebelum tampil di
-            beranda untuk menjaga keaslian cerita komunitas pengantin.
-          </div>
-
           {error && (
             <p role="alert" className="text-xs text-danger font-medium">
               {error}
@@ -185,7 +153,7 @@ export function ReviewForm({ open, onClose }: { open: boolean; onClose: () => vo
 
           <Button type="submit" disabled={busy} className="w-full">
             <Send size={15} aria-hidden="true" />
-            {busy ? "Mengirim ulasan…" : "Kirim Ulasan untuk Diverifikasi"}
+            {busy ? "Mengirim ulasan…" : "Kirim Ulasan"}
           </Button>
         </form>
       )}
