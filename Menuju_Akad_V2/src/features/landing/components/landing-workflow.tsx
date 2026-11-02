@@ -43,7 +43,7 @@ export function LandingWorkflow() {
     >
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
         {/* Botanical Flower SVG di Pojok Bawah Kiri kontainer max-w-7xl dimiringkan ke kanan (Non-interactive) */}
-        <div className="pointer-events-none absolute -bottom-24 -left-6 z-0 origin-bottom-left rotate-12 select-none opacity-20 sm:-bottom-28 sm:-left-8 sm:rotate-15">
+        <div className="pointer-events-none absolute -bottom-40 -left-6 z-0 origin-bottom-left rotate-12 select-none opacity-20 sm:-bottom-44 sm:-left-8 sm:rotate-15">
           <Image
             src="/assets/landing/vectors-flower-1.svg"
             alt=""
