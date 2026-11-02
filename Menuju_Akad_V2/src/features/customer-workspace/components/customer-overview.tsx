@@ -132,6 +132,10 @@ export function CustomerOverview({
         readinessPercent={readiness}
         readinessLabel="Checklist & berkas siap"
         tasksAvailable={tasksAvailable}
+        tasksCompleted={completed}
+        tasksTotal={tasks.length}
+        documentsReady={readyDocuments}
+        documentsTotal={documents.length}
       />
       {error && (
         <p role="alert" className="text-sm text-danger">
