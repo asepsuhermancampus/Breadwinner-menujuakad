@@ -38,7 +38,7 @@ export function SavingsDonutPane({
   const partnerTextColor = isUserBride
     ? "text-emerald-700 dark:text-emerald-400"
     : "text-rose-600 dark:text-rose-400";
-  const usedColor = "#6366f1";
+  const usedColor = "#087f5b";
 
   return (
     <div className="flex flex-col items-center p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
@@ -90,7 +90,7 @@ export function SavingsDonutPane({
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: usedColor }} />
               Terpakai Bayar Anggaran
             </span>
-            <span className="font-mono font-medium text-indigo-700 dark:text-indigo-400">
+            <span className="font-mono font-medium text-[#087f5b] dark:text-emerald-400">
               Rp {usedForBudget.toLocaleString("id-ID")}
             </span>
           </div>
