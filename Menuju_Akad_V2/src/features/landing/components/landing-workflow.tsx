@@ -1,35 +1,37 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 import {
-  StepCard,
-  StepOneVisual,
-  StepTwoVisual,
-  StepThreeVisual,
+  MasterStepCard,
+  MasterStepOneVisual,
+  MasterStepTwoVisual,
+  MasterStepThreeVisual,
 } from "./landing-workflow-cards";
 
-const workflowSteps = [
+const masterSteps = [
   {
     num: "01",
-    category: "Babak Pertama",
+    category: "Ruang Bersama",
     title: "Mulai Bersama Pasangan",
-    desc: "Buat ruang privat berdua dan sepakati tanggal target akad. Selaraskan seluruh rencana awal dalam satu genggaman.",
-    chips: ["Tautan Pasangan Instan", "Target Tanggal Akad"],
-    visual: <StepOneVisual />,
+    desc: "Daftar gratis lalu undang pasanganmu ke satu dasbor privat. Satukan target tanggal akad tanpa ada catatan tercecer di chat.",
+    chips: ["Tautan Pasangan Instan", "Sinkronisasi Otomatis"],
+    visual: <MasterStepOneVisual />,
   },
   {
     num: "02",
-    category: "Babak Kedua",
-    title: "Eksekusi Berkas & Vendor",
-    desc: "Penuhi syarat nikah KUA tanpa cemas, bagi tanggung jawab keluarga, dan kunci kesepakatan vendor acara secara transparan.",
-    chips: ["Verifikasi KUA", "Simulasi Katering & Biaya"],
-    visual: <StepTwoVisual />,
+    category: "Berkas & Biaya",
+    title: "Kelola Berkas & Anggaran",
+    desc: "Pantau syarat nikah KUA resmi (N1, N2, N4), hitung simulasi porsi katering otomatis, dan catat komitmen tabungan berdua secara transparan.",
+    chips: ["Checklist Berkas KUA", "Kalkulator Katering"],
+    visual: <MasterStepTwoVisual />,
   },
   {
     num: "03",
-    category: "Babak Ketiga",
-    title: "Sambut Hari Pernikahan",
-    desc: "Sebarkan undangan digital personal, rekap konfirmasi kehadiran tamu secara otomatis, dan kelola check-in cepat di meja resepsi.",
-    chips: ["Undangan Digital", "Buku Tamu QR Meja Resepsi"],
-    visual: <StepThreeVisual />,
+    category: "Tamu & Acara",
+    title: "Undangan & Meja Resepsi",
+    desc: "Pilih desain undangan eksklusif, pantau rekap RSVP tamu secara otomatis, dan kelola kehadiran cepat dengan pemindaian QR di lokasi akad.",
+    chips: ["Undangan Digital", "Buku Tamu QR Resepsi"],
+    visual: <MasterStepThreeVisual />,
   },
 ];
 
@@ -51,7 +53,7 @@ export function LandingWorkflow() {
         />
       </div>
 
-      {/* Subtle Ambient Depth Lighting */}
+      {/* Subtle Ambient Lighting Orbs */}
       <div
         className="pointer-events-none absolute -left-36 top-1/4 size-96 rounded-full bg-emerald-400/10 blur-3xl"
         aria-hidden="true"
@@ -62,21 +64,30 @@ export function LandingWorkflow() {
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Tiga babak perjalanan,{" "}
+        {/* Header Section Master */}
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-champagne/30 bg-white/[0.08] px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-200 uppercase backdrop-blur-md">
+            <Sparkles size={12} className="text-amber-300" />
+            <span>Alur Terencana Menuju Akad</span>
+          </div>
+
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Satu ruang berdua,{" "}
             <span className="font-serif font-normal italic text-emerald-200">
-              menuju hari bahagia.
+              terencana sempurna.
             </span>
           </h2>
+
           <p className="mt-4 text-sm leading-relaxed text-emerald-100/80 sm:text-base">
-            Alur praktis yang membimbing kalian berdua dari hari pertama perencanaan hingga menyambut tamu di hari akad nikah.
+            Dari menyelaraskan visi dan berkas KUA, kalkulasi dana vendor, hingga membagikan
+            undangan digital dan menyambut tamu dengan scan QR di hari pernikahan.
           </p>
         </div>
 
+        {/* 3 Master Cards */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-          {workflowSteps.map((step) => (
-            <StepCard
+          {masterSteps.map((step) => (
+            <MasterStepCard
               key={step.num}
               num={step.num}
               category={step.category}
@@ -86,6 +97,22 @@ export function LandingWorkflow() {
               visual={step.visual}
             />
           ))}
+        </div>
+
+        {/* Bottom Action Strip */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-md sm:flex-row sm:px-8">
+          <div className="flex items-center gap-2.5 text-xs text-emerald-100/90">
+            <ShieldCheck size={16} className="text-emerald-300" />
+            <span>Tersedia di paket Free & Lifetime · 100% bebas iklan pihak ketiga</span>
+          </div>
+
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 rounded-control bg-white px-5 py-2.5 text-xs font-semibold text-brand-secondary shadow-md transition hover:bg-neutral-100"
+          >
+            <span>Mulai Ruang Bersama Gratis</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
       </div>
     </section>
