@@ -9,26 +9,26 @@ import {
 const workflowSteps = [
   {
     num: "01",
-    category: "Ruang Bersama",
-    title: "Buat Ruang Bersama",
-    desc: "Daftar gratis lalu undang pasanganmu. Satukan checklist tugas, kelengkapan berkas KUA, dan persiapan akad dalam satu dasbor yang tersinkronisasi otomatis.",
-    chips: ["Sinkronisasi Berdua", "Kesiapan Berkas KUA"],
+    category: "Babak Pertama",
+    title: "Mulai Bersama Pasangan",
+    desc: "Buat ruang privat berdua dan sepakati tanggal target akad. Selaraskan seluruh rencana awal dalam satu genggaman.",
+    chips: ["Tautan Pasangan Instan", "Target Tanggal Akad"],
     visual: <StepOneVisual />,
   },
   {
     num: "02",
-    category: "Anggaran & Tugas",
-    title: "Kelola Rencana & Biaya",
-    desc: "Catat alokasi anggaran pernikahan, simulasi kebutuhan porsi katering, dan bagi tanggung jawab tugas keluarga secara transparan tanpa takut overbudget.",
-    chips: ["Pelacak Anggaran", "Kalkulator Katering"],
+    category: "Babak Kedua",
+    title: "Eksekusi Berkas & Vendor",
+    desc: "Penuhi syarat nikah KUA tanpa cemas, bagi tanggung jawab keluarga, dan kunci kesepakatan vendor acara secara transparan.",
+    chips: ["Verifikasi KUA", "Simulasi Katering & Biaya"],
     visual: <StepTwoVisual />,
   },
   {
     num: "03",
-    category: "Tamu & Undangan",
-    title: "Bagikan Undangan Digital",
-    desc: "Pilih desain undangan eksklusif, lengkapi cerita bahagia kalian, dan pantau tamu yang konfirmasi hadir langsung dari ponsel dengan scan QR check-in.",
-    chips: ["Undangan Digital", "Buku Tamu & QR Check-in"],
+    category: "Babak Ketiga",
+    title: "Sambut Hari Pernikahan",
+    desc: "Sebarkan undangan digital personal, rekap konfirmasi kehadiran tamu secara otomatis, dan kelola check-in cepat di meja resepsi.",
+    chips: ["Undangan Digital", "Buku Tamu QR Meja Resepsi"],
     visual: <StepThreeVisual />,
   },
 ];
@@ -64,13 +64,13 @@ export function LandingWorkflow() {
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Tiga langkah mudah,{" "}
+            Tiga babak perjalanan,{" "}
             <span className="font-serif font-normal italic text-emerald-200">
-              terencana sempurna.
+              menuju hari bahagia.
             </span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-emerald-100/80 sm:text-base">
-            Dari perencanaan berdua di dasbor hingga menyambut kehadiran para tamu di hari akad nikah.
+            Alur praktis yang membimbing kalian berdua dari hari pertama perencanaan hingga menyambut tamu di hari akad nikah.
           </p>
         </div>
 

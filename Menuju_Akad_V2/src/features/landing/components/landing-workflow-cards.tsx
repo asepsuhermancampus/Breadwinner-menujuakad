@@ -1,116 +1,111 @@
-import { Heart, Check, QrCode, Wallet, CheckCircle2 } from "lucide-react";
+import { Heart, Check, QrCode, CalendarCheck, Send } from "lucide-react";
 
 /**
- * Visual Ruang Bersama: Replika tampilan profil pasangan di halaman Dashboard
+ * Visual Fase 01: Koneksi Akun Berdua
  */
 export function StepOneVisual() {
   return (
-    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-emerald-400" />
-          <span className="text-xs font-semibold text-white">Ruang Privat Pasangan</span>
+          <span className="text-xs font-semibold text-white">Langkah Awal Berdua</span>
         </div>
         <span className="rounded-full border border-emerald-400/40 bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-medium text-emerald-200">
-          Akun Terhubung
+          Undangan Instan
         </span>
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2 text-left">
-        <div className="rounded-xl border border-white/5 bg-white/[0.04] p-2.5">
+      <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.04] p-3 border border-white/5">
+        <div className="text-left">
           <span className="block text-[10px] text-emerald-200/70">Mempelai Wanita</span>
-          <span className="font-semibold text-white text-xs">Sarah</span>
-          <span className="block text-[10px] text-white/50">Pembuat Ruang</span>
+          <span className="text-xs font-bold text-white">Sarah</span>
         </div>
-        <div className="rounded-xl border border-white/5 bg-white/[0.04] p-2.5">
-          <div className="flex items-center justify-between">
-            <span className="block text-[10px] text-amber-200/70">Mempelai Pria</span>
-            <Heart size={10} className="fill-amber-300 text-amber-300" />
-          </div>
-          <span className="font-semibold text-white text-xs">Dimas</span>
-          <span className="block text-[10px] text-white/50">Partner Terverifikasi</span>
+        <div className="flex items-center gap-1.5 px-2">
+          <div className="h-px w-3 bg-white/20" />
+          <Heart size={12} className="fill-amber-300 text-amber-300" />
+          <div className="h-px w-3 bg-white/20" />
+        </div>
+        <div className="text-right">
+          <span className="block text-[10px] text-amber-200/70">Mempelai Pria</span>
+          <span className="text-xs font-bold text-white">Dimas</span>
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between pt-1 text-[11px] text-emerald-100/80">
-        <span>Kesiapan Akad & Berkas</span>
-        <span className="font-semibold text-emerald-300">75% Siap</span>
+      <div className="mt-3 flex items-center justify-between text-[11px] text-emerald-100/80">
+        <span>Target Hari H</span>
+        <span className="font-semibold text-emerald-300">14 Februari 2027</span>
       </div>
     </div>
   );
 }
 
 /**
- * Visual Rencana & Biaya: Replika modul Tabungan, Anggaran & Checklist Dashboard
+ * Visual Fase 02: Legalitas KUA & Koordinasi Vendor
  */
 export function StepTwoVisual() {
   return (
-    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div className="flex items-center gap-1.5 text-xs text-white">
-          <Wallet size={14} className="text-emerald-300" />
-          <span className="font-semibold">Anggaran Acara</span>
+          <CalendarCheck size={14} className="text-emerald-300" />
+          <span className="font-semibold">Fase Eksekusi Acara</span>
         </div>
-        <span className="font-mono text-xs font-semibold text-emerald-200">
-          Rp 85.000.000
-        </span>
+        <span className="text-[10px] text-emerald-300 font-medium">Bulan 2 - 3</span>
       </div>
 
-      <div className="mt-3 space-y-2">
-        <div className="flex items-center justify-between text-[11px] text-emerald-100/80">
-          <span>Checklist Tugas Acara</span>
-          <span className="font-mono font-medium text-white">18/24 Selesai</span>
+      <div className="mt-3 space-y-2 text-left">
+        <div className="flex items-center justify-between rounded-lg bg-white/[0.04] px-3 py-2 border border-white/5 text-[11px]">
+          <span className="text-emerald-100">Pemberkasan KUA Kecamatan</span>
+          <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-bold text-emerald-200">
+            Terverifikasi
+          </span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full rounded-full bg-emerald-400"
-            style={{ width: "75%" }}
-          />
+        <div className="flex items-center justify-between rounded-lg bg-white/[0.04] px-3 py-2 border border-white/5 text-[11px]">
+          <span className="text-emerald-100">DP & Kontrak Vendor Katering</span>
+          <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[9px] font-bold text-amber-200">
+            Deal
+          </span>
         </div>
       </div>
 
-      <div className="mt-3.5 flex items-center justify-between border-t border-white/5 pt-2 text-[11px]">
-        <span className="inline-flex items-center gap-1 text-emerald-100/80">
-          <CheckCircle2 size={11} className="text-emerald-300" />
-          Berkas KUA (N1, N2, N4)
-        </span>
-        <span className="rounded-sm bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-200">
-          8/8 Lengkap
-        </span>
+      <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2 text-[11px] text-emerald-100/80">
+        <span>Simulasi Pengeluaran</span>
+        <span className="font-semibold text-emerald-300">Transparan</span>
       </div>
     </div>
   );
 }
 
 /**
- * Visual Undangan & Tamu: Replika modul Undangan Digital, Daftar Tamu & QR Check-in
+ * Visual Fase 03: Publikasi Undangan & Hari H
  */
 export function StepThreeVisual() {
   return (
-    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="flex items-center gap-1.5 text-xs text-white">
+          <Send size={13} className="text-emerald-300" />
+          <span className="font-semibold">Hari Bahagia & Tamu</span>
+        </div>
+        <span className="text-[10px] text-emerald-300 font-medium">Hari H</span>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.04] p-3 border border-white/5 text-left">
         <div>
           <span className="block font-serif text-xs italic text-emerald-200">
-            Sarah & Dimas
+            Undangan Sarah & Dimas
           </span>
-          <span className="text-[10px] text-white/60">Tema Editorial Light</span>
+          <span className="text-[10px] text-white/60">Tautan Unik Terkirim</span>
         </div>
         <div className="flex size-7 items-center justify-center rounded-lg border border-amber-300/30 bg-amber-400/10 text-amber-200">
           <QrCode size={14} />
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between text-[11px] text-emerald-100/80">
-        <span>Daftar Tamu Tercatat</span>
-        <span className="font-mono font-semibold text-white">450 Tamu</span>
-      </div>
-
-      <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2.5 text-[11px]">
-        <span className="inline-flex items-center gap-1.5 text-emerald-100/80">
-          <span className="size-1.5 rounded-full bg-emerald-400" />
-          Kehadiran Tamu (RSVP)
-        </span>
-        <span className="font-semibold text-emerald-300">92% Konfirmasi Hadir</span>
+      <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2 text-[11px] text-emerald-100/80">
+        <span>Meja Penerima Tamu</span>
+        <span className="font-semibold text-emerald-300">Scan QR Presisi</span>
       </div>
     </div>
   );
