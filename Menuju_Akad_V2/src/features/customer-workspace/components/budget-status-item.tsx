@@ -54,3 +54,4 @@ export function BudgetStatusItem({ item }: ItemProps) {
     </div>
   );
 }
+

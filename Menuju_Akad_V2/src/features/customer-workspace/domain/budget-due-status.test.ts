@@ -72,3 +72,4 @@ describe("budget-due-status", () => {
     expect(result.unpaidRegularCount).toBe(2);
   });
 });
+

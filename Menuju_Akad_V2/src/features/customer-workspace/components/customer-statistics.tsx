@@ -53,15 +53,15 @@ export function CustomerStatistics({
 
   const totalSavingsPool = Math.max(availableSavings + paidAmount, availableSavings);
 
-  // Irisan Donut Tabungan Tersedia (Pria: Emerald #10b981, Wanita: Soft Rose #f472b6, Terpakai: Indigo #6366f1)
+  // Irisan Donut Tabungan Tersedia (Pria: Royal Blue #1610b9, Wanita: Soft Rose #f472b6, Terpakai: Hijau #087f5b)
   const savingsSlices: DonutSlice[] = [];
   let savingsCenterValue: string | number = "Rp 0";
   let savingsCenterLabel = "Belum Ada";
 
   if (totalSavingsPool > 0) {
-    const userColor = isBride ? "#f472b6" : "#10b981";
-    const partnerColor = isBride ? "#10b981" : "#f472b6";
-    const usedColor = "#6366f1";
+    const userColor = isBride ? "#f472b6" : "#1610b9";
+    const partnerColor = isBride ? "#1610b9" : "#f472b6";
+    const usedColor = "#087f5b";
 
     if (!hasPartner) {
       const availPercent = Math.round((availableSavings / totalSavingsPool) * 100);

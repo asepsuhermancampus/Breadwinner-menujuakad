@@ -61,3 +61,4 @@ export function categorizeBudgets(budgets: CustomerBudget[]): BudgetCategorizedA
     unpaidRegularCount,
   };
 }
+

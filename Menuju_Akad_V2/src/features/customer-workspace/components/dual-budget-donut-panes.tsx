@@ -30,13 +30,13 @@ export function SavingsDonutPane({
   centerLabel = "Tersedia",
 }: SavingsPaneProps) {
   const isUserBride = ownerSide === "bride";
-  const userColor = isUserBride ? "#f472b6" : "#10b981";
-  const partnerColor = isUserBride ? "#10b981" : "#f472b6";
+  const userColor = isUserBride ? "#f472b6" : "#1610b9";
+  const partnerColor = isUserBride ? "#1610b9" : "#f472b6";
   const userTextColor = isUserBride
     ? "text-rose-600 dark:text-rose-400"
-    : "text-emerald-700 dark:text-emerald-400";
+    : "text-[#1610b9] dark:text-[#756ef2]";
   const partnerTextColor = isUserBride
-    ? "text-emerald-700 dark:text-emerald-400"
+    ? "text-[#1610b9] dark:text-[#756ef2]"
     : "text-rose-600 dark:text-rose-400";
   const usedColor = "#087f5b";
 
@@ -90,9 +90,9 @@ export function SavingsDonutPane({
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: usedColor }} />
               Terpakai Bayar Anggaran
             </span>
-              <span className="font-mono font-medium text-[#087f5b] dark:text-emerald-400">
-                Rp {usedForBudget.toLocaleString("id-ID")}
-              </span>
+            <span className="font-mono font-medium text-[#087f5b] dark:text-emerald-400">
+              Rp {usedForBudget.toLocaleString("id-ID")}
+            </span>
           </div>
         )}
       </div>
@@ -152,9 +152,9 @@ export function BudgetDonutPane({
             <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             Belum Dibayar
           </span>
-          <span className="font-mono font-medium text-amber-700 dark:text-amber-400">
-            Rp {unpaidRegularBudget.toLocaleString("id-ID")}
-          </span>
+            <span className="font-mono font-medium text-amber-700 dark:text-amber-400">
+              Rp {unpaidRegularBudget.toLocaleString("id-ID")}
+            </span>
         </div>
       </div>
     </div>

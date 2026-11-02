@@ -71,9 +71,6 @@ export function DualBudgetDonutCard({
               Kesiapan Finansial & Anggaran
               <Info size={13} className="text-muted-foreground/70" />
             </h3>
-            <span className="text-xs text-secondary truncate hidden sm:inline">
-              · Tabungan tersedia vs target anggaran
-            </span>
           </div>
           {manageHref && (
             <Link
