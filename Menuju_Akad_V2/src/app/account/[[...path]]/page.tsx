@@ -7,7 +7,9 @@ import { isOperator } from "@/server/identity/policy";
 import { isAccountTab } from "@/features/customer-workspace/config/account-tabs";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { readFeatureAvailability } from "@/server/workspaces/feature-availability";
+
 export const dynamic = "force-dynamic";
+
 export default async function AccountPage({
   params,
   searchParams,
@@ -15,6 +17,10 @@ export default async function AccountPage({
   params: Promise<{ path?: string[] }>;
   searchParams: Promise<{ section?: string | string[] }>;
 }) {
+  const session = await auth();
+  if (session?.user?.role === "superadmin") redirect("/superadmin/security");
+  if (session?.user?.role === "admin") redirect("/admin/security");
+
   const [{ path }, { section }] = await Promise.all([params, searchParams]);
   if (!path?.length && (section === "domain" || section === "support")) {
     redirect(section === "domain" ? "/account/domain" : "/account/support");
@@ -31,7 +37,7 @@ export default async function AccountPage({
       audience,
       access.mode === "guest" ? null : access.workspace,
     ).available;
-  const session = access.mode === "account" ? await auth() : null;
+
   return (
     <CustomerShell access={access} initialFeatureUnavailable={unavailable}>
       {unavailable ? (

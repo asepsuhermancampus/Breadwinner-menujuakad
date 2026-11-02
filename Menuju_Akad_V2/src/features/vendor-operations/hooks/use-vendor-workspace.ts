@@ -64,6 +64,16 @@ export function useVendorWorkspace() {
       );
       try {
         localStorage.setItem(vendorCatalogStorageKey, JSON.stringify(result.state.catalog));
+        void fetch("/api/vendor/workspace", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            name: result.state.catalog.profile.name,
+            category: result.state.catalog.profile.category,
+            description: result.state.catalog.profile.description,
+            price: result.state.catalog.packages[0]?.priceIdr ?? 1000000,
+          }),
+        }).catch(() => {});
         setStorageError(false);
       } catch {
         setStorageError(true);

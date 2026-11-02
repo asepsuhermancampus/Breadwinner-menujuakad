@@ -58,101 +58,107 @@ export function DashboardCardsPanel({ initial }: { initial: Setting[] }) {
   }
   return (
     <section
-      className="max-w-3xl space-y-4 rounded-card border border-ux-border bg-surface p-5"
+      className="w-full space-y-4 rounded-card border border-ux-border bg-surface p-5 shadow-xs"
       aria-labelledby="dashboard-cards-title"
     >
-      <h2 id="dashboard-cards-title" className="text-lg font-semibold">
-        Card dan bagian dashboard
-      </h2>
-      <p className="text-sm text-secondary">
-        Mengatur tampilan card ringkasan dan bagian dashboard. Fitur dan data tetap dapat diakses
-        sesuai izin; perubahan terlihat saat dashboard dimuat ulang.
-      </p>
-      <label className="grid gap-1 text-sm">
-        Kelompok pengguna
-        <select
-          className="rounded-control border border-ux-border p-2"
-          value={audience}
-          onChange={(e) => setAudience(e.target.value as DashboardAudience)}
-        >
-          {Object.entries(dashboardAudiences).map(([key, label]) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="grid gap-1 text-sm">
-        Alasan perubahan
-        <textarea
-          className="rounded-control border border-ux-border p-2"
-          maxLength={500}
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-        />
-      </label>
-      <ul className="space-y-3">
-        {cards
-          .filter((item) => item.audience === audience)
-          .map((item) => (
-            <li
-              key={item.card}
-              className="flex flex-wrap items-center justify-between gap-3 border-t border-ux-border pt-3"
+        <h2 id="dashboard-cards-title" className="text-base font-semibold">
+          Kartu Ringkasan Dashboard
+        </h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <label className="grid gap-1 text-sm">
+            Kelompok pengguna
+            <select
+              className="rounded-control border border-ux-border p-2 bg-surface"
+              value={audience}
+              onChange={(e) => setAudience(e.target.value as DashboardAudience)}
             >
-              <span>
-                {dashboardCardLabels[item.card]} · {item.visible ? "Ditampilkan" : "Disembunyikan"}
-              </span>
-              <Button
-                size="small"
-                disabled={busy || !reason.trim()}
-                onClick={() => void save(item)}
-              >
-                {item.visible ? "Sembunyikan" : "Tampilkan"} {dashboardCardLabels[item.card]}
-              </Button>
-            </li>
-          ))}
-      </ul>
-      {error && (
-        <p role="alert" className="text-danger">
-          {error}{" "}
-          <button
-            className="underline"
-            onClick={() =>
-              void refresh().catch(() => setError("Pengaturan card belum dapat dimuat."))
-            }
-          >
-            Muat ulang
-          </button>
-        </p>
-      )}
-      <Button
-        variant="secondary"
-        size="small"
-        disabled={busy}
-        onClick={() => void refresh().catch(() => setError("Riwayat belum dapat dimuat."))}
-      >
-        Muat riwayat
-      </Button>
-      {audit && (
-        <section aria-label="Riwayat card">
-          <h3 className="font-semibold">Riwayat card terbaru</h3>
-          {audit.length === 0 ? (
-            <p>Belum ada perubahan.</p>
-          ) : (
-            <ul className="mt-2 space-y-2">
-              {audit.map((entry, index) => (
-                <li key={`${entry.created_at}-${index}`} className="text-sm">
-                  {dashboardCardLabels[entry.card]} · {dashboardAudiences[entry.audience]} ·{" "}
-                  {entry.new_visible ? "Ditampilkan" : "Disembunyikan"} · {entry.created_at}
-                  <p>
-                    {entry.reason} · {entry.actor}
-                  </p>
-                </li>
+              {Object.entries(dashboardAudiences).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
               ))}
-            </ul>
-          )}
-        </section>
-      )}
+            </select>
+          </label>
+          <label className="grid gap-1 text-sm">
+            Alasan perubahan
+            <textarea
+              className="rounded-control border border-ux-border p-2 bg-surface"
+              maxLength={500}
+              rows={1}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </label>
+        </div>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {cards
+            .filter((item) => item.audience === audience)
+            .map((item) => (
+              <li
+                key={item.card}
+                className="flex flex-col justify-between gap-2.5 rounded-control border border-ux-border bg-canvas/30 p-3"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-medium">{dashboardCardLabels[item.card]}</span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${item.visible ? "bg-success-bg text-success" : "bg-warning-bg text-warning"
+                      }`}
+                  >
+                    {item.visible ? "Ditampilkan" : "Disembunyikan"}
+                  </span>
+                </div>
+                <Button
+                  size="small"
+                  variant={item.visible ? "secondary" : "primary"}
+                  disabled={busy || !reason.trim()}
+                  onClick={() => void save(item)}
+                >
+                  {item.visible ? "Sembunyikan" : "Tampilkan"} {dashboardCardLabels[item.card]}
+                </Button>
+              </li>
+            ))}
+        </ul>
+        {error && (
+          <p role="alert" className="text-danger">
+            {error}{" "}
+            <button
+              className="underline"
+              onClick={() =>
+                void refresh().catch(() => setError("Pengaturan card belum dapat dimuat."))
+              }
+            >
+              Muat ulang
+            </button>
+          </p>
+        )}
+        <Button
+          variant="secondary"
+          size="small"
+          disabled={busy}
+          onClick={() => void refresh().catch(() => setError("Riwayat belum dapat dimuat."))}
+        >
+          Muat riwayat
+        </Button>
+        {audit && (
+          <section aria-label="Riwayat card">
+            <h3 className="font-semibold">Riwayat card terbaru</h3>
+            {audit.length === 0 ? (
+              <p className="text-sm text-secondary">Belum ada perubahan.</p>
+            ) : (
+              <ul className="mt-2 max-h-52 space-y-2 overflow-y-auto app-scroll pr-1">
+                {audit.map((entry, index) => (
+                  <li key={`${entry.created_at}-${index}`} className="text-sm border-b border-ux-border/50 pb-1.5">
+                    {dashboardCardLabels[entry.card]} · {dashboardAudiences[entry.audience]} ·{" "}
+                    {entry.new_visible ? "Ditampilkan" : "Disembunyikan"} · {entry.created_at}
+                    <p className="text-xs text-secondary">
+                      {entry.reason} · {entry.actor}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
     </section>
   );
 }

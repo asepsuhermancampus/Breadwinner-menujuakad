@@ -144,12 +144,12 @@ export abstract class BaseRepository<T, TCreate, TUpdate, TFilter extends BaseFi
   }
 
   async transaction<R>(fn: (tx: PrismaClient) => Promise<R>): Promise<R> {
-    return this.prisma.$transaction(fn as (tx: PrismaClient) => Promise<R>);
+    return (this.prisma.$transaction as any)(fn) as Promise<R>;
   }
 
   async batchCreate(items: TCreate[]): Promise<T[]> {
     const model = this.getModel();
-    return this.prisma.$transaction(
+    return (this.prisma.$transaction as any)(
       items.map((item) =>
         model.create({
           data: this.mapCreateInput(item),

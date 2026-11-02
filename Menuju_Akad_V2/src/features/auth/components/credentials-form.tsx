@@ -41,6 +41,7 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
             password: secret,
             confirmation: data.get("confirmation"),
             consent: data.get("consent") === "on",
+            role: data.get("role") || "customer",
           }),
         });
         const body = (await response.json()) as { error?: string };
@@ -101,15 +102,30 @@ export function CredentialsForm({ register = false }: { register?: boolean }) {
       aria-busy={pending}
     >
       {register && (
-        <Field
-          name="name"
-          label="Nama lengkap"
-          autoComplete="name"
-          required
-          minLength={2}
-          maxLength={100}
-          disabled={pending || !ready}
-        />
+        <>
+          <label className="grid gap-1.5 text-xs font-semibold text-secondary">
+            Tipe pendaftaran
+            <select
+              name="role"
+              defaultValue="customer"
+              disabled={pending || !ready}
+              className="min-h-11 rounded-control border border-ux-border bg-canvas px-3 text-xs text-foreground"
+            >
+              <option value="customer">Calon Pengantin (Customer)</option>
+              <option value="vendor">Mitra Vendor</option>
+              <option value="ambassador">Mitra Brand Ambassador</option>
+            </select>
+          </label>
+          <Field
+            name="name"
+            label="Nama lengkap"
+            autoComplete="name"
+            required
+            minLength={2}
+            maxLength={100}
+            disabled={pending || !ready}
+          />
+        </>
       )}
       <Field
         name="email"

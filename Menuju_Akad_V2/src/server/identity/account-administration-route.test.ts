@@ -42,6 +42,6 @@ it("requires superadmin and same-origin and rejects invalid and stale changes", 
   };
   expect((await PATCH(request("https://evil.example"), context)).status).toBe(403);
   expect((await PATCH(request("http://localhost", "superadmin"), context)).status).toBe(400);
-  expect((await PATCH(request(), context)).status).toBe(200);
-  expect((await PATCH(request(), context)).status).toBe(409);
+  expect((await PATCH(request("http://localhost", "vendor"), context)).status).toBe(200);
+  expect((await PATCH(request("http://localhost", "ambassador"), context)).status).toBe(409);
 });

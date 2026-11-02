@@ -10,8 +10,8 @@ import { OperationsDock } from "./operations-dock";
 type Props = {
   children: ReactNode;
   roleLabel: string;
-  identity: string;
-  description: string;
+  identity?: string;
+  description?: string;
   account: string;
   title: string;
   active: string;
@@ -47,17 +47,24 @@ export function OperationsShell(props: Props) {
   const dockProps = {
     ...props,
     onNavigate: navigate,
-    onUnavailable: props.live ? () => navigate("/account/security") : setUnavailable,
+    onUnavailable: props.live
+      ? () =>
+        navigate(
+          props.roleLabel === "SUPERADMIN" || props.active.startsWith("/superadmin")
+            ? "/superadmin/security"
+            : "/admin/security",
+        )
+      : setUnavailable,
   };
   return (
     <div
       className={`app-frame grid min-h-dvh grid-cols-[minmax(0,1fr)] gap-0 bg-ux-shell ${compact ? "lg:grid-cols-[68px_minmax(0,1fr)]" : "lg:grid-cols-[272px_minmax(0,1fr)]"}`}
     >
-      <aside className="hidden min-w-0 lg:block">
+      <aside className="hidden min-w-0 lg:sticky lg:top-0 lg:h-dvh lg:overflow-y-auto lg:block">
         <OperationsDock {...dockProps} compact={compact} onToggle={() => setCompact(!compact)} />
       </aside>
       <div className="min-w-0 overflow-clip bg-surface lg:border-l border-control-border">
-        <header className="flex min-h-[76px] flex-wrap items-center gap-4 border-b border-control-border bg-surface px-4 py-3 sm:px-6">
+        <header className="sticky top-0 z-20 flex min-h-[76px] flex-wrap items-center gap-4 border-b border-control-border bg-surface/95 backdrop-blur-sm px-4 py-3 sm:px-6">
           <Button
             variant="ghost"
             size="icon"
@@ -80,7 +87,7 @@ export function OperationsShell(props: Props) {
             <kbd>⌘K</kbd>
           </button>
         </header>
-        <main id="main-content" className="grid min-w-0 content-start gap-6 p-8 [&>*]:min-w-0">
+        <main id="main-content" className="grid min-w-0 content-start gap-6 p-4 sm:p-6 lg:p-8 [&>*]:min-w-0">
           {props.children}
         </main>
       </div>

@@ -106,10 +106,10 @@ export class GuestRepository extends BaseRepository<
   }
 
   async importFromCSV(workspaceId: string, guests: GuestCreateInput[]): Promise<Guest[]> {
-    return this.prisma.$transaction(
+    return (this.prisma.$transaction as any)(
       guests.map((guest) =>
         this.prisma.guest.create({
-          data: this.mapCreateInput({ ...guest, workspaceId }) as Record<string, unknown>,
+          data: this.mapCreateInput({ ...guest, workspaceId }) as any,
           include: this.includeRelations(),
         }),
       ),

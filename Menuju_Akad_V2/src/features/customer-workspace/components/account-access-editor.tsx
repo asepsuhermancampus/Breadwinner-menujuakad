@@ -66,11 +66,7 @@ export function AccountAccessEditor({ account }: { account: Account }) {
         }}
       >
         <div className="space-y-4">
-          <p>{account.email}</p>
-          <p className="text-sm text-secondary">
-            Perubahan akan mengeluarkan akun ini dari seluruh sesi. Data dan workspace tidak
-            dihapus.
-          </p>
+          <p className="text-xs font-mono font-medium text-foreground">{account.email}</p>
           <label className="grid gap-1 text-sm">
             Role
             <select

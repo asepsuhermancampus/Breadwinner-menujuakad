@@ -18,25 +18,24 @@ export function LiveOperationsShell({
   const router = useRouter();
   const items: OperationsNavItem[] = [
     { label: "Ringkasan Bisnis", icon: "monitor", view: "/admin" },
-    { label: "Notifikasi & Helpdesk", icon: "mail", view: "/admin#bantuan" },
-    { label: "Permintaan Pelanggan", icon: "orders", view: "/admin#permintaan" },
+    { label: "Notifikasi & Helpdesk", icon: "mail", view: "/admin/helpdesk" },
+    { label: "Permintaan Pelanggan", icon: "orders", view: "/admin/orders" },
     ...(superadmin
       ? [
-          { label: "CMS & Konten", icon: "file-text", view: "/superadmin/reviews" },
-          { label: "Fitur & pemeliharaan", icon: "settings", view: "/superadmin/features" },
-          { label: "Pengguna", icon: "users", view: "/superadmin/accounts" },
-        ]
+        { label: "CMS & Konten", icon: "file-text", view: "/superadmin/reviews" },
+        { label: "Fitur & pemeliharaan", icon: "settings", view: "/superadmin/features" },
+        { label: "Pengguna", icon: "users", view: "/superadmin/accounts" },
+      ]
       : []),
-    { label: "Keamanan Akun", icon: "shield", view: "/account/security" },
+    { label: "Ruang Kerja Vendor", icon: "store", view: "/vendor" },
+    { label: "Portal Ambassador", icon: "users", view: "/ba" },
   ];
   return (
     <OperationsShell
       live
       roleLabel={superadmin ? "SUPERADMIN" : "ADMIN"}
-      identity="Platform Operations"
-      description="Akses terbatas · tim internal"
       account={account}
-      title="Platform Operations"
+      title={`Platform Operations - ${superadmin ? "SUPERADMIN" : "ADMIN"}`}
       active={active ?? (superadmin ? "/superadmin/reviews" : "/admin")}
       items={items}
       onNavigate={(href) => router.push(href)}

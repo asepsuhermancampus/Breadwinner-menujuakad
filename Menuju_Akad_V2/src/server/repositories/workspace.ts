@@ -33,6 +33,7 @@ export type WorkspaceFilter = {
   status?: string;
   name?: string;
   slug?: string;
+  userId?: string;
 };
 
 export class WorkspaceRepository extends BaseRepository<
@@ -64,6 +65,7 @@ export class WorkspaceRepository extends BaseRepository<
     if (filter.status) where.status = filter.status;
     if (filter.name) where.name = { contains: filter.name, mode: "insensitive" };
     if (filter.slug) where.slug = filter.slug;
+    if (filter.userId) where.members = { some: { userId: filter.userId } };
     return where;
   }
 
@@ -151,67 +153,39 @@ export class WorkspaceRepository extends BaseRepository<
   }
 
   async getRundowns(workspaceId: string): Promise<Rundown[]> {
-    return this.prisma.rundown.findMany({
-      where: { workspaceId },
-      include: { items: true },
-    }) as Promise<Rundown[]>;
+    return this.prisma.rundown.findMany({ where: { workspaceId }, include: { items: true } }) as Promise<Rundown[]>;
   }
 
   async getChecklists(workspaceId: string): Promise<Checklist[]> {
-    return this.prisma.checklist.findMany({
-      where: { workspaceId },
-      include: { items: true },
-    }) as Promise<Checklist[]>;
+    return this.prisma.checklist.findMany({ where: { workspaceId }, include: { items: true } }) as Promise<Checklist[]>;
   }
 
   async getBudgetCategories(workspaceId: string): Promise<BudgetCategory[]> {
-    return this.prisma.budgetCategory.findMany({
-      where: { workspaceId },
-      include: { expenses: true },
-    }) as Promise<BudgetCategory[]>;
+    return this.prisma.budgetCategory.findMany({ where: { workspaceId }, include: { expenses: true } }) as Promise<BudgetCategory[]>;
   }
 
   async getExpenses(workspaceId: string): Promise<Expense[]> {
-    return this.prisma.expense.findMany({
-      where: { workspaceId },
-      orderBy: { date: "desc" },
-    }) as Promise<Expense[]>;
+    return this.prisma.expense.findMany({ where: { workspaceId }, orderBy: { date: "desc" } }) as Promise<Expense[]>;
   }
 
   async getVendorRequests(workspaceId: string): Promise<VendorRequest[]> {
-    return this.prisma.vendorRequest.findMany({
-      where: { workspaceId },
-      orderBy: { createdAt: "desc" },
-    }) as Promise<VendorRequest[]>;
+    return this.prisma.vendorRequest.findMany({ where: { workspaceId }, orderBy: { createdAt: "desc" } }) as Promise<VendorRequest[]>;
   }
 
   async getGuests(workspaceId: string): Promise<Guest[]> {
-    return this.prisma.guest.findMany({
-      where: { workspaceId },
-      include: { rsvps: true },
-    }) as Promise<Guest[]>;
+    return this.prisma.guest.findMany({ where: { workspaceId }, include: { rsvps: true } }) as Promise<Guest[]>;
   }
 
   async getReviews(workspaceId: string): Promise<Review[]> {
-    return this.prisma.review.findMany({
-      where: { workspaceId },
-      orderBy: { createdAt: "desc" },
-    }) as Promise<Review[]>;
+    return this.prisma.review.findMany({ where: { workspaceId }, orderBy: { createdAt: "desc" } }) as Promise<Review[]>;
   }
 
   async getNotifications(workspaceId: string): Promise<Notification[]> {
-    return this.prisma.notification.findMany({
-      where: { workspaceId },
-      orderBy: { createdAt: "desc" },
-    }) as Promise<Notification[]>;
+    return this.prisma.notification.findMany({ where: { workspaceId }, orderBy: { createdAt: "desc" } }) as Promise<Notification[]>;
   }
 
   async getAuditLogs(workspaceId: string): Promise<AuditLog[]> {
-    return this.prisma.auditLog.findMany({
-      where: { workspaceId },
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    }) as Promise<AuditLog[]>;
+    return this.prisma.auditLog.findMany({ where: { workspaceId }, orderBy: { createdAt: "desc" }, take: 100 }) as Promise<AuditLog[]>;
   }
 
   async archive(workspaceId: string): Promise<Workspace> {

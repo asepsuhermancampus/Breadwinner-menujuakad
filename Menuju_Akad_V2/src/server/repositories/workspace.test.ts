@@ -1,10 +1,83 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from "vitest";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 vi.mock("server-only", () => ({}));
-import { getDatabase } from "@/server/db/client";
-import { WorkspaceRepository } from "./workspace";
 
-process.env.DATABASE_URL =
-  process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/menujuakad_v2";
+type MockWorkspace = {
+  id: string;
+  name: string;
+  slug: string;
+  status: "ACTIVE" | "ARCHIVED" | "SUSPENDED";
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+const store = new Map<string, MockWorkspace>();
+
+vi.mock("@/server/db/client", () => ({
+  getDatabase: () => ({
+    workspace: {
+      deleteMany: async () => {
+        store.clear();
+        return { count: 0 };
+      },
+      create: async ({ data }: { data: any }) => {
+        const item: MockWorkspace = {
+          id: `ws-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          name: data.name,
+          slug: data.slug,
+          status: data.status || "ACTIVE",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        store.set(item.id, item);
+        return item;
+      },
+      findUnique: async ({ where }: { where: any }) => {
+        if (where.id) return store.get(where.id) || null;
+        if (where.slug) {
+          for (const item of store.values()) {
+            if (item.slug === where.slug) return item;
+          }
+        }
+        return null;
+      },
+      findFirst: async ({ where }: { where: any }) => {
+        for (const item of store.values()) {
+          const expectedName = typeof where.name === "object" ? where.name?.equals : where.name;
+          if (expectedName && item.name.toLowerCase() === expectedName.toLowerCase()) return item;
+          if (where.slug && item.slug === where.slug) return item;
+        }
+        return null;
+      },
+      findMany: async ({ skip = 0, take }: { skip?: number; take?: number }) => {
+        const items = Array.from(store.values());
+        const sliced = take !== undefined ? items.slice(skip, skip + take) : items.slice(skip);
+        return sliced;
+      },
+      count: async ({ where }: { where?: any } = {}) => {
+        if (where?.id) {
+          return store.has(where.id) ? 1 : 0;
+        }
+        return store.size;
+      },
+      update: async ({ where, data }: { where: any; data: any }) => {
+        const existing = store.get(where.id);
+        if (!existing) throw new Error("Not found");
+        const updated = { ...existing, ...data, updatedAt: new Date() };
+        store.set(where.id, updated);
+        return updated;
+      },
+      delete: async ({ where }: { where: any }) => {
+        const existing = store.get(where.id);
+        store.delete(where.id);
+        return existing;
+      },
+    },
+  }),
+}));
+
+import { WorkspaceRepository } from "./workspace";
+import { getDatabase } from "@/server/db/client";
 
 describe("WorkspaceRepository", () => {
   let repo: WorkspaceRepository;

@@ -114,14 +114,8 @@ export function AccountMemberships({ id, email }: { id: string; email: string })
         }}
       >
         <div className="space-y-4">
-          <p>{email}</p>
-          <p className="text-sm">
-            Role akun mengatur akses operasi. Pemilik dan pasangan adalah role yang terpisah di
-            workspace. Di workspace, pemilik dapat mengundang atau mencabut pasangan; superadmin
-            dapat mencabut akses dengan alasan. Pemilik dan pasangan dapat mengelola data
-            perencanaan sesuai izin tindakan, paket, dan ketersediaan fitur.
-          </p>
-          {busy && <p role="status">Memuat atau menyimpan...</p>}
+          <p className="text-xs font-mono font-medium text-foreground">{email}</p>
+          {busy && <p role="status" className="text-xs text-secondary">Memuat data...</p>}
           {!busy && !message && !memberships.length && <p>Tidak ada keanggotaan workspace.</p>}
           <label className="grid gap-1 text-sm">
             Alasan pencabutan

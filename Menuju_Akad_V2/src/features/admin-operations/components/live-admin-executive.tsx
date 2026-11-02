@@ -83,13 +83,13 @@ export function LiveAdminExecutive({
         <aside className="grid content-start gap-5 rounded-card bg-ux-dock p-6">
           <h2 className="text-lg font-semibold">Perlu tindakan</h2>
           <Link
-            href="#permintaan"
+            href="/admin/orders"
             className="flex min-h-11 items-center rounded-control border border-ux-border bg-surface px-4 text-xs font-medium"
           >
             {format(requested)} permintaan menunggu tindak lanjut
           </Link>
           <Link
-            href="#bantuan"
+            href="/admin/helpdesk"
             className="flex min-h-11 items-center rounded-control border border-ux-border bg-surface px-4 text-xs font-medium"
           >
             {format(ticketCount)} tiket bantuan pelanggan

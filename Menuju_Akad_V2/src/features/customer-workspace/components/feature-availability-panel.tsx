@@ -65,77 +65,47 @@ export function FeatureAvailabilityPanel() {
   }
   return (
     <section
-      className="max-w-3xl space-y-4 rounded-card border border-ux-border bg-surface p-5"
+      className="w-full space-y-4 rounded-card border border-ux-border bg-surface p-5 shadow-xs"
       aria-labelledby="feature-availability-title"
     >
-      <h2 id="feature-availability-title" className="text-lg font-semibold">
-        Ketersediaan fitur per kelompok
+      <h2 id="feature-availability-title" className="text-base font-semibold">
+        Ketersediaan Fitur per Kelompok
       </h2>
-      <p className="text-sm text-secondary">
-        Pengaturan ini mengatur akses fitur yang dipilih untuk kelompok pengguna. Data tidak
-        dihapus. Pengguna percobaan menyimpan datanya di browser masing-masing.
-      </p>
-      <label className="grid gap-1 text-sm">
-        Fitur
-        <select
-          className="rounded-control border border-ux-border p-2"
-          value={feature}
-          onChange={(event) => setFeature(event.target.value as AvailabilityFeature)}
-        >
-          {Object.entries(availabilityFeatures)
-            .filter(([key]) => settings.some((item) => item.feature === key))
-            .map(([key, label]) => (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <label className="grid gap-1 text-sm">
+          Fitur
+          <select
+            className="rounded-control border border-ux-border p-2 bg-surface"
+            value={feature}
+            onChange={(event) => setFeature(event.target.value as AvailabilityFeature)}
+          >
+            {Object.entries(availabilityFeatures)
+              .filter(([key]) => settings.some((item) => item.feature === key))
+              .map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+          </select>
+        </label>
+        <label className="grid gap-1 text-sm">
+          Kelompok pengguna
+          <select
+            className="rounded-control border border-ux-border p-2 bg-surface"
+            value={audience}
+            onChange={(event) => setAudience(event.target.value as DashboardAudience)}
+          >
+            {Object.entries(dashboardAudiences).map(([key, label]) => (
               <option key={key} value={key}>
                 {label}
               </option>
             ))}
-        </select>
-      </label>
-      <label className="grid gap-1 text-sm">
-        Kelompok pengguna
-        <select
-          className="rounded-control border border-ux-border p-2"
-          value={audience}
-          onChange={(event) => setAudience(event.target.value as DashboardAudience)}
-        >
-          {Object.entries(dashboardAudiences).map(([key, label]) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
+          </select>
+        </label>
+      </div>
       {setting && (
-        <p>
-          Status: <strong>{setting.available ? "Tersedia" : "Belum tersedia"}</strong>
-        </p>
-      )}
-      {(feature === "seserahan" || feature === "catering") && (
-        <p className="text-sm text-secondary">
-          Rincian dan nilai anggaran terkait disembunyikan; saldo tetap mencakup seluruh transaksi.
-          Data dan alokasi tidak dihapus.
-        </p>
-      )}
-      {feature === "finance" && (
-        <p className="text-sm text-secondary">
-          Perubahan item Seserahan dan menu Katering ditahan karena terhubung ke anggaran.
-          Pembayaran yang sudah berjalan tetap diproses.
-        </p>
-      )}
-      {feature === "guests" && (
-        <p className="text-sm text-secondary">
-          RSVP publik pada undangan yang sudah diterbitkan tetap dapat diterima.
-        </p>
-      )}
-      {feature === "vendors" && (
-        <p className="text-sm text-secondary">
-          Permintaan vendor yang sudah dibuat tetap dapat dibuka dan ditindaklanjuti.
-        </p>
-      )}
-      {feature === "domain" && (
-        <p className="text-sm text-secondary">
-          Domain yang sudah didaftarkan tetap tersimpan; pengaturan dan verifikasi baru ditahan
-          selama akses dibatasi.
+        <p className="rounded-control bg-subtle p-2.5 text-sm">
+          Status: <strong className={setting.available ? "text-success" : "text-danger"}>{setting.available ? "Tersedia" : "Belum tersedia"}</strong>
         </p>
       )}
       <label className="grid gap-1 text-sm">
@@ -168,14 +138,14 @@ export function FeatureAvailabilityPanel() {
       <section aria-label="Riwayat ketersediaan fitur">
         <h3 className="font-semibold">Riwayat terbaru</h3>
         {audit.length === 0 ? (
-          <p>Belum ada perubahan.</p>
+          <p className="text-sm text-secondary">Belum ada perubahan.</p>
         ) : (
-          <ul className="mt-2 space-y-2">
+          <ul className="mt-2 max-h-52 space-y-2 overflow-y-auto app-scroll pr-1">
             {audit.map((entry) => (
-              <li key={`${entry.feature}-${entry.audience}-${entry.version}`} className="text-sm">
+              <li key={`${entry.feature}-${entry.audience}-${entry.version}`} className="text-sm border-b border-ux-border/50 pb-1.5">
                 {availabilityFeatures[entry.feature]} · {dashboardAudiences[entry.audience]} ·{" "}
                 {entry.new_available ? "Tersedia" : "Dibatasi"} · {entry.created_at}
-                <p>
+                <p className="text-xs text-secondary">
                   {entry.reason} · {entry.actor}
                 </p>
               </li>

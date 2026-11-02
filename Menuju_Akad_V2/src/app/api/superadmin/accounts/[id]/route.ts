@@ -7,11 +7,11 @@ import { handlePaymentApiError, jsonResponse, validateSameOrigin } from "@/serve
 export const runtime = "nodejs";
 const input = z
   .object({
-    role: z.enum(["customer", "admin"]),
+    role: z.enum(["customer", "admin", "vendor", "ambassador"]),
     active: z.boolean(),
     expected: z
       .object({
-        role: z.enum(["customer", "admin", "superadmin"]),
+        role: z.enum(["customer", "admin", "superadmin", "vendor", "ambassador"]),
         active: z.boolean(),
         version: z.number().int().nonnegative().safe(),
       })

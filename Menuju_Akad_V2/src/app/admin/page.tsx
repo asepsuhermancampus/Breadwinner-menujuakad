@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/server/auth";
 import { isOperator } from "@/server/identity/policy";
-import { SupportQueue } from "@/features/customer-workspace/components/support-queue";
-import { CatalogRequests } from "@/features/marketplace/components/catalog-requests";
 import { MarketplaceCatalog } from "@/server/marketplace/catalog";
 import { getWorkspaceService } from "@/server/workspaces/runtime";
 import { LiveOperationsShell } from "@/features/operations-shell/components/live-operations-shell";
@@ -28,12 +26,6 @@ export default async function AdminPage() {
         ticketCount={ticketCount}
         superadmin={session.user.role === "superadmin"}
       />
-      <div id="bantuan" className="scroll-mt-6">
-        <SupportQueue />
-      </div>
-      <div id="permintaan" className="scroll-mt-6 border-t border-ux-border">
-        <CatalogRequests orders={orders} />
-      </div>
     </LiveOperationsShell>
   );
 }

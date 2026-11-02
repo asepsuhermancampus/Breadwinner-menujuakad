@@ -9,13 +9,10 @@ import {
   controllableFeatures,
   type AvailabilityFeature,
 } from "../domain/feature-availability-catalog";
-
 import { type Policy, type Release, type Workspace } from "./feature-rollout-types";
-const initial: Policy = {
-  audiences: ["guest", "owner", "partner"],
-  plans: ["free", "premium", "lifetime"],
-  workspaces: [],
-};
+
+const initial: Policy = { audiences: ["guest", "owner", "partner"], plans: ["free", "premium", "lifetime"], workspaces: [] };
+
 export function FeatureRolloutPanel() {
   const [feature, setFeature] = useState<AvailabilityFeature>("tasks");
   const [releases, setReleases] = useState<Partial<Record<AvailabilityFeature, Release>>>({});
@@ -27,17 +24,14 @@ export function FeatureRolloutPanel() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const current = releases[feature];
+
   function loadEditor(item: Release | undefined) {
-    setPolicy(
-      item?.draft ??
-        item?.history.find(
-          (entry) => !entry.cancelled && Date.parse(entry.effectiveAt) <= Date.now(),
-        )?.policy ??
-        initial,
-    );
+    const activeEntry = item?.history.find((e) => !e.cancelled && Date.parse(e.effectiveAt) <= Date.now());
+    setPolicy(item?.draft ?? activeEntry?.policy ?? initial);
     setReason(item?.reason ?? "");
     setPreview("");
   }
+
   async function refresh() {
     const response = await fetch("/api/superadmin/feature-rollout", { cache: "no-store" });
     if (!response.ok) throw new Error("Rilis fitur belum dapat dimuat.");
@@ -49,13 +43,14 @@ export function FeatureRolloutPanel() {
     setReleases(data.releases);
     setWorkspaces(data.workspaces);
   }
+
   useEffect(() => {
     void Promise.resolve()
       .then(refresh)
       .catch(() => setMessage("Rilis fitur belum dapat dimuat."));
-    // The first load runs once; feature changes update the editor synchronously.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   async function send(action: Record<string, unknown>) {
     if (busy) return;
     setBusy(true);
@@ -87,6 +82,7 @@ export function FeatureRolloutPanel() {
       setBusy(false);
     }
   }
+
   function toggle<K extends keyof Policy>(key: K, value: Policy[K][number]) {
     setPolicy((previous) => ({
       ...previous,
@@ -95,19 +91,16 @@ export function FeatureRolloutPanel() {
         : [...previous[key], value],
     }));
   }
+
   if (!current) return <RolloutLoading message={message} />;
   return (
     <section
-      className="max-w-3xl space-y-4 rounded-card border border-ux-border bg-surface p-5"
+      className="w-full space-y-4 rounded-card border border-ux-border bg-surface p-5 shadow-xs"
       aria-labelledby="rollout-title"
     >
-      <h2 id="rollout-title" className="text-lg font-semibold">
-        Rilis fitur bertahap
+      <h2 id="rollout-title" className="text-base font-semibold">
+        Rilis Fitur Bertahap
       </h2>
-      <p className="text-sm text-secondary">
-        Draf tidak memengaruhi pengguna sebelum diterbitkan. Sasaran membatasi akses; izin
-        workspace, hak paket, dan pemeliharaan tetap berlaku.
-      </p>
       <label className="grid gap-1 text-sm">
         Fitur
         <select
@@ -170,7 +163,7 @@ export function FeatureRolloutPanel() {
       />
       <div className="space-y-2">
         <label className="grid gap-1 text-sm">
-          Jadwal publikasi (opsional, waktu perangkat)
+          Jadwal publikasi (opsional)
           <input
             type="datetime-local"
             value={schedule}

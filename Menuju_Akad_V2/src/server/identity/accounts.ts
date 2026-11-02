@@ -58,7 +58,13 @@ export class Accounts {
       .prepare("SELECT * FROM accounts WHERE email=?")
       .get(email.trim().toLowerCase()) as Account | undefined;
   }
-  register(name: string, email: string, password: string, confirmation: string) {
+  register(
+    name: string,
+    email: string,
+    password: string,
+    confirmation: string,
+    role: "customer" | "vendor" | "ambassador" = "customer",
+  ) {
     email = email.trim().toLowerCase();
     name = name.trim();
     if (
@@ -74,8 +80,8 @@ export class Accounts {
       throw new Error("Email sudah terdaftar. Masuk menggunakan metode akun tersebut.");
     const id = randomUUID();
     this.db
-      .prepare("INSERT INTO accounts(id,email,name,owner_key,password_hash) VALUES (?,?,?,?,?)")
-      .run(id, email, name, this.emailOwner(`manual:${id}`), passwordHash(password));
+      .prepare("INSERT INTO accounts(id,email,name,role,owner_key,password_hash) VALUES (?,?,?,?,?,?)")
+      .run(id, email, name, role, this.emailOwner(`manual:${id}`), passwordHash(password));
     return this.byId(id)!;
   }
   authenticate(email: string, password: string) {

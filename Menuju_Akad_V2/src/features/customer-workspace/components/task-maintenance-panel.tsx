@@ -67,29 +67,37 @@ export function TaskMaintenancePanel({
   }
   return (
     <section
-      className="rounded-card border border-ux-border bg-surface p-4"
+      className={`rounded-card border transition-all duration-200 p-4 flex flex-col justify-between gap-3 shadow-xs ${
+        state?.status === "maintenance"
+          ? "border-warning/50 bg-warning/5"
+          : "border-ux-border bg-surface hover:border-brand-secondary/30"
+      }`}
       aria-label={`Pengaturan ${label}`}
     >
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold">{label}</h2>
+        <h2 className="text-sm font-semibold text-foreground tracking-tight">{label}</h2>
         {state ? (
           <span
-            className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
               state.status === "active"
-                ? "bg-success-bg text-success"
-                : "bg-warning-bg text-warning"
+                ? "bg-success-bg text-success border border-success-border/40"
+                : "bg-warning-bg text-warning border border-warning-border/40"
             }`}
           >
+            <span
+              className={`size-1.5 rounded-full ${state.status === "active" ? "bg-success" : "bg-warning animate-pulse"}`}
+            />
             {state.status === "active" ? "Aktif" : "Pemeliharaan"}
           </span>
         ) : null}
       </div>
       {state ? (
-        <>
-          <label className="mt-3 grid gap-1 text-xs">
+        <div className="flex flex-col gap-2">
+          <label className="grid gap-1 text-xs text-secondary">
             Alasan perubahan
             <textarea
-              className="rounded-control border border-ux-border p-2 text-sm"
+              className="rounded-control border border-ux-border p-2 text-xs text-foreground placeholder:text-muted focus:border-primary focus:outline-hidden resize-none"
+              placeholder="Tulis alasan pemeliharaan/pengaktifan..."
               maxLength={500}
               rows={2}
               value={reason}
@@ -98,7 +106,8 @@ export function TaskMaintenancePanel({
           </label>
           <Button
             size="small"
-            className="mt-2 w-full"
+            className="w-full"
+            variant={state.status === "active" ? "secondary" : "primary"}
             disabled={busy || !reason.trim()}
             onClick={() => void save()}
           >
@@ -108,12 +117,12 @@ export function TaskMaintenancePanel({
                 ? "Mulai pemeliharaan"
                 : "Aktifkan kembali"}
           </Button>
-        </>
+        </div>
       ) : (
-        <p className="mt-2 text-xs text-secondary">Memuat pengaturan…</p>
+        <p className="py-2 text-xs text-secondary">Memuat pengaturan…</p>
       )}
       {error && (
-        <p role="alert" className="mt-2 text-xs text-danger">
+        <p role="alert" className="text-xs text-danger">
           {error}{" "}
           <button className="underline" onClick={() => void load()}>
             Muat ulang

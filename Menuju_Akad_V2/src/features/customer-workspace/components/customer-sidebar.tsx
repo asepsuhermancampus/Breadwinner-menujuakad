@@ -1,7 +1,8 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import { customerNavigation } from "./customer-navigation";
@@ -25,23 +26,25 @@ function Glyph({ name, label }: { name: string; label: string }) {
   );
 }
 
-export function CustomerSidebar({
-  close,
-  compact = false,
-  toggle,
-  mobile = false,
-  availability = defaultFeatureAvailability(true),
-}: {
+type SidebarProps = {
   close?: () => void;
   compact?: boolean;
   toggle?: () => void;
   mobile?: boolean;
   availability?: FeatureAvailability;
-}) {
+};
+
+export function CustomerSidebar({
+  close, compact = false, toggle, mobile = false, availability = defaultFeatureAvailability(true),
+}: SidebarProps) {
   const pathname = usePathname();
-  const navigate = () => {
-    close?.();
+  const [userToggledGroups, setUserToggledGroups] = useState<Record<string, boolean>>({});
+
+  const toggleGroup = (href: string) => {
+    setUserToggledGroups((prev) => ({ ...prev, [href]: !(prev[href] ?? true) }));
   };
+
+  const navigate = () => { close?.(); };
   return (
     <>
       <aside
@@ -80,46 +83,80 @@ export function CustomerSidebar({
                     const destination = availableNavigationDestination(item, availability);
                     if (!destination) return null;
                     const active = customerNavigationActive(item.href, pathname);
+                    const hasChildren =
+                      !compact && Boolean(item.children && item.children.length > 0);
+                    const isExpanded = hasChildren && (userToggledGroups[item.href] ?? true);
                     return (
                       <div className={styles.row} key={item.href}>
-                        <Link
-                          data-sidebar-link
-                          href={destination}
-                          onClick={navigate}
-                          aria-label={item.label}
-                          aria-current={pathname === destination ? "page" : undefined}
-                          data-active={active || undefined}
-                          title={compact ? item.label : undefined}
-                          className={styles.link}
-                        >
-                          <Glyph name={item.icon} label={item.label} />
-                          {!compact && (
-                            <>
-                              <span className={styles.label}>{item.label}</span>
-                              {item.badge && <small className={styles.badge}>{item.badge}</small>}
-                              {item.dot && <span className={styles.dot} aria-hidden="true" />}
-                            </>
+                        <div className={styles.linkWrapper}>
+                          <Link
+                            data-sidebar-link
+                            href={destination}
+                            onClick={navigate}
+                            aria-label={item.label}
+                            aria-current={pathname === destination ? "page" : undefined}
+                            data-active={active || undefined}
+                            title={compact ? item.label : undefined}
+                            className={cn(styles.link, hasChildren && styles.linkWithChildren)}
+                          >
+                            <Glyph name={item.icon} label={item.label} />
+                            {!compact && (
+                              <>
+                                <span className={styles.label}>{item.label}</span>
+                                {item.badge && <small className={styles.badge}>{item.badge}</small>}
+                                {item.dot && <span className={styles.dot} aria-hidden="true" />}
+                              </>
+                            )}
+                          </Link>
+                          {hasChildren && (
+                            <button
+                              type="button"
+                              className={cn(
+                                styles.toggleChevron,
+                                isExpanded && styles.toggleChevronExpanded,
+                              )}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleGroup(item.href);
+                              }}
+                              aria-label={
+                                isExpanded
+                                  ? `Tutup sub-menu ${item.label}`
+                                  : `Buka sub-menu ${item.label}`
+                              }
+                            >
+                              <ChevronDown size={14} className={styles.chevronIcon} />
+                            </button>
                           )}
-                        </Link>
-                        {!compact && item.children && (
-                          <div className={styles.children}>
+                        </div>
+                        {!compact && isExpanded && item.children && (
+                          <div
+                            className={styles.children}
+                            role="group"
+                            aria-label={`Sub-navigasi ${item.label}`}
+                          >
                             {item.children
                               .filter(
                                 (child) =>
                                   child.href !== destination &&
                                   isAvailableFeaturePath(child.href, availability),
                               )
-                              .map((child) => (
-                                <Link
-                                  key={child.href}
-                                  href={child.href}
-                                  onClick={navigate}
-                                  aria-current={pathname === child.href ? "page" : undefined}
-                                  className={styles.childLink}
-                                >
-                                  {child.label}
-                                </Link>
-                              ))}
+                              .map((child) => {
+                                const isChildActive = pathname === child.href;
+                                return (
+                                  <Link
+                                    key={child.href}
+                                    href={child.href}
+                                    onClick={navigate}
+                                    aria-current={isChildActive ? "page" : undefined}
+                                    className={styles.childLink}
+                                  >
+                                    <span className={styles.childDot} aria-hidden="true" />
+                                    <span className={styles.childLabel}>{child.label}</span>
+                                  </Link>
+                                );
+                              })}
                           </div>
                         )}
                       </div>

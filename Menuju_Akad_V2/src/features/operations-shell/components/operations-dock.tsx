@@ -4,8 +4,8 @@ import { Icon } from "@/components/ui/icon";
 import type { OperationsNavItem } from "../types/navigation";
 type Props = {
   roleLabel: string;
-  identity: string;
-  description: string;
+  identity?: string;
+  description?: string;
   account: string;
   active: string;
   items: OperationsNavItem[];
@@ -48,14 +48,13 @@ export function OperationsDock({
           <Icon name={compact ? "panel-left-open" : "panel-left-close"} />
         </button>
       </div>
-      {!compact && (
-        <div className="grid gap-3 p-3.5 text-foreground">
-          <p className="text-[10px] font-semibold tracking-wider">{roleLabel}</p>
-          <p className="text-base font-semibold">{identity}</p>
-          <p className="text-xs text-secondary">{description}</p>
+      {!compact && (identity || description) && (
+        <div className="grid gap-1 px-3.5 py-1 text-foreground">
+          {identity && <p className="text-base font-semibold">{identity}</p>}
+          {description && <p className="text-xs text-secondary">{description}</p>}
         </div>
       )}
-      <nav aria-label={`Navigasi ${roleLabel}`} className="grid content-start gap-1">
+      <nav aria-label={`Navigasi ${roleLabel}`} className="grid content-start gap-1 overflow-y-auto app-scroll min-h-0">
         {items.map((item) => {
           const chosen = item === first;
           const main = (
@@ -102,14 +101,10 @@ export function OperationsDock({
         })}
       </nav>
       <div className="flex-1" />
-      {!compact && (
+      {!compact && !live && (
         <div className="grid gap-2 p-3 text-xs">
-          <p className="font-medium text-brand-secondary">
-            {live ? "Lingkup operasional" : "Sandbox · Preset 3"}
-          </p>
-          <p className="text-secondary">
-            {live ? "Akses terbatas · tim internal" : "Pratinjau, bukan rilis produksi"}
-          </p>
+          <p className="font-medium text-brand-secondary">Sandbox · Preset 3</p>
+          <p className="text-secondary">Pratinjau, bukan rilis produksi</p>
         </div>
       )}
       <button

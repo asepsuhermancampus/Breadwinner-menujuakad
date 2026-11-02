@@ -31,7 +31,7 @@ export function PreviewMarketplace() {
   );
 }
 
-export function PreviewVendorDetail({ vendorSlug: _vendorSlug }: { vendorSlug?: string } = {}) {
+export function PreviewVendorDetail(_props: { vendorSlug?: string } = {}) {
   return (
     <ShellWrapper>
       <VendorDetailScreen />
