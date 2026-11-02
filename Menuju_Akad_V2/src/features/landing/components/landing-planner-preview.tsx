@@ -1,27 +1,37 @@
-import { CheckCircle2, Clock, ShieldCheck, Heart, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ArrowRight, CheckCircle2, Heart, ShieldCheck, Sparkles, FileText, Utensils, QrCode } from "lucide-react";
 
-const activityLogs = [
+const quickStats = [
   {
-    author: "Sarah",
-    role: "Mempelai Wanita",
-    avatarBg: "bg-emerald-100 text-emerald-800",
-    action: "Menandai 4 berkas KUA (N1, N2, N4) selesai diverifikasi kelurahan",
+    icon: FileText,
+    label: "Berkas KUA",
+    value: "8 / 8 Lengkap",
+    sub: "N1 Kelurahan & Elsimil Siap",
+  },
+  {
+    icon: Utensils,
+    label: "Alokasi Katering",
+    value: "Rp 85.000.000",
+    sub: "600 Buffet · 1.200 Gubukan",
+  },
+  {
+    icon: QrCode,
+    label: "Tamu & Undangan",
+    value: "450 Tamu Terdata",
+    sub: "Buku Tamu QR Siaga",
+  },
+];
+
+const recentActivities = [
+  {
+    user: "Sarah",
+    note: "Menandai formulir N1 Kelurahan dan hasil skrining Elsimil selesai.",
     time: "Baru saja",
   },
   {
-    author: "Dimas",
-    role: "Mempelai Pria",
-    avatarBg: "bg-amber-100 text-amber-800",
-    action: "Mencatat konfirmasi DP vendor katering dan alokasi 450 porsi",
-    time: "2 jam lalu",
-  },
-  {
-    author: "Sarah & Dimas",
-    role: "Ruang Bersama",
-    avatarBg: "bg-rose-100 text-rose-800",
-    action: "Memilih tema undangan digital Editorial Light untuk disebarkan",
-    time: "Kemarin",
+    user: "Dimas",
+    note: "Mengonfirmasi DP vendor katering dan rasio 300 undangan (600 pax).",
+    time: "1 jam lalu",
   },
 ];
 
@@ -29,43 +39,40 @@ export function LandingPlannerPreview() {
   return (
     <section className="bg-canvas py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Sisi Kiri: Narasi Solusi Berdua */}
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+          {/* Kolom Kiri: Narasi Editorial */}
           <div className="space-y-6 lg:col-span-5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-ux-border bg-surface px-3 py-1 text-xs font-semibold text-brand-secondary">
-              <Sparkles size={13} className="text-rose" />
-              <span>Pusat Kendali Kolaborasi</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-ux-border bg-surface px-3 py-1 text-xs font-semibold text-secondary">
+              <Sparkles size={13} className="text-forest-neutral" />
+              <span>Studio Perencana Nyata</span>
             </div>
 
             <h2 className="font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl">
-              Tidak ada lagi catatan terpencar di chat WhatsApp
+              Segala detail hari bahagia,{" "}
+              <span className="font-serif font-normal italic text-forest-neutral">
+                terkoordinasi rapi
+              </span>
             </h2>
 
-            <p className="text-base leading-relaxed text-secondary">
-              Setiap keputusan, pembayaran vendor, dan perkembangan berkas tercatat rapi secara
-              real-time. Kalian berdua selalu berada di halaman yang sama tanpa saling menduga.
+            <p className="text-sm leading-relaxed text-secondary sm:text-base">
+              Tidak perlu berpindah antara spreadsheet rumit dan tumpukan kertas. Dasbor Menuju Akad
+              menyajikan alur berkas Kemenag, pembagian anggaran vendor, dan daftar kehadiran tamu
+              dalam satu tata letak yang menenangkan.
             </p>
 
             <div className="space-y-3 pt-2 text-sm text-secondary">
               <div className="flex items-start gap-3">
-                <CheckCircle2 size={18} className="shrink-0 text-emerald-600 mt-0.5" />
+                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-emerald-700" />
                 <span>
-                  <strong className="text-foreground">Satu akun untuk berdua</strong> — undang
-                  pasangan dengan satu tautan undangan instan.
+                  <strong className="text-foreground">Satu ruang untuk berdua:</strong> Calon suami
+                  dan calon istri memperbarui progres yang sama tanpa miskomunikasi.
                 </span>
               </div>
               <div className="flex items-start gap-3">
-                <Clock size={18} className="shrink-0 text-emerald-600 mt-0.5" />
+                <ShieldCheck size={17} className="mt-0.5 shrink-0 text-emerald-700" />
                 <span>
-                  <strong className="text-foreground">Riwayat aktivitas transparan</strong> — pantau
-                  tugas yang baru saja diselesaikan pasangan.
-                </span>
-              </div>
-              <div className="flex items-start gap-3">
-                <ShieldCheck size={18} className="shrink-0 text-emerald-600 mt-0.5" />
-                <span>
-                  <strong className="text-foreground">Privasi penuh terjamin</strong> — data rencana
-                  hanya dapat diakses oleh kalian berdua.
+                  <strong className="text-foreground">Data tersimpan aman & privat:</strong> Bebas
+                  iklan komersial yang mengganggu fokus persiapan pernikahan kalian.
                 </span>
               </div>
             </div>
@@ -73,85 +80,82 @@ export function LandingPlannerPreview() {
             <div className="pt-2">
               <Link
                 href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-control bg-primary px-5 py-3 text-xs font-semibold text-on-primary shadow-sm transition hover:bg-primary-hover"
+                className="inline-flex items-center gap-2 rounded-control bg-brand-secondary px-5 py-3 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-secondary/90"
               >
-                <span>Eksplorasi Dasbor Kalian</span>
+                <span>Masuk ke Dasbor Pratinjau</span>
                 <ArrowRight size={14} />
               </Link>
             </div>
           </div>
 
-          {/* Sisi Kanan: Realistic Window App Workspace */}
+          {/* Kolom Kanan: Pratinjau Ruang Dasbor Bersama */}
           <div className="lg:col-span-7">
-            <div className="overflow-hidden rounded-2xl border border-ux-border bg-surface shadow-xl">
-              {/* Browser Window Title Bar */}
-              <div className="flex items-center justify-between border-b border-ux-border bg-ux-dock px-4 py-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full bg-red-400/80" />
-                  <span className="size-2.5 rounded-full bg-amber-400/80" />
-                  <span className="size-2.5 rounded-full bg-emerald-400/80" />
+            <div className="rounded-3xl border border-ux-border bg-surface p-6 shadow-sm sm:p-8">
+              {/* Header Kartu Dasbor */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ux-border pb-6">
+                <div className="flex items-center gap-3">
+                  <div className="flex size-11 items-center justify-center rounded-full bg-canvas border border-ux-border text-brand-secondary font-serif text-sm font-semibold">
+                    <Heart size={16} className="fill-rose/30 text-rose" />
+                  </div>
+                  <div>
+                    <h3 className="font-sans text-base font-bold text-brand-secondary sm:text-lg">
+                      Ruang Sarah & Dimas
+                    </h3>
+                    <p className="text-xs text-secondary">
+                      Target Akad: 14 Februari 2027 · Masjid Agung Sunda Kelapa
+                    </p>
+                  </div>
                 </div>
-                <span className="rounded-md bg-surface border border-ux-border px-4 py-0.5 font-mono text-[11px] text-muted">
-                  menujuakad.com/dashboard/sarah-dimas
-                </span>
-                <div className="flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Tersinkronisasi</span>
+                <div className="flex items-center gap-2 rounded-full border border-emerald-700/20 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800">
+                  <span className="size-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                  <span>Akun Terhubung</span>
                 </div>
               </div>
 
-              {/* Workspace Body */}
-              <div className="p-6 space-y-5">
-                {/* Workspace Header */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ux-border pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 ring-2 ring-emerald-200">
-                      <Heart size={18} className="fill-emerald-600 text-emerald-600" />
+              {/* 3 Metrik Inti Realistis */}
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {quickStats.map((stat) => {
+                  const Icon = stat.icon;
+                  return (
+                    <div
+                      key={stat.label}
+                      className="rounded-2xl border border-ux-border bg-canvas/60 p-4 text-left"
+                    >
+                      <div className="flex items-center gap-2 text-secondary">
+                        <Icon size={14} />
+                        <span className="text-[11px] font-semibold uppercase tracking-wider">
+                          {stat.label}
+                        </span>
+                      </div>
+                      <div className="mt-2 text-sm font-bold text-brand-secondary">
+                        {stat.value}
+                      </div>
+                      <div className="mt-0.5 text-[11px] text-muted">{stat.sub}</div>
                     </div>
-                    <div>
-                      <h3 className="font-sans text-lg font-bold text-brand-secondary">
-                        Ruang Sarah & Dimas
-                      </h3>
-                      <span className="text-xs text-secondary">
-                        Hari H: 14 Februari 2027 · Akad & Resepsi
-                      </span>
-                    </div>
-                  </div>
-                  <span className="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
-                    Kesiapan 75%
+                  );
+                })}
+              </div>
+
+              {/* Catatan Kolaborasi Terkini */}
+              <div className="mt-6 border-t border-ux-border pt-5">
+                <div className="flex items-center justify-between mb-3 text-xs">
+                  <span className="font-semibold text-secondary uppercase tracking-wider text-[11px]">
+                    Riwayat Kolaborasi Terbaru
                   </span>
+                  <span className="text-muted text-[11px]">Otomatis tersimpan</span>
                 </div>
 
-                {/* Collaborative Activity Stream */}
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-xs font-bold text-brand-secondary uppercase tracking-wider">
-                      Aktivitas Terbaru Pasangan
-                    </span>
-                    <span className="text-[11px] text-muted">Diperbarui otomatis</span>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {activityLogs.map((log) => (
-                      <div
-                        key={log.action}
-                        className="flex items-start gap-3 rounded-xl border border-ux-border bg-ux-dock/40 p-3 text-xs"
-                      >
-                        <div
-                          className={`flex size-7 shrink-0 items-center justify-center rounded-full font-bold text-[11px] ${log.avatarBg}`}
-                        >
-                          {log.author[0]}
-                        </div>
-                        <div className="flex-1 space-y-0.5">
-                          <div className="flex items-center justify-between">
-                            <span className="font-semibold text-foreground">{log.author}</span>
-                            <span className="text-[10px] text-muted">{log.time}</span>
-                          </div>
-                          <p className="text-secondary leading-relaxed">{log.action}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="space-y-2.5">
+                  {recentActivities.map((act) => (
+                    <div
+                      key={act.note}
+                      className="flex items-start gap-3 rounded-xl border border-ux-border/70 bg-canvas/30 px-3.5 py-2.5 text-xs"
+                    >
+                      <span className="font-bold text-brand-secondary shrink-0">{act.user}:</span>
+                      <span className="text-secondary flex-1 leading-relaxed">{act.note}</span>
+                      <span className="text-[10px] text-muted shrink-0">{act.time}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

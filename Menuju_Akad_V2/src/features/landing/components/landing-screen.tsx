@@ -1,5 +1,7 @@
 import { LandingNav } from "./landing-nav";
 import { LandingHero } from "./landing-hero";
+import { LandingValues } from "./landing-values";
+import { LandingPlannerPreview } from "./landing-planner-preview";
 import { LandingWorkflow } from "./landing-workflow";
 import { LandingInvitations } from "./landing-invitations";
 import { LandingPricing } from "./landing-pricing";
@@ -14,6 +16,8 @@ export function LandingScreen() {
       <LandingNav />
       <main id="main-content">
         <LandingHero />
+        <LandingValues />
+        <LandingPlannerPreview />
         <LandingWorkflow />
         <LandingInvitations />
         <LandingPricing />
