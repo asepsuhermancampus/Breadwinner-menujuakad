@@ -44,3 +44,4 @@ export function ReuiCapitalInflowsItem({ src }: ItemProps) {
     </div>
   );
 }
+

@@ -6,7 +6,8 @@ import type { InflowSource, DonutSlice } from "./reui-capital-inflows-types";
 type DonutProps = {
   sources?: InflowSource[] | undefined;
   slices?: DonutSlice[] | undefined;
-  coveragePercent: number;
+  coveragePercent?: number | undefined;
+  centerValue?: string | number | undefined;
   coverageLabel?: string | undefined;
   restPercent?: number | undefined;
   size?: number | undefined;
@@ -15,7 +16,8 @@ type DonutProps = {
 export function ReuiCapitalInflowsDonut({
   sources = [],
   slices,
-  coveragePercent,
+  coveragePercent = 0,
+  centerValue,
   coverageLabel = "Top 3 pos",
   restPercent = 0,
   size = 170,
@@ -26,7 +28,6 @@ export function ReuiCapitalInflowsDonut({
   const radius = center - strokeWidth / 2 - 4;
   const circumference = 2 * Math.PI * radius;
 
-  // Prepare slices: prefer custom slices if provided, otherwise build from sources
   const allSlices =
     slices && slices.length > 0
       ? slices.map((s) => ({
@@ -62,7 +63,7 @@ export function ReuiCapitalInflowsDonut({
       className="relative inline-flex items-center justify-center shrink-0"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`Distribusi anggaran: ${coveragePercent}% - ${coverageLabel}`}
+      aria-label={`Distribusi: ${centerValue ?? coveragePercent} - ${coverageLabel}`}
     >
       <svg
         width={size}
@@ -121,11 +122,11 @@ export function ReuiCapitalInflowsDonut({
       </svg>
 
       {/* Center Label */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <span className="font-mono text-2xl font-bold tracking-tight text-foreground">
-          {coveragePercent}%
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-2">
+        <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground truncate max-w-full">
+          {centerValue !== undefined ? centerValue : `${coveragePercent}%`}
         </span>
-        <span className="text-[10px] font-medium text-secondary tracking-tight">
+        <span className="text-[10px] font-medium text-secondary tracking-tight truncate max-w-full">
           {coverageLabel}
         </span>
       </div>

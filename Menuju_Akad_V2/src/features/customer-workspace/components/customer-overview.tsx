@@ -16,6 +16,7 @@ import type { DashboardCard } from "../domain/dashboard-card-catalog";
 import { useTrial } from "@/features/dashboard-trial/components/trial-provider";
 import { useAccountFinance } from "@/features/planner-finance/hooks/use-account-finance";
 import type { FinanceBook } from "@/features/planner-finance/types/finance-ledger";
+import { extractOverviewFinance } from "../domain/overview-finance";
 
 export type OverviewProps = {
   workspace: CustomerWorkspace;
@@ -57,10 +58,9 @@ export function CustomerOverview({
   const event = useCustomerEvent();
   const trial = useTrial();
   const accountFinance = useAccountFinance(guest ? "" : workspace.id);
-  const trialSavings = (
-    (trial?.snapshot?.resources?.savings?.[0] as FinanceBook | undefined)?.entries ?? []
-  ).reduce((sum, e) => sum + (e.amount ?? 0), 0);
-  const savingsTotal = guest ? trialSavings : (accountFinance.snapshot?.balances?.total ?? 0);
+  const trialBook = trial?.snapshot?.resources?.savings?.[0] as FinanceBook | undefined;
+  const finInfo = extractOverviewFinance(workspace, guest, trialBook, accountFinance.snapshot);
+  const savingsTotal = finInfo.balances.total;
 
   const allTasks = (resources.tasks.data ?? []) as PlannerTask[];
   const tasks = allTasks.filter((t) => t.event === event);
@@ -159,6 +159,10 @@ export function CustomerOverview({
         tasks={tasks}
         resources={resources}
         savingsAmount={savingsTotal}
+        financeBalances={finInfo.balances}
+        hasPartner={finInfo.hasPartner}
+        partnerNames={finInfo.partnerNames}
+        ownerSide={finInfo.ownerSide}
         tasksAvailable={tasksAvailable}
         financeAvailable={financeAvailable}
         guestsAvailable={guestsAvailable}
