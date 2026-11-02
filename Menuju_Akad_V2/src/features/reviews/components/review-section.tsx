@@ -117,12 +117,12 @@ export function ReviewSection() {
         <div className="relative mt-8 overflow-hidden rounded-3xl">
           {/* Efek kabut memudar di sisi keluar (kiri) */}
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 sm:w-28 bg-gradient-to-r from-canvas via-canvas/80 to-transparent backdrop-blur-[2px]"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-20 bg-gradient-to-r from-canvas via-canvas/50 to-transparent backdrop-blur-[1px]"
             aria-hidden="true"
           />
           {/* Efek kabut memudar di sisi masuk (kanan) */}
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 sm:w-28 bg-gradient-to-l from-canvas via-canvas/80 to-transparent backdrop-blur-[2px]"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-20 bg-gradient-to-l from-canvas via-canvas/50 to-transparent backdrop-blur-[1px]"
             aria-hidden="true"
           />
 
