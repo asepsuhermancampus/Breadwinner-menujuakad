@@ -21,6 +21,28 @@
   -ms-overflow-style: none;
   cursor: grab;
   padding: 12px 0 24px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 2%,
+    rgba(0, 0, 0, 0.8) 6%,
+    black 12%,
+    black 88%,
+    rgba(0, 0, 0, 0.8) 94%,
+    rgba(0, 0, 0, 0.2) 98%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 2%,
+    rgba(0, 0, 0, 0.8) 6%,
+    black 12%,
+    black 88%,
+    rgba(0, 0, 0, 0.8) 94%,
+    rgba(0, 0, 0, 0.2) 98%,
+    transparent 100%
+  );
 }
 .marqueeViewport::-webkit-scrollbar {
   display: none;

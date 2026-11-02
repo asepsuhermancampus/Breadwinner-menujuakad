@@ -112,45 +112,57 @@ export function ReviewSection() {
             </div>
           </div>
         )}
-      </div>
 
-      <div className="mt-8 w-full">
-        {reviews.length > 0 ? (
+        {/* Carousel Container: Terkunci di dalam max-w-7xl dengan kabut gradien kiri & kanan */}
+        <div className="relative mt-8 overflow-hidden rounded-3xl">
+          {/* Efek kabut memudar di sisi keluar (kiri) */}
           <div
-            ref={viewportRef}
-            className={styles.marqueeViewport}
-            role="region"
-            aria-label="Daftar ulasan berjalan"
-          >
-            <div className={cn(styles.marqueeTrack, isPaused && styles.isPaused)}>
-              {loopedReviews.map((review, index) => (
-                <ReviewCard
-                  key={`${review.id}-${index}`}
-                  review={review}
-                  index={index}
-                  onSelect={setSelectedReview}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="mx-auto max-w-7xl px-6 py-8 text-center lg:px-12">
-            {busy ? (
-              <p className="animate-pulse text-sm text-secondary">Memuat cerita pengantin…</p>
-            ) : error ? (
-              <div role="alert" className="space-y-3">
-                <p className="text-sm text-danger">{error}</p>
-                <Button variant="secondary" onClick={() => void load()}>
-                  Coba lagi
-                </Button>
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 sm:w-28 bg-gradient-to-r from-canvas via-canvas/80 to-transparent backdrop-blur-[2px]"
+            aria-hidden="true"
+          />
+          {/* Efek kabut memudar di sisi masuk (kanan) */}
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 sm:w-28 bg-gradient-to-l from-canvas via-canvas/80 to-transparent backdrop-blur-[2px]"
+            aria-hidden="true"
+          />
+
+          {reviews.length > 0 ? (
+            <div
+              ref={viewportRef}
+              className={styles.marqueeViewport}
+              role="region"
+              aria-label="Daftar ulasan berjalan"
+            >
+              <div className={cn(styles.marqueeTrack, isPaused && styles.isPaused)}>
+                {loopedReviews.map((review, index) => (
+                  <ReviewCard
+                    key={`${review.id}-${index}`}
+                    review={review}
+                    index={index}
+                    onSelect={setSelectedReview}
+                  />
+                ))}
               </div>
-            ) : (
-              <p className="rounded-card border border-ux-border bg-surface p-8 text-sm text-secondary">
-                Belum ada ulasan yang ditampilkan. Bagikan pengalaman Anda lewat Tulis ulasan.
-              </p>
-            )}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div className="py-8 text-center">
+              {busy ? (
+                <p className="animate-pulse text-sm text-secondary">Memuat cerita pengantin…</p>
+              ) : error ? (
+                <div role="alert" className="space-y-3">
+                  <p className="text-sm text-danger">{error}</p>
+                  <Button variant="secondary" onClick={() => void load()}>
+                    Coba lagi
+                  </Button>
+                </div>
+              ) : (
+                <p className="rounded-card border border-ux-border bg-surface p-8 text-sm text-secondary">
+                  Belum ada ulasan yang ditampilkan. Bagikan pengalaman Anda lewat Tulis ulasan.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
 
