@@ -6,6 +6,7 @@ import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 export type SavingsPaneProps = {
   hasPartner: boolean;
   partnerNames: { user: string; partner: string };
+  ownerSide?: "groom" | "bride" | undefined;
   userSavings: number;
   partnerSavings: number;
   availableSavings: number;
@@ -18,6 +19,7 @@ export type SavingsPaneProps = {
 export function SavingsDonutPane({
   hasPartner,
   partnerNames,
+  ownerSide = "groom",
   userSavings,
   partnerSavings,
   availableSavings,
@@ -26,6 +28,11 @@ export function SavingsDonutPane({
   centerValue,
   centerLabel = "Tersedia",
 }: SavingsPaneProps) {
+  const isUserBride = ownerSide === "bride";
+  const userColor = isUserBride ? "#f472b6" : "#10b981";
+  const partnerColor = isUserBride ? "#10b981" : "#f472b6";
+  const usedColor = "#6366f1";
+
   return (
     <div className="flex flex-col items-center p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
       <span className="text-xs font-semibold text-foreground mb-3 self-start">
@@ -42,7 +49,7 @@ export function SavingsDonutPane({
           <>
             <div className="flex items-center justify-between text-secondary">
               <span className="flex items-center gap-1.5 truncate">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
                 {partnerNames.user}
               </span>
               <span className="font-mono font-medium text-foreground">
@@ -51,7 +58,7 @@ export function SavingsDonutPane({
             </div>
             <div className="flex items-center justify-between text-secondary">
               <span className="flex items-center gap-1.5 truncate">
-                <span className="w-2 h-2 rounded-full bg-teal-500 shrink-0" />
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: partnerColor }} />
                 {partnerNames.partner}
               </span>
               <span className="font-mono font-medium text-foreground">
@@ -62,7 +69,7 @@ export function SavingsDonutPane({
         ) : (
           <div className="flex items-center justify-between text-secondary">
             <span className="flex items-center gap-1.5 truncate">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
               Tabungan Kalian
             </span>
             <span className="font-mono font-medium text-foreground">
@@ -73,10 +80,10 @@ export function SavingsDonutPane({
         {usedForBudget > 0 && (
           <div className="flex items-center justify-between text-secondary pt-1 border-t border-ux-border/40">
             <span className="flex items-center gap-1.5 truncate">
-              <span className="w-2 h-2 rounded-full bg-emerald-800 dark:bg-emerald-700 shrink-0" />
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: usedColor }} />
               Terpakai Bayar Anggaran
             </span>
-            <span className="font-mono font-medium text-emerald-800 dark:text-emerald-400">
+            <span className="font-mono font-medium text-indigo-700 dark:text-indigo-400">
               Rp {usedForBudget.toLocaleString("id-ID")}
             </span>
           </div>
@@ -88,7 +95,8 @@ export function SavingsDonutPane({
 
 export type BudgetPaneProps = {
   paidBudget: number;
-  unpaidBudget: number;
+  dueSoonBudget: number;
+  unpaidRegularBudget: number;
   slices: DonutSlice[];
   centerValue?: string | number | undefined;
   centerLabel?: string | undefined;
@@ -96,7 +104,8 @@ export type BudgetPaneProps = {
 
 export function BudgetDonutPane({
   paidBudget,
-  unpaidBudget,
+  dueSoonBudget,
+  unpaidRegularBudget,
   slices,
   centerValue,
   centerLabel = "Terbayar",
@@ -124,15 +133,23 @@ export function BudgetDonutPane({
         </div>
         <div className="flex items-center justify-between text-secondary">
           <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+            Mendekati Tenggat
+          </span>
+          <span className="font-mono font-medium text-rose-600 dark:text-rose-400">
+            Rp {dueSoonBudget.toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="flex items-center justify-between text-secondary">
+          <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             Belum Dibayar
           </span>
           <span className="font-mono font-medium text-foreground">
-            Rp {unpaidBudget.toLocaleString("id-ID")}
+            Rp {unpaidRegularBudget.toLocaleString("id-ID")}
           </span>
         </div>
       </div>
     </div>
   );
 }
-

@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Receipt, ArrowUpRight, CheckCircle2, Clock } from "lucide-react";
+import { Receipt, ArrowUpRight, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import { isBudgetDueSoon } from "../domain/budget-due-status";
+import { BudgetStatusItem } from "./budget-status-item";
 
 type BudgetStatusScrollCardProps = {
   budgets: CustomerBudget[];
@@ -13,7 +15,7 @@ type BudgetStatusScrollCardProps = {
   className?: string | undefined;
 };
 
-type FilterTab = "all" | "unpaid" | "paid";
+type FilterTab = "all" | "dueSoon" | "unpaid" | "paid";
 
 export function BudgetStatusScrollCard({
   budgets,
@@ -24,14 +26,18 @@ export function BudgetStatusScrollCard({
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
 
   const paidBudgets = budgets.filter((b) => b.completed);
-  const unpaidBudgets = budgets.filter((b) => !b.completed);
+  const dueSoonBudgets = budgets.filter((b) => !b.completed && isBudgetDueSoon(b));
+  const unpaidRegularBudgets = budgets.filter((b) => !b.completed && !isBudgetDueSoon(b));
+  const totalUnpaid = budgets.filter((b) => !b.completed);
 
   const filteredBudgets =
     activeTab === "paid"
       ? paidBudgets
-      : activeTab === "unpaid"
-        ? unpaidBudgets
-        : budgets;
+      : activeTab === "dueSoon"
+        ? dueSoonBudgets
+        : activeTab === "unpaid"
+          ? unpaidRegularBudgets
+          : budgets;
 
   return (
     <div
@@ -51,7 +57,8 @@ export function BudgetStatusScrollCard({
             <div>
               <h3 className="text-sm font-semibold text-foreground">Detail Anggaran</h3>
               <p className="text-xs text-secondary">
-                {paidBudgets.length} lunas · {unpaidBudgets.length} belum bayar
+                {paidBudgets.length} lunas · {totalUnpaid.length} belum bayar
+                {dueSoonBudgets.length > 0 && ` (${dueSoonBudgets.length} segera)`}
               </p>
             </div>
           </div>
@@ -66,12 +73,12 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1.5 mt-3 pb-2 border-b border-ux-border/40 text-xs">
+        <div className="flex items-center gap-1 mt-3 pb-2 border-b border-ux-border/40 text-[11px] overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
             className={cn(
-              "px-2.5 py-1 rounded text-xs font-medium transition-all",
+              "px-2 py-0.5 rounded transition-all whitespace-nowrap",
               activeTab === "all"
                 ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-semibold"
                 : "text-secondary hover:text-foreground",
@@ -79,29 +86,43 @@ export function BudgetStatusScrollCard({
           >
             Semua ({budgets.length})
           </button>
+          {dueSoonBudgets.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveTab("dueSoon")}
+              className={cn(
+                "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
+                activeTab === "dueSoon"
+                  ? "bg-rose-500/15 text-rose-800 dark:text-rose-300 font-semibold"
+                  : "text-rose-600/80 hover:text-rose-700",
+              )}
+            >
+              <AlertTriangle size={10} /> Segera ({dueSoonBudgets.length})
+            </button>
+          )}
           <button
             type="button"
             onClick={() => setActiveTab("unpaid")}
             className={cn(
-              "px-2.5 py-1 rounded text-xs font-medium transition-all inline-flex items-center gap-1",
+              "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
               activeTab === "unpaid"
                 ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold"
                 : "text-secondary hover:text-foreground",
             )}
           >
-            <Clock size={11} /> Belum ({unpaidBudgets.length})
+            <Clock size={10} /> Belum ({unpaidRegularBudgets.length})
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("paid")}
             className={cn(
-              "px-2.5 py-1 rounded text-xs font-medium transition-all inline-flex items-center gap-1",
+              "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
               activeTab === "paid"
                 ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-semibold"
                 : "text-secondary hover:text-foreground",
             )}
           >
-            <CheckCircle2 size={11} /> Lunas ({paidBudgets.length})
+            <CheckCircle2 size={10} /> Lunas ({paidBudgets.length})
           </button>
         </div>
 
@@ -109,34 +130,7 @@ export function BudgetStatusScrollCard({
         <div className="mt-3 max-h-[300px] overflow-y-auto space-y-2 pr-1">
           {filteredBudgets.length > 0 ? (
             filteredBudgets.map((item, idx) => (
-              <div
-                key={item.id || `budget-${idx}`}
-                className="p-2.5 rounded-lg border border-ux-border/50 bg-subtle/30 flex items-center justify-between gap-2 text-xs"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="font-medium text-foreground truncate" title={item.title}>
-                    {item.title}
-                  </div>
-                  <div className="text-[11px] text-secondary truncate">
-                    {item.category || item.purpose || "Pos Anggaran"}
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-1 shrink-0">
-                  <span className="font-mono font-semibold text-foreground">
-                    Rp {(item.amount ?? 0).toLocaleString("id-ID")}
-                  </span>
-                  <span
-                    className={cn(
-                      "px-1.5 py-0.5 rounded text-[10px] font-semibold",
-                      item.completed
-                        ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-                        : "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-                    )}
-                  >
-                    {item.completed ? "✓ Sudah Dibayar" : "⏳ Belum Dibayar"}
-                  </span>
-                </div>
-              </div>
+              <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
             ))
           ) : (
             <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1.5 my-2">
@@ -145,13 +139,15 @@ export function BudgetStatusScrollCard({
                   ? "Belum ada pos anggaran"
                   : activeTab === "paid"
                     ? "Belum ada pos yang ditandai lunas"
-                    : "Semua pos anggaran sudah dibayar!"}
+                    : activeTab === "dueSoon"
+                      ? "Tidak ada pos yang mendekati tenggat"
+                      : "Semua pos anggaran sudah dibayar!"}
               </p>
               <p className="text-secondary text-[11px] leading-relaxed">
                 {budgets.length === 0
                   ? "Catat pos pengeluaran di menu Tabungan & Anggaran untuk memantau status pembayaran."
-                  : activeTab === "paid"
-                    ? "Tandai pos sebagai dibayar atau alokasikan dari tabungan."
+                  : activeTab === "dueSoon"
+                    ? "Semua jadwal pembayaran masih dalam batas waktu aman."
                     : "Luar biasa, semua pos anggaran telah selesai dilunasi."}
               </p>
             </div>
@@ -171,4 +167,3 @@ export function BudgetStatusScrollCard({
     </div>
   );
 }
-

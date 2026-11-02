@@ -13,13 +13,15 @@ export type DualBudgetDonutProps = {
   savingsCenterLabel?: string | undefined;
   hasPartner: boolean;
   partnerNames: { user: string; partner: string };
+  ownerSide?: "groom" | "bride" | undefined;
   userSavings?: number | undefined;
   partnerSavings?: number | undefined;
   usedForBudget?: number | undefined;
 
   totalBudget: number;
   paidBudget: number;
-  unpaidBudget: number;
+  dueSoonBudget: number;
+  unpaidRegularBudget: number;
   budgetSlices: DonutSlice[];
   budgetCenterValue?: string | number | undefined;
   budgetCenterLabel?: string | undefined;
@@ -37,12 +39,14 @@ export function DualBudgetDonutCard({
   savingsCenterLabel = "Tersedia",
   hasPartner,
   partnerNames,
+  ownerSide = "groom",
   userSavings = 0,
   partnerSavings = 0,
   usedForBudget = 0,
   totalBudget,
   paidBudget,
-  unpaidBudget,
+  dueSoonBudget,
+  unpaidRegularBudget,
   budgetSlices,
   budgetCenterValue,
   budgetCenterLabel = "Terbayar",
@@ -113,6 +117,7 @@ export function DualBudgetDonutCard({
           <SavingsDonutPane
             hasPartner={hasPartner}
             partnerNames={partnerNames}
+            ownerSide={ownerSide}
             userSavings={userSavings}
             partnerSavings={partnerSavings}
             availableSavings={availableSavings}
@@ -123,7 +128,8 @@ export function DualBudgetDonutCard({
           />
           <BudgetDonutPane
             paidBudget={paidBudget}
-            unpaidBudget={unpaidBudget}
+            dueSoonBudget={dueSoonBudget}
+            unpaidRegularBudget={unpaidRegularBudget}
             slices={budgetSlices}
             centerValue={budgetCenterValue}
             centerLabel={budgetCenterLabel}

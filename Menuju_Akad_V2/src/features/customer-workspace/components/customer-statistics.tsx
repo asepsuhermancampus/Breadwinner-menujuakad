@@ -6,6 +6,7 @@ import type { OverviewResources } from "../hooks/use-overview-resources";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 import { DualBudgetDonutCard } from "./dual-budget-donut-card";
 import { BudgetStatusScrollCard } from "./budget-status-scroll-card";
+import { categorizeBudgets } from "../domain/budget-due-status";
 
 type StatisticsProps = {
   tasks?: PlannerTask[];
@@ -31,41 +32,45 @@ export function CustomerStatistics({
 }: StatisticsProps) {
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
 
-  // 1. Data Anggaran Real-time
-  const totalFinanceAmount = financeData.reduce((sum, item) => sum + (item.amount ?? 0), 0);
-  const paidBudgets = financeData.filter((b) => b.completed);
-  const paidAmount = paidBudgets.reduce((sum, item) => sum + (item.amount ?? 0), 0);
-  const unpaidAmount = Math.max(0, totalFinanceAmount - paidAmount);
+  // 1. Data Anggaran Real-time (3 Kategori: Lunas, Mendekati Tenggat, Belum Bayar)
+  const categorized = categorizeBudgets(financeData);
+  const totalFinanceAmount = categorized.total;
+  const paidAmount = categorized.paid;
+  const dueSoonAmount = categorized.dueSoon;
+  const unpaidRegularAmount = categorized.unpaidRegular;
+  const totalUnpaid = dueSoonAmount + unpaidRegularAmount;
 
   // 2. Data Tabungan & Pembagian Sisi
-  const userSavings =
-    ownerSide === "bride"
-      ? (financeBalances?.bride ?? savingsAmount)
-      : (financeBalances?.groom ?? savingsAmount);
-  const partnerSavings =
-    ownerSide === "bride"
-      ? (financeBalances?.groom ?? 0)
-      : (financeBalances?.bride ?? 0);
+  const isBride = ownerSide === "bride";
+  const userSavings = isBride
+    ? (financeBalances?.bride ?? savingsAmount)
+    : (financeBalances?.groom ?? savingsAmount);
+  const partnerSavings = isBride
+    ? (financeBalances?.groom ?? 0)
+    : (financeBalances?.bride ?? 0);
   const availableSavings =
     financeBalances?.total ?? savingsAmount ?? (userSavings + partnerSavings);
 
-  // Pool dana tabungan awal (Tabungan saat ini + yang sudah dialokasikan/dibayar)
   const totalSavingsPool = Math.max(availableSavings + paidAmount, availableSavings);
 
-  // Irisan Donut Tabungan Tersedia
+  // Irisan Donut Tabungan Tersedia (Pria: Emerald #10b981, Wanita: Soft Rose #f472b6, Terpakai: Indigo #6366f1)
   const savingsSlices: DonutSlice[] = [];
   let savingsCenterValue: string | number = "Rp 0";
   let savingsCenterLabel = "Belum Ada";
 
   if (totalSavingsPool > 0) {
+    const userColor = isBride ? "#f472b6" : "#10b981";
+    const partnerColor = isBride ? "#10b981" : "#f472b6";
+    const usedColor = "#6366f1";
+
     if (!hasPartner) {
       const availPercent = Math.round((availableSavings / totalSavingsPool) * 100);
       const usedPercent = Math.max(0, 100 - availPercent);
       if (availPercent > 0) {
-        savingsSlices.push({ id: "available", label: "Tabungan Tersedia", percent: availPercent, color: "#10b981" });
+        savingsSlices.push({ id: "available", label: "Tabungan Tersedia", percent: availPercent, color: userColor });
       }
       if (usedPercent > 0) {
-        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: "#087f5b" });
+        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: usedColor });
       }
       savingsCenterValue = `${availPercent}%`;
       savingsCenterLabel = "Tersedia";
@@ -74,32 +79,37 @@ export function CustomerStatistics({
       const partnerPercent = Math.round((partnerSavings / totalSavingsPool) * 100);
       const usedPercent = Math.max(0, 100 - userPercent - partnerPercent);
       if (userPercent > 0) {
-        savingsSlices.push({ id: "user", label: partnerNames.user, percent: userPercent, color: "#10b981" });
+        savingsSlices.push({ id: "user", label: partnerNames.user, percent: userPercent, color: userColor });
       }
       if (partnerPercent > 0) {
-        savingsSlices.push({ id: "partner", label: partnerNames.partner, percent: partnerPercent, color: "#0d9488" });
+        savingsSlices.push({ id: "partner", label: partnerNames.partner, percent: partnerPercent, color: partnerColor });
       }
       if (usedPercent > 0) {
-        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: "#087f5b" });
+        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: usedColor });
       }
       savingsCenterValue = `${Math.min(100, userPercent + partnerPercent)}%`;
       savingsCenterLabel = "Total Tersedia";
     }
   }
 
-  // 3. Irisan Donut Target Anggaran
+  // 3. Irisan Donut Target Anggaran (3 Warna: Hijau #087f5b, Merah Danger #ef4444, Warning Amber #eab308)
   const budgetSlices: DonutSlice[] = [];
   let budgetCenterValue: string | number = "0%";
   let budgetCenterLabel = "0 Pos";
 
   if (totalFinanceAmount > 0) {
     const paidPercent = Math.round((paidAmount / totalFinanceAmount) * 100);
-    const unpaidPercent = Math.max(0, 100 - paidPercent);
+    const dueSoonPercent = Math.round((dueSoonAmount / totalFinanceAmount) * 100);
+    const unpaidPercent = Math.max(0, 100 - paidPercent - dueSoonPercent);
+
     if (paidPercent > 0) {
       budgetSlices.push({ id: "paid", label: "Sudah Dibayar", percent: paidPercent, color: "#087f5b" });
     }
+    if (dueSoonPercent > 0) {
+      budgetSlices.push({ id: "dueSoon", label: "Mendekati Tenggat", percent: dueSoonPercent, color: "#ef4444" });
+    }
     if (unpaidPercent > 0) {
-      budgetSlices.push({ id: "unpaid", label: "Belum Dibayar", percent: unpaidPercent, color: "#f59e0b" });
+      budgetSlices.push({ id: "unpaid", label: "Belum Dibayar", percent: unpaidPercent, color: "#eab308" });
     }
     budgetCenterValue = `${paidPercent}%`;
     budgetCenterLabel = "Terbayar";
@@ -107,11 +117,13 @@ export function CustomerStatistics({
 
   const badgeText =
     totalFinanceAmount > 0
-      ? paidBudgets.length === financeData.length
+      ? categorized.paidCount === financeData.length
         ? "Semua Pos Lunas"
-        : availableSavings >= unpaidAmount && unpaidAmount > 0
-          ? "Tabungan Mencukupi"
-          : `${paidBudgets.length}/${financeData.length} Pos Terbayar`
+        : categorized.dueSoonCount > 0
+          ? `${categorized.dueSoonCount} Pos Perlu Segera Dibayar`
+          : availableSavings >= totalUnpaid && totalUnpaid > 0
+            ? "Tabungan Mencukupi"
+            : `${categorized.paidCount}/${financeData.length} Pos Terbayar`
       : availableSavings > 0
         ? "Kas Siap Alokasi"
         : undefined;
@@ -137,12 +149,14 @@ export function CustomerStatistics({
           savingsCenterLabel={savingsCenterLabel}
           hasPartner={hasPartner}
           partnerNames={partnerNames}
+          ownerSide={ownerSide}
           userSavings={userSavings}
           partnerSavings={partnerSavings}
           usedForBudget={paidAmount}
           totalBudget={totalFinanceAmount}
           paidBudget={paidAmount}
-          unpaidBudget={unpaidAmount}
+          dueSoonBudget={dueSoonAmount}
+          unpaidRegularBudget={unpaidRegularAmount}
           budgetSlices={budgetSlices}
           budgetCenterValue={budgetCenterValue}
           budgetCenterLabel={budgetCenterLabel}
