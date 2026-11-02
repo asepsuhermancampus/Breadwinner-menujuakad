@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import {
   MasterStepCard,
   MasterStepOneVisual,
@@ -13,7 +13,7 @@ const masterSteps = [
     num: "01",
     category: "Ruang Bersama",
     title: "Mulai Berdua",
-    desc: "Undang pasangan ke ruang privat untuk menyatukan target hari akad tanpa catatan tercecer di pesan singkat.",
+    desc: "Satukan target akad dalam satu ruang privat tanpa ada kesepakatan atau ide yang tercecer di obrolan chat.",
     chips: ["Tautan Pasangan Instan", "Sinkronisasi Otomatis"],
     visual: <MasterStepOneVisual />,
   },
@@ -21,7 +21,7 @@ const masterSteps = [
     num: "02",
     category: "Berkas & Biaya",
     title: "Syarat KUA & Anggaran",
-    desc: "Pantau berkas nikah kelurahan, hitung porsi katering otomatis, dan kunci alokasi dana bersama secara transparan.",
+    desc: "Pantau kelengkapan dokumen Kemenag dan hitung porsi katering serta vendor dalam alokasi dana bersama yang transparan.",
     chips: ["Panduan Berkas KUA", "Kalkulator Katering"],
     visual: <MasterStepTwoVisual />,
   },
@@ -29,7 +29,7 @@ const masterSteps = [
     num: "03",
     category: "Tamu & Acara",
     title: "Undangan & Meja Resepsi",
-    desc: "Sebarkan undangan digital eksklusif dan sambut kehadiran keluarga lewat pemindaian QR di meja resepsi.",
+    desc: "Sebarkan undangan digital dengan tema pilihan dan sambut kehadiran keluarga lewat pemindaian QR di meja resepsi.",
     chips: ["Undangan Digital", "Buku Tamu QR Resepsi"],
     visual: <MasterStepThreeVisual />,
   },
@@ -39,7 +39,7 @@ export function LandingWorkflow() {
   return (
     <section
       id="cara-kerja"
-      className="relative overflow-hidden bg-brand-secondary py-14 text-white sm:py-16 lg:py-20"
+      className="relative overflow-hidden bg-brand-secondary py-16 text-white lg:py-20"
     >
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
         {/* Botanical Flower SVG di Pojok Bawah Kiri (Non-interactive) */}
@@ -54,12 +54,13 @@ export function LandingWorkflow() {
           />
         </div>
 
-        {/* Header Section Kompak */}
+        {/* Header Section */}
         <div className="relative z-10 mx-auto mb-10 max-w-2xl text-center sm:mb-12">
-          <span className="font-sans text-xs font-semibold tracking-widest text-emerald-300 uppercase">
-            Alur Terencana Menuju Akad
-          </span>
-          <h2 className="mt-2.5 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-300">
+            <Sparkles size={12} className="text-emerald-300" />
+            <span>Alur Terencana Menuju Akad</span>
+          </div>
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
             Tiga babak sederhana,{" "}
             <span className="font-serif font-normal italic text-emerald-200">
               terencana sempurna
@@ -67,13 +68,13 @@ export function LandingWorkflow() {
           </h2>
 
           <p className="mt-3 text-xs leading-relaxed text-emerald-100/80 sm:text-sm">
-            Dari menyatukan visi berdua, memenuhi syarat legalitas Kemenag dan anggaran vendor,
+            Dari menyatukan visi berdua, memenuhi syarat legalitas Kemenag dan alokasi vendor,
             hingga menyambut para tamu dengan scan QR di hari pernikahan.
           </p>
         </div>
 
-        {/* 3 Master Cards Ringkas & Proporsional */}
-        <div className="relative z-10 grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
+        {/* 3 Master Cards Berimbang & Padat */}
+        <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-7">
           {masterSteps.map((step) => (
             <MasterStepCard
               key={step.num}
@@ -88,15 +89,15 @@ export function LandingWorkflow() {
         </div>
 
         {/* Bottom Assurance Strip Kompak */}
-        <div className="relative z-10 mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md sm:mt-10 sm:flex-row sm:px-6">
-          <div className="flex items-center gap-2 text-xs text-emerald-100/90">
-            <ShieldCheck size={15} className="text-emerald-300 shrink-0" />
+        <div className="relative z-10 mt-10 flex flex-col items-center justify-between gap-3.5 rounded-2xl border border-white/15 bg-white/[0.05] p-4.5 backdrop-blur-md sm:flex-row sm:px-6">
+          <div className="flex items-center gap-2.5 text-xs text-emerald-100/90">
+            <ShieldCheck size={16} className="text-emerald-300 shrink-0" />
             <span>Tersedia di paket Free & Lifetime · 100% bebas iklan pihak ketiga</span>
           </div>
 
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-control bg-white px-4 py-2 text-xs font-semibold text-brand-secondary shadow-xs transition hover:bg-neutral-100"
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-xs font-bold text-brand-secondary shadow-md transition hover:bg-neutral-100 hover:shadow-lg"
           >
             <span>Mulai Ruang Bersama Gratis</span>
             <ArrowRight size={14} />
