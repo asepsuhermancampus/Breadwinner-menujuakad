@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { PageHeading } from "@/components/ui/page-heading";
+import { GiftedDonutChart } from "@/components/ui/gifted-donut-chart";
 import styles from "./overview.module.css";
 
 type Props = {
@@ -40,21 +41,23 @@ export function OverviewGreeting({
         </div>
       </div>
       <div className={styles.readinessRing}>
-        <span
-          className={styles.readinessArc}
-          style={{
-            background: `conic-gradient(from 90deg, var(--primary) ${readinessPercent ?? 0}%, var(--border) 0)`,
-          }}
-          aria-hidden="true"
+        <GiftedDonutChart
+          percent={readinessPercent}
+          testId="readiness-percent"
+          size={82}
+          strokeWidth={8}
         />
         <div className="min-w-0">
-          <span
-            data-testid="readiness-percent"
-            className="block font-mono text-3xl font-medium text-foreground"
-          >
-            {readinessPercent === null ? "—" : `${readinessPercent}%`}
+          <span className="block text-sm font-semibold text-foreground">
+            {readinessLabel}
           </span>
-          <span className="text-xs text-secondary">{readinessLabel}</span>
+          <span className="block text-xs text-secondary mt-0.5">
+            {readinessPercent === null
+              ? "Memuat progres acara"
+              : readinessPercent === 100
+                ? "Semua persiapan lengkap"
+                : `${readinessPercent}% langkah siap`}
+          </span>
           {tasksAvailable && (
             <Link
               href="/planner/tasks"
