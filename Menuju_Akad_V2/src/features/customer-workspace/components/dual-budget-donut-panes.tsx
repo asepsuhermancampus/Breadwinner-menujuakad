@@ -90,9 +90,9 @@ export function SavingsDonutPane({
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: usedColor }} />
               Terpakai Bayar Anggaran
             </span>
-            <span className="font-mono font-medium text-[#087f5b] dark:text-emerald-400">
-              Rp {usedForBudget.toLocaleString("id-ID")}
-            </span>
+              <span className="font-mono font-medium text-[#087f5b] dark:text-emerald-400">
+                Rp {usedForBudget.toLocaleString("id-ID")}
+              </span>
           </div>
         )}
       </div>
@@ -152,7 +152,7 @@ export function BudgetDonutPane({
             <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             Belum Dibayar
           </span>
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-mono font-medium text-amber-700 dark:text-amber-400">
             Rp {unpaidRegularBudget.toLocaleString("id-ID")}
           </span>
         </div>
