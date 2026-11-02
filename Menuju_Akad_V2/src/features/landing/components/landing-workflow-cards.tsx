@@ -1,93 +1,116 @@
-import { Heart, Check, QrCode, TrendingUp } from "lucide-react";
+import { Heart, Check, QrCode, Wallet, CheckCircle2 } from "lucide-react";
 
+/**
+ * Visual Ruang Bersama: Replika tampilan profil pasangan di halaman Dashboard
+ */
 export function StepOneVisual() {
   return (
-    <div className="relative mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/25 p-4 backdrop-blur-md">
-      <div className="flex items-center justify-between">
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div className="flex items-center gap-2">
-          <div className="flex size-9 items-center justify-center rounded-full bg-emerald-500/20 font-serif text-xs font-bold text-emerald-200 ring-1 ring-emerald-400/30">
-            D
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="h-px w-4 bg-gradient-to-r from-emerald-400/40 to-amber-300/60" />
-            <div className="flex size-5 items-center justify-center rounded-full bg-amber-400/20 text-amber-300 ring-1 ring-amber-400/40">
-              <Heart size={10} className="fill-amber-300" />
-            </div>
-            <div className="h-px w-4 bg-gradient-to-r from-amber-300/60 to-emerald-400/40" />
-          </div>
-          <div className="flex size-9 items-center justify-center rounded-full bg-amber-500/20 font-serif text-xs font-bold text-amber-200 ring-1 ring-amber-400/30">
-            S
-          </div>
+          <span className="size-2 rounded-full bg-emerald-400" />
+          <span className="text-xs font-semibold text-white">Ruang Privat Pasangan</span>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-200">
-          <span className="size-1.5 animate-pulse rounded-full bg-emerald-400" />
-          Terhubung
+        <span className="rounded-full border border-emerald-400/40 bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-medium text-emerald-200">
+          Akun Terhubung
         </span>
       </div>
 
-      <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2.5 text-[11px] text-emerald-100/80">
-        <span className="truncate">Ruang privat Sarah & Dimas</span>
-        <span className="font-medium text-emerald-300">1 Dasbor</span>
+      <div className="mt-3 grid grid-cols-2 gap-2 text-left">
+        <div className="rounded-xl border border-white/5 bg-white/[0.04] p-2.5">
+          <span className="block text-[10px] text-emerald-200/70">Mempelai Wanita</span>
+          <span className="font-semibold text-white text-xs">Sarah</span>
+          <span className="block text-[10px] text-white/50">Pembuat Ruang</span>
+        </div>
+        <div className="rounded-xl border border-white/5 bg-white/[0.04] p-2.5">
+          <div className="flex items-center justify-between">
+            <span className="block text-[10px] text-amber-200/70">Mempelai Pria</span>
+            <Heart size={10} className="fill-amber-300 text-amber-300" />
+          </div>
+          <span className="font-semibold text-white text-xs">Dimas</span>
+          <span className="block text-[10px] text-white/50">Partner Terverifikasi</span>
+        </div>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between pt-1 text-[11px] text-emerald-100/80">
+        <span>Kesiapan Akad & Berkas</span>
+        <span className="font-semibold text-emerald-300">75% Siap</span>
       </div>
     </div>
   );
 }
 
+/**
+ * Visual Rencana & Biaya: Replika modul Tabungan, Anggaran & Checklist Dashboard
+ */
 export function StepTwoVisual() {
   return (
-    <div className="relative mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/25 p-4 backdrop-blur-md">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-white/70">Estimasi Anggaran</span>
-        <span className="inline-flex items-center gap-1 font-mono font-semibold text-emerald-200">
-          <TrendingUp size={12} className="text-emerald-300" />
-          Rp 85 Jt
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="flex items-center gap-1.5 text-xs text-white">
+          <Wallet size={14} className="text-emerald-300" />
+          <span className="font-semibold">Anggaran Acara</span>
+        </div>
+        <span className="font-mono text-xs font-semibold text-emerald-200">
+          Rp 85.000.000
         </span>
       </div>
 
-      <div className="mt-2.5">
-        <div className="flex justify-between text-[10px] text-white/60">
-          <span>78% Teralokasi</span>
-          <span>Target Terkendali</span>
+      <div className="mt-3 space-y-2">
+        <div className="flex items-center justify-between text-[11px] text-emerald-100/80">
+          <span>Checklist Tugas Acara</span>
+          <span className="font-mono font-medium text-white">18/24 Selesai</span>
         </div>
-        <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-white/10">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-amber-300"
-            style={{ width: "78%" }}
+            className="h-full rounded-full bg-emerald-400"
+            style={{ width: "75%" }}
           />
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2.5 text-[11px] text-emerald-100/80">
-        <span>18 Vendor Terpilih</span>
-        <span className="font-medium text-emerald-300">450 Tamu</span>
+      <div className="mt-3.5 flex items-center justify-between border-t border-white/5 pt-2 text-[11px]">
+        <span className="inline-flex items-center gap-1 text-emerald-100/80">
+          <CheckCircle2 size={11} className="text-emerald-300" />
+          Berkas KUA (N1, N2, N4)
+        </span>
+        <span className="rounded-sm bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-200">
+          8/8 Lengkap
+        </span>
       </div>
     </div>
   );
 }
 
+/**
+ * Visual Undangan & Tamu: Replika modul Undangan Digital, Daftar Tamu & QR Check-in
+ */
 export function StepThreeVisual() {
   return (
-    <div className="relative mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/25 p-4 backdrop-blur-md">
-      <div className="flex items-center justify-between">
+    <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 p-4">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div>
           <span className="block font-serif text-xs italic text-emerald-200">
-            Dimas & Sarah
+            Sarah & Dimas
           </span>
-          <span className="text-[10px] tracking-wider text-white/60 uppercase">
-            Editorial Luxury
-          </span>
+          <span className="text-[10px] text-white/60">Tema Editorial Light</span>
         </div>
-        <div className="flex size-8 items-center justify-center rounded-lg border border-amber-300/30 bg-amber-400/10 text-amber-200">
-          <QrCode size={16} />
+        <div className="flex size-7 items-center justify-center rounded-lg border border-amber-300/30 bg-amber-400/10 text-amber-200">
+          <QrCode size={14} />
         </div>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between text-[11px] text-emerald-100/80">
+        <span>Daftar Tamu Tercatat</span>
+        <span className="font-mono font-semibold text-white">450 Tamu</span>
       </div>
 
       <div className="mt-3 flex items-center justify-between border-t border-white/5 pt-2.5 text-[11px]">
         <span className="inline-flex items-center gap-1.5 text-emerald-100/80">
           <span className="size-1.5 rounded-full bg-emerald-400" />
-          RSVP Konfirmasi
+          Kehadiran Tamu (RSVP)
         </span>
-        <span className="font-mono font-medium text-emerald-300">92% Hadir</span>
+        <span className="font-semibold text-emerald-300">92% Konfirmasi Hadir</span>
       </div>
     </div>
   );
@@ -104,9 +127,7 @@ export interface StepCardProps {
 
 export function StepCard({ num, category, title, desc, chips, visual }: StepCardProps) {
   return (
-    <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 lg:p-7 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-300/40 hover:bg-white/[0.07] hover:shadow-2xl">
-      <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-emerald-400/5 blur-2xl transition-all group-hover:bg-emerald-400/10" />
-
+    <div className="relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 lg:p-7 backdrop-blur-xl">
       <div>
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <span className="font-serif text-3xl font-light tracking-tight text-emerald-300">
@@ -121,7 +142,7 @@ export function StepCard({ num, category, title, desc, chips, visual }: StepCard
           <h3 className="text-xl font-bold tracking-tight text-white">
             {title}
           </h3>
-          <p className="mt-2 text-xs leading-relaxed text-emerald-100/75 sm:text-sm">
+          <p className="mt-2 text-xs leading-relaxed text-emerald-100/85 sm:text-sm">
             {desc}
           </p>
         </div>
@@ -143,4 +164,3 @@ export function StepCard({ num, category, title, desc, chips, visual }: StepCard
     </div>
   );
 }
-

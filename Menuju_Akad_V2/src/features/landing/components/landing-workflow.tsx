@@ -9,26 +9,26 @@ import {
 const workflowSteps = [
   {
     num: "01",
-    category: "Kolaborasi",
+    category: "Ruang Bersama",
     title: "Buat Ruang Bersama",
-    desc: "Mulai gratis dan undang pasangan untuk menyatukan visi, anggaran, dan daftar checklist dalam satu ruang privat.",
-    chips: ["Sinkronisasi Berdua", "Checklist Kesiapan"],
+    desc: "Daftar gratis lalu undang pasanganmu. Satukan checklist tugas, kelengkapan berkas KUA, dan persiapan akad dalam satu dasbor yang tersinkronisasi otomatis.",
+    chips: ["Sinkronisasi Berdua", "Kesiapan Berkas KUA"],
     visual: <StepOneVisual />,
   },
   {
     num: "02",
-    category: "Perencanaan",
+    category: "Anggaran & Tugas",
     title: "Kelola Rencana & Biaya",
-    desc: "Bagi tugas keluarga, atur rincian vendor, dan hitung estimasi pengeluaran secara terukur tanpa kejutan biaya.",
-    chips: ["Pelacak Anggaran", "Manajemen Tamu"],
+    desc: "Catat alokasi anggaran pernikahan, simulasi kebutuhan porsi katering, dan bagi tanggung jawab tugas keluarga secara transparan tanpa takut overbudget.",
+    chips: ["Pelacak Anggaran", "Kalkulator Katering"],
     visual: <StepTwoVisual />,
   },
   {
     num: "03",
-    category: "Publikasi",
+    category: "Tamu & Undangan",
     title: "Bagikan Undangan Digital",
-    desc: "Pilih desain editorial eksklusif, cantumkan cerita bahagia, dan pantau kehadiran tamu via konfirmasi RSVP.",
-    chips: ["QR Check-in Akad", "Konfirmasi RSVP"],
+    desc: "Pilih desain undangan eksklusif, lengkapi cerita bahagia kalian, dan pantau tamu yang konfirmasi hadir langsung dari ponsel dengan scan QR check-in.",
+    chips: ["Undangan Digital", "Buku Tamu & QR Check-in"],
     visual: <StepThreeVisual />,
   },
 ];
@@ -39,41 +39,19 @@ export function LandingWorkflow() {
       id="cara-kerja"
       className="relative overflow-hidden bg-brand-secondary py-20 text-white lg:py-28"
     >
-      {/* Background Floral Ornaments */}
-      <Image
-        src="/assets/finance/ornaments/flower-1.svg"
-        alt=""
-        width={260}
-        height={260}
-        className="pointer-events-none absolute -left-10 -top-10 size-56 opacity-[0.14] invert brightness-150 select-none md:size-72"
-        aria-hidden="true"
-      />
-      <Image
-        src="/assets/finance/ornaments/flower-2.svg"
-        alt=""
-        width={260}
-        height={260}
-        className="pointer-events-none absolute -right-10 -top-10 size-56 opacity-[0.14] invert brightness-150 select-none md:size-72"
-        aria-hidden="true"
-      />
-      <Image
-        src="/assets/finance/ornaments/flower-3.svg"
-        alt=""
-        width={220}
-        height={220}
-        className="pointer-events-none absolute -bottom-10 -left-10 size-48 opacity-[0.12] invert brightness-150 select-none md:size-64"
-        aria-hidden="true"
-      />
-      <Image
-        src="/assets/finance/ornaments/flower-4.svg"
-        alt=""
-        width={220}
-        height={220}
-        className="pointer-events-none absolute -bottom-10 -right-10 size-48 opacity-[0.12] invert brightness-150 select-none md:size-64"
-        aria-hidden="true"
-      />
+      {/* Botanical Flower SVG di Pojok Bawah Kiri dimiringkan ke kanan */}
+      <div className="pointer-events-none absolute -bottom-16 -left-12 z-0 origin-bottom-left rotate-12 select-none opacity-20 sm:-bottom-20 sm:-left-16 sm:rotate-15">
+        <Image
+          src="/assets/landing/vectors-flower-1.svg"
+          alt=""
+          width={360}
+          height={486}
+          className="h-auto w-64 select-none sm:w-80 lg:w-96"
+          aria-hidden="true"
+        />
+      </div>
 
-      {/* Ambient Lighting Orbs */}
+      {/* Subtle Ambient Depth Lighting */}
       <div
         className="pointer-events-none absolute -left-36 top-1/4 size-96 rounded-full bg-emerald-400/10 blur-3xl"
         aria-hidden="true"
@@ -82,12 +60,8 @@ export function LandingWorkflow() {
         className="pointer-events-none absolute -right-36 bottom-1/4 size-96 rounded-full bg-champagne/15 blur-3xl"
         aria-hidden="true"
       />
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-[120px]"
-        aria-hidden="true"
-      />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Tiga langkah mudah,{" "}
@@ -95,8 +69,8 @@ export function LandingWorkflow() {
               terencana sempurna.
             </span>
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-emerald-100/75 sm:text-base">
-            Dari perencanaan berdua hingga menyambut kehadiran para tamu di hari pernikahan.
+          <p className="mt-4 text-sm leading-relaxed text-emerald-100/80 sm:text-base">
+            Dari perencanaan berdua di dasbor hingga menyambut kehadiran para tamu di hari akad nikah.
           </p>
         </div>
 

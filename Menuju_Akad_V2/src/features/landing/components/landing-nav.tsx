@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/icon";
 
 export function LandingNav() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+
   useEffect(() => {
     const abort = new AbortController();
     const refresh = () => {
@@ -31,6 +32,7 @@ export function LandingNav() {
       channel?.close();
     };
   }, []);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-ux-border bg-canvas/90 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-12">
@@ -46,10 +48,10 @@ export function LandingNav() {
           className="hidden items-center gap-8 text-sm font-medium text-secondary md:flex"
         >
           <a href="#tentang" className="transition-colors hover:text-foreground">
-            Tentang
+            Fitur
           </a>
           <a href="#cara-kerja" className="transition-colors hover:text-foreground">
-            Cara kerja
+            Alur Kerja
           </a>
           <a href="#undangan" className="transition-colors hover:text-foreground">
             Undangan
@@ -57,19 +59,22 @@ export function LandingNav() {
           <a href="#paket" className="transition-colors hover:text-foreground">
             Paket
           </a>
+          <a href="#ulasan" className="transition-colors hover:text-foreground">
+            Ulasan
+          </a>
         </nav>
 
         <div className="flex items-center gap-3">
           {authenticated === null ? (
-            <span role="status" className="text-xs">
-              Memuat sesi?
+            <span role="status" className="text-xs text-muted">
+              Memuat...
             </span>
           ) : authenticated ? (
             <Link
               href="/dashboard"
-              className="rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-on-primary"
+              className="rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-on-primary shadow-sm transition hover:bg-primary-hover"
             >
-              Dashboard
+              Buka Dasbor
             </Link>
           ) : (
             <>
@@ -83,7 +88,7 @@ export function LandingNav() {
                 href="/dashboard"
                 className="inline-flex items-center gap-2 rounded-control bg-primary px-4 py-2.5 text-xs font-semibold text-on-primary shadow-sm transition hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
-                <span>Coba dashboard gratis</span>
+                <span>Coba Dasbor Gratis</span>
                 <Icon name="arrow-right" size={14} />
               </Link>
             </>
