@@ -22,6 +22,8 @@ export type ReuiCapitalInflowsProps = {
   footerNote?: string | undefined;
   currencyUnit?: string | undefined;
   manageHref?: string | undefined;
+  badgeText?: string | undefined;
+  badgeSubtext?: string | undefined;
   className?: string | undefined;
 };
 

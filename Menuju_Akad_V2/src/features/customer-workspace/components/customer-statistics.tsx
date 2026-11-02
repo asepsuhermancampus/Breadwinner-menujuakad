@@ -26,12 +26,13 @@ export function CustomerStatistics({
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
   const guestData = (resources.guests.data ?? []) as GuestInvitation[];
 
-  // 1. Finance / Capital Inflows Data (ReUI Chart-13 style)
+  // 1. Data Anggaran Real-time dari Tabungan & Anggaran
   const totalFinanceAmount = financeData.reduce((sum, item) => sum + (item.amount ?? 0), 0);
+  const achievedBudgets = financeData.filter((b) => b.completed).length;
 
   const categoryMap = new Map<string, number>();
   for (const item of financeData) {
-    const cat = (item.category || item.purpose || "Lainnya").trim();
+    const cat = (item.category || item.purpose || item.title || "Lainnya").trim();
     categoryMap.set(cat, (categoryMap.get(cat) ?? 0) + (item.amount ?? 0));
   }
   const sortedCategories = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]);
@@ -42,21 +43,16 @@ export function CustomerStatistics({
     amount,
     percentage: totalFinanceAmount > 0 ? Math.round((amount / totalFinanceAmount) * 100) : 0,
     color: REUI_DONUT_COLORS[idx % REUI_DONUT_COLORS.length]!,
-    change: "+12.2%",
+    change: "Tercatat",
     isIncrease: true,
   }));
 
-  // Fallback demo/target data if workspace has 0 budget items yet
-  const defaultSources: InflowSource[] = [
-    { id: "1", name: "Alokasi Katering", amount: 45000000, percentage: 48, color: "#087f5b", change: "+12.2%", isIncrease: true },
-    { id: "2", name: "Sewa Gedung & Venue", amount: 25000000, percentage: 27, color: "#10b981", change: "+5.4%", isIncrease: true },
-    { id: "3", name: "Dekorasi & Pelaminan", amount: 15000000, percentage: 16, color: "#34d399", change: "-2.1%", isIncrease: false },
-  ];
-
-  const activeSources = realSources.length > 0 ? realSources : defaultSources;
-  const displayTotal = totalFinanceAmount > 0 ? totalFinanceAmount : 85000000;
-  const topCoverage = activeSources.slice(0, 3).reduce((sum, s) => sum + s.percentage, 0);
-  const restPercent = Math.max(0, 100 - topCoverage);
+  const activeSources = realSources;
+  const topCoverage =
+    activeSources.length > 0
+      ? activeSources.reduce((sum, s) => sum + s.percentage, 0)
+      : 0;
+  const restPercent = activeSources.length > 0 ? Math.max(0, 100 - topCoverage) : 0;
 
   // 2. Guest Metrics for RSVP Donut
   const totalGuests = guestData.length;
@@ -79,17 +75,19 @@ export function CustomerStatistics({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* ReUI Capital Inflows Pie Chart Card (spans 2 cols for clean layout) */}
+        {/* Card Alokasi Anggaran (diselaraskan dengan Tabungan & Anggaran) */}
         <ReuiCapitalInflowsCard
           className="lg:col-span-2"
-          title="Capital Inflows"
-          subtitle="Alokasi pos dana & anggaran"
-          totalAmount={displayTotal}
+          title="Alokasi Anggaran"
+          subtitle="Distribusi pos dana & anggaran"
+          totalAmount={totalFinanceAmount}
           sources={activeSources}
           topCoveragePercent={topCoverage}
-          coverageLabel="Top 3 pos"
+          coverageLabel="3 Pos Utama"
           restPercentage={restPercent}
           manageHref={financeAvailable ? "/planner/finance" : undefined}
+          badgeText={financeData.length > 0 ? `${achievedBudgets}/${financeData.length} Pos Tercapai` : undefined}
+          badgeSubtext={financeData.length > 0 ? "tersinkronisasi dengan Tabungan & Anggaran" : "selaras dengan Tabungan & Anggaran"}
         />
 
         {/* Panel 2: Donut Chart Konfirmasi Tamu */}
