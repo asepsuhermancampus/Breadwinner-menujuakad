@@ -1,21 +1,23 @@
 "use client";
 
 import { useId } from "react";
-import type { InflowSource } from "./reui-capital-inflows-types";
+import type { InflowSource, DonutSlice } from "./reui-capital-inflows-types";
 
 type DonutProps = {
-  sources: InflowSource[];
+  sources?: InflowSource[] | undefined;
+  slices?: DonutSlice[] | undefined;
   coveragePercent: number;
-  coverageLabel?: string;
-  restPercent?: number;
-  size?: number;
+  coverageLabel?: string | undefined;
+  restPercent?: number | undefined;
+  size?: number | undefined;
 };
 
 export function ReuiCapitalInflowsDonut({
-  sources,
+  sources = [],
+  slices,
   coveragePercent,
   coverageLabel = "Top 3 pos",
-  restPercent = 15,
+  restPercent = 0,
   size = 170,
 }: DonutProps) {
   const patternId = useId().replace(/:/g, "_");
@@ -24,25 +26,33 @@ export function ReuiCapitalInflowsDonut({
   const radius = center - strokeWidth / 2 - 4;
   const circumference = 2 * Math.PI * radius;
 
-  // Prepare all slices including the hatched rest slice
-  const allSlices = [
-    ...sources.map((s) => ({
-      id: s.id,
-      percent: s.percentage,
-      color: s.color,
-      isHatched: false,
-    })),
-    ...(restPercent > 0
-      ? [
-          {
-            id: "rest",
-            percent: restPercent,
-            color: `url(#${patternId})`,
-            isHatched: true,
-          },
-        ]
-      : []),
-  ];
+  // Prepare slices: prefer custom slices if provided, otherwise build from sources
+  const allSlices =
+    slices && slices.length > 0
+      ? slices.map((s) => ({
+          id: s.id,
+          percent: s.percent,
+          color: s.isHatched ? `url(#${patternId})` : s.color,
+          isHatched: Boolean(s.isHatched),
+        }))
+      : [
+          ...sources.map((s) => ({
+            id: s.id,
+            percent: s.percentage,
+            color: s.color,
+            isHatched: false,
+          })),
+          ...(restPercent > 0
+            ? [
+                {
+                  id: "rest",
+                  percent: restPercent,
+                  color: `url(#${patternId})`,
+                  isHatched: true,
+                },
+              ]
+            : []),
+        ];
 
   const totalShares = allSlices.reduce((acc, s) => acc + s.percent, 0) || 100;
   let accumulatedLength = 0;
@@ -52,7 +62,7 @@ export function ReuiCapitalInflowsDonut({
       className="relative inline-flex items-center justify-center shrink-0"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`Distribusi aliran dana: ${coveragePercent}% pada ${coverageLabel}`}
+      aria-label={`Distribusi anggaran: ${coveragePercent}% - ${coverageLabel}`}
     >
       <svg
         width={size}
@@ -81,14 +91,13 @@ export function ReuiCapitalInflowsDonut({
           stroke="var(--ux-border, #e2e8f0)"
           strokeWidth={strokeWidth}
           fill="none"
-          opacity="0.25"
+          opacity="0.3"
         />
 
         {/* Donut Slices */}
         {allSlices.map((slice) => {
           const sliceFraction = slice.percent / totalShares;
           const rawLength = sliceFraction * circumference;
-          // Apply a small gap between slices
           const gap = allSlices.length > 1 ? 3 : 0;
           const dashLength = Math.max(0, rawLength - gap);
           const dashOffset = -accumulatedLength;
@@ -111,7 +120,7 @@ export function ReuiCapitalInflowsDonut({
         })}
       </svg>
 
-      {/* Center Label Component (ReUI Chart-13 signature) */}
+      {/* Center Label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span className="font-mono text-2xl font-bold tracking-tight text-foreground">
           {coveragePercent}%

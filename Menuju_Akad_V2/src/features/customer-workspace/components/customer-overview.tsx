@@ -13,6 +13,10 @@ import styles from "./customer-overview.module.css";
 import { PageSkeleton } from "@/components/ui/page-skeleton";
 import { orderedCoupleNames } from "../domain/profile-names";
 import type { DashboardCard } from "../domain/dashboard-card-catalog";
+import { useTrial } from "@/features/dashboard-trial/components/trial-provider";
+import { useAccountFinance } from "@/features/planner-finance/hooks/use-account-finance";
+import type { FinanceBook } from "@/features/planner-finance/types/finance-ledger";
+
 export type OverviewProps = {
   workspace: CustomerWorkspace;
   visibleCards: DashboardCard[];
@@ -24,6 +28,7 @@ export type OverviewProps = {
   guestsAvailable: boolean;
   financeAvailable: boolean;
 };
+
 export function CustomerOverview({
   workspace,
   resources,
@@ -50,6 +55,13 @@ export function CustomerOverview({
   financeAvailable: boolean;
 }) {
   const event = useCustomerEvent();
+  const trial = useTrial();
+  const accountFinance = useAccountFinance(guest ? "" : workspace.id);
+  const trialSavings = (
+    (trial?.snapshot?.resources?.savings?.[0] as FinanceBook | undefined)?.entries ?? []
+  ).reduce((sum, e) => sum + (e.amount ?? 0), 0);
+  const savingsTotal = guest ? trialSavings : (accountFinance.snapshot?.balances?.total ?? 0);
+
   const allTasks = (resources.tasks.data ?? []) as PlannerTask[];
   const tasks = allTasks.filter((t) => t.event === event);
   const documents = (
@@ -146,6 +158,7 @@ export function CustomerOverview({
       <CustomerStatistics
         tasks={tasks}
         resources={resources}
+        savingsAmount={savingsTotal}
         tasksAvailable={tasksAvailable}
         financeAvailable={financeAvailable}
         guestsAvailable={guestsAvailable}

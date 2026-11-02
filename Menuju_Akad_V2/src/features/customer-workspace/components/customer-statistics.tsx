@@ -8,11 +8,16 @@ import type { GuestInvitation } from "@/features/guest-crm/types/guest";
 import type { OverviewResources } from "../hooks/use-overview-resources";
 import { GiftedDonutChart } from "@/components/ui/gifted-donut-chart";
 import { ReuiCapitalInflowsCard } from "@/components/ui/reui-capital-inflows-card";
-import { REUI_DONUT_COLORS, type InflowSource } from "@/components/ui/reui-capital-inflows-types";
+import {
+  REUI_DONUT_COLORS,
+  type InflowSource,
+  type DonutSlice,
+} from "@/components/ui/reui-capital-inflows-types";
 
 type StatisticsProps = {
   tasks?: PlannerTask[];
   resources: OverviewResources;
+  savingsAmount?: number;
   tasksAvailable?: boolean;
   financeAvailable?: boolean;
   guestsAvailable?: boolean;
@@ -20,39 +25,68 @@ type StatisticsProps = {
 
 export function CustomerStatistics({
   resources,
+  savingsAmount = 0,
   financeAvailable = true,
   guestsAvailable = true,
 }: StatisticsProps) {
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
   const guestData = (resources.guests.data ?? []) as GuestInvitation[];
 
-  // 1. Data Anggaran Real-time dari Tabungan & Anggaran
+  // 1. Data Anggaran & Tabungan Real-time
   const totalFinanceAmount = financeData.reduce((sum, item) => sum + (item.amount ?? 0), 0);
-  const achievedBudgets = financeData.filter((b) => b.completed).length;
+  const paidBudgets = financeData.filter((b) => b.completed);
+  const paidAmount = paidBudgets.reduce((sum, item) => sum + (item.amount ?? 0), 0);
+  const unpaidAmount = Math.max(0, totalFinanceAmount - paidAmount);
+  const savings = savingsAmount;
+  const coveredBySavings = Math.min(savings, unpaidAmount);
 
-  const categoryMap = new Map<string, number>();
-  for (const item of financeData) {
-    const cat = (item.category || item.purpose || item.title || "Lainnya").trim();
-    categoryMap.set(cat, (categoryMap.get(cat) ?? 0) + (item.amount ?? 0));
+  // Perhitungan persentase realisasi untuk Donut Slices
+  let donutSlices: DonutSlice[] = [];
+  let coveragePercent = 0;
+  let coverageLabel = "Pos Anggaran";
+
+  if (totalFinanceAmount > 0) {
+    const paidPercent = Math.round((paidAmount / totalFinanceAmount) * 100);
+    const savingsPercent = Math.min(100 - paidPercent, Math.round((coveredBySavings / totalFinanceAmount) * 100));
+    const unpaidPercent = Math.max(0, 100 - paidPercent - savingsPercent);
+
+    if (paidPercent > 0) {
+      donutSlices.push({ id: "paid", label: "Sudah Dibayar", percent: paidPercent, color: "#087f5b" });
+    }
+    if (savingsPercent > 0) {
+      donutSlices.push({ id: "savings", label: "Tabungan Siap", percent: savingsPercent, color: "#10b981" });
+    }
+    if (unpaidPercent > 0) {
+      donutSlices.push({ id: "unpaid", label: "Sisa Target", percent: unpaidPercent, color: "#a7f3d0", isHatched: true });
+    }
+
+    coveragePercent = Math.min(100, paidPercent + savingsPercent);
+    coverageLabel = coveragePercent >= 100 ? "Lengkap" : "Dana Siap";
   }
-  const sortedCategories = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]);
 
-  const realSources: InflowSource[] = sortedCategories.slice(0, 3).map(([name, amount], idx) => ({
-    id: name,
-    name,
-    amount,
-    percentage: totalFinanceAmount > 0 ? Math.round((amount / totalFinanceAmount) * 100) : 0,
+  // List rincian pos anggaran dengan status pembayaran
+  const sortedBudgets = [...financeData].sort((a, b) => (b.amount ?? 0) - (a.amount ?? 0));
+  const sources: InflowSource[] = sortedBudgets.slice(0, 4).map((item, idx) => ({
+    id: item.id || `pos-${idx}`,
+    name: item.title || item.purpose || `Pos ${idx + 1}`,
+    amount: item.amount ?? 0,
+    percentage: totalFinanceAmount > 0 ? Math.round(((item.amount ?? 0) / totalFinanceAmount) * 100) : 0,
     color: REUI_DONUT_COLORS[idx % REUI_DONUT_COLORS.length]!,
-    change: "Tercatat",
-    isIncrease: true,
+    isPaid: Boolean(item.completed),
+    change: item.completed ? "Lunas" : "Belum Bayar",
+    isIncrease: item.completed,
   }));
 
-  const activeSources = realSources;
-  const topCoverage =
-    activeSources.length > 0
-      ? activeSources.reduce((sum, s) => sum + s.percentage, 0)
-      : 0;
-  const restPercent = activeSources.length > 0 ? Math.max(0, 100 - topCoverage) : 0;
+  const badgeText =
+    totalFinanceAmount > 0
+      ? paidBudgets.length === financeData.length
+        ? "Semua Pos Lunas"
+        : savings >= unpaidAmount && unpaidAmount > 0
+          ? "Tabungan Mencukupi"
+          : `${paidBudgets.length}/${financeData.length} Pos Terbayar`
+      : savings > 0
+        ? "Kas Siap Alokasi"
+        : undefined;
 
   // 2. Guest Metrics for RSVP Donut
   const totalGuests = guestData.length;
@@ -63,31 +97,30 @@ export function CustomerStatistics({
 
   return (
     <section className="mt-6 space-y-4" aria-label="Statistik perencanaan">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-semibold text-foreground tracking-tight">
-            Statistik & Analisis Kesiapan
-          </h2>
-          <p className="text-xs text-secondary">
-            Pantau alokasi anggaran modal dan konfirmasi kehadiran tamu secara terpadu.
-          </p>
-        </div>
+      <div>
+        <h2 className="text-base font-semibold text-foreground tracking-tight">
+          Statistik & Analisis Kesiapan
+        </h2>
+        <p className="text-xs text-secondary">
+          Pantau alokasi anggaran modal, tabungan tersedia, dan konfirmasi kehadiran tamu secara terpadu.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Card Alokasi Anggaran (diselaraskan dengan Tabungan & Anggaran) */}
+        {/* Card Alokasi Anggaran & Tabungan */}
         <ReuiCapitalInflowsCard
           className="lg:col-span-2"
-          title="Alokasi Anggaran"
-          subtitle="Distribusi pos dana & anggaran"
+          title="Alokasi Anggaran & Tabungan"
+          subtitle="Status pembayaran pos & kesiapan dana"
           totalAmount={totalFinanceAmount}
-          sources={activeSources}
-          topCoveragePercent={topCoverage}
-          coverageLabel="3 Pos Utama"
-          restPercentage={restPercent}
+          savingsAmount={savings}
+          sources={sources}
+          donutSlices={donutSlices}
+          topCoveragePercent={coveragePercent}
+          coverageLabel={coverageLabel}
           manageHref={financeAvailable ? "/planner/finance" : undefined}
-          badgeText={financeData.length > 0 ? `${achievedBudgets}/${financeData.length} Pos Tercapai` : undefined}
-          badgeSubtext={financeData.length > 0 ? "tersinkronisasi dengan Tabungan & Anggaran" : "selaras dengan Tabungan & Anggaran"}
+          badgeText={badgeText}
+          badgeSubtext="tersinkronisasi dengan Tabungan & Anggaran"
         />
 
         {/* Panel 2: Donut Chart Konfirmasi Tamu */}

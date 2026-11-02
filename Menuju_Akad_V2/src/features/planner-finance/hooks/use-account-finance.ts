@@ -20,7 +20,7 @@ export function useAccountFinance(workspaceId: string) {
     setSnapshot(next);
   }, []);
   const refresh = useCallback(async () => {
-    if (loading.current || busy.current) return;
+    if (!workspaceId || loading.current || busy.current) return;
     loading.current = true;
     const controller = new AbortController();
     requests.current.add(controller);

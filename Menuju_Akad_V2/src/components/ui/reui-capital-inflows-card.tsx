@@ -2,21 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Info, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Info, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { ReuiCapitalInflowsDonut } from "./reui-capital-inflows-donut";
+import { ReuiCapitalInflowsItem } from "./reui-capital-inflows-item";
 import type { ReuiCapitalInflowsProps } from "./reui-capital-inflows-types";
 
 export function ReuiCapitalInflowsCard({
   title = "Alokasi Anggaran",
   subtitle = "Distribusi pos dana & anggaran",
   totalAmount,
+  savingsAmount = 0,
   periodOptions = ["Bulan", "Tahun", "Total"],
   activePeriod: initialPeriod = "Total",
   sources,
+  donutSlices,
   topCoveragePercent,
   coverageLabel = "3 Pos Utama",
-  restPercentage = 15,
+  restPercentage = 0,
   footerNote = "Sinkronisasi otomatis · Anggaran bersama",
   currencyUnit = "Rupiah (IDR)",
   manageHref = "/planner/finance",
@@ -26,12 +29,9 @@ export function ReuiCapitalInflowsCard({
 }: ReuiCapitalInflowsProps) {
   const [activePeriod, setActivePeriod] = useState(initialPeriod);
 
-  // Compute coverage if not provided
   const topPercent =
     topCoveragePercent ??
-    (sources.length > 0
-      ? sources.slice(0, 3).reduce((sum, s) => sum + s.percentage, 0)
-      : 0);
+    (sources.length > 0 ? sources.slice(0, 3).reduce((sum, s) => sum + s.percentage, 0) : 0);
 
   const hasData = sources.length > 0 && totalAmount > 0;
 
@@ -44,19 +44,16 @@ export function ReuiCapitalInflowsCard({
       aria-label="Kartu alokasi anggaran dan modal acara"
     >
       <div>
-        {/* Header */}
+        {/* Header Bar */}
         <div className="flex items-center justify-between pb-3 border-b border-ux-border/60 gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <h3 className="text-sm font-semibold text-foreground flex items-center gap-1.5 shrink-0">
               {title}
               <Info size={13} className="text-muted-foreground/70" />
             </h3>
-            <span className="text-xs text-secondary truncate hidden sm:inline">
-              · {subtitle}
-            </span>
+            <span className="text-xs text-secondary truncate hidden sm:inline">· {subtitle}</span>
           </div>
 
-          {/* Period Toggle */}
           <div className="flex items-center rounded-lg border border-ux-border p-0.5 bg-subtle/50 text-xs shrink-0">
             {periodOptions.map((period) => (
               <button
@@ -76,88 +73,75 @@ export function ReuiCapitalInflowsCard({
           </div>
         </div>
 
-        {/* Metrics Headline */}
-        <div className="mt-4">
-          <span className="text-xs text-secondary block font-medium">Total Anggaran Pos</span>
-          <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
-            <span className="font-mono text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+        {/* Metrics Headline: Anggaran & Tabungan Tersedia */}
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pb-2">
+          <div>
+            <span className="text-[11px] text-secondary font-medium">Total Target Anggaran</span>
+            <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
               Rp {totalAmount.toLocaleString("id-ID")}
-            </span>
-            {badgeText ? (
-              <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-                <ArrowUpRight size={12} />
-                {badgeText}
+            </div>
+          </div>
+          <div>
+            <span className="text-[11px] text-secondary font-medium">Tabungan Tersedia</span>
+            <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
+              <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
+                Rp {savingsAmount.toLocaleString("id-ID")}
               </span>
-            ) : hasData ? (
-              <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-                <ArrowUpRight size={12} />
-                Terkelola
-              </span>
-            ) : null}
-            <span className="text-xs text-secondary hidden md:inline">
-              {badgeSubtext ?? (hasData ? "tersinkronisasi dengan Tabungan & Anggaran" : "selaras dengan Tabungan & Anggaran")}
-            </span>
+              {badgeText && (
+                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                  <ArrowUpRight size={11} />
+                  {badgeText}
+                </span>
+              )}
+            </div>
+            {badgeSubtext && (
+              <span className="text-[10px] text-secondary block mt-0.5">{badgeSubtext}</span>
+            )}
           </div>
         </div>
 
         {/* Donut Chart + Rows Breakdown */}
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-          {/* Left: Donut with center label */}
-          <div className="md:col-span-5 flex justify-center py-2">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          {/* Left: Donut with slices */}
+          <div className="md:col-span-5 flex flex-col items-center justify-center py-1">
             <ReuiCapitalInflowsDonut
               sources={sources}
+              slices={donutSlices}
               coveragePercent={topPercent}
-              coverageLabel={hasData ? coverageLabel : "0 Pos"}
-              restPercent={hasData ? restPercentage : 0}
-              size={168}
+              coverageLabel={coverageLabel}
+              restPercent={restPercentage}
+              size={164}
             />
+            {donutSlices && donutSlices.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-x-2.5 gap-y-1 mt-3 text-[10px] text-secondary">
+                {donutSlices.map((sl) => (
+                  <div key={sl.id} className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: sl.isHatched ? "#a7f3d0" : sl.color }}
+                    />
+                    <span>{sl.label ?? sl.id}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right: Sources Breakdown rows or Empty State */}
           <div className="md:col-span-7 space-y-2">
             {hasData ? (
-              sources.map((src) => (
-                <div
-                  key={src.id}
-                  className="flex items-center justify-between text-xs py-1.5 border-b border-ux-border/40 last:border-0 gap-2"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ backgroundColor: src.color }}
-                    />
-                    <span className="font-medium text-foreground truncate" title={src.name}>
-                      {src.name}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5 shrink-0 font-mono">
-                    <span className="text-foreground font-semibold">
-                      Rp {src.amount.toLocaleString("id-ID")}
-                    </span>
-                    <span className="text-secondary w-7 text-right">{src.percentage}%</span>
-                    <span
-                      className={cn(
-                        "px-1.5 py-0.5 rounded text-[10px] font-medium inline-flex items-center gap-0.5",
-                        src.isIncrease ?? true
-                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-                          : "bg-rose-500/10 text-rose-700 dark:text-rose-400",
-                      )}
-                    >
-                      {src.isIncrease ?? true ? (
-                        <ArrowUpRight size={10} />
-                      ) : (
-                        <ArrowDownRight size={10} />
-                      )}
-                      {src.change ?? "Tercatat"}
-                    </span>
-                  </div>
-                </div>
-              ))
+              sources.map((src) => <ReuiCapitalInflowsItem key={src.id} src={src} />)
             ) : (
-              <div className="flex flex-col justify-center items-start p-3.5 rounded-xl bg-subtle/50 border border-ux-border text-xs space-y-2">
-                <p className="font-semibold text-foreground">Belum ada pos anggaran tercatat</p>
+              <div className="p-3.5 rounded-xl bg-subtle/50 border border-ux-border text-xs space-y-1.5">
+                <p className="font-semibold text-foreground">
+                  {savingsAmount > 0
+                    ? "Tabungan tersedia, belum ada pos anggaran"
+                    : "Belum ada pos anggaran tercatat"}
+                </p>
                 <p className="text-secondary text-[11px] leading-relaxed">
-                  Tambahkan pos pengeluaran di menu Tabungan & Anggaran untuk memantau alokasi biaya pernikahan kalian.
+                  {savingsAmount > 0
+                    ? `Kalian memiliki saldo tabungan Rp ${savingsAmount.toLocaleString("id-ID")}. Alokasikan dana ini ke pos pengeluaran pernikahan.`
+                    : "Tambahkan pos pengeluaran di menu Tabungan & Anggaran untuk memantau alokasi biaya pernikahan kalian."}
                 </p>
                 {manageHref && (
                   <Link
@@ -174,7 +158,7 @@ export function ReuiCapitalInflowsCard({
       </div>
 
       {/* Footer */}
-      <div className="mt-5 pt-3 border-t border-ux-border/60 flex items-center justify-between text-[11px] text-secondary">
+      <div className="mt-4 pt-3 border-t border-ux-border/60 flex items-center justify-between text-[11px] text-secondary">
         <div className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           <span>{footerNote}</span>
