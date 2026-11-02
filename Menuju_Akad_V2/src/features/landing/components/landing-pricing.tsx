@@ -6,10 +6,7 @@ export function LandingPricing() {
       <section id="paket" className="bg-canvas py-20 lg:py-28">
         <div className="mx-auto max-w-7xl space-y-14 px-6 lg:px-12">
           <div className="max-w-2xl">
-            <span className="text-xs font-semibold uppercase tracking-wider text-rose">
-              04 / Mulai Dari Yang Kalian Butuhkan
-            </span>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
               Pilih ruang yang sesuai
               <br />
               dengan rencana kalian.
@@ -23,10 +20,6 @@ export function LandingPricing() {
               <LandingPlanCard key={id} id={id} />
             ))}
           </div>
-          <p className="rounded-card border border-ux-border bg-ux-dock/60 p-6 text-xs text-secondary">
-            Sudah berlangganan? Akses aktif kalian tetap berlaku sesuai paket. Pembayaran baru tidak
-            menghapus masa aktif sebelumnya.
-          </p>
         </div>
       </section>
     </PlanPurchaseProvider>

@@ -41,12 +41,9 @@ export function ReviewSection() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
         <header className="grid items-end gap-6 lg:grid-cols-[1fr_auto]">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] text-rose uppercase">
-              <Heart size={14} aria-hidden="true" /> Dari ruang yang sama
-            </span>
             <h2
               id="review-heading"
-              className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+              className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
             >
               Cerita nyata para{" "}
               <span className="font-serif font-normal italic text-primary">pengantin.</span>
@@ -154,12 +151,6 @@ export function ReviewSection() {
         )}
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <p className="mt-3 text-center text-xs leading-6 text-muted">
-          Arahkan kursor atau sentuh untuk menjeda · Klik kartu ulasan mana pun untuk melihat
-          rincian cerita lengkap.
-        </p>
-      </div>
 
       <ReviewForm open={formOpen} onClose={() => setFormOpen(false)} />
       <ReviewDetailDialog

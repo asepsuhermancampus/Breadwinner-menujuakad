@@ -31,11 +31,6 @@ export function LandingHero() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Kolom Kiri: Headline & Value Proposition */}
           <div className="space-y-6 lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-champagne/30 bg-white/[0.08] px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-200 uppercase backdrop-blur-md">
-              <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-              Dasbor Pernikahan & Undangan Digital
-            </div>
-
             <h1 className="font-sans text-4xl leading-[1.1] font-semibold tracking-[-1.5px] text-white sm:text-5xl lg:text-6xl">
               Rencana teratur.
               <br />
@@ -109,7 +104,7 @@ export function LandingHero() {
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
                     <span className="block text-[10px] text-white/60">Berkas KUA</span>
                     <span className="font-mono text-sm font-bold text-white">8/8 Siap</span>
-                    <span className="mt-1 block text-[9px] text-emerald-300">N1, N2, N4 Valid</span>
+                    <span className="mt-1 block text-[9px] text-emerald-300">Surat Pengantar Valid</span>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
                     <span className="block text-[10px] text-white/60">Tugas Checklist</span>

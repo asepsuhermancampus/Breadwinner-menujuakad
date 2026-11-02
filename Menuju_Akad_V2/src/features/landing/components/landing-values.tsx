@@ -21,7 +21,7 @@ const pillars: PillarItem[] = [
     title: "Syarat Resmi KUA Kemenag",
     tagline: "Legalitas Terarah",
     description:
-      "Panduan runtut syarat administrasi nikah di Indonesia: dari formulir N1 Kelurahan, N2, N4, surat pengantar RT/RW, tes kesehatan Elsimil, hingga berkas rekomendasi nikah antar kecamatan.",
+      "Panduan runtut dokumen resmi Kemenag di Indonesia: mulai dari surat pengantar nikah kantor desa atau kelurahan, persetujuan kedua mempelai, pengantar RT/RW, tes kesehatan catin, hingga surat rekomendasi nikah antar kecamatan.",
   },
   {
     id: "finansial",
