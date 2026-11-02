@@ -41,21 +41,21 @@ export function LandingWorkflow() {
       id="cara-kerja"
       className="relative overflow-hidden bg-brand-secondary py-20 text-white lg:py-28"
     >
-      {/* Botanical Flower SVG di Pojok Bawah Kiri dimiringkan ke kanan (Non-interactive) */}
-      <div className="pointer-events-none absolute -bottom-16 -left-12 z-0 origin-bottom-left rotate-12 select-none opacity-20 sm:-bottom-20 sm:-left-16 sm:rotate-15">
-        <Image
-          src="/assets/landing/vectors-flower-1.svg"
-          alt=""
-          width={360}
-          height={486}
-          className="h-auto w-64 select-none sm:w-80 lg:w-96"
-          aria-hidden="true"
-        />
-      </div>
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
+        {/* Botanical Flower SVG di Pojok Bawah Kiri kontainer max-w-7xl dimiringkan ke kanan (Non-interactive) */}
+        <div className="pointer-events-none absolute -bottom-16 -left-6 z-0 origin-bottom-left rotate-12 select-none opacity-20 sm:-bottom-20 sm:-left-8 sm:rotate-15">
+          <Image
+            src="/assets/landing/vectors-flower-1.svg"
+            alt=""
+            width={360}
+            height={486}
+            className="h-auto w-64 select-none sm:w-80 lg:w-96"
+            aria-hidden="true"
+          />
+        </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
         {/* Header Section */}
-        <div className="mx-auto mb-16 max-w-3xl text-center">
+        <div className="relative z-10 mx-auto mb-16 max-w-3xl text-center">
           <span className="font-sans text-xs font-semibold tracking-widest text-emerald-300 uppercase">
             Alur Terencana Menuju Akad
           </span>
@@ -73,7 +73,7 @@ export function LandingWorkflow() {
         </div>
 
         {/* 3 Master Cards (Strictly Non-Hover) */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+        <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
           {masterSteps.map((step) => (
             <MasterStepCard
               key={step.num}
@@ -88,7 +88,7 @@ export function LandingWorkflow() {
         </div>
 
         {/* Bottom Assurance Strip */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md sm:flex-row sm:px-8">
+        <div className="relative z-10 mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md sm:flex-row sm:px-8">
           <div className="flex items-center gap-2.5 text-xs text-emerald-100/90">
             <ShieldCheck size={16} className="text-emerald-300" />
             <span>Tersedia di paket Free & Lifetime · 100% bebas iklan pihak ketiga</span>
