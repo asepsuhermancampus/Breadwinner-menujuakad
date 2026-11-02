@@ -13,7 +13,7 @@ const pillars: PillarItem[] = [
     title: "Satu Ruang, Dua Sudut Pandang",
     tagline: "Kolaborasi Pasangan",
     description:
-      "Hubungkan akun calon suami dan istri dalam satu dasbor privat. Setiap keputusan, ide vendor, dan progres tugas tersinkronisasi otomatis tanpa ada pesan penting yang terkubur di chat WhatsApp.",
+      "Satu dasbor privat untuk berdua. Catat keputusan, pilihan vendor, dan progres nikah secara otomatis tanpa ada pesan penting yang hilang di chat.",
   },
   {
     id: "kua",
@@ -21,7 +21,7 @@ const pillars: PillarItem[] = [
     title: "Syarat Resmi KUA Kemenag",
     tagline: "Legalitas Terarah",
     description:
-      "Panduan runtut dokumen resmi Kemenag di Indonesia: mulai dari surat pengantar nikah kantor desa atau kelurahan, persetujuan kedua mempelai, pengantar RT/RW, tes kesehatan catin, hingga surat rekomendasi nikah antar kecamatan.",
+      "Panduan berkas nikah resmi Kemenag langkah demi langkah: dari surat kelurahan, persetujuan catin, hingga tes medis tanpa perlu bolak-balik KUA.",
   },
   {
     id: "finansial",
@@ -29,7 +29,7 @@ const pillars: PillarItem[] = [
     title: "Kalkulasi Dana & Tamu Presisi",
     tagline: "Finansial Terkendali",
     description:
-      "Simulasikan rasio porsi katering buffet dan gubukan secara akurat berdasarkan jumlah undangan. Pantau komitmen tabungan berdua dan alokasi biaya vendor agar tetap sesuai rencana.",
+      "Hitung otomatis porsi katering buffet dan gubukan sesuai jumlah undangan. Pantau komitmen tabungan bersama dan alokasi biaya vendor secara transparan.",
   },
 ];
 
@@ -60,7 +60,7 @@ export function LandingValues() {
           {pillars.map((pillar) => (
             <div
               key={pillar.id}
-              className="flex flex-col justify-start p-8 lg:p-10"
+              className="flex flex-col justify-start p-6 sm:p-7 lg:p-8 xl:p-9"
             >
               <div className="flex items-center justify-between">
                 <span className="font-serif text-3xl font-light text-muted">
@@ -71,11 +71,11 @@ export function LandingValues() {
                 </span>
               </div>
 
-              <h3 className="mt-8 text-xl font-bold tracking-tight text-brand-secondary sm:text-2xl">
+              <h3 className="mt-6 text-base font-bold tracking-tight text-brand-secondary sm:text-lg lg:text-base xl:text-lg 2xl:text-xl">
                 {pillar.title}
               </h3>
 
-              <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+              <p className="mt-3 text-sm leading-relaxed text-secondary">
                 {pillar.description}
               </p>
             </div>
