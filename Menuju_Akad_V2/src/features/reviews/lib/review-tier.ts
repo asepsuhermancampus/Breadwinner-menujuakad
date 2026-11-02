@@ -26,9 +26,12 @@ export function resolveReviewRating(review: PublicReview): number {
 }
 
 export function resolveReviewTier(review: PublicReview): TierInfo {
-  let tier: ReviewTier = review.tier ?? "premium";
-  if (!review.tier) {
-    const key = review.name.trim().toLowerCase();
+  const key = review.name.trim().toLowerCase();
+  let tier: ReviewTier = review.tier ?? "free";
+
+  if (review.sample && knownTiers[key]) {
+    tier = knownTiers[key];
+  } else if (!review.tier) {
     if (knownTiers[key]) {
       tier = knownTiers[key];
     } else {
@@ -61,7 +64,7 @@ export function resolveReviewTier(review: PublicReview): TierInfo {
 
   return {
     tier: "free",
-    label: "Paket Starter",
+    label: "Paket Free",
     badgeClass: "border-ux-border bg-subtle text-foreground/80",
     dotColor: "bg-foreground/50",
     description: "Perencana Pernikahan & Checklist Dasar",
