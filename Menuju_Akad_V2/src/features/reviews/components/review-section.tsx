@@ -1,95 +1,172 @@
 "use client";
-import { useState } from "react";
-import { ArrowDown, ArrowUpRight, Heart, MessageCircle, Star } from "lucide-react";
+
+import { useRef, useState } from "react";
+import {
+  Heart,
+  MessageCircle,
+  Star,
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 import { ReviewCard } from "./review-card";
 import { ReviewForm } from "./review-form";
+import { ReviewDetailDialog } from "./review-detail-dialog";
 import { usePublicReviews } from "../hooks/use-public-reviews";
+import type { PublicReview } from "../types";
 import styles from "./reviews.module.css";
 
 export function ReviewSection() {
-  const [open, setOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<PublicReview | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const { data, busy, error, load } = usePublicReviews();
+
+  const reviews = data?.items ?? [];
+  const loopedReviews = reviews.length > 2 ? [...reviews, ...reviews] : reviews;
+
+  const scroll = (direction: "left" | "right") => {
+    if (!viewportRef.current) return;
+    const offset = direction === "left" ? -390 : 390;
+    viewportRef.current.scrollBy({ left: offset, behavior: "smooth" });
+  };
+
   return (
     <section id="ulasan" aria-labelledby="review-heading" className={styles.section}>
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+        <header className="grid items-end gap-6 lg:grid-cols-[1fr_auto]">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] text-rose uppercase">
               <Heart size={14} aria-hidden="true" /> Dari ruang yang sama
             </span>
             <h2
               id="review-heading"
-              className="mt-4 text-3xl font-semibold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl"
+              className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
             >
-              Setiap cerita, <span className="font-serif font-normal italic">berarti.</span>
+              Cerita nyata para{" "}
+              <span className="font-serif font-normal italic text-primary">pengantin.</span>
             </h2>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-secondary sm:text-base">
-              Ada banyak cara menuju hari bahagia. Ini cerita dan masukan yang menemani kami tumbuh,
-              bersama kalian.
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-secondary sm:text-base">
+              Ratusan pasangan merencanakan momen istimewa mereka bersama Menuju Akad. Geser dan klik
+              kartu untuk membaca rincian cerita lengkap perjalanan mereka.
             </p>
           </div>
-          <Button onClick={() => setOpen(true)} className="justify-self-start lg:justify-self-end">
-            <MessageCircle size={17} aria-hidden="true" /> Tulis ulasan{" "}
-            <ArrowUpRight size={16} aria-hidden="true" />
-          </Button>
-        </div>
+
+          <div className="flex flex-wrap items-center gap-3 justify-self-start lg:justify-self-end">
+            <Button onClick={() => setFormOpen(true)} className="shadow-xs">
+              <MessageCircle size={17} aria-hidden="true" /> Tulis ulasan
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </Button>
+          </div>
+        </header>
+
         {data && data.total > 0 && (
-          <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-secondary">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-brand-secondary">
-              <Star className="text-ux-gold-ink" fill="currentColor" size={16} aria-hidden="true" />
-              {data.average.toLocaleString("id-ID", {
-                maximumFractionDigits: 1,
-                minimumFractionDigits: 1,
-              })}{" "}
-              / 5
-            </span>
-            <span aria-hidden="true">·</span>
-            <span>Dari {data.total} ulasan yang ditampilkan</span>
-            <span className="hidden h-px flex-1 bg-ux-border sm:block" aria-hidden="true" />
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-b border-ux-border/70 pb-4 text-xs">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1.5 font-bold text-foreground">
+                <Star className="text-amber-500" fill="currentColor" size={16} aria-hidden="true" />
+                {data.average.toLocaleString("id-ID", {
+                  maximumFractionDigits: 1,
+                  minimumFractionDigits: 1,
+                })}{" "}
+                / 5
+              </span>
+              <span className="text-ux-border" aria-hidden="true">
+                |
+              </span>
+              <span className="text-secondary">Berdasarkan {data.total} ulasan terverifikasi</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsPaused(!isPaused)}
+                className={styles.ctrlBtn}
+                title={isPaused ? "Lanjutkan kartu berjalan" : "Jeda kartu berjalan"}
+                aria-label={isPaused ? "Lanjutkan kartu berjalan" : "Jeda kartu berjalan"}
+              >
+                {isPaused ? <Play size={14} /> : <Pause size={14} />}
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll("left")}
+                className={styles.ctrlBtn}
+                title="Geser ke kiri"
+                aria-label="Geser ke kiri"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll("right")}
+                className={styles.ctrlBtn}
+                title="Geser ke kanan"
+                aria-label="Geser ke kanan"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         )}
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3" aria-busy={busy}>
-          {data?.items.map((review, index) => (
-            <ReviewCard key={review.id} review={review} index={index} />
-          ))}
-        </div>
-        <div className="mt-7 text-center" aria-live="polite">
-          {busy && !data && (
-            <p className="text-sm text-secondary" role="status">
-              Memuat cerita kalian…
-            </p>
-          )}
-          {data?.total === 0 && !busy && (
-            <p className="rounded-card border border-ux-border bg-surface p-8 text-sm text-secondary">
-              Belum ada ulasan yang ditampilkan. Bagikan pengalaman Anda lewat Tulis ulasan.
-            </p>
-          )}
-          {error && (
-            <div role="alert" className="space-y-3">
-              <p className="text-sm text-danger">{error}</p>
-              <Button
-                variant="secondary"
-                onClick={() => void load(data?.hasMore ? data.page + 1 : 1)}
-                disabled={busy}
-              >
-                Coba lagi
-              </Button>
+      </div>
+
+      <div className="mt-8 w-full">
+        {reviews.length > 0 ? (
+          <div
+            ref={viewportRef}
+            className={styles.marqueeViewport}
+            role="region"
+            aria-label="Daftar ulasan berjalan"
+          >
+            <div className={cn(styles.marqueeTrack, isPaused && styles.isPaused)}>
+              {loopedReviews.map((review, index) => (
+                <ReviewCard
+                  key={`${review.id}-${index}`}
+                  review={review}
+                  index={index}
+                  onSelect={setSelectedReview}
+                />
+              ))}
             </div>
-          )}
-          {data?.hasMore && !error && (
-            <Button variant="secondary" onClick={() => void load(data.page + 1)} disabled={busy}>
-              {busy ? "Memuat…" : "Baca cerita lainnya"}
-              <ArrowDown size={15} aria-hidden="true" />
-            </Button>
-          )}
-        </div>
-        <p className="mt-9 text-center text-xs leading-6 text-secondary">
-          Ruang ini tumbuh dari masukan kalian. Terima kasih sudah menjadi bagian dari perjalanan
-          kami.
+          </div>
+        ) : (
+          <div className="mx-auto max-w-7xl px-6 py-8 text-center lg:px-12">
+            {busy ? (
+              <p className="animate-pulse text-sm text-secondary">Memuat cerita pengantin…</p>
+            ) : error ? (
+              <div role="alert" className="space-y-3">
+                <p className="text-sm text-danger">{error}</p>
+                <Button variant="secondary" onClick={() => void load()}>
+                  Coba lagi
+                </Button>
+              </div>
+            ) : (
+              <p className="rounded-card border border-ux-border bg-surface p-8 text-sm text-secondary">
+                Belum ada ulasan yang ditampilkan. Bagikan pengalaman Anda lewat Tulis ulasan.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <p className="mt-3 text-center text-xs leading-6 text-muted">
+          Arahkan kursor atau sentuh untuk menjeda · Klik kartu ulasan mana pun untuk melihat
+          rincian cerita lengkap.
         </p>
       </div>
-      <ReviewForm open={open} onClose={() => setOpen(false)} />
+
+      <ReviewForm open={formOpen} onClose={() => setFormOpen(false)} />
+      <ReviewDetailDialog
+        review={selectedReview}
+        open={Boolean(selectedReview)}
+        onClose={() => setSelectedReview(null)}
+      />
     </section>
   );
 }

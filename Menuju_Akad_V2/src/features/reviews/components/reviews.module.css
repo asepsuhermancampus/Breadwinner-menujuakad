@@ -2,50 +2,105 @@
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--ux-border);
-  background: radial-gradient(ellipse at 92% 8%, #08cb0018, transparent 45%), #eeeeee55;
-  padding: 88px 0;
+  background: radial-gradient(ellipse at 92% 8%, #08cb0014, transparent 45%), var(--canvas);
+  padding: 80px 0;
   scroll-margin-top: 96px;
 }
-.section::before {
-  position: absolute;
-  top: 38px;
-  right: -80px;
-  width: 300px;
-  height: 300px;
-  border: 1px solid var(--ux-border);
-  border-radius: 50%;
-  content: "";
-  pointer-events: none;
-}
-.card {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  padding: 26px;
-  border: 1px solid var(--ux-border);
-  border-radius: 20px;
-  background: var(--surface);
-  box-shadow: 0 3px 16px #052e1603;
-  animation: arrive 600ms both;
-  animation-delay: var(--delay, 0ms);
-  transition:
-    transform 250ms ease,
-    box-shadow 250ms ease,
-    border-color 250ms ease;
-  overflow-wrap: anywhere;
-}
-.sample {
-  display: block;
-  margin: 4px 0;
-  font-size: 10px;
-  color: #253900;
-}
-@media (hover: hover) {
-  .card:hover {
-    transform: translateY(-5px);
-    border-color: var(--champagne);
-    box-shadow: 0 18px 36px #052e160b;
+@media (min-width: 1024px) {
+  .section {
+    padding: 104px 0;
   }
+}
+.marqueeViewport {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  padding: 12px 0 24px;
+}
+.marqueeViewport::-webkit-scrollbar {
+  display: none;
+}
+.marqueeViewport:active {
+  cursor: grabbing;
+}
+.marqueeTrack {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: marqueeScroll 45s linear infinite;
+}
+.marqueeTrack:hover,
+.marqueeTrack:focus-within {
+  animation-play-state: paused;
+}
+.isPaused {
+  animation-play-state: paused !important;
+}
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.modernCard {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  min-height: 230px;
+  flex-shrink: 0;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+  box-shadow: 0 4px 20px rgba(5, 46, 22, 0.04);
+  cursor: pointer;
+  outline: none;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms ease, border-color 260ms ease;
+  user-select: none;
+}
+@media (min-width: 640px) {
+  .modernCard {
+    width: 370px;
+    padding: 26px;
+  }
+}
+.modernCard:hover,
+.modernCard:focus-visible {
+  transform: translateY(-5px);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 16px 36px rgba(5, 46, 22, 0.09);
+}
+.modernCard:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.ctrlBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--ux-border);
+  background: var(--surface);
+  color: var(--secondary);
+  transition: all 180ms ease;
+}
+.ctrlBtn:hover {
+  background: var(--subtle);
+  color: var(--foreground);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+.ctrlBtn:active {
+  transform: scale(0.96);
 }
 .starChoice {
   position: relative;
@@ -57,9 +112,7 @@
   border-radius: 9px;
   color: var(--ux-gold-ink);
   cursor: pointer;
-  transition:
-    background 180ms,
-    transform 180ms;
+  transition: background 180ms, transform 180ms;
 }
 .starChoice:hover {
   background: var(--ux-warm);
@@ -90,31 +143,14 @@
   font-size: 14px;
   line-height: 1.7;
 }
-@keyframes arrive {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@media (min-width: 1024px) {
-  .section {
-    padding: 112px 0;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .card {
+  .marqueeTrack {
     animation: none;
+  }
+  .modernCard {
     transition: none;
   }
-  .card:hover,
-  .starChoice:hover {
+  .modernCard:hover {
     transform: none;
-  }
-  .starChoice {
-    transition: none;
   }
 }

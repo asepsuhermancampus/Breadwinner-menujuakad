@@ -1,4 +1,6 @@
 export type ReviewStatus = "pending" | "published" | "hidden";
+export type ReviewTier = "free" | "premium" | "lifetime";
+
 export type PublicReview = {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ export type PublicReview = {
   comment: string;
   createdAt: string;
   sample?: number;
+  tier?: ReviewTier;
 };
 export type PrivateReview = PublicReview & {
   status: ReviewStatus;
