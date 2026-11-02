@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
 import { Dialog } from "@/components/ui/dialog";
+import { DatePicker } from "@/components/ui/date-picker";
 import { useCustomerNames } from "@/features/customer-workspace/components/customer-names-context";
 import { plannerPersonLabel } from "@/features/customer-workspace/domain/side-profile-names";
 import type { PlannerTask, TaskPriority, TaskStatus, TaskPIC } from "../types/tasks";
@@ -109,10 +110,10 @@ export function TaskInspector({ task, onClose, onSave, creating = false }: Props
               <option value="Selesai">Selesai</option>
             </Select>
 
-            <Field
+            <DatePicker
               label="Tenggat waktu"
               value={draft.dueDate}
-              onChange={(e) => handleFieldChange("dueDate", e.target.value)}
+              onChange={(formattedDate) => handleFieldChange("dueDate", formattedDate)}
             />
 
             <div className="space-y-1.5">
