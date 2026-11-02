@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/cn";
 import { ReuiCapitalInflowsDonut } from "@/components/ui/reui-capital-inflows-donut";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 
@@ -31,6 +32,12 @@ export function SavingsDonutPane({
   const isUserBride = ownerSide === "bride";
   const userColor = isUserBride ? "#f472b6" : "#10b981";
   const partnerColor = isUserBride ? "#10b981" : "#f472b6";
+  const userTextColor = isUserBride
+    ? "text-rose-600 dark:text-rose-400"
+    : "text-emerald-700 dark:text-emerald-400";
+  const partnerTextColor = isUserBride
+    ? "text-emerald-700 dark:text-emerald-400"
+    : "text-rose-600 dark:text-rose-400";
   const usedColor = "#6366f1";
 
   return (
@@ -52,7 +59,7 @@ export function SavingsDonutPane({
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
                 {partnerNames.user}
               </span>
-              <span className="font-mono font-medium text-foreground">
+              <span className={cn("font-mono font-medium", userTextColor)}>
                 Rp {userSavings.toLocaleString("id-ID")}
               </span>
             </div>
@@ -61,7 +68,7 @@ export function SavingsDonutPane({
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: partnerColor }} />
                 {partnerNames.partner}
               </span>
-              <span className="font-mono font-medium text-foreground">
+              <span className={cn("font-mono font-medium", partnerTextColor)}>
                 Rp {partnerSavings.toLocaleString("id-ID")}
               </span>
             </div>
@@ -72,7 +79,7 @@ export function SavingsDonutPane({
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
               Tabungan Kalian
             </span>
-            <span className="font-mono font-medium text-foreground">
+            <span className={cn("font-mono font-medium", userTextColor)}>
               Rp {availableSavings.toLocaleString("id-ID")}
             </span>
           </div>
