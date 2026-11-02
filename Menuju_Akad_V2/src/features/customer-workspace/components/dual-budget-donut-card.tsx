@@ -143,14 +143,6 @@ export function DualBudgetDonutCard({
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           <span>Sinkronisasi otomatis dengan Tabungan & Anggaran</span>
         </div>
-        <div className="flex items-center gap-2 font-mono text-muted-foreground">
-          <span>Rupiah (IDR)</span>
-          {manageHref && (
-            <Link href={manageHref} className="text-brand-secondary hover:underline ml-1">
-              Buka Tabungan & Anggaran →
-            </Link>
-          )}
-        </div>
       </div>
     </div>
   );
