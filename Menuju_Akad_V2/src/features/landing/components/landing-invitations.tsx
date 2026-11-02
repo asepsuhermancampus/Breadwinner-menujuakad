@@ -60,19 +60,19 @@ const techs = [
 
 export function LandingInvitations() {
   return (
-    <section id="undangan" className="bg-subtle py-20 lg:py-28">
+    <section id="undangan" className="bg-subtle py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-12 space-y-12">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
             Undangan Digital Eksklusif
           </span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-brand-secondary sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
             Satu kabar bahagia,{" "}
             <span className="font-serif font-normal italic text-forest-neutral">
               beragam cara bercerita
             </span>
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-secondary sm:text-sm">
             Setiap pasangan memiliki ritme dan karakter unik. Pilih tema yang paling mewakili kalian—dari yang
             hangat dan intim, hingga modern arsitektural dan bernuansa alam.
           </p>

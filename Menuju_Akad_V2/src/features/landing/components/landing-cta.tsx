@@ -10,13 +10,13 @@ export function LandingCta() {
             <span className="font-sans text-xs font-semibold tracking-widest text-emerald-300 uppercase">
               Ruang Privat Berdua
             </span>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
               Hari bahagia dimulai{" "}
               <span className="font-serif font-normal italic text-emerald-200">
                 dari langkah pertama
               </span>
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-emerald-100/90 sm:text-base">
+            <p className="mt-3 max-w-xl text-xs leading-relaxed text-emerald-100/90 sm:text-sm">
               Buat ruang kalian hari ini. Rapikan setiap detail rencananya bersama, satu per satu.
             </p>
           </div>

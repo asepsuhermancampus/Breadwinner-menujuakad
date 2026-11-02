@@ -4,60 +4,59 @@ import { quickStats, recentActivities } from "./landing-planner-preview-data";
 
 export function LandingPlannerPreview() {
   return (
-    <section className="bg-canvas py-20 lg:py-28">
+    <section className="bg-canvas py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Kolom Kiri: Narasi Editorial */}
-          <div className="space-y-6 lg:col-span-5">
-            <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-subtle px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
-                <Sparkles size={12} className="text-primary" />
-                <span>Studio Perencana Nyata</span>
-              </div>
-              <h2 className="mt-3.5 font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl lg:leading-[1.15]">
-                Segala detail hari bahagia,{" "}
-                <span className="font-serif font-normal italic text-forest-neutral">
-                  terkoordinasi rapi
-                </span>
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
-                Tidak perlu berpindah antara spreadsheet rumit dan tumpukan kertas. Dasbor Menuju Akad
-                menyajikan alur berkas nikah, pembagian anggaran vendor, dan konfirmasi kehadiran tamu
-                dalam satu tata letak yang menenangkan.
-              </p>
-            </div>
+        {/* Header Section Terpadu 1 Baris */}
+        <div className="mx-auto mb-10 max-w-4xl text-center sm:mb-12">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-subtle px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
+            <Sparkles size={12} className="text-primary" />
+            <span>Studio Perencana Nyata</span>
+          </div>
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-brand-secondary sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
+            Segala detail hari bahagia,{" "}
+            <span className="font-serif font-normal italic text-forest-neutral">
+              terkoordinasi rapi
+            </span>
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-secondary sm:text-sm">
+            Tidak perlu berpindah antara spreadsheet rumit dan tumpukan kertas. Dasbor Menuju Akad
+            menyajikan alur berkas nikah, pembagian anggaran vendor, dan konfirmasi kehadiran tamu
+            dalam satu tata letak yang menenangkan.
+          </p>
+        </div>
 
-            {/* Kartu Fitur Mikro */}
-            <div className="space-y-3 pt-1">
-              <div className="flex items-start gap-3.5 rounded-2xl border border-border/80 bg-surface/80 p-3.5 shadow-xs transition hover:border-primary/40 hover:bg-surface">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-subtle text-primary">
-                  <CheckCircle2 size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-brand-secondary">Satu Ruang untuk Berdua</h4>
-                  <p className="mt-0.5 text-xs leading-relaxed text-secondary">
-                    Calon suami dan calon istri memperbarui progres yang sama secara real-time tanpa miskomunikasi.
-                  </p>
-                </div>
+        {/* Konten 2 Kolom Seimbang: Fitur di Kiri, Mockup Dasbor di Kanan */}
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Kolom Kiri: Kartu Fitur Mikro & CTA */}
+          <div className="space-y-4 lg:col-span-4">
+            <div className="flex items-start gap-3.5 rounded-2xl border border-border/80 bg-surface/80 p-4 shadow-xs transition hover:border-primary/40 hover:bg-surface">
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-subtle text-primary">
+                <CheckCircle2 size={18} />
               </div>
-
-              <div className="flex items-start gap-3.5 rounded-2xl border border-border/80 bg-surface/80 p-3.5 shadow-xs transition hover:border-primary/40 hover:bg-surface">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-subtle text-primary">
-                  <ShieldCheck size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-brand-secondary">Data Privat & Tanpa Iklan</h4>
-                  <p className="mt-0.5 text-xs leading-relaxed text-secondary">
-                    Rencana pernikahan dan catatan anggaran tersimpan aman, bebas distraksi iklan komersial.
-                  </p>
-                </div>
+              <div>
+                <h4 className="text-xs font-bold text-brand-secondary">Satu Ruang untuk Berdua</h4>
+                <p className="mt-1 text-xs leading-relaxed text-secondary">
+                  Calon suami dan calon istri memperbarui progres yang sama secara real-time tanpa miskomunikasi.
+                </p>
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="flex items-start gap-3.5 rounded-2xl border border-border/80 bg-surface/80 p-4 shadow-xs transition hover:border-primary/40 hover:bg-surface">
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-subtle text-primary">
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-brand-secondary">Data Privat & Tanpa Iklan</h4>
+                <p className="mt-1 text-xs leading-relaxed text-secondary">
+                  Rencana pernikahan dan catatan anggaran tersimpan aman, bebas distraksi iklan komersial.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-1">
               <Link
                 href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-secondary px-6 py-3.5 text-xs font-semibold text-white shadow-xs transition hover:bg-brand-secondary/90 hover:shadow-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-secondary px-6 py-3.5 text-xs font-semibold text-white shadow-xs transition hover:bg-brand-secondary/90 hover:shadow-sm"
               >
                 <span>Masuk ke Dasbor Pratinjau</span>
                 <ArrowRight size={14} />
@@ -66,8 +65,8 @@ export function LandingPlannerPreview() {
           </div>
 
           {/* Kolom Kanan: Pratinjau Ruang Dasbor Bersama */}
-          <div className="lg:col-span-7">
-            <div className="relative rounded-3xl border border-ux-border bg-surface p-6 shadow-sm sm:p-8">
+          <div className="lg:col-span-8">
+            <div className="relative rounded-3xl border border-ux-border bg-surface p-6 shadow-sm sm:p-7">
               {/* Header Kartu Dasbor */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ux-border pb-5">
                 <div className="flex items-center gap-3">

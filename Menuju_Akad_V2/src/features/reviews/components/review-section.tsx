@@ -45,12 +45,12 @@ export function ReviewSection() {
             </span>
             <h2
               id="review-heading"
-              className="mt-3 text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl"
+              className="mt-3 text-2xl font-bold tracking-tight text-brand-secondary sm:text-3xl lg:text-4xl sm:whitespace-nowrap"
             >
               Cerita nyata para{" "}
               <span className="font-serif font-normal italic text-forest-neutral">pengantin</span>
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-secondary sm:text-base">
+            <p className="mt-3 max-w-xl text-xs leading-relaxed text-secondary sm:text-sm">
               Ratusan pasangan merencanakan momen istimewa mereka bersama Menuju Akad. Geser dan klik
               kartu untuk membaca rincian cerita lengkap perjalanan mereka.
             </p>

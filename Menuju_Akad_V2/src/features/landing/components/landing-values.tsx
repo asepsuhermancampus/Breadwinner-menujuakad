@@ -35,17 +35,17 @@ const pillars: PillarItem[] = [
 
 export function LandingValues() {
   return (
-    <section id="nilai" className="border-b border-ux-border bg-surface py-20 lg:py-28">
+    <section id="nilai" className="border-b border-ux-border bg-surface py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Editorial Section Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-brand-secondary sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
             Tiga pilar ketenangan{" "}
             <span className="font-serif font-normal italic text-forest-neutral">
               menuju hari bahagia
             </span>
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-secondary sm:text-sm">
             Bukan sekadar buku catatan biasa. Menuju Akad dirancang khusus untuk memandu calon
             pengantin di Indonesia melalui tahapan legal, finansial, dan teknis acara secara tenang
             dan teratur.

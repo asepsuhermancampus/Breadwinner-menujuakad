@@ -13,20 +13,20 @@ export function LandingFaq() {
   };
 
   return (
-    <section id="faq" className="border-t border-ux-border bg-surface py-20 lg:py-28">
+    <section id="faq" className="border-t border-ux-border bg-surface py-16 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Header Section */}
-        <div className="mx-auto max-w-3xl text-center mb-14 lg:mb-16">
+        <div className="mx-auto mb-10 max-w-4xl text-center lg:mb-12">
           <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
             Tanya Jawab & Bantuan
           </span>
-          <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+          <h2 className="mt-3 font-sans text-2xl font-bold tracking-tight text-brand-secondary sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
             Pertanyaan umum,{" "}
             <span className="font-serif font-normal italic text-forest-neutral">
               jawaban jelas
             </span>
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-secondary sm:text-sm">
             Kenali bagaimana Menuju Akad mempermudah persiapan pernikahan yang sebelumnya rumit dan
             manual menjadi teratur dalam satu ruang terpadu.
           </p>
