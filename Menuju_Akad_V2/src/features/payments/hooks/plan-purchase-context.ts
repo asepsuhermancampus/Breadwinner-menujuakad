@@ -10,6 +10,7 @@ export interface PlanPurchaseState {
   loading: boolean;
   error: string;
   reserve: (plan: PaidPlanId, claim: boolean) => Promise<PlanQuote | null>;
+  prices?: Record<string, number> | undefined;
 }
 export const PlanPurchaseContext = createContext<PlanPurchaseState | null>(null);
 export function usePlanPurchase() {

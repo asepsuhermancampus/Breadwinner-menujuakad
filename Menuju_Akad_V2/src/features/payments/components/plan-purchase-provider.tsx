@@ -11,7 +11,8 @@ export function PlanPurchaseProvider({ children }: { children: ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false),
     [login, setLogin] = useState(false);
   const [quote, setQuote] = useState<PlanQuote | null>(null),
-    [offer, setOffer] = useState<PurchaseOffer | null>(null);
+    [offer, setOffer] = useState<PurchaseOffer | null>(null),
+    [prices, setPrices] = useState<Record<string, number> | undefined>();
   const [pending, setPending] = useState(false),
     [loading, setLoading] = useState(true),
     [error, setError] = useState("");
@@ -38,12 +39,14 @@ export function PlanPurchaseProvider({ children }: { children: ReactNode }) {
         quote?: PlanQuote | null;
         activeQuote?: PlanQuote | null;
         offer?: PurchaseOffer | null;
+        prices?: Record<string, number>;
         error?: string;
       };
       if (!response.ok) throw new Error(data.error ?? "Paket belum dapat dimuat.");
       if (!signal.aborted && version === revision.current) {
         setQuote(data.activeQuote ?? data.quote ?? null);
         setOffer(data.offer ?? null);
+        setPrices(data.prices);
         setAuthenticated(data.authenticated === true);
         setError("");
       }
@@ -125,7 +128,9 @@ export function PlanPurchaseProvider({ children }: { children: ReactNode }) {
     return request(plan, claim);
   }
   return (
-    <PlanPurchaseContext.Provider value={{ quote, offer, pending, loading, error, reserve }}>
+    <PlanPurchaseContext.Provider
+      value={{ quote, offer, pending, loading, error, reserve, prices }}
+    >
       {children}
       <DiscountLoginDialog open={login} close={() => setLogin(false)} />
       {error && (

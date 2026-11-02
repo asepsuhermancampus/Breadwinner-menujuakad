@@ -3,6 +3,7 @@ import type { DatabaseSync } from "node:sqlite";
 import { SCHEMA } from "./db-schema";
 import { initializeProductSchema } from "./product-schema";
 import { migrateCreditSchema } from "./upgrade-migration";
+import { initializePlanPricing } from "./plan-pricing-settings";
 
 export function initializePaymentSchema(db: DatabaseSync): void {
   db.exec(
@@ -12,6 +13,7 @@ export function initializePaymentSchema(db: DatabaseSync): void {
     migrateCreditSchema(db);
     db.exec(SCHEMA);
     initializeProductSchema(db);
+    initializePlanPricing(db);
     if (db.prepare("PRAGMA foreign_key_check").all().length)
       throw new Error("Payment migration violates foreign keys");
     db.exec("COMMIT");

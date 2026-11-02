@@ -25,6 +25,7 @@ export function LiveOperationsShell({
         { label: "CMS & Konten", icon: "file-text", view: "/superadmin/reviews" },
         { label: "Fitur & pemeliharaan", icon: "settings", view: "/superadmin/features" },
         { label: "Pengguna", icon: "users", view: "/superadmin/accounts" },
+        { label: "Kelola Paket & Harga", icon: "wallet", view: "/superadmin/pricing" },
       ]
       : []),
     { label: "Ruang Kerja Vendor", icon: "store", view: "/vendor" },

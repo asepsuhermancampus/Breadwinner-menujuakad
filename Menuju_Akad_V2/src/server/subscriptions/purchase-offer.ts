@@ -1,6 +1,6 @@
 import "server-only";
 import type { DatabaseSync } from "node:sqlite";
-import { getPlan } from "@/features/plans/domain/catalog";
+import { getEffectivePlanPrice } from "@/server/payments/plan-pricing-settings";
 import { addCalendarMonths } from "@/features/plans/domain/subscription-period";
 import type { PurchaseOffer } from "@/features/payments/purchase-offer";
 import { readEntitlement } from "./entitlement-query";
@@ -33,7 +33,7 @@ export function purchaseOffer(db: DatabaseSync, owner: string, now = new Date())
     upgradeCredit: credit,
     upgradeSourceId: credit ? String(source!["id"]) : null,
     upgradeValidUntil: until,
-    lifetimeAmount: getPlan("lifetime").originalAmount - credit,
+    lifetimeAmount: getEffectivePlanPrice(db, "lifetime") - credit,
     reminderDays:
       remaining > 0 && remaining <= 15 * 86400000 ? Math.ceil(remaining / 86400000) : null,
   };

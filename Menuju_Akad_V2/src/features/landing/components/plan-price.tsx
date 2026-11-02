@@ -11,6 +11,7 @@ export function PlanPrice({
   error,
   reserve,
   offer,
+  prices,
   blocked = false,
   loading = false,
 }: {
@@ -19,11 +20,13 @@ export function PlanPrice({
   pending: boolean;
   error: string;
   reserve: (claim: boolean) => Promise<PlanQuote | null>;
-  offer?: PurchaseOffer | null;
-  blocked?: boolean;
-  loading?: boolean;
+  offer?: PurchaseOffer | null | undefined;
+  prices?: Record<string, number> | undefined;
+  blocked?: boolean | undefined;
+  loading?: boolean | undefined;
 }) {
   const plan = getPlan(id),
+    effectiveOriginal = prices?.[id] ?? plan.originalAmount,
     total =
       quote &&
       !quote.blockedReason &&
@@ -34,11 +37,11 @@ export function PlanPrice({
   const ready = total != null;
   const credit = id === "lifetime" ? (quote?.upgradeCredit ?? offer?.upgradeCredit ?? 0) : 0;
   const base =
-    id === "lifetime" ? (offer?.lifetimeAmount ?? plan.originalAmount) : plan.originalAmount;
+    id === "lifetime" ? (offer?.lifetimeAmount ?? effectiveOriginal) : effectiveOriginal;
   return (
     <div className="border-y border-ux-border py-4">
       {(ready || credit > 0) && (
-        <del className="block text-sm text-secondary">{rupiah(plan.originalAmount)}</del>
+        <del className="block text-sm text-secondary">{rupiah(effectiveOriginal)}</del>
       )}
       <div className="flex flex-wrap items-center gap-3">
         <span

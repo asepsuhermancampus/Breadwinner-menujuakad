@@ -1,5 +1,6 @@
 import { checkoutPrincipal } from "@/server/payments/guest-reservation";
-import { getPlanCheckoutService } from "@/server/payments/runtime";
+import { getPaymentDatabase, getPlanCheckoutService } from "@/server/payments/runtime";
+import { getEffectivePlanPrice } from "@/server/payments/plan-pricing-settings";
 import { handlePaymentApiError, jsonResponse, validateSameOrigin } from "@/server/payments/http";
 import { readPlanRequest } from "@/server/payments/checkout-request";
 export const runtime = "nodejs";
@@ -9,8 +10,14 @@ export async function GET(req: Request) {
   try {
     const principal = await checkoutPrincipal(req, false);
     const service = getPlanCheckoutService();
+    const db = getPaymentDatabase().storage();
     const active = principal ? service.intents.active(principal) : null;
     const selected = new URL(req.url).searchParams.get("plan");
+    const prices = {
+      free: 0,
+      premium: getEffectivePlanPrice(db, "premium"),
+      lifetime: getEffectivePlanPrice(db, "lifetime"),
+    };
     return jsonResponse({
       authenticated: principal?.kind === "owner",
       quote:
@@ -19,6 +26,7 @@ export async function GET(req: Request) {
           : null,
       activeQuote: active ? await service.quote(principal!, active.id) : null,
       offer: service.offer(principal),
+      prices,
     });
   } catch (cause) {
     return handlePaymentApiError(cause);

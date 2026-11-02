@@ -1,9 +1,11 @@
 import "server-only";
 import type { DatabaseSync } from "node:sqlite";
-import { pricePlan, type PaidPlanId } from "@/features/plans/domain/catalog";
+import type { PaidPlanId } from "@/features/plans/domain/catalog";
+import { calculatePaymentPrice } from "@/features/payments/domain/payment-pricing";
 import { purchaseOffer } from "@/server/subscriptions/purchase-offer";
 import { PaymentError } from "./errors";
 import type { CheckoutPrincipal } from "./intent-types";
+import { getEffectivePlanPrice } from "./plan-pricing-settings";
 export interface ReserveOptions {
   replaceIntentId?: string;
   renewal?: boolean;
@@ -28,7 +30,8 @@ export function checkoutPrice(
     throw new PaymentError("Diskon pengguna baru hanya untuk pembelian paket pertama.", 409);
   if (options.renewal && (plan !== "premium" || offer?.subscription.planId !== "premium"))
     throw new PaymentError("Perpanjangan hanya untuk Premium aktif.", 409);
-  const price = pricePlan(plan, claim),
+  const originalAmount = getEffectivePlanPrice(db, plan);
+  const price = calculatePaymentPrice(originalAmount, claim),
     credit = plan === "lifetime" ? (offer?.upgradeCredit ?? 0) : 0;
   return {
     ...price,

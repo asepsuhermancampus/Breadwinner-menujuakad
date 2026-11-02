@@ -85,3 +85,4 @@ describe("resolveReviewTier", () => {
     expect(resolveReviewRating(review)).toBe(4.5);
   });
 });
+
