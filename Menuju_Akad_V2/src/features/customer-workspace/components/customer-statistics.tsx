@@ -6,7 +6,7 @@ import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { GuestInvitation } from "@/features/guest-crm/types/guest";
 import type { OverviewResources } from "../hooks/use-overview-resources";
-import { GiftedBarChart, type GiftedBarItem } from "@/components/ui/gifted-bar-chart";
+import { GiftedLineChart, type GiftedLinePoint } from "@/components/ui/gifted-line-chart";
 import { GiftedDonutChart } from "@/components/ui/gifted-donut-chart";
 import { CustomerStatisticsBudget } from "./customer-statistics-budget";
 
@@ -28,15 +28,15 @@ export function CustomerStatistics({
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
   const guestData = (resources.guests.data ?? []) as GuestInvitation[];
 
-  // 1. Task Metrics for GiftedBarChart
+  // 1. Task Metrics for GiftedLineChart
   const completedTasks = tasks.filter((t) => t.status === "Selesai").length;
   const inProgressTasks = tasks.filter((t) => t.status === "Dikerjakan").length;
   const pendingTasks = tasks.filter((t) => t.status === "Menunggu" || !t.status).length;
 
-  const taskBarData: GiftedBarItem[] = [
-    { label: "Selesai", value: completedTasks, gradient: ["#065f46", "#10b981"] },
-    { label: "Proses", value: inProgressTasks, gradient: ["#0284c7", "#38bdf8"] },
-    { label: "Menunggu", value: pendingTasks, gradient: ["#d97706", "#fbbf24"] },
+  const taskLineData: GiftedLinePoint[] = [
+    { label: "Menunggu", value: pendingTasks },
+    { label: "Dikerjakan", value: inProgressTasks },
+    { label: "Selesai", value: completedTasks },
   ];
 
   // 2. Guest Metrics for GiftedDonutChart
@@ -83,7 +83,7 @@ export function CustomerStatistics({
                 </Link>
               )}
             </div>
-            <GiftedBarChart data={taskBarData} height={140} barWidth={36} />
+            <GiftedLineChart data={taskLineData} height={140} lineColor="#10b981" />
           </div>
         </div>
 
