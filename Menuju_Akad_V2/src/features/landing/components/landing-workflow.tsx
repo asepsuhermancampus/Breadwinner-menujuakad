@@ -55,19 +55,19 @@ export function LandingWorkflow() {
         </div>
 
         {/* Header Section */}
-        <div className="relative z-10 mx-auto mb-10 max-w-2xl text-center sm:mb-12">
+        <div className="relative z-10 mx-auto mb-10 max-w-4xl text-center sm:mb-12">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-300">
             <Sparkles size={12} className="text-emerald-300" />
             <span>Alur Terencana Menuju Akad</span>
           </div>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl sm:whitespace-nowrap">
             Tiga babak sederhana,{" "}
             <span className="font-serif font-normal italic text-emerald-200">
               terencana sempurna
             </span>
           </h2>
 
-          <p className="mt-3 text-xs leading-relaxed text-emerald-100/80 sm:text-sm">
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-emerald-100/80 sm:text-sm">
             Dari menyatukan visi berdua, memenuhi syarat legalitas Kemenag dan alokasi vendor,
             hingga menyambut para tamu dengan scan QR di hari pernikahan.
           </p>
