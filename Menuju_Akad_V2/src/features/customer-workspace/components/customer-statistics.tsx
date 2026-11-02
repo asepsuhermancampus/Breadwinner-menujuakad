@@ -1,18 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Users, ArrowUpRight } from "lucide-react";
+import { Users, ArrowUpRight } from "lucide-react";
 import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { GuestInvitation } from "@/features/guest-crm/types/guest";
 import type { OverviewResources } from "../hooks/use-overview-resources";
-import { GiftedLineChart, type GiftedLinePoint } from "@/components/ui/gifted-line-chart";
 import { GiftedDonutChart } from "@/components/ui/gifted-donut-chart";
 import { ReuiCapitalInflowsCard } from "@/components/ui/reui-capital-inflows-card";
 import { REUI_DONUT_COLORS, type InflowSource } from "@/components/ui/reui-capital-inflows-types";
 
 type StatisticsProps = {
-  tasks: PlannerTask[];
+  tasks?: PlannerTask[];
   resources: OverviewResources;
   tasksAvailable?: boolean;
   financeAvailable?: boolean;
@@ -20,27 +19,14 @@ type StatisticsProps = {
 };
 
 export function CustomerStatistics({
-  tasks,
   resources,
-  tasksAvailable = true,
   financeAvailable = true,
   guestsAvailable = true,
 }: StatisticsProps) {
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
   const guestData = (resources.guests.data ?? []) as GuestInvitation[];
 
-  // 1. Task Metrics for GiftedLineChart
-  const completedTasks = tasks.filter((t) => t.status === "Selesai").length;
-  const inProgressTasks = tasks.filter((t) => t.status === "Dikerjakan").length;
-  const pendingTasks = tasks.filter((t) => t.status === "Menunggu" || !t.status).length;
-
-  const taskLineData: GiftedLinePoint[] = [
-    { label: "Menunggu", value: pendingTasks },
-    { label: "Dikerjakan", value: inProgressTasks },
-    { label: "Selesai", value: completedTasks },
-  ];
-
-  // 2. Finance / Capital Inflows Data (ReUI Chart-13 style)
+  // 1. Finance / Capital Inflows Data (ReUI Chart-13 style)
   const totalFinanceAmount = financeData.reduce((sum, item) => sum + (item.amount ?? 0), 0);
 
   const categoryMap = new Map<string, number>();
@@ -72,7 +58,7 @@ export function CustomerStatistics({
   const topCoverage = activeSources.slice(0, 3).reduce((sum, s) => sum + s.percentage, 0);
   const restPercent = Math.max(0, 100 - topCoverage);
 
-  // 3. Guest Metrics for RSVP Donut
+  // 2. Guest Metrics for RSVP Donut
   const totalGuests = guestData.length;
   const attendingGuests = guestData.filter((g) => g.rsvpStatus === "ATTENDING").length;
   const pendingGuests = guestData.filter((g) => g.rsvpStatus === "PENDING" || !g.rsvpStatus).length;
@@ -87,7 +73,7 @@ export function CustomerStatistics({
             Statistik & Analisis Kesiapan
           </h2>
           <p className="text-xs text-secondary">
-            Pantau sebaran checklist, realisasi anggaran modal, dan konfirmasi kehadiran tamu.
+            Pantau alokasi anggaran modal dan konfirmasi kehadiran tamu secara terpadu.
           </p>
         </div>
       </div>
@@ -155,32 +141,6 @@ export function CustomerStatistics({
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Panel 3: Line Chart Status Tugas (full width row below) */}
-        <div className="lg:col-span-3 bg-canvas border border-ux-border p-5 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between pb-3 border-b border-ux-border/60">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
-                  <CheckCircle2 size={16} />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-foreground">Sebaran Checklist Tugas</h3>
-                  <p className="text-xs text-secondary">{tasks.length} total tugas terdaftar</p>
-                </div>
-              </div>
-              {tasksAvailable && (
-                <Link
-                  href="/planner/tasks"
-                  className="text-xs font-medium text-brand-secondary hover:underline inline-flex items-center gap-0.5"
-                >
-                  Buka Checklist <ArrowUpRight size={13} />
-                </Link>
-              )}
-            </div>
-            <GiftedLineChart data={taskLineData} height={140} lineColor="#10b981" />
           </div>
         </div>
       </div>
