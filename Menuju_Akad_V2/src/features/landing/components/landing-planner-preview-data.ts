@@ -49,3 +49,4 @@ export const recentActivities = [
     time: "1 jam lalu",
   },
 ];
+
