@@ -15,6 +15,8 @@ export type PrivateReview = PublicReview & {
   updatedAt: string;
   moderatedAt: string | null;
   moderatedBy: string | null;
+  accountId?: string | null;
+  userEmail?: string | null;
 };
 export type ReviewPage<T> = {
   items: T[];

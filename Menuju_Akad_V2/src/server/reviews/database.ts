@@ -24,7 +24,10 @@ export function openReviewDatabase(file: string) {
       comment TEXT NOT NULL CHECK(length(comment) BETWEEN 10 AND 2000),
       status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','published','hidden')),
       created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
-      moderated_at TEXT, moderated_by TEXT, seed INTEGER NOT NULL DEFAULT 0
+      moderated_at TEXT, moderated_by TEXT, seed INTEGER NOT NULL DEFAULT 0,
+      tier TEXT NOT NULL DEFAULT 'free',
+      account_id TEXT,
+      user_email TEXT
     );
     CREATE INDEX IF NOT EXISTS website_reviews_status ON website_reviews(status,created_at DESC,id DESC);
     CREATE TABLE IF NOT EXISTS review_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -35,5 +38,8 @@ export function openReviewDatabase(file: string) {
       token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL
     );
   `);
+  try { db.exec("ALTER TABLE website_reviews ADD COLUMN tier TEXT NOT NULL DEFAULT 'free'"); } catch {}
+  try { db.exec("ALTER TABLE website_reviews ADD COLUMN account_id TEXT"); } catch {}
+  try { db.exec("ALTER TABLE website_reviews ADD COLUMN user_email TEXT"); } catch {}
   return db;
 }

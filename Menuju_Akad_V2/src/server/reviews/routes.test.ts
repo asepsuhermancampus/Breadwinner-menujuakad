@@ -53,6 +53,14 @@ async function authenticatedCookie() {
 const input = { name: "Laras", rating: 1, comment: "Daftar tamu sulit ditemukan di HP saya." };
 
 it("keeps submission private until superadmin publication and removes it on hiding", async () => {
+  state.session = null;
+  const unauth = await submit(request("/api/reviews", "POST", input));
+  expect(unauth.status).toBe(401);
+
+  state.session = {
+    user: { id: "customer-1", email: "customer@example.test", role: "customer" },
+    expires: new Date(Date.now() + 60000).toISOString(),
+  };
   const sent = await submit(request("/api/reviews", "POST", input));
   expect(sent.status).toBe(201);
   expect((await (await publicGet(request("/api/reviews"))).json()).total).toBe(0);
@@ -124,6 +132,10 @@ it("keeps review inbox private from customer and admin roles", async () => {
   }
 });
 it("limits submissions and rejects invalid input and oversized bodies", async () => {
+  state.session = {
+    user: { id: "customer-limit", email: "limit@example.test", role: "customer" },
+    expires: new Date(Date.now() + 60000).toISOString(),
+  };
   expect((await submit(request("/api/reviews", "POST", { ...input, rating: 8 }))).status).toBe(400);
   expect(
     (await submit(request("/api/reviews", "POST", { ...input, comment: "x".repeat(17000) })))

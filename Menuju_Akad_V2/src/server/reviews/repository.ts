@@ -8,25 +8,32 @@ import type {
   ReviewFilters,
   ReviewPage,
   PublicReviewPage,
+  ReviewTier,
 } from "@/features/reviews/types";
 
-const PUBLIC_COLUMNS = "id,name,rating,comment,created_at AS createdAt,seed AS sample";
-const PRIVATE_COLUMNS = `${PUBLIC_COLUMNS},status,updated_at AS updatedAt,moderated_at AS moderatedAt,moderated_by AS moderatedBy`;
+const PUBLIC_COLUMNS = "id,name,rating,comment,created_at AS createdAt,seed AS sample,tier";
+const PRIVATE_COLUMNS = `${PUBLIC_COLUMNS},status,updated_at AS updatedAt,moderated_at AS moderatedAt,moderated_by AS moderatedBy,account_id AS accountId,user_email AS userEmail`;
 const PAGE_SIZE = 12;
 
 export class ReviewRepository {
   constructor(readonly db: DatabaseSync) {}
 
-  submit(input: ReviewInput): PrivateReview {
+  submit(
+    input: ReviewInput,
+    metadata?: { tier?: ReviewTier; accountId?: string | null; userEmail?: string | null },
+  ): PrivateReview {
     const parsed = reviewInputSchema.parse(input);
     const id = randomUUID(),
       now = new Date().toISOString();
+    const tier = metadata?.tier ?? "free";
+    const accountId = metadata?.accountId ?? null;
+    const userEmail = metadata?.userEmail ?? null;
     this.db
       .prepare(
         `INSERT INTO website_reviews
-      (id,name,rating,comment,status,created_at,updated_at) VALUES (?,?,?,?,'pending',?,?)`,
+      (id,name,rating,comment,status,created_at,updated_at,tier,account_id,user_email) VALUES (?,?,?,?,'pending',?,?,?,?,?)`,
       )
-      .run(id, parsed.name, parsed.rating, parsed.comment, now, now);
+      .run(id, parsed.name, parsed.rating, parsed.comment, now, now, tier, accountId, userEmail);
     return this.db
       .prepare(`SELECT ${PRIVATE_COLUMNS} FROM website_reviews WHERE id=?`)
       .get(id) as PrivateReview;

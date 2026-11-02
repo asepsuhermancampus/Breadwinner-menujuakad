@@ -1,7 +1,8 @@
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Mail, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { PrivateReview } from "../types";
 import { ReviewStars } from "./review-stars";
+import { ReviewPackageBadge } from "./review-package-badge";
 
 export function ModerationCard({
   review,
@@ -12,31 +13,57 @@ export function ModerationCard({
   saving: boolean;
   onModerate: (id: string, status: "published" | "hidden") => void;
 }) {
-  const label = { pending: "Menunggu", published: "Ditampilkan", hidden: "Disembunyikan" }[
-    review.status
-  ];
-  const badge =
-    review.status === "published"
-      ? "bg-success-bg text-success"
-      : review.status === "pending"
-        ? "bg-warning-bg text-warning"
-        : "bg-subtle text-secondary";
+  const isPending = review.status === "pending";
+  const isPublished = review.status === "published";
+
   return (
-    <article className="min-w-0 rounded-card border border-ux-border bg-surface p-5 sm:p-6">
+    <article className="min-w-0 rounded-card border border-ux-border bg-surface p-5 sm:p-6 shadow-xs">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="break-words font-semibold text-brand-secondary">{review.name}</h2>
-          <div className="mt-2">
-            <ReviewStars rating={review.rating} />
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h2 className="break-words text-base font-bold text-foreground">{review.name}</h2>
+            <ReviewPackageBadge review={review} />
+          </div>
+          {review.userEmail && (
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-secondary">
+              <Mail size={12} className="text-muted" aria-hidden="true" />
+              <span>{review.userEmail}</span>
+            </p>
+          )}
+          <div className="mt-2.5 flex items-center gap-2">
+            <ReviewStars rating={review.rating} size={15} />
+            <span className="text-xs font-semibold text-foreground">({review.rating} / 5)</span>
           </div>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-medium ${badge}`}>{label}</span>
+
+        <div>
+          {isPending && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+              <ShieldAlert size={13} aria-hidden="true" /> Menunggu Moderasi
+            </span>
+          )}
+          {isPublished && (
+            <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+              Ditampilkan di Landing
+            </span>
+          )}
+          {!isPending && !isPublished && (
+            <span className="rounded-full bg-subtle px-3 py-1 text-xs font-medium text-secondary">
+              Disembunyikan
+            </span>
+          )}
+        </div>
       </div>
-      <p className="mt-5 whitespace-pre-wrap text-sm leading-7 text-secondary [overflow-wrap:anywhere]">
-        {review.comment}
-      </p>
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-ux-border pt-4">
+
+      <div className="mt-4 rounded-xl border border-ux-border/50 bg-subtle/30 p-4">
+        <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground [overflow-wrap:anywhere]">
+          &ldquo;{review.comment}&rdquo;
+        </p>
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-ux-border/70 pt-3.5">
         <time dateTime={review.createdAt} className="text-xs text-secondary">
+          Dikirim:{" "}
           {new Date(review.createdAt).toLocaleString("id-ID", {
             dateStyle: "medium",
             timeStyle: "short",

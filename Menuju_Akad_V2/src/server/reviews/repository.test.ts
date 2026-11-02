@@ -48,6 +48,7 @@ describe("private reviews and publication", () => {
       "name",
       "rating",
       "sample",
+      "tier",
     ]);
     repo.moderate(review.id, "hidden", "admin-id");
     expect(repo.publicList(1).items).toEqual([]);
