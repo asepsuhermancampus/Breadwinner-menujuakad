@@ -5,7 +5,7 @@ import type { CustomerWorkspace } from "../types";
 import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import { OverviewGreeting } from "@/features/planner-overview/components/overview-greeting";
 import { OverviewMetrics } from "@/features/planner-overview/components/overview-metrics";
-import { CustomerPriorities } from "./customer-priorities";
+import { CustomerStatistics } from "./customer-statistics";
 import { useCustomerEvent } from "./customer-event-context";
 import { getPlan } from "@/features/plans/domain/catalog";
 import { SubscriptionReminder } from "./subscription-reminder";
@@ -139,32 +139,13 @@ export function CustomerOverview({
         </p>
       )}
       {visibleMetrics.length > 0 && <OverviewMetrics metrics={visibleMetrics} />}
-      {visible.has("priorities") && (
-        <CustomerPriorities
-          tasksAvailable={tasksAvailable}
-          calendarAvailable={calendarAvailable}
-          workspace={workspace}
-          tasks={tasks}
-          allTasks={allTasks}
-          resources={resources}
-          loading={loading}
-        />
-      )}
-      {visible.has("quick-links") && (
-        <section className={styles.quickLinks} aria-label="Langkah perencanaan berikutnya">
-          <div>
-            <h2>Susun acara bersama.</h2>
-            <p>Susun agenda dan pembagian tugas untuk hari istimewa kalian.</p>
-          </div>
-          {rundownAvailable && <Link href="/planner/rundown">Buka rundown</Link>}
-          {pdfAvailable && <Link href="/planner/wedding-kit">Ringkasan untuk dibagikan</Link>}
-        </section>
-      )}
-      {tasksAvailable && (
-        <footer className={styles.activity}>
-          <Link href="/planner/tasks">Lihat tugas</Link>
-        </footer>
-      )}
+      <CustomerStatistics
+        tasks={tasks}
+        resources={resources}
+        tasksAvailable={tasksAvailable}
+        financeAvailable={financeAvailable}
+        guestsAvailable={guestsAvailable}
+      />
       {!guest && !workspace.profile.fullName && (
         <p className="text-xs text-secondary">
           Kalian sudah dapat memakai fitur paket.{" "}

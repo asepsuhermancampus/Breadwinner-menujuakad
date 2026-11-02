@@ -71,14 +71,16 @@ export function CustomerDashboard({
           financeAvailable={effectiveFinance}
         />
       )}
-      <CustomerFeatureLinks
-        tasksAvailable={effectiveTasks}
-        moodboardAvailable={effectiveMoodboard}
-        pdfAvailable={effectivePdf}
-        invitationsAvailable={effectiveInvitations}
-        studioAvailable={effectiveStudio}
-        guestsAvailable={effectiveGuests}
-      />
+      <div className="sr-only">
+        <CustomerFeatureLinks
+          tasksAvailable={effectiveTasks}
+          moodboardAvailable={effectiveMoodboard}
+          pdfAvailable={effectivePdf}
+          invitationsAvailable={effectiveInvitations}
+          studioAvailable={effectiveStudio}
+          guestsAvailable={effectiveGuests}
+        />
+      </div>
     </>
   );
 }
