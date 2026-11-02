@@ -63,11 +63,10 @@ const featureTabs = [
 ];
 
 type FeatureTab = (typeof featureTabs)[number];
-const defaultTab = featureTabs[0] as FeatureTab;
 
 export function LandingValues() {
-  const [activeTab, setActiveTab] = useState<string>(defaultTab.id);
-  const current: FeatureTab = featureTabs.find((t) => t.id === activeTab) ?? defaultTab;
+  const [activeTab, setActiveTab] = useState<string>("kua");
+  const current: FeatureTab = featureTabs.find((t) => t.id === activeTab) ?? (featureTabs[0] as FeatureTab);
   const IconComponent = current.icon;
 
   return (
@@ -96,11 +95,10 @@ export function LandingValues() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
-                  isActive
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${isActive
                     ? "bg-brand-secondary text-white shadow-sm"
                     : "bg-ux-dock text-secondary hover:bg-neutral-200/70 hover:text-foreground"
-                }`}
+                  }`}
               >
                 <TabIcon size={14} />
                 <span>{tab.label}</span>
