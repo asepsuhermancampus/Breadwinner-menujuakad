@@ -5,6 +5,7 @@ import { Quote, ArrowRight, ShieldCheck } from "lucide-react";
 import type { PublicReview } from "../types";
 import { ReviewStars } from "./review-stars";
 import { ReviewPackageBadge } from "./review-package-badge";
+import { resolveReviewRating } from "../lib/review-tier";
 import styles from "./reviews.module.css";
 
 export function ReviewCard({
@@ -40,7 +41,7 @@ export function ReviewCard({
       aria-label={`Ulasan dari ${review.name}`}
     >
       <header className="flex items-center justify-between gap-3">
-        <ReviewStars rating={review.rating} />
+        <ReviewStars rating={resolveReviewRating(review)} />
         <ReviewPackageBadge review={review} />
       </header>
 

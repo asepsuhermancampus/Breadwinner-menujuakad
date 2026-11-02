@@ -1,12 +1,11 @@
 "use client";
 
-import { Quote, ShieldCheck, Calendar, X } from "lucide-react";
+import { Quote, ShieldCheck, Calendar } from "lucide-react";
 import { Dialog } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import type { PublicReview } from "../types";
 import { ReviewStars } from "./review-stars";
 import { ReviewPackageBadge } from "./review-package-badge";
-import { resolveReviewTier } from "../lib/review-tier";
+import { resolveReviewTier, resolveReviewRating } from "../lib/review-tier";
 
 export function ReviewDetailDialog({
   review,
@@ -34,6 +33,9 @@ export function ReviewDetailDialog({
     year: "numeric",
     timeZone: "Asia/Jakarta",
   });
+  const effectiveRating = resolveReviewRating(review);
+  const ratingText =
+    Number(effectiveRating) % 1 === 0 ? `${effectiveRating}.0` : String(effectiveRating);
 
   return (
     <Dialog open={open} onClose={onClose} title="Rincian Pengalaman Pengantin">
@@ -63,8 +65,8 @@ export function ReviewDetailDialog({
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-control bg-canvas/60 p-3.5 text-xs">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-foreground">Penilaian:</span>
-            <ReviewStars rating={review.rating} />
-            <span className="font-bold text-foreground">({review.rating}.0 / 5)</span>
+            <ReviewStars rating={effectiveRating} size={18} />
+            <span className="font-bold text-foreground">({ratingText} / 5)</span>
           </div>
           <div className="flex items-center gap-1.5 text-secondary">
             <Calendar size={13} aria-hidden="true" />
@@ -84,17 +86,13 @@ export function ReviewDetailDialog({
           </p>
         </blockquote>
 
-        <footer className="flex flex-col gap-3 rounded-xl border border-ux-border/50 bg-subtle/50 p-4 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <footer className="rounded-xl border border-ux-border/50 bg-subtle/50 p-4 text-xs">
           <div className="text-secondary">
-            <p className="font-medium text-foreground">Paket Layanan: {tierInfo.label}</p>
-            <p className="text-[11px] text-muted">{tierInfo.description}</p>
+            <p className="font-semibold text-foreground">Paket Layanan: {tierInfo.label}</p>
+            <p className="mt-0.5 text-[11px] text-muted">{tierInfo.description}</p>
           </div>
-          <Button variant="secondary" onClick={onClose} className="self-end sm:self-center">
-            <X size={14} aria-hidden="true" /> Tutup
-          </Button>
         </footer>
       </div>
     </Dialog>
   );
 }
-

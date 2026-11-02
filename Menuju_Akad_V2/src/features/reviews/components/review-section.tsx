@@ -69,7 +69,7 @@ export function ReviewSection() {
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-b border-ux-border/70 pb-4 text-xs">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 font-bold text-foreground">
-                <Star className="text-amber-500" fill="currentColor" size={16} aria-hidden="true" />
+                <Star className="text-amber-400 fill-amber-400" size={16} aria-hidden="true" />
                 {data.average.toLocaleString("id-ID", {
                   maximumFractionDigits: 1,
                   minimumFractionDigits: 1,

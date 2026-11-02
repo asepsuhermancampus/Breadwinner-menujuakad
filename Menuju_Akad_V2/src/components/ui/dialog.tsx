@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { X } from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/cn";
 import styles from "./dialog.module.css";
@@ -13,9 +14,11 @@ type Props = {
   side?: boolean;
   className?: string | undefined;
 };
+
 export function Dialog({ open, onClose, title, children, side = false, className }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
+
   useEffect(() => {
     const dialog = ref.current;
     if (!open) {
@@ -41,6 +44,7 @@ export function Dialog({ open, onClose, title, children, side = false, className
       if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
     };
   }, [open]);
+
   useEffect(() => {
     const dialog = ref.current;
     if (!open || !dialog) return;
@@ -67,6 +71,7 @@ export function Dialog({ open, onClose, title, children, side = false, className
     dialog.addEventListener("keydown", trap);
     return () => dialog.removeEventListener("keydown", trap);
   }, [open]);
+
   return (
     <dialog
       ref={ref}
@@ -80,12 +85,18 @@ export function Dialog({ open, onClose, title, children, side = false, className
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="flex items-start justify-between gap-4">
-        <h2 id={titleId} className="text-xl font-semibold">
+      <div className="flex items-center justify-between gap-4">
+        <h2 id={titleId} className="text-xl font-semibold leading-none text-foreground">
           {title}
         </h2>
-        <Button variant="ghost" size="icon" aria-label="Tutup dialog" onClick={onClose}>
-          ×
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Tutup dialog"
+          onClick={onClose}
+          className="size-8 shrink-0 rounded-full text-secondary hover:bg-subtle hover:text-foreground"
+        >
+          <X size={18} aria-hidden="true" />
         </Button>
       </div>
       <div className="mt-5">{children}</div>
