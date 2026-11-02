@@ -3,81 +3,25 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, MessageCircle, ArrowUpRight, HelpCircle } from "lucide-react";
-
-interface FaqItem {
-  id: string;
-  category: "kolaborasi" | "paket" | "kua";
-  categoryLabel: string;
-  q: string;
-  a: string;
-}
-
-const categories = [
-  { id: "semua", label: "Semua Tanya Jawab" },
-  { id: "kolaborasi", label: "Ruang Berdua" },
-  { id: "kua", label: "Syarat KUA & Tamu" },
-  { id: "paket", label: "Paket & Biaya" },
-] as const;
-
-const allFaqs: FaqItem[] = [
-  {
-    id: "free-plan",
-    category: "paket",
-    categoryLabel: "Paket & Biaya",
-    q: "Apakah kami bisa mulai merencanakan secara gratis?",
-    a: "Bisa. Paket Free membuka dasbor berdua, checklist berkas pengantar nikah, catatan anggaran awal, dan tema undangan digital dasar tanpa batas waktu.",
-  },
-  {
-    id: "couple-sync",
-    category: "kolaborasi",
-    categoryLabel: "Ruang Berdua",
-    q: "Bagaimana cara menghubungkan akun dengan pasangan?",
-    a: "Cukup salin tautan undangan privat di dasbor Anda dan kirimkan ke calon suami atau istri. Sekali klik, akun berdua langsung tersinkronisasi otomatis.",
-  },
-  {
-    id: "kua-guidelines",
-    category: "kua",
-    categoryLabel: "Syarat KUA & Tamu",
-    q: "Apakah panduan berkas KUA sesuai regulasi Kemenag?",
-    a: "Ya. Panduan disusun runtut sesuai standar Kemenag: surat pengantar kantor kelurahan, persetujuan catin, tes kesehatan, hingga surat rekomendasi antar kecamatan.",
-  },
-  {
-    id: "lifetime-vs-premium",
-    category: "paket",
-    categoryLabel: "Paket & Biaya",
-    q: "Apa keunggulan paket Lifetime dibanding paket lainnya?",
-    a: "Lifetime adalah investasi satu kali bayar selamanya tanpa biaya langganan berulang. Anda mendapatkan akses tanpa batas ke seluruh studio undangan dan kalkulator katering.",
-  },
-  {
-    id: "guest-qr",
-    category: "kua",
-    categoryLabel: "Syarat KUA & Tamu",
-    q: "Apakah undangan digital bisa dibagikan dengan nama personal?",
-    a: "Bisa. Setiap tamu mendapatkan tautan personal dengan sapaan khusus, batas kuota kehadiran (pax), dan kode QR check-in unik untuk meja resepsi.",
-  },
-  {
-    id: "privacy-safety",
-    category: "kolaborasi",
-    categoryLabel: "Ruang Berdua",
-    q: "Apakah data rencana pernikahan kami aman dan privat?",
-    a: "Sangat aman. Menuju Akad 100% bebas dari iklan pihak ketiga. Seluruh rincian keuangan, nomor kontak tamu, dan dokumen hanya dapat diakses berdua.",
-  },
-];
+import { faqCategories, landingFaqs } from "./landing-faq-data";
 
 export function LandingFaq() {
-  const [activeCategory, setActiveCategory] = useState<string>("semua");
-  const [openId, setOpenId] = useState<string | null>("free-plan");
+  const [activeCategory, setActiveCategory] = useState<string>("kolaborasi");
+  const [openId, setOpenId] = useState<string | null>("sync-problem");
 
-  const displayedFaqs =
-    activeCategory === "semua"
-      ? allFaqs.slice(0, 4)
-      : allFaqs.filter((faq) => faq.category === activeCategory);
+  const currentFaqs = landingFaqs.filter((faq) => faq.category === activeCategory);
+
+  const handleCategoryChange = (catId: string) => {
+    setActiveCategory(catId);
+    const firstFaq = landingFaqs.find((f) => f.category === catId);
+    setOpenId(firstFaq ? firstFaq.id : null);
+  };
 
   return (
     <section id="faq" className="border-t border-ux-border bg-surface py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
-          {/* Kolom Kiri: Header Editorial & Helpdesk Card */}
+        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Kolom Kiri: Header & Card Konsultasi (Jangkar Bawah) */}
           <div className="flex flex-col justify-between space-y-6 lg:col-span-5">
             <div>
               <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
@@ -90,12 +34,12 @@ export function LandingFaq() {
                 </span>
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
-                Kenali alur, fasilitas, dan keamanan ruang persiapan pernikahan kalian sebelum
-                melangkah bersama.
+                Kenali bagaimana Menuju Akad mempermudah tahapan yang sebelumnya rumit dan manual
+                menjadi teratur dalam satu ruang.
               </p>
             </div>
 
-            {/* Helpdesk Card (Jangkar Batas Bawah) */}
+            {/* Helpdesk Card */}
             <div className="rounded-2xl border border-ux-border bg-canvas/70 p-5 sm:p-6 shadow-xs">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface border border-ux-border text-brand-secondary">
@@ -109,11 +53,11 @@ export function LandingFaq() {
                 </div>
               </div>
               <p className="mt-3 text-xs leading-relaxed text-secondary">
-                Butuh panduan seputar alur KUA atau pilihan paket yang tepat? Hubungi tim kami kapan saja.
+                Butuh konsultasi seputar berkas KUA atau paket yang tepat? Hubungi tim pendamping kami.
               </p>
               <div className="mt-4 pt-3 border-t border-ux-border/60">
                 <Link
-                  href="https://wa.me/6281234567890?text=Halo%20Tim%20Menuju%20Akad,%20saya%20ingin%20bertanya%20seputar%20persiapan%20pernikahan"
+                  href="https://wa.me/6281234567890?text=Halo%20Tim%20Menuju%20Akad,%20saya%20ingin%20konsultasi%20seputar%20persiapan%20pernikahan"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs font-semibold text-brand-secondary transition hover:text-forest-neutral"
@@ -126,29 +70,32 @@ export function LandingFaq() {
             </div>
           </div>
 
-          {/* Kolom Kanan: Slicing Sesuai Batas Tinggi Kartu Kiri */}
-          <div className="space-y-4 lg:col-span-7">
-            {/* Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2 pb-1">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                    cat.id === activeCategory
-                      ? "bg-brand-secondary text-white shadow-xs"
-                      : "bg-canvas border border-ux-border text-secondary hover:text-foreground hover:bg-canvas/80"
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
+          {/* Kolom Kanan: Slicing Per Kategori (Selaras Seline dengan Card Kiri) */}
+          <div className="flex flex-col justify-between space-y-4 lg:col-span-7">
+            {/* Filter Kategori Interaktif (Tanpa Semua Tanya Jawab) */}
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+              {faqCategories.map((cat) => {
+                const isActive = cat.id === activeCategory;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => handleCategoryChange(cat.id)}
+                    className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                      isActive
+                        ? "bg-brand-secondary text-white shadow-xs"
+                        : "bg-canvas border border-ux-border text-secondary hover:text-foreground hover:bg-canvas/80"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Accordion Cards (Terkontrol & Selaras Tinggi) */}
+            {/* 3 Accordion Cards Per Kategori (Tinggi Terkontrol Seline) */}
             <div className="space-y-2.5">
-              {displayedFaqs.map((faq) => {
+              {currentFaqs.map((faq) => {
                 const isOpen = openId === faq.id;
                 return (
                   <div
@@ -165,14 +112,9 @@ export function LandingFaq() {
                       aria-expanded={isOpen}
                       className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left sm:px-6"
                     >
-                      <div className="space-y-0.5">
-                        <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted">
-                          {faq.categoryLabel}
-                        </span>
-                        <h4 className="font-sans text-sm font-bold text-brand-secondary sm:text-[15px]">
-                          {faq.q}
-                        </h4>
-                      </div>
+                      <h4 className="font-sans text-sm font-bold text-brand-secondary sm:text-[15px]">
+                        {faq.q}
+                      </h4>
                       <span
                         className={`mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full border transition-transform duration-200 ${
                           isOpen
