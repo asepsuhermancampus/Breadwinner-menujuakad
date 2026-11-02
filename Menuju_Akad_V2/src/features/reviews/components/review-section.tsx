@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import {
-  Heart,
   MessageCircle,
   Star,
   ArrowUpRight,
@@ -41,12 +40,15 @@ export function ReviewSection() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
         <header className="grid items-end gap-6 lg:grid-cols-[1fr_auto]">
           <div className="max-w-2xl">
+            <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
+              Cerita Komunitas
+            </span>
             <h2
               id="review-heading"
-              className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+              className="mt-3 text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl"
             >
               Cerita nyata para{" "}
-              <span className="font-serif font-normal italic text-primary">pengantin.</span>
+              <span className="font-serif font-normal italic text-forest-neutral">pengantin</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-secondary sm:text-base">
               Ratusan pasangan merencanakan momen istimewa mereka bersama Menuju Akad. Geser dan klik

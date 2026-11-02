@@ -59,18 +59,17 @@ export function LandingWorkflow() {
           <span className="font-sans text-xs font-semibold tracking-widest text-emerald-300 uppercase">
             Alur Terencana Menuju Akad
           </span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Tiga babak sederhana,{" "}
+            <span className="font-serif font-normal italic text-emerald-200">
+              terencana sempurna
+            </span>
+          </h2>
 
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Tiga babak sederhana,{" "}
-              <span className="font-serif font-normal italic text-emerald-200">
-                terencana sempurna
-              </span>
-            </h2>
-
-            <p className="mt-4 text-sm leading-relaxed text-emerald-100/80 sm:text-base">
-              Dari menyatukan visi berdua, memenuhi syarat legalitas Kemenag dan alokasi dana vendor,
-              hingga membagikan undangan digital dan menyambut tamu dengan scan QR di hari pernikahan.
-            </p>
+          <p className="mt-4 text-sm leading-relaxed text-emerald-100/80 sm:text-base">
+            Dari menyatukan visi berdua, memenuhi syarat legalitas Kemenag dan alokasi dana vendor,
+            hingga membagikan undangan digital dan menyambut tamu dengan scan QR di hari pernikahan.
+          </p>
         </div>
 
         {/* 3 Master Cards (Strictly Non-Hover) */}
@@ -88,22 +87,22 @@ export function LandingWorkflow() {
           ))}
         </div>
 
-          {/* Bottom Assurance Strip */}
-          <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md sm:flex-row sm:px-8">
-            <div className="flex items-center gap-2.5 text-xs text-emerald-100/90">
-              <ShieldCheck size={16} className="text-emerald-300" />
-              <span>Tersedia di paket Free & Lifetime · 100% bebas iklan pihak ketiga</span>
-            </div>
-
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center gap-2 rounded-control bg-white px-5 py-2.5 text-xs font-semibold text-brand-secondary shadow-sm transition hover:bg-neutral-100"
-            >
-              <span>Mulai Ruang Bersama Gratis</span>
-              <ArrowRight size={14} />
-            </Link>
+        {/* Bottom Assurance Strip */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md sm:flex-row sm:px-8">
+          <div className="flex items-center gap-2.5 text-xs text-emerald-100/90">
+            <ShieldCheck size={16} className="text-emerald-300" />
+            <span>Tersedia di paket Free & Lifetime · 100% bebas iklan pihak ketiga</span>
           </div>
+
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 rounded-control bg-white px-5 py-2.5 text-xs font-semibold text-brand-secondary shadow-sm transition hover:bg-neutral-100"
+          >
+            <span>Mulai Ruang Bersama Gratis</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
+      </div>
     </section>
   );
 }

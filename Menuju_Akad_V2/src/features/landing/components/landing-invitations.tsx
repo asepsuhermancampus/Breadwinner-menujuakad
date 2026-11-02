@@ -62,24 +62,23 @@ export function LandingInvitations() {
   return (
     <section id="undangan" className="bg-subtle py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-12 space-y-12">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-xl">
-            <span className="font-sans text-xs font-semibold tracking-wider text-rose uppercase">
-              03 / Dari Kalian, Untuk Mereka
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
+            Undangan Digital Eksklusif
+          </span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+            Satu kabar bahagia,{" "}
+            <span className="font-serif font-normal italic text-forest-neutral">
+              beragam cara bercerita
             </span>
-            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
-              Satu kabar bahagia.
-              <br />
-              Beragam cara bercerita.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-secondary">
-            Setiap pasangan punya ritme dan selera. Pilih tema yang paling mewakili kalian—dari yang
-            hangat dan intim, hingga arsitektural dan bernuansa alam.
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+            Setiap pasangan memiliki ritme dan karakter unik. Pilih tema yang paling mewakili kalian—dari yang
+            hangat dan intim, hingga modern arsitektural dan bernuansa alam.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
           {pills.map((pill) => (
             <span
               key={pill}

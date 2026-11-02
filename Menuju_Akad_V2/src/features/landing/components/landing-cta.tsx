@@ -6,17 +6,18 @@ export function LandingCta() {
     <section className="bg-brand-secondary py-20 text-white lg:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="flex flex-col items-start justify-between gap-8 rounded-card border border-white/15 bg-white/5 p-8 sm:p-12 lg:flex-row lg:items-center">
-          <div className="max-w-xl space-y-3">
-            <span className="font-sans text-xs font-semibold tracking-wider text-emerald-200 uppercase">
-              Untuk Hari Yang Tak Terulang
+          <div className="max-w-xl">
+            <span className="font-sans text-xs font-semibold tracking-widest text-emerald-300 uppercase">
+              Ruang Privat Berdua
             </span>
-            <h2 className="font-sans text-3xl font-semibold tracking-[-0.9px] text-white sm:text-4xl">
-              Hari bahagia dimulai
-              <br />
-              dari langkah kecil.
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Hari bahagia dimulai{" "}
+              <span className="font-serif font-normal italic text-emerald-200">
+                dari langkah pertama
+              </span>
             </h2>
-            <p className="text-sm leading-relaxed text-emerald-50">
-              Buat ruang kalian hari ini. Rapikan rencananya, satu per satu.
+            <p className="mt-4 text-sm leading-relaxed text-emerald-100/90 sm:text-base">
+              Buat ruang kalian hari ini. Rapikan setiap detail rencananya bersama, satu per satu.
             </p>
           </div>
 

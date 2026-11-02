@@ -30,18 +30,17 @@ export function LandingFaq() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <span className="font-sans text-xs font-semibold tracking-wider text-rose uppercase">
-              05 / Sebelum Melangkah
+            <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
+              Tanya Jawab
             </span>
-            <h2 className="mt-3 font-sans text-3xl font-semibold tracking-[-0.9px] text-brand-secondary sm:text-4xl">
-              Pertanyaan?
-              <br />
-              Kita bahas.
+            <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+              Pertanyaan umum,{" "}
+              <span className="font-serif font-normal italic text-forest-neutral">
+                jawaban jelas
+              </span>
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-secondary">
-              Kenali dulu ruangnya.
-              <br />
-              Mulai saat kalian siap.
+            <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+              Kenali alur dan fasilitas ruang persiapan pernikahan sebelum melangkah bersama.
             </p>
           </div>
 

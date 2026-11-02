@@ -39,10 +39,7 @@ export function LandingValues() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Editorial Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
-            Pondasi Ketenangan
-          </span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
             Tiga pilar ketenangan{" "}
             <span className="font-serif font-normal italic text-forest-neutral">
               menuju hari bahagia

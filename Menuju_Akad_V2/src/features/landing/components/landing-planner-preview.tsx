@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Heart, ShieldCheck, Sparkles, FileText, Utensils, QrCode } from "lucide-react";
+import { ArrowRight, CheckCircle2, Heart, ShieldCheck, FileText, Utensils, QrCode } from "lucide-react";
 
 const quickStats = [
   {
@@ -42,18 +42,22 @@ export function LandingPlannerPreview() {
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
               {/* Kolom Kiri: Narasi Editorial */}
               <div className="space-y-6 lg:col-span-5">
-                <h2 className="font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl">
-                  Segala detail hari bahagia,{" "}
-                  <span className="font-serif font-normal italic text-forest-neutral">
-                    terkoordinasi rapi
+                <div>
+                  <span className="font-sans text-xs font-semibold tracking-widest text-secondary uppercase">
+                    Studio Perencana Nyata
                   </span>
-                </h2>
-
-                <p className="text-sm leading-relaxed text-secondary sm:text-base">
-                  Tidak perlu berpindah antara spreadsheet rumit dan tumpukan kertas. Dasbor Menuju Akad
-                  menyajikan alur berkas Kemenag, pembagian anggaran vendor, dan daftar kehadiran tamu
-                  dalam satu tata letak yang menenangkan.
-                </p>
+                  <h2 className="mt-3 font-sans text-3xl font-bold tracking-tight text-brand-secondary sm:text-4xl lg:text-5xl">
+                    Segala detail hari bahagia,{" "}
+                    <span className="font-serif font-normal italic text-forest-neutral">
+                      terkoordinasi rapi
+                    </span>
+                  </h2>
+                  <p className="mt-4 text-sm leading-relaxed text-secondary sm:text-base">
+                    Tidak perlu berpindah antara spreadsheet rumit dan tumpukan kertas. Dasbor Menuju Akad
+                    menyajikan alur berkas Kemenag, pembagian anggaran vendor, dan daftar kehadiran tamu
+                    dalam satu tata letak yang menenangkan.
+                  </p>
+                </div>
 
                 <div className="space-y-3 pt-2 text-sm text-secondary">
                   <div className="flex items-start gap-3">
