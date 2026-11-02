@@ -69,7 +69,7 @@ export function ReuiCapitalInflowsDonut({
             patternUnits="userSpaceOnUse"
           >
             <rect width="6" height="6" fill="var(--canvas, #ffffff)" />
-            <line x1="0" y1="0" x2="0" y2="6" stroke="#cbd5e1" strokeWidth="1.75" />
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#a7f3d0" strokeWidth="2" />
           </pattern>
         </defs>
 

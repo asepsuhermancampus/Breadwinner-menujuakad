@@ -26,10 +26,10 @@ export type ReuiCapitalInflowsProps = {
 };
 
 export const REUI_DONUT_COLORS = [
-  "#8b5cf6", // Violet (Northline Capital / Pos 1)
-  "#a855f7", // Purple (Copper Market / Pos 2)
-  "#c084fc", // Lavender (Bridgewell Fund / Pos 3)
-  "#059669", // Emerald fallback
-  "#10b981", // Teal fallback
-  "#38bdf8", // Sky fallback
+  "#087f5b", // Primary Forest Green (Pos 1 / Katering)
+  "#10b981", // Emerald Champagne (Pos 2 / Gedung & Venue)
+  "#34d399", // Soft Sage / Mint (Pos 3 / Dekorasi)
+  "#047857", // Deep Pine
+  "#0d9488", // Deep Teal
+  "#6ee7b7", // Light Mint
 ];

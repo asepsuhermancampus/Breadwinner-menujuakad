@@ -62,9 +62,9 @@ export function CustomerStatistics({
 
   // Fallback demo/target data if workspace has 0 budget items yet
   const defaultSources: InflowSource[] = [
-    { id: "1", name: "Alokasi Katering", amount: 45000000, percentage: 48, color: "#8b5cf6", change: "+12.2%", isIncrease: true },
-    { id: "2", name: "Sewa Gedung & Venue", amount: 25000000, percentage: 27, color: "#a855f7", change: "+5.4%", isIncrease: true },
-    { id: "3", name: "Dekorasi & Pelaminan", amount: 15000000, percentage: 16, color: "#c084fc", change: "-2.1%", isIncrease: false },
+    { id: "1", name: "Alokasi Katering", amount: 45000000, percentage: 48, color: "#087f5b", change: "+12.2%", isIncrease: true },
+    { id: "2", name: "Sewa Gedung & Venue", amount: 25000000, percentage: 27, color: "#10b981", change: "+5.4%", isIncrease: true },
+    { id: "3", name: "Dekorasi & Pelaminan", amount: 15000000, percentage: 16, color: "#34d399", change: "-2.1%", isIncrease: false },
   ];
 
   const activeSources = realSources.length > 0 ? realSources : defaultSources;

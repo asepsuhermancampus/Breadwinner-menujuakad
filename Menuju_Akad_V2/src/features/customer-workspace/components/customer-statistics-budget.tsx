@@ -10,12 +10,12 @@ type BudgetProps = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  katering: "#065f46",
+  katering: "#087f5b",
   dekorasi: "#10b981",
-  gedung: "#3b82f6",
-  busana: "#8b5cf6",
-  dokumentasi: "#f59e0b",
-  lainnya: "#64748b",
+  gedung: "#047857",
+  busana: "#34d399",
+  dokumentasi: "#0d9488",
+  lainnya: "#6ee7b7",
 };
 
 export function CustomerStatisticsBudget({ financeData, financeAvailable }: BudgetProps) {
