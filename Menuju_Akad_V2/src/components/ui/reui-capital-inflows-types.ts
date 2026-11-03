@@ -16,6 +16,8 @@ export type DonutSlice = {
   percent: number;
   color: string;
   isHatched?: boolean | undefined;
+  purpose?: string | undefined;
+  amount?: number | undefined;
 };
 
 export type ReuiCapitalInflowsProps = {

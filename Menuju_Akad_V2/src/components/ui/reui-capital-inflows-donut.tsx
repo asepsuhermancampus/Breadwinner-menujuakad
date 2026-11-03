@@ -1,6 +1,7 @@
 "use client";
 
 import { useId } from "react";
+import { cn } from "@/lib/cn";
 import type { InflowSource, DonutSlice } from "./reui-capital-inflows-types";
 
 type DonutProps = {
@@ -11,6 +12,8 @@ type DonutProps = {
   coverageLabel?: string | undefined;
   restPercent?: number | undefined;
   size?: number | undefined;
+  selectedSliceId?: string | null | undefined;
+  onSelectSlice?: ((id: string | null) => void) | undefined;
 };
 
 export function ReuiCapitalInflowsDonut({
@@ -21,6 +24,8 @@ export function ReuiCapitalInflowsDonut({
   coverageLabel = "Top 3 pos",
   restPercent = 0,
   size = 170,
+  selectedSliceId,
+  onSelectSlice,
 }: DonutProps) {
   const patternId = useId().replace(/:/g, "_");
   const center = size / 2;
@@ -32,6 +37,7 @@ export function ReuiCapitalInflowsDonut({
     slices && slices.length > 0
       ? slices.map((s) => ({
           id: s.id,
+          label: s.label,
           percent: s.percent,
           color: s.isHatched ? `url(#${patternId})` : s.color,
           isHatched: Boolean(s.isHatched),
@@ -39,6 +45,7 @@ export function ReuiCapitalInflowsDonut({
       : [
           ...sources.map((s) => ({
             id: s.id,
+            label: s.name,
             percent: s.percentage,
             color: s.color,
             isHatched: false,
@@ -47,6 +54,7 @@ export function ReuiCapitalInflowsDonut({
             ? [
                 {
                   id: "rest",
+                  label: "Lainnya",
                   percent: restPercent,
                   color: `url(#${patternId})`,
                   isHatched: true,
@@ -58,12 +66,22 @@ export function ReuiCapitalInflowsDonut({
   const totalShares = allSlices.reduce((acc, s) => acc + s.percent, 0) || 100;
   let accumulatedLength = 0;
 
+  const focusedSlice = allSlices.find((s) => s.id === selectedSliceId);
+  const displayCenterValue = focusedSlice
+    ? `${focusedSlice.percent}%`
+    : centerValue !== undefined
+      ? centerValue
+      : `${coveragePercent}%`;
+  const displayCoverageLabel = focusedSlice
+    ? (focusedSlice.label ?? coverageLabel)
+    : coverageLabel;
+
   return (
     <div
       className="relative inline-flex items-center justify-center shrink-0"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`Distribusi: ${centerValue ?? coveragePercent} - ${coverageLabel}`}
+      aria-label={`Distribusi: ${displayCenterValue} - ${displayCoverageLabel}`}
     >
       <svg
         width={size}
@@ -104,6 +122,11 @@ export function ReuiCapitalInflowsDonut({
           const dashOffset = -accumulatedLength;
           accumulatedLength += rawLength;
 
+          const isSelected = selectedSliceId === slice.id;
+          const isAnySelected = Boolean(selectedSliceId);
+          const currentStrokeWidth = isSelected ? strokeWidth + 5 : strokeWidth;
+          const opacity = isAnySelected ? (isSelected ? 1 : 0.35) : 1;
+
           return (
             <circle
               key={slice.id}
@@ -111,11 +134,25 @@ export function ReuiCapitalInflowsDonut({
               cy={center}
               r={radius}
               stroke={slice.color}
-              strokeWidth={strokeWidth}
+              strokeWidth={currentStrokeWidth}
               strokeDasharray={`${dashLength} ${circumference - dashLength}`}
               strokeDashoffset={dashOffset}
               fill="none"
-              className="transition-all duration-500"
+              opacity={opacity}
+              onClick={() => onSelectSlice?.(isSelected ? null : slice.id)}
+              className={cn(
+                "transition-all duration-300",
+                onSelectSlice && "cursor-pointer hover:opacity-90",
+              )}
+              role={onSelectSlice ? "button" : undefined}
+              tabIndex={onSelectSlice ? 0 : undefined}
+              onKeyDown={(e) => {
+                if (onSelectSlice && (e.key === "Enter" || e.key === " ")) {
+                  e.preventDefault();
+                  onSelectSlice(isSelected ? null : slice.id);
+                }
+              }}
+              aria-label={slice.label ? `${slice.label}: ${slice.percent}%` : undefined}
             />
           );
         })}
@@ -124,10 +161,10 @@ export function ReuiCapitalInflowsDonut({
       {/* Center Label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-2">
         <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground truncate max-w-full">
-          {centerValue !== undefined ? centerValue : `${coveragePercent}%`}
+          {displayCenterValue}
         </span>
         <span className="text-[10px] font-medium text-secondary tracking-tight truncate max-w-full">
-          {coverageLabel}
+          {displayCoverageLabel}
         </span>
       </div>
     </div>

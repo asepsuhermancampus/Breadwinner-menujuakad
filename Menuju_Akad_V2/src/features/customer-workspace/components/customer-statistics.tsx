@@ -7,6 +7,10 @@ import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 import { DualBudgetDonutCard } from "./dual-budget-donut-card";
 import { BudgetStatusScrollCard } from "./budget-status-scroll-card";
 import { categorizeBudgets } from "../domain/budget-due-status";
+import {
+  buildOverviewSavingsSlices,
+  buildOverviewBudgetSlices,
+} from "../domain/overview-donut-slices";
 
 type StatisticsProps = {
   tasks?: PlannerTask[];
@@ -53,67 +57,33 @@ export function CustomerStatistics({
 
   const totalSavingsPool = Math.max(availableSavings + paidAmount, availableSavings);
 
-  // Irisan Donut Tabungan Tersedia (Pria: Royal Blue #1610b9, Wanita: Soft Rose #f472b6, Terpakai: Hijau #087f5b)
-  const savingsSlices: DonutSlice[] = [];
-  let savingsCenterValue: string | number = "Rp 0";
-  let savingsCenterLabel = "Belum Ada";
+  // 2. Irisan Donut Tabungan Tersedia
+  const {
+    slices: savingsSlices,
+    centerValue: savingsCenterValue,
+    centerLabel: savingsCenterLabel,
+  } = buildOverviewSavingsSlices({
+    hasPartner,
+    isBride,
+    partnerNames,
+    availableSavings,
+    userSavings,
+    partnerSavings,
+    paidAmount,
+    totalSavingsPool,
+  });
 
-  if (totalSavingsPool > 0) {
-    const userColor = isBride ? "#f472b6" : "#1610b9";
-    const partnerColor = isBride ? "#1610b9" : "#f472b6";
-    const usedColor = "#087f5b";
-
-    if (!hasPartner) {
-      const availPercent = Math.round((availableSavings / totalSavingsPool) * 100);
-      const usedPercent = Math.max(0, 100 - availPercent);
-      if (availPercent > 0) {
-        savingsSlices.push({ id: "available", label: "Tabungan Tersedia", percent: availPercent, color: userColor });
-      }
-      if (usedPercent > 0) {
-        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: usedColor });
-      }
-      savingsCenterValue = `${availPercent}%`;
-      savingsCenterLabel = "Tersedia";
-    } else {
-      const userPercent = Math.round((userSavings / totalSavingsPool) * 100);
-      const partnerPercent = Math.round((partnerSavings / totalSavingsPool) * 100);
-      const usedPercent = Math.max(0, 100 - userPercent - partnerPercent);
-      if (userPercent > 0) {
-        savingsSlices.push({ id: "user", label: partnerNames.user, percent: userPercent, color: userColor });
-      }
-      if (partnerPercent > 0) {
-        savingsSlices.push({ id: "partner", label: partnerNames.partner, percent: partnerPercent, color: partnerColor });
-      }
-      if (usedPercent > 0) {
-        savingsSlices.push({ id: "used", label: "Terpakai Anggaran", percent: usedPercent, color: usedColor });
-      }
-      savingsCenterValue = `${Math.min(100, userPercent + partnerPercent)}%`;
-      savingsCenterLabel = "Total Tersedia";
-    }
-  }
-
-  // 3. Irisan Donut Target Anggaran (3 Warna: Hijau #087f5b, Merah Danger #ef4444, Warning Amber #eab308)
-  const budgetSlices: DonutSlice[] = [];
-  let budgetCenterValue: string | number = "0%";
-  let budgetCenterLabel = "0 Pos";
-
-  if (totalFinanceAmount > 0) {
-    const paidPercent = Math.round((paidAmount / totalFinanceAmount) * 100);
-    const dueSoonPercent = Math.round((dueSoonAmount / totalFinanceAmount) * 100);
-    const unpaidPercent = Math.max(0, 100 - paidPercent - dueSoonPercent);
-
-    if (paidPercent > 0) {
-      budgetSlices.push({ id: "paid", label: "Sudah Dibayar", percent: paidPercent, color: "#087f5b" });
-    }
-    if (dueSoonPercent > 0) {
-      budgetSlices.push({ id: "dueSoon", label: "Mendekati Tenggat", percent: dueSoonPercent, color: "#ef4444" });
-    }
-    if (unpaidPercent > 0) {
-      budgetSlices.push({ id: "unpaid", label: "Belum Dibayar", percent: unpaidPercent, color: "#eab308" });
-    }
-    budgetCenterValue = `${paidPercent}%`;
-    budgetCenterLabel = "Terbayar";
-  }
+  // 3. Irisan Donut Target Anggaran
+  const {
+    slices: budgetSlices,
+    centerValue: budgetCenterValue,
+    centerLabel: budgetCenterLabel,
+  } = buildOverviewBudgetSlices({
+    totalFinanceAmount,
+    paidAmount,
+    dueSoonAmount,
+    unpaidRegularAmount,
+  });
 
   const badgeText =
     totalFinanceAmount > 0
