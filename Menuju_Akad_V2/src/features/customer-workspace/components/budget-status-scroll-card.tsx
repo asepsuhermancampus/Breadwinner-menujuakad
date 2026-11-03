@@ -77,7 +77,7 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1 mt-3 pb-2 border-b border-ux-border/40 text-[11px] overflow-x-auto">
+        <div className="flex items-center gap-1 mt-3 pb-2 border-b border-ux-border/40 text-[11px] overflow-x-auto app-scroll">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
@@ -159,7 +159,7 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Scrollable Budget List */}
-        <div className="mt-3 max-h-[300px] overflow-y-auto space-y-2 pr-1">
+        <div className="mt-3 max-h-[300px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
           {filteredBudgets.length > 0 ? (
             filteredBudgets.map((item, idx) => (
               <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
