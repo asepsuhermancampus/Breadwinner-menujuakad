@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
-import { PageHeading } from "@/components/ui/page-heading";
 import { GiftedDonutChart, type GiftedDonutSlice } from "@/components/ui/gifted-donut-chart";
 import styles from "./overview.module.css";
 
 type Props = {
   dateContext: string;
-  greeting: string;
-  countdownLabel: string;
-  eventDetail: string;
+  timeGreeting?: string;
+  coupleNames?: string;
+  greeting?: string;
+  callToAction?: string;
+  countdownLabel?: string;
+  eventDetail?: string;
   readinessPercent: number | null;
   readinessLabel: string;
   tasksAvailable?: boolean;
@@ -20,7 +22,10 @@ type Props = {
 
 export function OverviewGreeting({
   dateContext,
+  timeGreeting,
+  coupleNames,
   greeting,
+  callToAction,
   countdownLabel,
   eventDetail,
   readinessPercent,
@@ -52,7 +57,6 @@ export function OverviewGreeting({
     } else if (hasRealData && tasksCompleted === 0 && documentsReady === 0) {
       slices = [{ id: "rest", percent: 100, color: "#a7f3d0", isHatched: true }];
     } else {
-      // Demo baseline slices so "Checklist & berkas siap" is ALWAYS a real, vibrant pie chart
       slices = [
         { id: "demo-tasks", percent: 45, color: "#087f5b" },
         { id: "demo-docs", percent: 30, color: "#10b981" },
@@ -64,22 +68,46 @@ export function OverviewGreeting({
     }
   }
 
+  let prefix = timeGreeting ?? "";
+  let names = coupleNames ?? "";
+  if (!prefix && greeting) {
+    if (greeting.includes(",")) {
+      const idx = greeting.indexOf(",");
+      prefix = greeting.substring(0, idx + 1).trim();
+      names = greeting.substring(idx + 1).trim();
+    } else {
+      prefix = greeting;
+      names = "";
+    }
+  }
+  if (names && !prefix.endsWith(",")) {
+    prefix = `${prefix},`;
+  }
+  if (names && !names.endsWith(".")) {
+    names = `${names}.`;
+  }
+
   return (
     <section className={styles.greetingCard} aria-labelledby="greeting-title">
-      <div className="space-y-2 min-w-0 flex-1">
-        <p className="text-xs text-secondary">{dateContext}</p>
-        <PageHeading
-          id="greeting-title"
-          title={greeting}
-          description="Pantau kesiapan acara, tugas, berkas, anggaran, dan agenda kalian dari satu tempat."
-          headingClassName="font-heading text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground break-normal"
-        />
-        <div className="flex flex-wrap items-center gap-2.5 pt-1">
-          <span className="rounded-full bg-surface border border-ux-border px-3 py-0.5 font-mono text-xs text-brand-secondary">
-            {countdownLabel}
-          </span>
-          <span className="text-xs text-secondary">· {eventDetail}</span>
-        </div>
+      <div className="space-y-1.5 min-w-0 flex-1">
+        <p className={styles.greetingDate}>{dateContext}</p>
+        <h1 id="greeting-title" className={styles.greetingTitle}>
+          <span className={styles.greetingTime}>{prefix}</span>{" "}
+          <span className={styles.greetingNames}>{names}</span>
+        </h1>
+        {callToAction ? (
+          <p className={styles.greetingCta}>
+            <span className="text-brand-secondary text-xs select-none">✦</span>
+            <span>{callToAction}</span>
+          </p>
+        ) : countdownLabel && eventDetail ? (
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <span className="rounded-full bg-surface border border-ux-border px-3 py-0.5 font-mono text-xs text-brand-secondary">
+              {countdownLabel}
+            </span>
+            <span className="text-xs text-secondary">· {eventDetail}</span>
+          </div>
+        ) : null}
       </div>
       <div className={styles.readinessRing}>
         <GiftedDonutChart
@@ -102,7 +130,6 @@ export function OverviewGreeting({
                 : `${displayPercent}% langkah siap`}
           </span>
 
-          {/* Micro Legend Chips */}
           <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-secondary">
             <span className="inline-flex items-center gap-1 font-medium">
               <span className="size-2 rounded-full bg-[#087f5b]" />

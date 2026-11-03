@@ -1,4 +1,4 @@
-[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) {
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]:not([data-dock])) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -13,7 +13,7 @@
   box-shadow: none;
 }
 [data-customer-ui]
-  :is([data-customer-tabs], [role="tablist"])
+  :is([data-customer-tabs], [role="tablist"]:not([data-dock]))
   > :is(button, a, span[aria-current="page"]) {
   display: inline-flex;
   align-items: center;
@@ -37,21 +37,21 @@
   box-shadow: none;
   cursor: pointer;
 }
-[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) > :is(button, a):hover {
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]:not([data-dock])) > :is(button, a):hover {
   background: var(--nav-active);
 }
 [data-customer-ui]
-  :is([data-customer-tabs], [role="tablist"])
+  :is([data-customer-tabs], [role="tablist"]:not([data-dock]))
   > :is(button, a, span):is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"]),
 [data-customer-ui]
-  :is([data-customer-tabs], [role="tablist"])
+  :is([data-customer-tabs], [role="tablist"]:not([data-dock]))
   > :is(button, a):is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"]):hover {
   border-bottom-color: var(--primary);
   background: var(--primary);
   color: var(--on-primary);
   font-weight: 600;
 }
-[data-customer-ui] :is([data-customer-tabs], [role="tablist"]) > :is(button, a):focus-visible {
+[data-customer-ui] :is([data-customer-tabs], [role="tablist"]:not([data-dock])) > :is(button, a):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -60,7 +60,7 @@
 }
 @media (max-width: 640px) {
   [data-customer-ui]
-    :is([data-customer-tabs], [role="tablist"])
+    :is([data-customer-tabs], [role="tablist"]:not([data-dock]))
     > :is(button, a, span[aria-current="page"]) {
     padding-inline: 8px;
     font-size: 12px;

@@ -36,11 +36,19 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   color: var(--secondary);
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .infoButton {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .infoButton:hover,

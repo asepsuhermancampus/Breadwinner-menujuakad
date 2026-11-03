@@ -7,7 +7,7 @@ import { OverviewGreeting } from "@/features/planner-overview/components/overvie
 import { OverviewMetrics } from "@/features/planner-overview/components/overview-metrics";
 import { CustomerStatistics } from "./customer-statistics";
 import { useCustomerEvent } from "./customer-event-context";
-import { getPlan } from "@/features/plans/domain/catalog";
+import { getTimeGreeting } from "../domain/time-greeting";
 import { SubscriptionReminder } from "./subscription-reminder";
 import styles from "./customer-overview.module.css";
 import { PageSkeleton } from "@/components/ui/page-skeleton";
@@ -131,16 +131,16 @@ export function CustomerOverview({
   return (
     <div className={styles.overview}>
       <OverviewGreeting
-        dateContext={new Date().toLocaleDateString("id-ID", {
+        dateContext={`Hari ini, ${new Date().toLocaleDateString("id-ID", {
           weekday: "long",
           day: "numeric",
           month: "long",
           year: "numeric",
           timeZone: "Asia/Jakarta",
-        })}
-        greeting={`Selamat datang, ${name}.`}
-        countdownLabel={event === "wedding" ? "Akad & Resepsi" : "Mode Lamaran"}
-        eventDetail={`Paket ${getPlan(workspace.subscription.planId).label}`}
+        })}`}
+        timeGreeting={getTimeGreeting()}
+        coupleNames={name}
+        callToAction="Mari perbarui dan selesaikan setiap langkah persiapan pernikahan impian kalian."
         readinessPercent={readiness}
         readinessLabel="Checklist & berkas siap"
         tasksAvailable={tasksAvailable}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { PageHeading } from "@/components/ui/page-heading";
+import styles from "./customer-statistics.module.css";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 import type { GuestInvitation } from "@/features/guest-crm/types/guest";
 import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
@@ -65,19 +67,31 @@ export function CustomerStatistics({
     <section className="mt-6 space-y-5 w-full max-w-full min-w-0" aria-label="Statistik perencanaan">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-foreground tracking-tight">
-            Statistik & Analisis Kesiapan
-          </h2>
-          <p className="text-xs text-secondary">
+          <PageHeading
+            id="statistics-heading"
+            level={2}
+            title="Statistik & Analisis Kesiapan"
+            description={
+              <div className="space-y-1.5 text-xs">
+                <p className="font-semibold text-foreground">Tentang Statistik &amp; Analisis Kesiapan</p>
+                <p className="text-secondary leading-relaxed">
+                  Grafik visual interaktif untuk memantau progres persiapan secara real-time. Anda dapat beralih antar-tab bidang dan mengeklik irisan diagram lingkaran untuk memfokuskan rincian di kartu sebelah kanan.
+                </p>
+              </div>
+            }
+            headingClassName="text-sm sm:text-base font-semibold text-foreground tracking-tight"
+          />
+          <p className="text-[11.5px] sm:text-xs text-secondary mt-0.5">
             Pantau tabungan, anggaran, kehadiran tamu, checklist tugas, berkas KUA, dan kesiapan katering secara real-time.
           </p>
         </div>
       </div>
 
-      {/* Tab Switcher Kategori (Style seperti pada Checklist & Tugas) */}
-      <div className="overflow-x-auto app-scroll pb-1 w-full max-w-full min-w-0">
+      {/* Tab Switcher Kategori (Scrollable horizontal, style dock Checklist & Tugas) */}
+      <div className={styles.tabScrollContainer}>
         <div
-          className="inline-flex items-center gap-1 rounded-control bg-ux-dock border border-ux-border p-1 min-w-max"
+          data-dock="true"
+          className={styles.tabDock}
           role="tablist"
           aria-label="Kategori bidang statistik kesiapan"
         >
@@ -89,10 +103,8 @@ export function CustomerStatistics({
               aria-selected={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "customer-control rounded-control px-3 py-1.5 text-xs font-medium transition whitespace-nowrap shrink-0",
-                activeTab === tab.id
-                  ? "bg-surface text-brand-secondary shadow-sm font-semibold"
-                  : "text-secondary hover:text-foreground",
+                styles.tabItem,
+                activeTab === tab.id && styles.tabItemActive,
               )}
             >
               {tab.label}

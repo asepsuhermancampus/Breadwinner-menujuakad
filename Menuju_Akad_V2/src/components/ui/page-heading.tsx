@@ -15,13 +15,21 @@ import { PageHeadingLevel } from "./page-heading-level";
 
 type Props = {
   title: string;
-  description: ReactNode;
+  description?: ReactNode;
   id?: string;
   headingClassName?: string;
+  level?: 1 | 2;
 };
 
-export function PageHeading({ title, description, id, headingClassName }: Props) {
-  const level = useContext(PageHeadingLevel);
+export function PageHeading({
+  title,
+  description,
+  id,
+  headingClassName,
+  level: propLevel,
+}: Props) {
+  const contextLevel = useContext(PageHeadingLevel);
+  const level = propLevel ?? contextLevel;
   const Heading = level === 1 ? "h1" : "h2";
   const [open, setOpen] = useState(false);
   const descriptionId = useId();
@@ -80,20 +88,24 @@ export function PageHeading({ title, description, id, headingClassName }: Props)
       >
         {title}
       </Heading>
-      <button
-        ref={buttonRef}
-        type="button"
-        className={styles.infoButton}
-        aria-label={`Tentang ${title}`}
-        aria-expanded={open}
-        aria-controls={descriptionId}
-        onClick={() => setOpen((current) => !current)}
-      >
-        <Icon name="info" size={18} />
-      </button>
-      <div ref={popoverRef} id={descriptionId} className={styles.popover} hidden={!open}>
-        {description}
-      </div>
+      {description && (
+        <>
+          <button
+            ref={buttonRef}
+            type="button"
+            className={styles.infoButton}
+            aria-label={`Tentang ${title}`}
+            aria-expanded={open}
+            aria-controls={descriptionId}
+            onClick={() => setOpen((current) => !current)}
+          >
+            <Icon name="info" size={18} />
+          </button>
+          <div ref={popoverRef} id={descriptionId} className={styles.popover} hidden={!open}>
+            {description}
+          </div>
+        </>
+      )}
     </div>
   );
 }

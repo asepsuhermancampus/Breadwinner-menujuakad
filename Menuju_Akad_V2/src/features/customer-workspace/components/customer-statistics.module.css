@@ -1,0 +1,61 @@
+.tabScrollContainer {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 4px;
+}
+
+.tabScrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tabDock {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-control, 8px);
+  background-color: var(--ux-dock, #f5f5f4);
+  border: 1px solid var(--ux-border, #e7e5e4);
+  min-width: max-content;
+  width: max-content;
+}
+
+.tabItem {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-control, 6px);
+  border: none;
+  background: transparent;
+  color: var(--secondary, #78716c);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+  .tabItem {
+    font-size: 0.8125rem;
+    padding: 7px 15px;
+  }
+}
+
+.tabItem:hover {
+  color: var(--foreground, #1c1917);
+}
+
+.tabItemActive {
+  background-color: var(--surface, #ffffff) !important;
+  color: var(--brand-secondary, #087f5b) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
