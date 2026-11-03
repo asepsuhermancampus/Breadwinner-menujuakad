@@ -72,11 +72,11 @@ export function CustomerOverview({
   const total = tasks.length + documents.length;
   const readiness =
     !tasksAvailable ||
-    !documentsAvailable ||
-    resources.tasks.data === null ||
-    resources.documents.data === null ||
-    resources.tasks.error ||
-    resources.documents.error
+      !documentsAvailable ||
+      resources.tasks.data === null ||
+      resources.documents.data === null ||
+      resources.tasks.error ||
+      resources.documents.error
       ? null
       : total
         ? Math.round(((completed + readyDocuments) / total) * 100)
@@ -131,7 +131,7 @@ export function CustomerOverview({
   return (
     <div className={styles.overview}>
       <OverviewGreeting
-        dateContext={`Hari ini, ${new Date().toLocaleDateString("id-ID", {
+        dateContext={`Hari ini ${new Date().toLocaleDateString("id-ID", {
           weekday: "long",
           day: "numeric",
           month: "long",

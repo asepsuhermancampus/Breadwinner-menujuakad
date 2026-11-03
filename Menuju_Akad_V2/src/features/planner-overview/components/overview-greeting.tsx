@@ -97,7 +97,6 @@ export function OverviewGreeting({
         </h1>
         {callToAction ? (
           <p className={styles.greetingCta}>
-            <span className="text-brand-secondary text-xs select-none">✦</span>
             <span>{callToAction}</span>
           </p>
         ) : countdownLabel && eventDetail ? (
