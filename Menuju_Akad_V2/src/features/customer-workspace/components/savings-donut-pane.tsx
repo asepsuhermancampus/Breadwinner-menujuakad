@@ -44,11 +44,13 @@ export function SavingsDonutPane({
   const usedColor = OVERVIEW_COLORS.used;
 
   return (
-    <div className="flex flex-col items-center justify-between h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-      <span className="text-xs font-semibold text-foreground mb-2 self-start">
-        Tabungan Tersedia {hasPartner ? "(Bersama)" : "(Pribadi)"}
-      </span>
-      <div className="my-auto py-1">
+    <div className="flex flex-col h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+      <div className="h-5 flex items-center mb-2.5 self-start w-full">
+        <span className="text-xs font-semibold text-foreground truncate">
+          Tabungan Tersedia {hasPartner ? "(Bersama)" : "(Pribadi)"}
+        </span>
+      </div>
+      <div className="w-full flex items-center justify-center shrink-0 py-1">
         <ReuiCapitalInflowsDonut
           slices={slices}
           centerValue={centerValue}
@@ -58,7 +60,7 @@ export function SavingsDonutPane({
           onSelectSlice={setSelectedId}
         />
       </div>
-      <div className="w-full mt-2 space-y-1 text-[11px]">
+      <div className="w-full mt-2.5 flex-1 flex flex-col justify-start space-y-1 text-[11px]">
         {hasPartner ? (
           <>
             <button

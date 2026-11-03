@@ -80,11 +80,13 @@ export function DualSeserahanDonutCard({
                 </span>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-between h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-              <span className="text-xs font-semibold text-foreground mb-2 self-start">
-                Status Pembelian Kotak
-              </span>
-              <div className="my-auto py-1">
+            <div className="flex flex-col h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+              <div className="h-5 flex items-center mb-2.5 self-start w-full">
+                <span className="text-xs font-semibold text-foreground truncate">
+                  Status Pembelian Kotak
+                </span>
+              </div>
+              <div className="w-full flex items-center justify-center shrink-0 py-1">
                 <ReuiCapitalInflowsDonut
                   slices={statusSlices}
                   centerValue={statusCenterValue}
@@ -94,24 +96,30 @@ export function DualSeserahanDonutCard({
                   onSelectSlice={setSelectedId}
                 />
               </div>
-              <div className="w-full mt-2 space-y-1 text-[11px]">
-                {statusSlices.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    data-slice-id={s.id}
-                    onClick={() => toggleSelect(s.id)}
-                    className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
-                  >
-                    <span className="flex items-center gap-1.5 truncate">
-                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                      {s.label}
-                    </span>
-                    <span className="font-mono font-medium text-foreground shrink-0">
-                      {s.amount} Kotak ({s.percent}%)
-                    </span>
-                  </button>
-                ))}
+              <div className="w-full mt-2.5 flex-1 flex flex-col justify-start space-y-1 text-[11px]">
+                {statusSlices.length > 0 ? (
+                  statusSlices.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      data-slice-id={s.id}
+                      onClick={() => toggleSelect(s.id)}
+                      className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
+                    >
+                      <span className="flex items-center gap-1.5 truncate">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
+                        {s.label}
+                      </span>
+                      <span className="font-mono font-medium text-foreground shrink-0">
+                        {s.amount} Kotak ({s.percent}%)
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="py-2 text-center text-secondary text-[11px]">
+                    Belum ada kotak seserahan
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -129,11 +137,13 @@ export function DualSeserahanDonutCard({
                 </span>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-between h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-              <span className="text-xs font-semibold text-foreground mb-2 self-start">
-                Sebaran Kategori Barang
-              </span>
-              <div className="my-auto py-1">
+            <div className="flex flex-col h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+              <div className="h-5 flex items-center mb-2.5 self-start w-full">
+                <span className="text-xs font-semibold text-foreground truncate">
+                  Sebaran Kategori Barang
+                </span>
+              </div>
+              <div className="w-full flex items-center justify-center shrink-0 py-1">
                 <ReuiCapitalInflowsDonut
                   slices={categorySlices}
                   centerValue={categoryCenterValue}
@@ -143,24 +153,30 @@ export function DualSeserahanDonutCard({
                   onSelectSlice={setSelectedId}
                 />
               </div>
-              <div className="w-full mt-2 space-y-1 text-[11px]">
-                {categorySlices.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    data-slice-id={s.id}
-                    onClick={() => toggleSelect(s.id)}
-                    className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
-                  >
-                    <span className="flex items-center gap-1.5 truncate">
-                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                      {s.label}
-                    </span>
-                    <span className="font-mono font-medium text-foreground shrink-0">
-                      {s.amount} Kotak
-                    </span>
-                  </button>
-                ))}
+              <div className="w-full mt-2.5 flex-1 flex flex-col justify-start space-y-1 text-[11px]">
+                {categorySlices.length > 0 ? (
+                  categorySlices.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      data-slice-id={s.id}
+                      onClick={() => toggleSelect(s.id)}
+                      className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
+                    >
+                      <span className="flex items-center gap-1.5 truncate">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
+                        {s.label}
+                      </span>
+                      <span className="font-mono font-medium text-foreground shrink-0">
+                        {s.amount} Kotak
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="py-2 text-center text-secondary text-[11px]">
+                    Belum ada kategori barang
+                  </div>
+                )}
               </div>
             </div>
           </div>
