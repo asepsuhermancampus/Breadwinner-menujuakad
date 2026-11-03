@@ -92,57 +92,60 @@ export function DualBudgetDonutCard({
           )}
         </div>
 
-        {/* Metrics Headline: Anggaran & Tabungan */}
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pb-2">
-          <div>
-            <span className="text-[11px] text-secondary font-medium">Tabungan Tersedia</span>
-            <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
-              <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
-                Rp {availableSavings.toLocaleString("id-ID")}
-              </span>
-              {badgeText && (
-                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-                  <ArrowUpRight size={11} />
-                  {badgeText}
+        {/* Dual Donut Columns (Headline + Donut) */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 md:grid-rows-[auto_1fr] gap-5 md:gap-6 items-stretch">
+          {/* Kolom 1: Tabungan Tersedia */}
+          <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
+            <div>
+              <span className="text-[11px] text-secondary font-medium">Tabungan Tersedia</span>
+              <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
+                <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
+                  Rp {availableSavings.toLocaleString("id-ID")}
                 </span>
+                {badgeText && (
+                  <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                    <ArrowUpRight size={11} />
+                    {badgeText}
+                  </span>
+                )}
+              </div>
+              {badgeSubtext && (
+                <span className="text-[10px] text-secondary block mt-0.5">{badgeSubtext}</span>
               )}
             </div>
-            {badgeSubtext && (
-              <span className="text-[10px] text-secondary block mt-0.5">{badgeSubtext}</span>
-            )}
+            <SavingsDonutPane
+              hasPartner={hasPartner}
+              partnerNames={partnerNames}
+              ownerSide={ownerSide}
+              userSavings={userSavings}
+              partnerSavings={partnerSavings}
+              availableSavings={availableSavings}
+              usedForBudget={usedForBudget}
+              slices={savingsSlices}
+              centerValue={savingsCenterValue}
+              centerLabel={savingsCenterLabel}
+            />
           </div>
-          <div>
-            <span className="text-[11px] text-secondary font-medium">Total Target Anggaran</span>
-            <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
-              Rp {totalBudget.toLocaleString("id-ID")}
-            </div>
-          </div>
-        </div>
 
-        {/* Dual Donut Charts */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-stretch pt-2 border-t border-ux-border/40">
-          <SavingsDonutPane
-            hasPartner={hasPartner}
-            partnerNames={partnerNames}
-            ownerSide={ownerSide}
-            userSavings={userSavings}
-            partnerSavings={partnerSavings}
-            availableSavings={availableSavings}
-            usedForBudget={usedForBudget}
-            slices={savingsSlices}
-            centerValue={savingsCenterValue}
-            centerLabel={savingsCenterLabel}
-          />
-          <BudgetDonutPane
-            paidBudget={paidBudget}
-            overdueBudget={overdueBudget}
-            dueTodayBudget={dueTodayBudget}
-            dueSoonBudget={dueSoonBudget}
-            unpaidRegularBudget={unpaidRegularBudget}
-            slices={budgetSlices}
-            centerValue={budgetCenterValue}
-            centerLabel={budgetCenterLabel}
-          />
+          {/* Kolom 2: Total Target Anggaran */}
+          <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
+            <div>
+              <span className="text-[11px] text-secondary font-medium">Total Target Anggaran</span>
+              <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                Rp {totalBudget.toLocaleString("id-ID")}
+              </div>
+            </div>
+            <BudgetDonutPane
+              paidBudget={paidBudget}
+              overdueBudget={overdueBudget}
+              dueTodayBudget={dueTodayBudget}
+              dueSoonBudget={dueSoonBudget}
+              unpaidRegularBudget={unpaidRegularBudget}
+              slices={budgetSlices}
+              centerValue={budgetCenterValue}
+              centerLabel={budgetCenterLabel}
+            />
+          </div>
         </div>
       </div>
 
