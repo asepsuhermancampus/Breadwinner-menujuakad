@@ -1,28 +1,23 @@
 "use client";
 
-import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
+import type { GuestInvitation } from "@/features/guest-crm/types/guest";
+import type { PlannerTask } from "@/features/planner-tasks/types/tasks";
 import type { OverviewResources } from "../hooks/use-overview-resources";
-import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
-import { DualBudgetDonutCard } from "./dual-budget-donut-card";
-import { BudgetStatusScrollCard } from "./budget-status-scroll-card";
-import { categorizeBudgets } from "../domain/budget-due-status";
-import {
-  buildOverviewSavingsSlices,
-  buildOverviewBudgetSlices,
-} from "../domain/overview-donut-slices";
+import { CustomerFinanceStatistics } from "./customer-finance-statistics";
+import { CustomerGuestStatistics } from "./customer-guest-statistics";
 
 type StatisticsProps = {
-  tasks?: PlannerTask[];
+  tasks?: PlannerTask[] | undefined;
   resources: OverviewResources;
-  savingsAmount?: number;
-  financeBalances?: { groom: number; bride: number; total: number };
-  hasPartner?: boolean;
-  partnerNames?: { user: string; partner: string };
-  ownerSide?: "groom" | "bride";
-  tasksAvailable?: boolean;
-  financeAvailable?: boolean;
-  guestsAvailable?: boolean;
+  savingsAmount?: number | undefined;
+  financeBalances?: { groom: number; bride: number; total: number } | undefined;
+  hasPartner?: boolean | undefined;
+  partnerNames?: { user: string; partner: string } | undefined;
+  ownerSide?: "groom" | "bride" | undefined;
+  tasksAvailable?: boolean | undefined;
+  financeAvailable?: boolean | undefined;
+  guestsAvailable?: boolean | undefined;
 };
 
 export function CustomerStatistics({
@@ -33,125 +28,44 @@ export function CustomerStatistics({
   partnerNames = { user: "Saya", partner: "Pasangan" },
   ownerSide = "groom",
   financeAvailable = true,
+  guestsAvailable = true,
 }: StatisticsProps) {
-  const financeData = (resources.finance.data ?? []) as CustomerBudget[];
-
-  // 1. Data Anggaran Real-time (5 Kategori: Lunas, Lewat Tenggat, Tenggat Hari Ini, Mendekati Tenggat, Belum Bayar)
-  const categorized = categorizeBudgets(financeData);
-  const totalFinanceAmount = categorized.total;
-  const paidAmount = categorized.paid;
-  const overdueAmount = categorized.overdue;
-  const dueTodayAmount = categorized.dueToday;
-  const dueSoonAmount = categorized.dueSoon;
-  const unpaidRegularAmount = categorized.unpaidRegular;
-  const totalUnpaid = overdueAmount + dueTodayAmount + dueSoonAmount + unpaidRegularAmount;
-
-  // 2. Data Tabungan & Pembagian Sisi
-  const isBride = ownerSide === "bride";
-  const userSavings = isBride
-    ? (financeBalances?.bride ?? savingsAmount)
-    : (financeBalances?.groom ?? savingsAmount);
-  const partnerSavings = isBride
-    ? (financeBalances?.groom ?? 0)
-    : (financeBalances?.bride ?? 0);
-  const availableSavings =
-    financeBalances?.total ?? savingsAmount ?? (userSavings + partnerSavings);
-
-  const totalSavingsPool = Math.max(availableSavings + paidAmount, availableSavings);
-
-  // 2. Irisan Donut Tabungan Tersedia
-  const {
-    slices: savingsSlices,
-    centerValue: savingsCenterValue,
-    centerLabel: savingsCenterLabel,
-  } = buildOverviewSavingsSlices({
-    hasPartner,
-    isBride,
-    partnerNames,
-    availableSavings,
-    userSavings,
-    partnerSavings,
-    paidAmount,
-    totalSavingsPool,
-  });
-
-  // 3. Irisan Donut Target Anggaran
-  const {
-    slices: budgetSlices,
-    centerValue: budgetCenterValue,
-    centerLabel: budgetCenterLabel,
-  } = buildOverviewBudgetSlices({
-    totalFinanceAmount,
-    paidAmount,
-    overdueAmount,
-    dueTodayAmount,
-    dueSoonAmount,
-    unpaidRegularAmount,
-  });
-
-  const badgeText =
-    totalFinanceAmount > 0
-      ? categorized.paidCount === financeData.length
-        ? "Semua Pos Lunas"
-        : categorized.overdueCount > 0
-          ? `${categorized.overdueCount} Pos Lewat Tenggat`
-          : categorized.dueTodayCount > 0
-            ? `${categorized.dueTodayCount} Pos Tenggat Hari Ini`
-            : categorized.dueSoonCount > 0
-              ? `${categorized.dueSoonCount} Pos Perlu Segera Dibayar`
-              : availableSavings >= totalUnpaid && totalUnpaid > 0
-                ? "Tabungan Mencukupi"
-                : `${categorized.paidCount}/${financeData.length} Pos Terbayar`
-      : availableSavings > 0
-        ? "Kas Siap Alokasi"
-        : undefined;
+  const financeData = (resources.finance?.data ?? []) as CustomerBudget[];
+  const guestData = (resources.guests?.data ?? []) as GuestInvitation[];
 
   return (
-    <section className="mt-6 space-y-4" aria-label="Statistik perencanaan">
+    <section className="mt-6 space-y-6" aria-label="Statistik perencanaan">
       <div>
         <h2 className="text-base font-semibold text-foreground tracking-tight">
           Statistik & Analisis Kesiapan
         </h2>
         <p className="text-xs text-secondary">
-          Pantau tabungan tersedia, status pembayaran anggaran, dan rincian alokasi biaya pernikahan kalian.
+          Pantau tabungan bersama, alokasi anggaran, dan konfirmasi kehadiran tamu undangan kalian secara real-time.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start">
-        {/* Card Kiri: 2 Pie Chart (Tabungan Tersedia & Target Anggaran) */}
-        <DualBudgetDonutCard
-          className="xl:col-span-2"
-          availableSavings={availableSavings}
-          savingsSlices={savingsSlices}
-          savingsCenterValue={savingsCenterValue}
-          savingsCenterLabel={savingsCenterLabel}
+      {/* Baris 1: Kesiapan Finansial & Anggaran */}
+      {financeAvailable && (
+        <CustomerFinanceStatistics
+          financeData={financeData}
+          savingsAmount={savingsAmount}
+          financeBalances={financeBalances}
           hasPartner={hasPartner}
           partnerNames={partnerNames}
           ownerSide={ownerSide}
-          userSavings={userSavings}
-          partnerSavings={partnerSavings}
-          usedForBudget={paidAmount}
-          totalBudget={totalFinanceAmount}
-          paidBudget={paidAmount}
-          overdueBudget={overdueAmount}
-          dueTodayBudget={dueTodayAmount}
-          dueSoonBudget={dueSoonAmount}
-          unpaidRegularBudget={unpaidRegularAmount}
-          budgetSlices={budgetSlices}
-          budgetCenterValue={budgetCenterValue}
-          budgetCenterLabel={budgetCenterLabel}
-          badgeText={badgeText}
-          manageHref={financeAvailable ? "/planner/finance" : undefined}
-        />
-
-        {/* Card Kanan: Detail Anggaran Scrollable (Menggantikan RSVP) */}
-        <BudgetStatusScrollCard
-          className="xl:col-span-1"
-          budgets={financeData}
           financeAvailable={financeAvailable}
-          manageHref={financeAvailable ? "/planner/finance" : undefined}
         />
-      </div>
+      )}
+
+      {/* Baris 2: Kesiapan Tamu & RSVP */}
+      {guestsAvailable && (
+        <CustomerGuestStatistics
+          guestData={guestData}
+          partnerNames={partnerNames}
+          ownerSide={ownerSide}
+          guestsAvailable={guestsAvailable}
+        />
+      )}
     </section>
   );
 }
