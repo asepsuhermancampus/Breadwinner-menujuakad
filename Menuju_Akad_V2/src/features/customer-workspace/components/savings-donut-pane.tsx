@@ -4,7 +4,6 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { ReuiCapitalInflowsDonut } from "@/components/ui/reui-capital-inflows-donut";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
-import { DonutSliceFocusCard } from "./donut-slice-focus-card";
 import { OVERVIEW_COLORS } from "../domain/overview-donut-slices";
 
 export type SavingsPaneProps = {
@@ -47,55 +46,11 @@ export function SavingsDonutPane({
   const toggleSelect = (id: string) =>
     setSelectedId((prev) => (prev === id ? null : id));
 
-  const fallbackSlice: DonutSlice | undefined = selectedId
-    ? {
-        id: selectedId,
-        label:
-          selectedId === "user"
-            ? partnerNames.user
-            : selectedId === "partner"
-              ? partnerNames.partner
-              : selectedId === "used"
-                ? "Terpakai Bayar Anggaran"
-                : "Tabungan Kalian",
-        percent: 0,
-        color:
-          selectedId === "user"
-            ? userColor
-            : selectedId === "partner"
-              ? partnerColor
-              : selectedId === "used"
-                ? usedColor
-                : userColor,
-        amount:
-          selectedId === "user"
-            ? userSavings
-            : selectedId === "partner"
-              ? partnerSavings
-              : selectedId === "used"
-                ? usedForBudget
-                : availableSavings,
-        purpose:
-          selectedId === "used"
-            ? "Alokasi tabungan yang telah terealisasi untuk membayar dan melunasi pos anggaran kebutuhan acara."
-            : selectedId === "user"
-              ? `Alokasi simpanan dari pihak ${isUserBride ? "wanita" : "pria"} (${partnerNames.user}) untuk mendanai pembiayaan acara pernikahan.`
-              : selectedId === "partner"
-                ? `Alokasi simpanan dari pihak ${isUserBride ? "pria" : "wanita"} (${partnerNames.partner}) untuk mendanai pembiayaan acara pernikahan.`
-                : "Total tabungan aktif yang siap digunakan untuk membayar kewajiban anggaran acara.",
-      }
-    : undefined;
-
-  const focusedSlice = slices.find((s) => s.id === selectedId) ?? fallbackSlice;
-
   return (
     <div className="flex flex-col items-center p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-      <div className="w-full flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold text-foreground">
-          Tabungan Tersedia {hasPartner ? "(Bersama)" : "(Pribadi)"}
-        </span>
-        <span className="text-[10px] text-muted-foreground">Klik diagram utk fokus</span>
-      </div>
+      <span className="text-xs font-semibold text-foreground mb-3 self-start">
+        Tabungan Tersedia {hasPartner ? "(Bersama)" : "(Pribadi)"}
+      </span>
       <ReuiCapitalInflowsDonut
         slices={slices}
         centerValue={centerValue}
@@ -110,7 +65,7 @@ export function SavingsDonutPane({
             <button
               type="button"
               onClick={() => toggleSelect("user")}
-              className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors"
+              className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
             >
               <span className="flex items-center gap-1.5 truncate">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
@@ -123,7 +78,7 @@ export function SavingsDonutPane({
             <button
               type="button"
               onClick={() => toggleSelect("partner")}
-              className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors"
+              className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
             >
               <span className="flex items-center gap-1.5 truncate">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: partnerColor }} />
@@ -138,7 +93,7 @@ export function SavingsDonutPane({
           <button
             type="button"
             onClick={() => toggleSelect("available")}
-            className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors"
+            className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
           >
             <span className="flex items-center gap-1.5 truncate">
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: userColor }} />
@@ -153,7 +108,7 @@ export function SavingsDonutPane({
           <button
             type="button"
             onClick={() => toggleSelect("used")}
-            className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors pt-1 border-t border-ux-border/40"
+            className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors pt-1 border-t border-ux-border/40 focus:outline-none"
           >
             <span className="flex items-center gap-1.5 truncate">
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: usedColor }} />
@@ -165,10 +120,6 @@ export function SavingsDonutPane({
           </button>
         )}
       </div>
-
-      {focusedSlice && (
-        <DonutSliceFocusCard slice={focusedSlice} onClose={() => setSelectedId(null)} />
-      )}
     </div>
   );
 }

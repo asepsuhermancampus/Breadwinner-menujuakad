@@ -78,8 +78,8 @@ export function ReuiCapitalInflowsDonut({
 
   return (
     <div
-      className="relative inline-flex items-center justify-center shrink-0"
-      style={{ width: size, height: size }}
+      className="relative inline-flex items-center justify-center shrink-0 outline-none select-none"
+      style={{ width: size, height: size, outline: "none" }}
       role="img"
       aria-label={`Distribusi: ${displayCenterValue} - ${displayCoverageLabel}`}
     >
@@ -87,7 +87,8 @@ export function ReuiCapitalInflowsDonut({
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
-        className="rotate-[-90deg] overflow-visible"
+        className="rotate-[-90deg] overflow-visible outline-none focus:outline-none"
+        style={{ outline: "none" }}
       >
         <defs>
           <pattern
@@ -139,19 +140,13 @@ export function ReuiCapitalInflowsDonut({
               strokeDashoffset={dashOffset}
               fill="none"
               opacity={opacity}
+              pointerEvents={onSelectSlice ? "stroke" : "none"}
               onClick={() => onSelectSlice?.(isSelected ? null : slice.id)}
               className={cn(
-                "transition-all duration-300",
+                "transition-all duration-300 outline-none select-none",
                 onSelectSlice && "cursor-pointer hover:opacity-90",
               )}
-              role={onSelectSlice ? "button" : undefined}
-              tabIndex={onSelectSlice ? 0 : undefined}
-              onKeyDown={(e) => {
-                if (onSelectSlice && (e.key === "Enter" || e.key === " ")) {
-                  e.preventDefault();
-                  onSelectSlice(isSelected ? null : slice.id);
-                }
-              }}
+              style={{ outline: "none" }}
               aria-label={slice.label ? `${slice.label}: ${slice.percent}%` : undefined}
             />
           );
