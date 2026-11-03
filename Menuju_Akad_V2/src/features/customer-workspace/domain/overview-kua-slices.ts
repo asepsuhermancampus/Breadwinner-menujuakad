@@ -50,7 +50,7 @@ export function buildOverviewKuaPartySlices(
   total: number,
   completed: number,
   partyLabel: string,
-  baseColor = "#0284c7",
+  baseColor = "#059669",
 ): { slices: DonutSlice[]; centerValue: string; centerLabel: string } {
   if (total <= 0) {
     return { slices: [], centerValue: "0%", centerLabel: partyLabel };

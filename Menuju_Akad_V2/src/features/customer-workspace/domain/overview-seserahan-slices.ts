@@ -78,7 +78,7 @@ export function buildOverviewSeserahanCategorySlices(items: SeserahanItem[]): {
     catMap.set(cat, (catMap.get(cat) ?? 0) + 1);
   }
 
-  const colors = ["#0284c7", "#ec4899", "#8b5cf6", "#0d9488", "#eab308", "#64748b"];
+  const colors = ["#059669", "#0284c7", "#ec4899", "#d97706", "#0d9488", "#64748b"];
   const slices: DonutSlice[] = [];
   let idx = 0;
 

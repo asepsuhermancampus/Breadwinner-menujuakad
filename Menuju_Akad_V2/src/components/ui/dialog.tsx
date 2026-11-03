@@ -10,12 +10,21 @@ type Props = {
   open: boolean;
   onClose: () => void;
   title: string;
+  hideTitle?: boolean;
   children: ReactNode;
   side?: boolean;
   className?: string | undefined;
 };
 
-export function Dialog({ open, onClose, title, children, side = false, className }: Props) {
+export function Dialog({
+  open,
+  onClose,
+  title,
+  hideTitle = false,
+  children,
+  side = false,
+  className,
+}: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
 
@@ -85,8 +94,14 @@ export function Dialog({ open, onClose, title, children, side = false, className
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="flex items-center justify-between gap-4">
-        <h2 id={titleId} className="text-xl font-semibold leading-none text-foreground">
+      <div className={cn("flex items-center justify-between gap-4", hideTitle && "justify-end")}>
+        <h2
+          id={titleId}
+          className={cn(
+            "text-xl font-semibold leading-none text-foreground",
+            hideTitle && "sr-only",
+          )}
+        >
           {title}
         </h2>
         <Button
@@ -99,7 +114,7 @@ export function Dialog({ open, onClose, title, children, side = false, className
           <X size={18} aria-hidden="true" />
         </Button>
       </div>
-      <div className="mt-5">{children}</div>
+      <div className={cn("mt-5", hideTitle && "mt-1")}>{children}</div>
     </dialog>
   );
 }

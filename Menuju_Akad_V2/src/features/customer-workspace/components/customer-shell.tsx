@@ -94,6 +94,7 @@ export function CustomerShell({
         <div className={styles.dockRegion}>
           <CustomerSidebar
             availability={navigationAvailability}
+            plan={getPlan(access.workspace.subscription.planId).label}
             compact={compact || narrow}
             toggle={() => {
               setCompact(!(compact || narrow));
@@ -104,12 +105,12 @@ export function CustomerShell({
         <div data-app-canvas className={styles.canvas}>
           <WorkspaceHeader
             availability={navigationAvailability}
+            plan={getPlan(access.workspace.subscription.planId).label}
             onOpenMenu={() => setOpen(true)}
             name={identities[0]?.name || "Ruang kalian"}
             partnerName={identities[1]?.name || null}
             photoUrl={identities[0]?.photoUrl}
             partnerPhotoUrl={identities[1]?.photoUrl}
-            plan={getPlan(access.workspace.subscription.planId).label}
           />
           <main id="main-content" tabIndex={-1} className={cn("app-scroll", styles.body)}>
             <CustomerFeatureLayout availability={navigationAvailability}>
@@ -117,11 +118,12 @@ export function CustomerShell({
             </CustomerFeatureLayout>
           </main>
         </div>
-        <Dialog open={open} onClose={() => setOpen(false)} title="Ruang rencana kalian" side>
+        <Dialog open={open} onClose={() => setOpen(false)} title="Navigasi Menu" hideTitle side>
           <CustomerSidebar
             close={() => setOpen(false)}
             mobile
             availability={navigationAvailability}
+            plan={getPlan(access.workspace.subscription.planId).label}
           />
         </Dialog>
         {access.mode === "account" && access.workspace.role === "owner" && (

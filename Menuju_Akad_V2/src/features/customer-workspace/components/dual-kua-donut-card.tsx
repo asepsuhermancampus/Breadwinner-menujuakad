@@ -70,7 +70,7 @@ export function DualKuaDonutCard({
                 Berkas Wajib Utama
               </span>
               <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
-                <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-sky-700 dark:text-sky-400">
+                <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
                   {c.mainCompleted}
                   <span className="text-sm font-normal text-secondary ml-1">
                     / {c.mainTotal} Siap
@@ -90,7 +90,7 @@ export function DualKuaDonutCard({
               totalCount={c.mainTotal}
               slices={mainSlices}
               centerValue={mainCenterValue}
-              color="#0284c7"
+              color="#059669"
             />
           </div>
 
@@ -101,7 +101,7 @@ export function DualKuaDonutCard({
                 Berkas Bersyarat / Khusus
               </span>
               <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
-                <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-purple-700 dark:text-purple-400">
+                <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                   {c.additionalCompleted}
                   <span className="text-sm font-normal text-secondary ml-1">
                     / {c.additionalTotal} Siap
@@ -115,7 +115,7 @@ export function DualKuaDonutCard({
               totalCount={c.additionalTotal}
               slices={additionalSlices}
               centerValue={additionalCenterValue}
-              color="#8b5cf6"
+              color="#0d9488"
             />
           </div>
         </div>

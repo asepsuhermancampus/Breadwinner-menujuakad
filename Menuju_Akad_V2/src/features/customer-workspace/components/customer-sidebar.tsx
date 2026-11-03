@@ -2,40 +2,24 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, Sparkles } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import { customerNavigation } from "./customer-navigation";
 import { customerNavigationActive } from "../domain/feature-groups";
-import {
-  isAvailableFeaturePath,
-  defaultFeatureAvailability,
-  availableNavigationDestination,
-  type FeatureAvailability,
-} from "../domain/feature-availability-catalog";
+import { isAvailableFeaturePath, defaultFeatureAvailability, availableNavigationDestination, type FeatureAvailability } from "../domain/feature-availability-catalog";
 import styles from "./customer-sidebar.module.css";
 
 function Glyph({ name, label }: { name: string; label: string }) {
   return (
-    <span
-      aria-hidden="true"
-      className={styles.glyph}
-      style={{ maskImage: `url(/assets/icons/sidebar/${name}.svg)` }}
-      title={label}
-    />
+    <span aria-hidden="true" className={styles.glyph} style={{ maskImage: `url(/assets/icons/sidebar/${name}.svg)` }} title={label} />
   );
 }
 
-type SidebarProps = {
-  close?: () => void;
-  compact?: boolean;
-  toggle?: () => void;
-  mobile?: boolean;
-  availability?: FeatureAvailability;
-};
+type SidebarProps = { close?: () => void; compact?: boolean; toggle?: () => void; mobile?: boolean; availability?: FeatureAvailability; plan?: string; };
 
 export function CustomerSidebar({
-  close, compact = false, toggle, mobile = false, availability = defaultFeatureAvailability(true),
+  close, compact = false, toggle, mobile = false, availability = defaultFeatureAvailability(true), plan,
 }: SidebarProps) {
   const pathname = usePathname();
   const [userToggledGroups, setUserToggledGroups] = useState<Record<string, boolean>>({});
@@ -52,15 +36,27 @@ export function CustomerSidebar({
         aria-label="Navigasi ruang bersama"
       >
         <header className={styles.brand}>
-          <Link href="/" aria-label="Menuju Akad">
-            <BrandLogo
-              variant="cypress"
-              width={compact ? 32 : 48}
-              height={compact ? 15 : 23}
-              className="h-auto shrink-0"
-            />
-            {!compact && <span>Menuju Akad</span>}
-          </Link>
+          <div className="flex items-center justify-between gap-2">
+            <Link href="/" aria-label="Menuju Akad">
+              <BrandLogo
+                variant="cypress"
+                width={compact ? 32 : 48}
+                height={compact ? 15 : 23}
+                className="h-auto shrink-0"
+              />
+              {!compact && <span>Menuju Akad</span>}
+            </Link>
+            {mobile && plan && (
+              <Link
+                href="/account/plans"
+                onClick={navigate}
+                className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-500/30 shrink-0"
+              >
+                <Sparkles size={11} className="text-emerald-600 dark:text-emerald-400" />
+                <span>{plan}</span>
+              </Link>
+            )}
+          </div>
         </header>
         <button
           className={styles.toggle}

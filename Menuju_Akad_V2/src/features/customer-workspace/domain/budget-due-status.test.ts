@@ -9,7 +9,8 @@ import type { CustomerBudget } from "@/features/planner-finance/types/customer-b
 
 describe("budget-due-status", () => {
   const today = new Date();
-  const formatISO = (date: Date) => date.toISOString().split("T")[0]!;
+  const formatISO = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   const in3Days = new Date(today);
   in3Days.setDate(in3Days.getDate() + 3);

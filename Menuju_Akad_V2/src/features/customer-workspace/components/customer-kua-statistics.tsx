@@ -24,12 +24,12 @@ export function CustomerKuaStatistics({
   const {
     slices: mainSlices,
     centerValue: mainCenterValue,
-  } = buildOverviewKuaPartySlices(c.mainTotal, c.mainCompleted, "Berkas Utama", "#0284c7");
+  } = buildOverviewKuaPartySlices(c.mainTotal, c.mainCompleted, "Berkas Utama", "#059669");
 
   const {
     slices: additionalSlices,
     centerValue: additionalCenterValue,
-  } = buildOverviewKuaPartySlices(c.additionalTotal, c.additionalCompleted, "Berkas Khusus", "#8b5cf6");
+  } = buildOverviewKuaPartySlices(c.additionalTotal, c.additionalCompleted, "Berkas Khusus", "#0d9488");
 
   const badgeText =
     c.totalDocs > 0

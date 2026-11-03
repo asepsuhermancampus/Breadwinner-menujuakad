@@ -33,7 +33,7 @@ export function WorkspaceShell({
           {children}
         </main>
       </div>
-      <Dialog open={mobile} onClose={() => setMobile(false)} title="Ruang rencana kalian" side>
+      <Dialog open={mobile} onClose={() => setMobile(false)} title="Ruang rencana kalian" hideTitle side>
         <WorkspaceDock
           compact={false}
           toggle={() => setMobile(false)}

@@ -127,7 +127,7 @@ export function buildOverviewTaskPicSlices(
   if (togetherPercent > 0) {
     slices.push({
       id: "pic-together", label: "Tugas Bersama", percent: togetherPercent,
-      amount: c.picTogetherCount, color: "#8b5cf6",
+      amount: c.picTogetherCount, color: "#059669",
     });
   }
 

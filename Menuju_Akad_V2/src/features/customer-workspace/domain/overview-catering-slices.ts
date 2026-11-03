@@ -46,14 +46,14 @@ export function buildCateringDonutSlices(
       label: "Porsi Prasmanan",
       percent: buffetPortionPercent,
       amount: result.buffetPax,
-      color: "#0d9488", // teal-600
+      color: "#059669", // emerald-600 (matches ratioSlices buffet)
     },
     {
       id: "stall-portions",
       label: "Porsi Gubukan",
       percent: stallPortionPercent,
       amount: result.stallPortionsTotal,
-      color: "#8b5cf6", // purple-500
+      color: "#f59e0b", // amber-500 (matches ratioSlices stall)
     },
   ];
 

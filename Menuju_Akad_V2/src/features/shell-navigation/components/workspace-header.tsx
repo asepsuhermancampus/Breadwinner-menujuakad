@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { CommandPalette } from "./command-palette";
@@ -27,15 +28,6 @@ export function WorkspaceHeader({
   const displayName = partnerName ? `${name} & ${partnerName}` : name;
   return (
     <header className={styles.topbar}>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={styles.mobileMenu}
-        aria-label="Buka navigasi"
-        onClick={onOpenMenu}
-      >
-        <Icon name="panel-left-open" />
-      </Button>
       <div className={styles.identity}>
         <span className={styles.avatars}>
           <WorkspaceAvatar name={name} photoUrl={photoUrl} />
@@ -52,6 +44,15 @@ export function WorkspaceHeader({
           <Icon name="sparkles" size={16} />
           {plan}
         </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={styles.mobileMenu}
+          aria-label="Buka navigasi"
+          onClick={onOpenMenu}
+        >
+          <Menu size={20} />
+        </Button>
       </div>
     </header>
   );
