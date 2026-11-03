@@ -71,7 +71,7 @@ export const customerNavigation: { title: string; items: CustomerNavigationItem[
         href: "/planner/invitations",
         icon: "envelope-open",
         children: [
-          { label: "Undangan", href: "/planner/invitations" },
+          { label: "Template Undangan", href: "/planner/invitations" },
           { label: "Studio visual", href: "/planner/invitations/studio" },
         ],
       },

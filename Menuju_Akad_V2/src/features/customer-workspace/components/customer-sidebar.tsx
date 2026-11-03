@@ -133,7 +133,7 @@ export function CustomerSidebar({
                             {item.children
                               .filter(
                                 (child) =>
-                                  child.href !== destination &&
+                                  
                                   isAvailableFeaturePath(child.href, availability),
                               )
                               .map((child) => {
