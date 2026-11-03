@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Receipt, ArrowUpRight, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
+import { Receipt, ArrowUpRight, CheckCircle2, Clock, AlertTriangle, AlertCircle, Zap } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
-import { isBudgetDueSoon } from "../domain/budget-due-status";
+import { getBudgetDueCategory } from "../domain/budget-due-status";
 import { BudgetStatusItem } from "./budget-status-item";
 
 type BudgetStatusScrollCardProps = {
@@ -15,7 +15,7 @@ type BudgetStatusScrollCardProps = {
   className?: string | undefined;
 };
 
-type FilterTab = "all" | "dueSoon" | "unpaid" | "paid";
+type FilterTab = "all" | "overdue" | "dueToday" | "dueSoon" | "unpaid" | "paid";
 
 export function BudgetStatusScrollCard({
   budgets,
@@ -26,25 +26,29 @@ export function BudgetStatusScrollCard({
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
 
   const paidBudgets = budgets.filter((b) => b.completed);
-  const dueSoonBudgets = budgets.filter((b) => !b.completed && isBudgetDueSoon(b));
-  const unpaidRegularBudgets = budgets.filter((b) => !b.completed && !isBudgetDueSoon(b));
+  const overdueBudgets = budgets.filter((b) => !b.completed && getBudgetDueCategory(b) === "overdue");
+  const dueTodayBudgets = budgets.filter((b) => !b.completed && getBudgetDueCategory(b) === "dueToday");
+  const dueSoonBudgets = budgets.filter((b) => !b.completed && getBudgetDueCategory(b) === "dueSoon");
+  const unpaidRegularBudgets = budgets.filter((b) => !b.completed && getBudgetDueCategory(b) === "unpaid");
   const totalUnpaid = budgets.filter((b) => !b.completed);
+  const urgentCount = overdueBudgets.length + dueTodayBudgets.length + dueSoonBudgets.length;
 
   const filteredBudgets =
     activeTab === "paid"
       ? paidBudgets
-      : activeTab === "dueSoon"
-        ? dueSoonBudgets
-        : activeTab === "unpaid"
-          ? unpaidRegularBudgets
-          : budgets;
+      : activeTab === "overdue"
+        ? overdueBudgets
+        : activeTab === "dueToday"
+          ? dueTodayBudgets
+          : activeTab === "dueSoon"
+            ? dueSoonBudgets
+            : activeTab === "unpaid"
+              ? unpaidRegularBudgets
+              : budgets;
 
   return (
     <div
-      className={cn(
-        "bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs",
-        className,
-      )}
+      className={cn("bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs", className)}
       aria-label="Detail status anggaran pembayaran"
     >
       <div>
@@ -58,7 +62,7 @@ export function BudgetStatusScrollCard({
               <h3 className="text-sm font-semibold text-foreground">Detail Anggaran</h3>
               <p className="text-xs text-secondary">
                 {paidBudgets.length} lunas · {totalUnpaid.length} belum bayar
-                {dueSoonBudgets.length > 0 && ` (${dueSoonBudgets.length} segera)`}
+                {urgentCount > 0 && ` (${urgentCount} perlu perhatian)`}
               </p>
             </div>
           </div>
@@ -86,6 +90,34 @@ export function BudgetStatusScrollCard({
           >
             Semua ({budgets.length})
           </button>
+          {overdueBudgets.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveTab("overdue")}
+              className={cn(
+                "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
+                activeTab === "overdue"
+                  ? "bg-red-500/15 text-red-800 dark:text-red-300 font-semibold"
+                  : "text-red-600/80 hover:text-red-700",
+              )}
+            >
+              <AlertCircle size={10} /> Lewat ({overdueBudgets.length})
+            </button>
+          )}
+          {dueTodayBudgets.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveTab("dueToday")}
+              className={cn(
+                "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
+                activeTab === "dueToday"
+                  ? "bg-orange-500/15 text-orange-800 dark:text-orange-300 font-semibold"
+                  : "text-orange-600/80 hover:text-orange-700",
+              )}
+            >
+              <Zap size={10} /> Hari Ini ({dueTodayBudgets.length})
+            </button>
+          )}
           {dueSoonBudgets.length > 0 && (
             <button
               type="button"
@@ -93,8 +125,8 @@ export function BudgetStatusScrollCard({
               className={cn(
                 "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
                 activeTab === "dueSoon"
-                  ? "bg-rose-500/15 text-rose-800 dark:text-rose-300 font-semibold"
-                  : "text-rose-600/80 hover:text-rose-700",
+                  ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold"
+                  : "text-amber-600/80 hover:text-amber-700",
               )}
             >
               <AlertTriangle size={10} /> Segera ({dueSoonBudgets.length})
@@ -106,7 +138,7 @@ export function BudgetStatusScrollCard({
             className={cn(
               "px-2 py-0.5 rounded transition-all inline-flex items-center gap-1 whitespace-nowrap",
               activeTab === "unpaid"
-                ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold"
+                ? "bg-slate-500/15 text-slate-800 dark:text-slate-300 font-semibold"
                 : "text-secondary hover:text-foreground",
             )}
           >
@@ -133,22 +165,18 @@ export function BudgetStatusScrollCard({
               <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
             ))
           ) : (
-            <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1.5 my-2">
+            <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-2">
               <p className="font-semibold text-foreground">
                 {budgets.length === 0
                   ? "Belum ada pos anggaran"
                   : activeTab === "paid"
                     ? "Belum ada pos yang ditandai lunas"
-                    : activeTab === "dueSoon"
-                      ? "Tidak ada pos yang mendekati tenggat"
-                      : "Semua pos anggaran sudah dibayar!"}
+                    : "Tidak ada pos pada filter ini"}
               </p>
-              <p className="text-secondary text-[11px] leading-relaxed">
+              <p className="text-secondary text-[11px]">
                 {budgets.length === 0
-                  ? "Catat pos pengeluaran di menu Tabungan & Anggaran untuk memantau status pembayaran."
-                  : activeTab === "dueSoon"
-                    ? "Semua jadwal pembayaran masih dalam batas waktu aman."
-                    : "Luar biasa, semua pos anggaran telah selesai dilunasi."}
+                  ? "Catat pos pengeluaran di menu Tabungan & Anggaran."
+                  : "Semua pos anggaran dalam status terjadwal aman."}
               </p>
             </div>
           )}

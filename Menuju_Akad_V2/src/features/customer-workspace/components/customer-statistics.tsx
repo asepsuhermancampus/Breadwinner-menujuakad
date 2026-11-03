@@ -36,13 +36,15 @@ export function CustomerStatistics({
 }: StatisticsProps) {
   const financeData = (resources.finance.data ?? []) as CustomerBudget[];
 
-  // 1. Data Anggaran Real-time (3 Kategori: Lunas, Mendekati Tenggat, Belum Bayar)
+  // 1. Data Anggaran Real-time (5 Kategori: Lunas, Lewat Tenggat, Tenggat Hari Ini, Mendekati Tenggat, Belum Bayar)
   const categorized = categorizeBudgets(financeData);
   const totalFinanceAmount = categorized.total;
   const paidAmount = categorized.paid;
+  const overdueAmount = categorized.overdue;
+  const dueTodayAmount = categorized.dueToday;
   const dueSoonAmount = categorized.dueSoon;
   const unpaidRegularAmount = categorized.unpaidRegular;
-  const totalUnpaid = dueSoonAmount + unpaidRegularAmount;
+  const totalUnpaid = overdueAmount + dueTodayAmount + dueSoonAmount + unpaidRegularAmount;
 
   // 2. Data Tabungan & Pembagian Sisi
   const isBride = ownerSide === "bride";
@@ -81,6 +83,8 @@ export function CustomerStatistics({
   } = buildOverviewBudgetSlices({
     totalFinanceAmount,
     paidAmount,
+    overdueAmount,
+    dueTodayAmount,
     dueSoonAmount,
     unpaidRegularAmount,
   });
@@ -89,11 +93,15 @@ export function CustomerStatistics({
     totalFinanceAmount > 0
       ? categorized.paidCount === financeData.length
         ? "Semua Pos Lunas"
-        : categorized.dueSoonCount > 0
-          ? `${categorized.dueSoonCount} Pos Perlu Segera Dibayar`
-          : availableSavings >= totalUnpaid && totalUnpaid > 0
-            ? "Tabungan Mencukupi"
-            : `${categorized.paidCount}/${financeData.length} Pos Terbayar`
+        : categorized.overdueCount > 0
+          ? `${categorized.overdueCount} Pos Lewat Tenggat`
+          : categorized.dueTodayCount > 0
+            ? `${categorized.dueTodayCount} Pos Tenggat Hari Ini`
+            : categorized.dueSoonCount > 0
+              ? `${categorized.dueSoonCount} Pos Perlu Segera Dibayar`
+              : availableSavings >= totalUnpaid && totalUnpaid > 0
+                ? "Tabungan Mencukupi"
+                : `${categorized.paidCount}/${financeData.length} Pos Terbayar`
       : availableSavings > 0
         ? "Kas Siap Alokasi"
         : undefined;
@@ -125,6 +133,8 @@ export function CustomerStatistics({
           usedForBudget={paidAmount}
           totalBudget={totalFinanceAmount}
           paidBudget={paidAmount}
+          overdueBudget={overdueAmount}
+          dueTodayBudget={dueTodayAmount}
           dueSoonBudget={dueSoonAmount}
           unpaidRegularBudget={unpaidRegularAmount}
           budgetSlices={budgetSlices}

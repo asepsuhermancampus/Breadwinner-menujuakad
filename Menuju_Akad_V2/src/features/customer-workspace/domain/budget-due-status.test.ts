@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { isBudgetDueSoon, categorizeBudgets } from "./budget-due-status";
+import {
+  getBudgetDueCategory,
+  isBudgetDueSoon,
+  isBudgetUrgent,
+  categorizeBudgets,
+} from "./budget-due-status";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
 
 describe("budget-due-status", () => {
@@ -15,13 +20,21 @@ describe("budget-due-status", () => {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  it("identifies budget due soon or overdue", () => {
+  it("identifies budget due categories accurately", () => {
     const overdueBudget: CustomerBudget = {
       id: "b-1",
       title: "Dekorasi",
       amount: 5000000,
       completed: false,
       dueDate: formatISO(yesterday),
+    };
+
+    const todayBudget: CustomerBudget = {
+      id: "b-today",
+      title: "Pelaminan",
+      amount: 4000000,
+      completed: false,
+      dueDate: formatISO(today),
     };
 
     const soonBudget: CustomerBudget = {
@@ -48,28 +61,40 @@ describe("budget-due-status", () => {
       dueDate: formatISO(yesterday),
     };
 
-    expect(isBudgetDueSoon(overdueBudget)).toBe(true);
+    expect(getBudgetDueCategory(overdueBudget)).toBe("overdue");
+    expect(getBudgetDueCategory(todayBudget)).toBe("dueToday");
+    expect(getBudgetDueCategory(soonBudget)).toBe("dueSoon");
+    expect(getBudgetDueCategory(laterBudget)).toBe("unpaid");
+    expect(getBudgetDueCategory(paidBudget)).toBe("paid");
+
     expect(isBudgetDueSoon(soonBudget)).toBe(true);
-    expect(isBudgetDueSoon(laterBudget)).toBe(false);
-    expect(isBudgetDueSoon(paidBudget)).toBe(false);
+    expect(isBudgetUrgent(overdueBudget)).toBe(true);
+    expect(isBudgetUrgent(todayBudget)).toBe(true);
+    expect(isBudgetUrgent(laterBudget)).toBe(false);
   });
 
-  it("categorizes budgets correctly into 3 buckets", () => {
+  it("categorizes budgets into paid, overdue, dueToday, dueSoon, and unpaid buckets", () => {
     const budgets: CustomerBudget[] = [
       { id: "1", title: "Lunas", amount: 10000000, completed: true },
-      { id: "2", title: "Segera", amount: 5000000, completed: false, dueDate: formatISO(in3Days) },
-      { id: "3", title: "Santai", amount: 3000000, completed: false, dueDate: formatISO(in20Days) },
-      { id: "4", title: "Tanpa Tenggat", amount: 2000000, completed: false },
+      { id: "2", title: "Lewat", amount: 4000000, completed: false, dueDate: formatISO(yesterday) },
+      { id: "3", title: "Hari Ini", amount: 2000000, completed: false, dueDate: formatISO(today) },
+      { id: "4", title: "Segera", amount: 5000000, completed: false, dueDate: formatISO(in3Days) },
+      { id: "5", title: "Santai", amount: 3000000, completed: false, dueDate: formatISO(in20Days) },
+      { id: "6", title: "Tanpa Tenggat", amount: 1000000, completed: false },
     ];
 
     const result = categorizeBudgets(budgets);
-    expect(result.total).toBe(20000000);
+    expect(result.total).toBe(25000000);
     expect(result.paid).toBe(10000000);
+    expect(result.overdue).toBe(4000000);
+    expect(result.dueToday).toBe(2000000);
     expect(result.dueSoon).toBe(5000000);
-    expect(result.unpaidRegular).toBe(5000000);
+    expect(result.unpaidRegular).toBe(4000000);
+
     expect(result.paidCount).toBe(1);
+    expect(result.overdueCount).toBe(1);
+    expect(result.dueTodayCount).toBe(1);
     expect(result.dueSoonCount).toBe(1);
     expect(result.unpaidRegularCount).toBe(2);
   });
 });
-

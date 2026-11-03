@@ -44,25 +44,34 @@ describe("overview-donut-slices", () => {
     expect(result.slices[1]?.purpose).toContain("wanita");
   });
 
-  it("builds budget slices with paid, due soon, and unpaid colors and purposes", () => {
+  it("builds budget slices with paid, overdue, dueToday, dueSoon, and unpaid statuses", () => {
     const result = buildOverviewBudgetSlices({
       totalFinanceAmount: 100000000,
       paidAmount: 40000000,
-      dueSoonAmount: 20000000,
-      unpaidRegularAmount: 40000000,
+      overdueAmount: 15000000,
+      dueTodayAmount: 10000000,
+      dueSoonAmount: 15000000,
+      unpaidRegularAmount: 20000000,
     });
 
-    expect(result.slices.length).toBe(3);
+    expect(result.slices.length).toBe(5);
     expect(result.slices[0]?.id).toBe("paid");
     expect(result.slices[0]?.color).toBe(OVERVIEW_COLORS.paid);
-    expect(result.slices[0]?.purpose).toContain("lunas seluruhnya");
 
-    expect(result.slices[1]?.id).toBe("dueSoon");
-    expect(result.slices[1]?.color).toBe(OVERVIEW_COLORS.dueSoon);
-    expect(result.slices[1]?.purpose).toContain("prioritas");
+    expect(result.slices[1]?.id).toBe("overdue");
+    expect(result.slices[1]?.color).toBe(OVERVIEW_COLORS.overdue);
+    expect(result.slices[1]?.label).toBe("Lewat Tenggat");
 
-    expect(result.slices[2]?.id).toBe("unpaid");
-    expect(result.slices[2]?.color).toBe(OVERVIEW_COLORS.unpaid);
+    expect(result.slices[2]?.id).toBe("dueToday");
+    expect(result.slices[2]?.color).toBe(OVERVIEW_COLORS.dueToday);
+    expect(result.slices[2]?.label).toBe("Tenggat Hari Ini");
+
+    expect(result.slices[3]?.id).toBe("dueSoon");
+    expect(result.slices[3]?.color).toBe(OVERVIEW_COLORS.dueSoon);
+    expect(result.slices[3]?.label).toBe("Mendekati Tenggat");
+
+    expect(result.slices[4]?.id).toBe("unpaid");
+    expect(result.slices[4]?.color).toBe(OVERVIEW_COLORS.unpaid);
+    expect(result.slices[4]?.label).toBe("Belum Dibayar");
   });
 });
-

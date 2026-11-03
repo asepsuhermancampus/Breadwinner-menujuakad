@@ -20,6 +20,8 @@ export type DualBudgetDonutProps = {
 
   totalBudget: number;
   paidBudget: number;
+  overdueBudget?: number | undefined;
+  dueTodayBudget?: number | undefined;
   dueSoonBudget: number;
   unpaidRegularBudget: number;
   budgetSlices: DonutSlice[];
@@ -45,6 +47,8 @@ export function DualBudgetDonutCard({
   usedForBudget = 0,
   totalBudget,
   paidBudget,
+  overdueBudget = 0,
+  dueTodayBudget = 0,
   dueSoonBudget,
   unpaidRegularBudget,
   budgetSlices,
@@ -125,6 +129,8 @@ export function DualBudgetDonutCard({
           />
           <BudgetDonutPane
             paidBudget={paidBudget}
+            overdueBudget={overdueBudget}
+            dueTodayBudget={dueTodayBudget}
             dueSoonBudget={dueSoonBudget}
             unpaidRegularBudget={unpaidRegularBudget}
             slices={budgetSlices}

@@ -2,14 +2,14 @@
 
 import { cn } from "@/lib/cn";
 import type { CustomerBudget } from "@/features/planner-finance/types/customer-budget";
-import { isBudgetDueSoon } from "../domain/budget-due-status";
+import { getBudgetDueCategory } from "../domain/budget-due-status";
 
 type ItemProps = {
   item: CustomerBudget;
 };
 
 export function BudgetStatusItem({ item }: ItemProps) {
-  const isUrgent = isBudgetDueSoon(item);
+  const cat = getBudgetDueCategory(item);
 
   return (
     <div className="p-2.5 rounded-lg border border-ux-border/50 bg-subtle/30 flex items-center justify-between gap-2 text-xs">
@@ -22,7 +22,13 @@ export function BudgetStatusItem({ item }: ItemProps) {
           {item.dueDate && (
             <span
               className={cn(
-                isUrgent && !item.completed ? "text-rose-600 font-medium" : "text-muted-foreground",
+                cat === "overdue"
+                  ? "text-red-600 dark:text-red-400 font-semibold"
+                  : cat === "dueToday"
+                    ? "text-orange-600 dark:text-orange-400 font-semibold"
+                    : cat === "dueSoon"
+                      ? "text-amber-600 dark:text-amber-400 font-medium"
+                      : "text-muted-foreground",
               )}
             >
               · {item.dueDate}
@@ -37,21 +43,28 @@ export function BudgetStatusItem({ item }: ItemProps) {
         <span
           className={cn(
             "px-1.5 py-0.5 rounded text-[10px] font-semibold",
-            item.completed
-              ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-              : isUrgent
-                ? "bg-rose-500/10 text-rose-700 dark:text-rose-400"
-                : "bg-amber-500/10 text-amber-800 dark:text-amber-300",
+            cat === "paid"
+              ? "bg-emerald-500/10 text-[#064e3b] dark:text-emerald-300"
+              : cat === "overdue"
+                ? "bg-red-500/15 text-red-700 dark:text-red-400"
+                : cat === "dueToday"
+                  ? "bg-orange-500/15 text-orange-700 dark:text-orange-400"
+                  : cat === "dueSoon"
+                    ? "bg-amber-500/15 text-amber-700 dark:text-amber-400"
+                    : "bg-slate-500/10 text-slate-700 dark:text-slate-300",
           )}
         >
-          {item.completed
+          {cat === "paid"
             ? "✓ Sudah Dibayar"
-            : isUrgent
-              ? "⚠️ Mendekati Tenggat"
-              : "⏳ Belum Dibayar"}
+            : cat === "overdue"
+              ? "🚨 Lewat Tenggat"
+              : cat === "dueToday"
+                ? "⚡ Tenggat Hari Ini"
+                : cat === "dueSoon"
+                  ? "⚠️ Mendekati Tenggat"
+                  : "⏳ Belum Dibayar"}
         </span>
       </div>
     </div>
   );
 }
-

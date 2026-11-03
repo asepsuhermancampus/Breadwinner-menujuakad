@@ -6,6 +6,8 @@ import { useDonutFocus } from "../hooks/use-donut-focus";
 
 export type BudgetPaneProps = {
   paidBudget: number;
+  overdueBudget?: number | undefined;
+  dueTodayBudget?: number | undefined;
   dueSoonBudget: number;
   unpaidRegularBudget: number;
   slices: DonutSlice[];
@@ -15,6 +17,8 @@ export type BudgetPaneProps = {
 
 export function BudgetDonutPane({
   paidBudget,
+  overdueBudget = 0,
+  dueTodayBudget = 0,
   dueSoonBudget,
   unpaidRegularBudget,
   slices,
@@ -37,6 +41,7 @@ export function BudgetDonutPane({
         onSelectSlice={setSelectedId}
       />
       <div className="w-full mt-3 space-y-1 text-[11px]">
+        {/* 1. Sudah Dibayar */}
         <button
           type="button"
           data-slice-id="paid"
@@ -51,6 +56,40 @@ export function BudgetDonutPane({
             Rp {paidBudget.toLocaleString("id-ID")}
           </span>
         </button>
+
+        {/* 2. Lewat Tenggat */}
+        <button
+          type="button"
+          data-slice-id="overdue"
+          onClick={() => toggleSelect("overdue")}
+          className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#dc2626] shrink-0" />
+            Lewat Tenggat
+          </span>
+          <span className="font-mono font-medium text-red-600 dark:text-red-400">
+            Rp {overdueBudget.toLocaleString("id-ID")}
+          </span>
+        </button>
+
+        {/* 3. Tenggat Hari Ini */}
+        <button
+          type="button"
+          data-slice-id="dueToday"
+          onClick={() => toggleSelect("dueToday")}
+          className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#ea580c] shrink-0" />
+            Tenggat Hari Ini
+          </span>
+          <span className="font-mono font-medium text-orange-600 dark:text-orange-400">
+            Rp {dueTodayBudget.toLocaleString("id-ID")}
+          </span>
+        </button>
+
+        {/* 4. Mendekati Tenggat */}
         <button
           type="button"
           data-slice-id="dueSoon"
@@ -58,13 +97,15 @@ export function BudgetDonutPane({
           className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
         >
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#ef4444] shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-[#eab308] shrink-0" />
             Mendekati Tenggat
           </span>
-          <span className="font-mono font-medium text-rose-600 dark:text-rose-400">
+          <span className="font-mono font-medium text-amber-600 dark:text-amber-400">
             Rp {dueSoonBudget.toLocaleString("id-ID")}
           </span>
         </button>
+
+        {/* 5. Belum Dibayar */}
         <button
           type="button"
           data-slice-id="unpaid"
@@ -72,10 +113,10 @@ export function BudgetDonutPane({
           className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
         >
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#eab308] shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-[#64748b] shrink-0" />
             Belum Dibayar
           </span>
-          <span className="font-mono font-medium text-amber-700 dark:text-amber-400">
+          <span className="font-mono font-medium text-slate-600 dark:text-slate-400">
             Rp {unpaidRegularBudget.toLocaleString("id-ID")}
           </span>
         </button>
