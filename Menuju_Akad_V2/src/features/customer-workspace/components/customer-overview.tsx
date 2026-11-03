@@ -166,6 +166,7 @@ export function CustomerOverview({
         tasksAvailable={tasksAvailable}
         financeAvailable={financeAvailable}
         guestsAvailable={guestsAvailable}
+        documentsAvailable={documentsAvailable}
       />
       {!guest && !workspace.profile.fullName && (
         <p className="text-xs text-secondary">

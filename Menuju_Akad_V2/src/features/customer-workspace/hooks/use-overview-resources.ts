@@ -39,7 +39,17 @@ export function useAccountOverview(
   const calendar = calendarAvailable
     ? calendarResource
     : { ...calendarResource, data: [], error: "" };
-  return { tasks, documents, finance, guests, calendar };
+  const seserahanResource = useCustomerResource(
+    "seserahan",
+    id,
+    availability?.seserahan ?? true,
+    true,
+  );
+  const seserahan =
+    (availability?.seserahan ?? true)
+      ? seserahanResource
+      : { ...seserahanResource, data: [], error: "" };
+  return { tasks, documents, finance, guests, calendar, seserahan };
 }
 export function useGuestOverview(
   tasksAvailable = true,
@@ -72,6 +82,11 @@ export function useGuestOverview(
   const guests = guestsAvailable ? trialGuests : { ...trialGuests, data: [], error: "" };
   const trialCalendar = useTrialResource("calendar");
   const calendar = calendarAvailable ? trialCalendar : { ...trialCalendar, data: [], error: "" };
-  return { tasks, documents, finance, guests, calendar };
+  const trialSeserahan = useTrialResource("seserahan");
+  const seserahan =
+    (availability?.seserahan ?? true)
+      ? trialSeserahan
+      : { ...trialSeserahan, data: [], error: "" };
+  return { tasks, documents, finance, guests, calendar, seserahan };
 }
 export type OverviewResources = ReturnType<typeof useAccountOverview>;

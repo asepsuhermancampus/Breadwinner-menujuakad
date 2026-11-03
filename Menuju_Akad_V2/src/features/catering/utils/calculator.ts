@@ -1,4 +1,5 @@
 import type { CateringCalculationInput, CateringCalculationResult } from "../types/catering";
+export type { CateringCalculationInput, CateringCalculationResult } from "../types/catering";
 
 export function calculateCatering(input: CateringCalculationInput): CateringCalculationResult {
   const totalBaseGuests = input.invitations * input.multiplier;
