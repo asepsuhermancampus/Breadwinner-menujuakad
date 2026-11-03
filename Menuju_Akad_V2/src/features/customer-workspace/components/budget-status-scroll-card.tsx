@@ -158,13 +158,13 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Scrollable Budget List */}
-        <div className="mt-3 flex-1 min-h-[160px] max-h-[340px] sm:max-h-[380px] xl:max-h-none overflow-y-auto space-y-2 pr-1.5 app-scroll">
+        <div className="mt-3 flex-1 min-h-[140px] max-h-[280px] sm:max-h-[300px] xl:max-h-[320px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
             {filteredBudgets.length > 0 ? (
               filteredBudgets.map((item, idx) => (
                 <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
               ))
             ) : (
-              <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-auto flex flex-col items-center justify-center min-h-[140px] xl:min-h-[220px]">
+              <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-auto flex flex-col items-center justify-center min-h-[140px] xl:min-h-[170px]">
                 <p className="font-semibold text-foreground">
                   {budgets.length === 0
                     ? "Belum ada pos anggaran"

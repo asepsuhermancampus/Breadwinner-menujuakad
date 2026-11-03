@@ -65,7 +65,7 @@ export function DualKuaDonutCard({
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 md:grid-rows-[auto_1fr] gap-5 md:gap-6 items-stretch">
           {/* Kolom 1: Berkas Utama */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div className="min-h-[54px] flex flex-col justify-end">
+            <div className="min-h-[48px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">
                 Berkas Wajib Utama
               </span>
@@ -96,7 +96,7 @@ export function DualKuaDonutCard({
 
           {/* Kolom 2: Berkas Bersyarat / Khusus */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div className="min-h-[54px] flex flex-col justify-end">
+            <div className="min-h-[48px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">
                 Berkas Bersyarat / Khusus
               </span>

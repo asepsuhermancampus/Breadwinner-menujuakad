@@ -21,7 +21,7 @@ export function TaskStatusDonutPane({
   const { selectedId, setSelectedId, toggleSelect } = useDonutFocus();
 
   return (
-    <div className="flex flex-col items-center justify-between h-full min-h-[290px] sm:min-h-[340px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+    <div className="flex flex-col items-center justify-between h-full min-h-[240px] sm:min-h-[265px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
       <span className="text-xs font-semibold text-foreground mb-2 self-start">
         Status Progres Tugas
       </span>
@@ -30,7 +30,7 @@ export function TaskStatusDonutPane({
           slices={slices}
           centerValue={centerValue}
           coverageLabel={centerLabel}
-          size={140}
+          size={130}
           selectedSliceId={selectedId}
           onSelectSlice={setSelectedId}
         />

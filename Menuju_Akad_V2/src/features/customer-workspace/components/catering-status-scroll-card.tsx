@@ -51,7 +51,7 @@ export function CateringStatusScrollCard({
       </div>
 
       {/* Breakdown Items List */}
-      <div className="mt-3 flex-1 min-h-[160px] max-h-[340px] sm:max-h-[380px] xl:max-h-[395px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+      <div className="mt-3 flex-1 min-h-[140px] max-h-[280px] sm:max-h-[300px] xl:max-h-[320px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
         {breakdownItems.map((item, idx) => (
           <div
             key={idx}
