@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { ReuiCapitalInflowsDonut } from "@/components/ui/reui-capital-inflows-donut";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 import { OVERVIEW_COLORS } from "../domain/overview-donut-slices";
+import { useDonutFocus } from "../hooks/use-donut-focus";
 
 export type SavingsPaneProps = {
   hasPartner: boolean;
@@ -31,7 +31,7 @@ export function SavingsDonutPane({
   centerValue,
   centerLabel = "Tersedia",
 }: SavingsPaneProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { selectedId, setSelectedId, toggleSelect } = useDonutFocus();
   const isUserBride = ownerSide === "bride";
   const userColor = isUserBride ? OVERVIEW_COLORS.bride : OVERVIEW_COLORS.groom;
   const partnerColor = isUserBride ? OVERVIEW_COLORS.groom : OVERVIEW_COLORS.bride;
@@ -42,9 +42,6 @@ export function SavingsDonutPane({
     ? "text-[#0284c7] dark:text-[#38bdf8]"
     : "text-rose-600 dark:text-rose-400";
   const usedColor = OVERVIEW_COLORS.used;
-
-  const toggleSelect = (id: string) =>
-    setSelectedId((prev) => (prev === id ? null : id));
 
   return (
     <div className="flex flex-col items-center p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
@@ -64,6 +61,7 @@ export function SavingsDonutPane({
           <>
             <button
               type="button"
+              data-slice-id="user"
               onClick={() => toggleSelect("user")}
               className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
             >
@@ -77,6 +75,7 @@ export function SavingsDonutPane({
             </button>
             <button
               type="button"
+              data-slice-id="partner"
               onClick={() => toggleSelect("partner")}
               className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
             >
@@ -92,6 +91,7 @@ export function SavingsDonutPane({
         ) : (
           <button
             type="button"
+            data-slice-id="available"
             onClick={() => toggleSelect("available")}
             className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
           >
@@ -107,6 +107,7 @@ export function SavingsDonutPane({
         {usedForBudget > 0 && (
           <button
             type="button"
+            data-slice-id="used"
             onClick={() => toggleSelect("used")}
             className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors pt-1 border-t border-ux-border/40 focus:outline-none"
           >

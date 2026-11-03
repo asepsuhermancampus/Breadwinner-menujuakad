@@ -74,7 +74,7 @@ export function buildOverviewSavingsSlices(params: OverviewSavingsParams): {
     if (usedPercent > 0) {
       slices.push({
         id: "used",
-        label: "Terpakai Anggaran",
+        label: "Terpakai",
         percent: usedPercent,
         color: OVERVIEW_COLORS.used,
         amount: paidAmount,
@@ -111,7 +111,7 @@ export function buildOverviewSavingsSlices(params: OverviewSavingsParams): {
     if (usedPercent > 0) {
       slices.push({
         id: "used",
-        label: "Terpakai Anggaran",
+        label: "Terpakai",
         percent: usedPercent,
         color: OVERVIEW_COLORS.used,
         amount: paidAmount,

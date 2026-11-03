@@ -131,6 +131,7 @@ export function ReuiCapitalInflowsDonut({
           return (
             <circle
               key={slice.id}
+              data-slice-id={slice.id}
               cx={center}
               cy={center}
               r={radius}

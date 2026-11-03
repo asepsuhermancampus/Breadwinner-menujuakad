@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { ReuiCapitalInflowsDonut } from "@/components/ui/reui-capital-inflows-donut";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
+import { useDonutFocus } from "../hooks/use-donut-focus";
 
 export type BudgetPaneProps = {
   paidBudget: number;
@@ -21,9 +21,7 @@ export function BudgetDonutPane({
   centerValue,
   centerLabel = "Terbayar",
 }: BudgetPaneProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const toggleSelect = (id: string) =>
-    setSelectedId((prev) => (prev === id ? null : id));
+  const { selectedId, setSelectedId, toggleSelect } = useDonutFocus();
 
   return (
     <div className="flex flex-col items-center p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
@@ -41,6 +39,7 @@ export function BudgetDonutPane({
       <div className="w-full mt-3 space-y-1 text-[11px]">
         <button
           type="button"
+          data-slice-id="paid"
           onClick={() => toggleSelect("paid")}
           className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
         >
@@ -54,6 +53,7 @@ export function BudgetDonutPane({
         </button>
         <button
           type="button"
+          data-slice-id="dueSoon"
           onClick={() => toggleSelect("dueSoon")}
           className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
         >
@@ -67,6 +67,7 @@ export function BudgetDonutPane({
         </button>
         <button
           type="button"
+          data-slice-id="unpaid"
           onClick={() => toggleSelect("unpaid")}
           className="w-full flex items-center justify-between text-secondary p-1 rounded hover:bg-subtle/50 transition-colors focus:outline-none"
         >
