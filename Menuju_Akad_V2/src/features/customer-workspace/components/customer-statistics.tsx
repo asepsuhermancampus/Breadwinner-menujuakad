@@ -117,10 +117,10 @@ export function CustomerStatistics({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start">
         {/* Card Kiri: 2 Pie Chart (Tabungan Tersedia & Target Anggaran) */}
         <DualBudgetDonutCard
-          className="lg:col-span-2"
+          className="xl:col-span-2"
           availableSavings={availableSavings}
           savingsSlices={savingsSlices}
           savingsCenterValue={savingsCenterValue}
@@ -146,7 +146,7 @@ export function CustomerStatistics({
 
         {/* Card Kanan: Detail Anggaran Scrollable (Menggantikan RSVP) */}
         <BudgetStatusScrollCard
-          className="lg:col-span-1"
+          className="xl:col-span-1"
           budgets={financeData}
           financeAvailable={financeAvailable}
           manageHref={financeAvailable ? "/planner/finance" : undefined}

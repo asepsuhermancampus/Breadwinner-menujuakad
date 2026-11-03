@@ -52,28 +52,28 @@ export function BudgetStatusScrollCard({
       aria-label="Detail status anggaran pembayaran"
     >
       {/* Header Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-ux-border/60">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
-              <Receipt size={16} />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">Detail Anggaran</h3>
-              <p className="text-xs text-secondary">
-                {paidBudgets.length} lunas · {totalUnpaid.length} belum bayar
-                {urgentCount > 0 && ` (${urgentCount} perlu perhatian)`}
-              </p>
-            </div>
+      <div className="flex items-center justify-between pb-3 border-b border-ux-border/60 gap-2">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+            <Receipt size={16} />
           </div>
-          {financeAvailable && (
-            <Link
-              href={manageHref}
-              className="text-xs font-medium text-brand-secondary hover:underline inline-flex items-center gap-0.5"
-            >
-              Kelola <ArrowUpRight size={13} />
-            </Link>
-          )}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-sm font-semibold text-foreground truncate">Detail Anggaran</h3>
+            <p className="text-xs text-secondary truncate">
+              {paidBudgets.length} lunas · {totalUnpaid.length} belum bayar
+              {urgentCount > 0 && ` (${urgentCount} perlu perhatian)`}
+            </p>
+          </div>
         </div>
+        {financeAvailable && (
+          <Link
+            href={manageHref}
+            className="text-xs font-medium text-brand-secondary hover:underline inline-flex items-center gap-0.5 shrink-0"
+          >
+            Kelola <ArrowUpRight size={13} />
+          </Link>
+        )}
+      </div>
 
         {/* Filter Tabs */}
         <div className="flex items-center gap-1 mt-3 pb-2 border-b border-ux-border/40 text-[11px] overflow-x-auto app-scroll">
@@ -158,28 +158,28 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Scrollable Budget List */}
-        <div className="mt-3 max-h-[415px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
-          {filteredBudgets.length > 0 ? (
-            filteredBudgets.map((item, idx) => (
-              <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
-            ))
-          ) : (
-            <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-2">
-              <p className="font-semibold text-foreground">
-                {budgets.length === 0
-                  ? "Belum ada pos anggaran"
-                  : activeTab === "paid"
-                    ? "Belum ada pos yang ditandai lunas"
-                    : "Tidak ada pos pada filter ini"}
-              </p>
-              <p className="text-secondary text-[11px]">
-                {budgets.length === 0
-                  ? "Catat pos pengeluaran di menu Tabungan & Anggaran."
-                  : "Semua pos anggaran dalam status terjadwal aman."}
-              </p>
-            </div>
-          )}
-        </div>
+        <div className="mt-3 max-h-[320px] sm:max-h-[380px] xl:max-h-[415px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+            {filteredBudgets.length > 0 ? (
+              filteredBudgets.map((item, idx) => (
+                <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
+              ))
+            ) : (
+              <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-2">
+                <p className="font-semibold text-foreground">
+                  {budgets.length === 0
+                    ? "Belum ada pos anggaran"
+                    : activeTab === "paid"
+                      ? "Belum ada pos yang ditandai lunas"
+                      : "Tidak ada pos pada filter ini"}
+                </p>
+                <p className="text-secondary text-[11px]">
+                  {budgets.length === 0
+                    ? "Catat pos pengeluaran di menu Tabungan & Anggaran."
+                    : "Semua pos anggaran dalam status terjadwal aman."}
+                </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

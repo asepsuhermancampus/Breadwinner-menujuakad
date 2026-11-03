@@ -28,7 +28,7 @@ export function BudgetDonutPane({
   const { selectedId, setSelectedId, toggleSelect } = useDonutFocus();
 
   return (
-    <div className="flex flex-col items-center h-full p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+    <div className="flex flex-col items-center h-full p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
       <span className="text-xs font-semibold text-foreground mb-3 self-start">
         Status Target Anggaran
       </span>
