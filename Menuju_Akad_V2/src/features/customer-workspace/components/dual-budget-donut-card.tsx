@@ -63,7 +63,7 @@ export function DualBudgetDonutCard({
   return (
     <div
       className={cn(
-        "bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs",
+        "bg-canvas border border-ux-border p-5 flex flex-col justify-between h-full shadow-xs",
         className,
       )}
       aria-label="Kesiapan finansial tabungan dan alokasi anggaran"

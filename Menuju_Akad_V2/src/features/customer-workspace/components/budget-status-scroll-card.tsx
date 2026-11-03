@@ -48,12 +48,11 @@ export function BudgetStatusScrollCard({
 
   return (
     <div
-      className={cn("bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs", className)}
+      className={cn("bg-canvas border border-ux-border p-5 flex flex-col h-full shadow-xs", className)}
       aria-label="Detail status anggaran pembayaran"
     >
-      <div>
-        {/* Header Bar */}
-        <div className="flex items-center justify-between pb-3 border-b border-ux-border/60">
+      {/* Header Bar */}
+      <div className="flex items-center justify-between pb-3 border-b border-ux-border/60 shrink-0">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
               <Receipt size={16} />
@@ -159,7 +158,7 @@ export function BudgetStatusScrollCard({
         </div>
 
         {/* Scrollable Budget List */}
-        <div className="mt-3 max-h-[300px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+        <div className="mt-3 flex-1 min-h-[300px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
           {filteredBudgets.length > 0 ? (
             filteredBudgets.map((item, idx) => (
               <BudgetStatusItem key={item.id || `budget-${idx}`} item={item} />
@@ -181,9 +180,16 @@ export function BudgetStatusScrollCard({
             </div>
           )}
         </div>
+
+      {/* Footer */}
+      <div className="mt-4 pt-3 border-t border-ux-border/60 flex items-center justify-between text-[11px] text-secondary shrink-0">
+        <span>Bisa digulir untuk melihat semua pos</span>
+        {financeAvailable && (
+          <Link href={manageHref} className="text-brand-secondary hover:underline">
+            Rincian Lengkap →
+          </Link>
+        )}
       </div>
-
-
     </div>
   );
 }
