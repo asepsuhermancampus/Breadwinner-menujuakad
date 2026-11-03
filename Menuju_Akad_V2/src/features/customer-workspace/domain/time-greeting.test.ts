@@ -45,3 +45,4 @@ describe("getTimeGreeting", () => {
     expect(getTimeGreeting(earlyMorning)).toBe("Selamat malam");
   });
 });
+

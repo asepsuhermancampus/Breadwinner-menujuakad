@@ -31,3 +31,4 @@ export function getTimeGreeting(date: Date = new Date()): string {
   }
   return "Selamat malam";
 }
+

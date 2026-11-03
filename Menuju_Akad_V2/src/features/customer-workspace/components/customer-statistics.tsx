@@ -87,11 +87,11 @@ export function CustomerStatistics({
         </div>
       </div>
 
-      {/* Tab Switcher Kategori (Scrollable horizontal 1 line, style pill selaras dengan menu lainnya) */}
+      {/* Tab Switcher Kategori (Scrollable horizontal 1 line, style dock seperti Checklist & Tugas) */}
       <div className={styles.tabScrollContainer}>
         <div
           data-dock="true"
-          className={styles.tabRow}
+          className={styles.tabDock}
           role="tablist"
           aria-label="Kategori bidang statistik kesiapan"
         >
@@ -103,8 +103,8 @@ export function CustomerStatistics({
               aria-selected={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                styles.tabButton,
-                activeTab === tab.id && styles.tabButtonActive,
+                styles.tabItem,
+                activeTab === tab.id && styles.tabItemActive,
               )}
             >
               {tab.label}
