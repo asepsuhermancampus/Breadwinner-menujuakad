@@ -74,23 +74,31 @@ export function CustomerStatistics({
         </div>
       </div>
 
-      {/* Tab Switcher Kategori (Opsi A) */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 app-scroll border-b border-ux-border/40 text-xs w-full max-w-full min-w-0">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            className={cn(
-              "px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap shrink-0",
-              activeTab === tab.id
-                ? "bg-emerald-600 text-white shadow-xs font-semibold"
-                : "text-secondary hover:text-foreground hover:bg-subtle/50",
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Tab Switcher Kategori (Style seperti pada Checklist & Tugas) */}
+      <div className="overflow-x-auto app-scroll pb-1 w-full max-w-full min-w-0">
+        <div
+          className="inline-flex items-center gap-1 rounded-control bg-ux-dock border border-ux-border p-1 min-w-max"
+          role="tablist"
+          aria-label="Kategori bidang statistik kesiapan"
+        >
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "customer-control rounded-control px-3 py-1.5 text-xs font-medium transition whitespace-nowrap shrink-0",
+                activeTab === tab.id
+                  ? "bg-surface text-brand-secondary shadow-sm font-semibold"
+                  : "text-secondary hover:text-foreground",
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-6 w-full max-w-full min-w-0">
