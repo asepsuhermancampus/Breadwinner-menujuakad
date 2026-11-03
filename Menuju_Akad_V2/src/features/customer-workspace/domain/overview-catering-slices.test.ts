@@ -25,3 +25,4 @@ describe("buildCateringDonutSlices", () => {
     expect(portionsSlices).toHaveLength(2);
   });
 });
+

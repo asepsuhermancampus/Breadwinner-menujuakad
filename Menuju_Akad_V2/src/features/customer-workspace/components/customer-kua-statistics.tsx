@@ -39,7 +39,7 @@ export function CustomerKuaStatistics({
       : undefined;
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">
       <DualKuaDonutCard
         className="xl:col-span-2"
         categorization={c}

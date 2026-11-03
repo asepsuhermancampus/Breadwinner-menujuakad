@@ -55,3 +55,4 @@ describe("buildOverviewTaskPicSlices", () => {
     expect(centerValue).toBe(4);
   });
 });
+

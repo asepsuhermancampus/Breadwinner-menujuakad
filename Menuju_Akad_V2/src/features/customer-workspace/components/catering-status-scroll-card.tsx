@@ -26,7 +26,7 @@ export function CateringStatusScrollCard({
 
   return (
     <div
-      className={cn("bg-canvas border border-ux-border p-5 flex flex-col shadow-xs", className)}
+      className={cn("bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs h-full", className)}
       aria-label="Detail rincian perhitungan katering"
     >
       {/* Header Bar */}
@@ -51,7 +51,7 @@ export function CateringStatusScrollCard({
       </div>
 
       {/* Breakdown Items List */}
-      <div className="mt-4 max-h-[320px] sm:max-h-[380px] xl:max-h-[415px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+      <div className="mt-3 flex-1 min-h-[160px] max-h-[340px] sm:max-h-[380px] xl:max-h-[395px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
         {breakdownItems.map((item, idx) => (
           <div
             key={idx}
@@ -79,3 +79,4 @@ export function CateringStatusScrollCard({
     </div>
   );
 }
+

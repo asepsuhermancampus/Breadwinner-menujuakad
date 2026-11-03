@@ -66,7 +66,7 @@ export function DualGuestDonutCard({
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 md:grid-rows-[auto_1fr] gap-5 md:gap-6 items-stretch">
           {/* Kolom 1: Estimasi Kehadiran */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div>
+            <div className="min-h-[54px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">
                 Estimasi Tamu Hadir
               </span>
@@ -94,7 +94,7 @@ export function DualGuestDonutCard({
 
           {/* Kolom 2: Total Undangan */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div>
+            <div className="min-h-[54px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">Total Undangan Terdaftar</span>
               <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
                 <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground">

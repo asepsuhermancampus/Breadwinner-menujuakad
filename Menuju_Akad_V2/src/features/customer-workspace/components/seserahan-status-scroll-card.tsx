@@ -31,7 +31,7 @@ export function SeserahanStatusScrollCard({
 
   return (
     <div
-      className={cn("bg-canvas border border-ux-border p-5 flex flex-col shadow-xs", className)}
+      className={cn("bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs h-full", className)}
       aria-label="Detail rincian barang seserahan"
     >
       {/* Header Bar */}
@@ -100,7 +100,7 @@ export function SeserahanStatusScrollCard({
       </div>
 
       {/* Scrollable Items List */}
-      <div className="mt-3 max-h-[320px] sm:max-h-[380px] xl:max-h-[415px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+      <div className="mt-3 flex-1 min-h-[160px] max-h-[340px] sm:max-h-[380px] xl:max-h-none overflow-y-auto space-y-2 pr-1.5 app-scroll">
         {filteredItems.length > 0 ? (
           filteredItems.map((item, idx) => (
             <div
@@ -130,7 +130,7 @@ export function SeserahanStatusScrollCard({
             </div>
           ))
         ) : (
-          <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-2">
+          <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-auto flex flex-col items-center justify-center min-h-[140px] xl:min-h-[220px]">
             <p className="font-semibold text-foreground">
               {items.length === 0 ? "Belum ada daftar seserahan" : "Tidak ada barang pada filter ini"}
             </p>
@@ -145,3 +145,4 @@ export function SeserahanStatusScrollCard({
     </div>
   );
 }
+

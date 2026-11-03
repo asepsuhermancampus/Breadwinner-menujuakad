@@ -66,7 +66,7 @@ export function DualSeserahanDonutCard({
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 md:grid-rows-[auto_1fr] gap-5 md:gap-6 items-stretch">
           {/* Kolom 1: Status Pembelian */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div>
+            <div className="min-h-[54px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">Kotak Siap & Terbeli</span>
               <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
                 <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
@@ -80,19 +80,21 @@ export function DualSeserahanDonutCard({
                 </span>
               </div>
             </div>
-            <div className="flex flex-col items-center h-full p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-              <span className="text-xs font-semibold text-foreground mb-3 self-start">
+            <div className="flex flex-col items-center justify-between h-full min-h-[290px] sm:min-h-[340px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+              <span className="text-xs font-semibold text-foreground mb-2 self-start">
                 Status Pembelian Kotak
               </span>
-              <ReuiCapitalInflowsDonut
-                slices={statusSlices}
-                centerValue={statusCenterValue}
-                coverageLabel="Kotak Siap"
-                size={140}
-                selectedSliceId={selectedId}
-                onSelectSlice={setSelectedId}
-              />
-              <div className="w-full mt-3 space-y-1 text-[11px]">
+              <div className="my-auto py-1">
+                <ReuiCapitalInflowsDonut
+                  slices={statusSlices}
+                  centerValue={statusCenterValue}
+                  coverageLabel="Kotak Siap"
+                  size={140}
+                  selectedSliceId={selectedId}
+                  onSelectSlice={setSelectedId}
+                />
+              </div>
+              <div className="w-full mt-2 space-y-1 text-[11px]">
                 {statusSlices.map((s) => (
                   <button
                     key={s.id}
@@ -116,7 +118,7 @@ export function DualSeserahanDonutCard({
 
           {/* Kolom 2: Kategori Seserahan */}
           <div className="flex flex-col gap-2.5 md:grid md:grid-rows-subgrid md:row-span-2">
-            <div>
+            <div className="min-h-[54px] flex flex-col justify-end">
               <span className="text-[11px] text-secondary font-medium">Realisasi Biaya Seserahan</span>
               <div className="flex flex-wrap items-baseline gap-2 mt-0.5">
                 <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-foreground">
@@ -127,19 +129,21 @@ export function DualSeserahanDonutCard({
                 </span>
               </div>
             </div>
-            <div className="flex flex-col items-center h-full p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-              <span className="text-xs font-semibold text-foreground mb-3 self-start">
+            <div className="flex flex-col items-center justify-between h-full min-h-[290px] sm:min-h-[340px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+              <span className="text-xs font-semibold text-foreground mb-2 self-start">
                 Sebaran Kategori Barang
               </span>
-              <ReuiCapitalInflowsDonut
-                slices={categorySlices}
-                centerValue={categoryCenterValue}
-                coverageLabel="Total Kotak"
-                size={140}
-                selectedSliceId={selectedId}
-                onSelectSlice={setSelectedId}
-              />
-              <div className="w-full mt-3 space-y-1 text-[11px]">
+              <div className="my-auto py-1">
+                <ReuiCapitalInflowsDonut
+                  slices={categorySlices}
+                  centerValue={categoryCenterValue}
+                  coverageLabel="Total Kotak"
+                  size={140}
+                  selectedSliceId={selectedId}
+                  onSelectSlice={setSelectedId}
+                />
+              </div>
+              <div className="w-full mt-2 space-y-1 text-[11px]">
                 {categorySlices.map((s) => (
                   <button
                     key={s.id}
@@ -173,3 +177,4 @@ export function DualSeserahanDonutCard({
     </div>
   );
 }
+

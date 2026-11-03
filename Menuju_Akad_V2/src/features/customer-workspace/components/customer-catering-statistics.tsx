@@ -29,7 +29,7 @@ export function CustomerCateringStatistics({
   } = buildCateringDonutSlices(input);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">
       <DualCateringDonutCard
         className="xl:col-span-2"
         result={result}
@@ -45,3 +45,4 @@ export function CustomerCateringStatistics({
     </div>
   );
 }
+

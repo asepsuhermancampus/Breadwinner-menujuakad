@@ -36,7 +36,7 @@ export function TaskStatusScrollCard({
 
   return (
     <div
-      className={cn("bg-canvas border border-ux-border p-5 flex flex-col shadow-xs", className)}
+      className={cn("bg-canvas border border-ux-border p-5 flex flex-col justify-between shadow-xs h-full", className)}
       aria-label="Detail daftar checklist dan tugas"
     >
       {/* Header Bar */}
@@ -122,7 +122,7 @@ export function TaskStatusScrollCard({
       </div>
 
       {/* Scrollable Tasks List */}
-      <div className="mt-3 max-h-[320px] sm:max-h-[380px] xl:max-h-[415px] overflow-y-auto space-y-2 pr-1.5 app-scroll">
+      <div className="mt-3 flex-1 min-h-[160px] max-h-[340px] sm:max-h-[380px] xl:max-h-none overflow-y-auto space-y-2 pr-1.5 app-scroll">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task, idx) => (
             <div
@@ -153,7 +153,7 @@ export function TaskStatusScrollCard({
             </div>
           ))
         ) : (
-          <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-2">
+          <div className="p-4 rounded-lg bg-subtle/40 border border-ux-border/60 text-center text-xs space-y-1 my-auto flex flex-col items-center justify-center min-h-[140px] xl:min-h-[220px]">
             <p className="font-semibold text-foreground">
               {tasks.length === 0 ? "Belum ada checklist tugas" : "Tidak ada tugas pada filter ini"}
             </p>
@@ -168,3 +168,4 @@ export function TaskStatusScrollCard({
     </div>
   );
 }
+

@@ -44,19 +44,21 @@ export function SavingsDonutPane({
   const usedColor = OVERVIEW_COLORS.used;
 
   return (
-    <div className="flex flex-col items-center h-full p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
-      <span className="text-xs font-semibold text-foreground mb-3 self-start">
+    <div className="flex flex-col items-center justify-between h-full min-h-[290px] sm:min-h-[340px] p-2.5 sm:p-3 rounded-lg bg-subtle/30 border border-ux-border/60">
+      <span className="text-xs font-semibold text-foreground mb-2 self-start">
         Tabungan Tersedia {hasPartner ? "(Bersama)" : "(Pribadi)"}
       </span>
-      <ReuiCapitalInflowsDonut
-        slices={slices}
-        centerValue={centerValue}
-        coverageLabel={centerLabel}
-        size={140}
-        selectedSliceId={selectedId}
-        onSelectSlice={setSelectedId}
-      />
-      <div className="w-full mt-3 space-y-1 text-[11px]">
+      <div className="my-auto py-1">
+        <ReuiCapitalInflowsDonut
+          slices={slices}
+          centerValue={centerValue}
+          coverageLabel={centerLabel}
+          size={140}
+          selectedSliceId={selectedId}
+          onSelectSlice={setSelectedId}
+        />
+      </div>
+      <div className="w-full mt-2 space-y-1 text-[11px]">
         {hasPartner ? (
           <>
             <button

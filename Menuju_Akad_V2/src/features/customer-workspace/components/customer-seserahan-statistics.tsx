@@ -31,7 +31,7 @@ export function CustomerSeserahanStatistics({
   } = buildOverviewSeserahanCategorySlices(items);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">
       <DualSeserahanDonutCard
         className="xl:col-span-2"
         categorization={c}
@@ -49,3 +49,4 @@ export function CustomerSeserahanStatistics({
     </div>
   );
 }
+
