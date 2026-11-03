@@ -114,7 +114,7 @@ export function DualBudgetDonutCard({
         </div>
 
         {/* Dual Donut Charts */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-start pt-2 border-t border-ux-border/40">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch pt-2 border-t border-ux-border/40">
           <SavingsDonutPane
             hasPartner={hasPartner}
             partnerNames={partnerNames}
