@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Info, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { DonutSlice } from "@/components/ui/reui-capital-inflows-types";
 import { SavingsDonutPane, BudgetDonutPane } from "./dual-budget-donut-panes";
+import { CardInfoPopover } from "./card-info-popover";
 
 export type DualBudgetDonutProps = {
   availableSavings: number;
@@ -71,10 +72,15 @@ export function DualBudgetDonutCard({
         {/* Header Bar */}
         <div className="flex items-center justify-between pb-3 border-b border-ux-border/60 gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-1.5 shrink-0">
-              Kesiapan Finansial & Anggaran
-              <Info size={13} className="text-muted-foreground/70" />
-            </h3>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <h3 className="text-sm font-semibold text-foreground">
+                Kesiapan Finansial & Anggaran
+              </h3>
+              <CardInfoPopover
+                title="Kesiapan Finansial & Anggaran"
+                description="Tersinkronisasi otomatis dengan menu Tabungan & Anggaran. Memantau simpanan bersama dan progres pelunasan pos biaya pernikahan secara real-time."
+              />
+            </div>
           </div>
           {manageHref && (
             <Link
@@ -144,8 +150,13 @@ export function DualBudgetDonutCard({
       <div className="mt-4 pt-3 border-t border-ux-border/60 flex items-center justify-between text-[11px] text-secondary">
         <div className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          <span>Sinkronisasi otomatis dengan Tabungan & Anggaran</span>
+          <span>Klik irisan diagram untuk fokus</span>
         </div>
+        {manageHref && (
+          <Link href={manageHref} className="text-brand-secondary hover:underline">
+            Kelola Tabungan →
+          </Link>
+        )}
       </div>
     </div>
   );

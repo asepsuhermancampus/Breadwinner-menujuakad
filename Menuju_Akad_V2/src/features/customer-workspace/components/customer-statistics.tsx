@@ -141,7 +141,6 @@ export function CustomerStatistics({
           budgetCenterValue={budgetCenterValue}
           budgetCenterLabel={budgetCenterLabel}
           badgeText={badgeText}
-          badgeSubtext="tersinkronisasi dengan Tabungan & Anggaran"
           manageHref={financeAvailable ? "/planner/finance" : undefined}
         />
 

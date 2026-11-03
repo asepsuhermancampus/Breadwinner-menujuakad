@@ -183,15 +183,7 @@ export function BudgetStatusScrollCard({
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="mt-4 pt-3 border-t border-ux-border/60 flex items-center justify-between text-[11px] text-secondary">
-        <span>Bisa digulir untuk melihat semua pos</span>
-        {financeAvailable && (
-          <Link href={manageHref} className="text-brand-secondary hover:underline">
-            Rincian Lengkap →
-          </Link>
-        )}
-      </div>
+
     </div>
   );
 }
