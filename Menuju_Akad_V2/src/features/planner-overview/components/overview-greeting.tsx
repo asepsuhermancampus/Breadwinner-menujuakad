@@ -66,13 +66,13 @@ export function OverviewGreeting({
 
   return (
     <section className={styles.greetingCard} aria-labelledby="greeting-title">
-      <div className="space-y-2">
+      <div className="space-y-2 min-w-0 flex-1">
         <p className="text-xs text-secondary">{dateContext}</p>
         <PageHeading
           id="greeting-title"
           title={greeting}
           description="Pantau kesiapan acara, tugas, berkas, anggaran, dan agenda kalian dari satu tempat."
-          headingClassName="font-heading text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground"
+          headingClassName="font-heading text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-foreground break-normal"
         />
         <div className="flex flex-wrap items-center gap-2.5 pt-1">
           <span className="rounded-full bg-surface border border-ux-border px-3 py-0.5 font-mono text-xs text-brand-secondary">

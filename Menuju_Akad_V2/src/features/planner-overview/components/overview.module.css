@@ -23,6 +23,15 @@
   flex-direction: column;
   gap: 1.25rem;
   color: var(--foreground);
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+.greetingCard h1,
+.greetingCard h2,
+.greetingCard [id="greeting-title"] {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
 @media (min-width: 768px) {

@@ -118,7 +118,7 @@ export function CustomerShell({
             </CustomerFeatureLayout>
           </main>
         </div>
-        <Dialog open={open} onClose={() => setOpen(false)} title="Navigasi Menu" hideTitle side>
+        <Dialog open={open} onClose={() => setOpen(false)} title="Navigasi Menu" hideTitle hideClose side>
           <CustomerSidebar
             close={() => setOpen(false)}
             mobile

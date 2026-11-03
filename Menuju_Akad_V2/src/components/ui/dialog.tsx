@@ -11,6 +11,7 @@ type Props = {
   onClose: () => void;
   title: string;
   hideTitle?: boolean;
+  hideClose?: boolean;
   children: ReactNode;
   side?: boolean;
   className?: string | undefined;
@@ -21,6 +22,7 @@ export function Dialog({
   onClose,
   title,
   hideTitle = false,
+  hideClose = false,
   children,
   side = false,
   className,
@@ -94,27 +96,25 @@ export function Dialog({
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className={cn("flex items-center justify-between gap-4", hideTitle && "justify-end")}>
-        <h2
-          id={titleId}
-          className={cn(
-            "text-xl font-semibold leading-none text-foreground",
-            hideTitle && "sr-only",
-          )}
-        >
-          {title}
-        </h2>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Tutup dialog"
-          onClick={onClose}
-          className="size-8 shrink-0 rounded-full text-secondary hover:bg-subtle hover:text-foreground"
-        >
-          <X size={18} aria-hidden="true" />
-        </Button>
+      <h2 id={titleId} className={cn("text-xl font-semibold leading-none text-foreground", hideTitle && "sr-only")}>
+        {title}
+      </h2>
+      {!hideClose && (
+        <div className={cn("flex items-center justify-between gap-4", hideTitle && "justify-end")}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Tutup dialog"
+            onClick={onClose}
+            className="size-8 shrink-0 rounded-full text-secondary hover:bg-subtle hover:text-foreground"
+          >
+            <X size={18} aria-hidden="true" />
+          </Button>
+        </div>
+      )}
+      <div className={cn(!side && (hideTitle ? "mt-2" : "mt-5"), side && "flex-1 min-h-0 flex flex-col")}>
+        {children}
       </div>
-      <div className={cn("mt-5", hideTitle && "mt-1")}>{children}</div>
     </dialog>
   );
 }

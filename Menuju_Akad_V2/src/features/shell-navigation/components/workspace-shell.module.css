@@ -12,14 +12,12 @@
 .shellCompact {
   grid-template-columns: 68px minmax(0, 1fr);
 }
-
 .shell.edgeToEdge {
   width: 100%;
   max-width: none;
   margin: 0;
   padding: 0;
 }
-
 .edgeToEdge .canvas {
   border: 0;
   border-radius: 0;
@@ -53,12 +51,34 @@
 .body > * {
   min-width: 0;
 }
-@media (max-width: 1023px) {
-  .shell {
+.tabletBackdrop {
+  display: none;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .shell,
+  .shellCompact {
     grid-template-columns: 68px minmax(0, 1fr);
   }
   .shellExpanded {
-    grid-template-columns: 272px minmax(0, 1fr);
+    grid-template-columns: 68px minmax(0, 1fr);
+  }
+  .shellExpanded .dockRegion > aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 50;
+    background: var(--surface);
+    box-shadow: 16px 0 48px rgba(20, 20, 19, 0.18);
+  }
+  .shellExpanded .tabletBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 20, 19, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 45;
   }
   .body {
     padding: 24px;

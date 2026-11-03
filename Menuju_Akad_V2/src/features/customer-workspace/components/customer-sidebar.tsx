@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, ChevronRight, ChevronDown, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, Sparkles, X } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/cn";
 import { customerNavigation } from "./customer-navigation";
@@ -36,26 +36,24 @@ export function CustomerSidebar({
         aria-label="Navigasi ruang bersama"
       >
         <header className={styles.brand}>
-          <div className="flex items-center justify-between gap-2">
-            <Link href="/" aria-label="Menuju Akad">
-              <BrandLogo
-                variant="cypress"
-                width={compact ? 32 : 48}
-                height={compact ? 15 : 23}
-                className="h-auto shrink-0"
-              />
-              {!compact && <span>Menuju Akad</span>}
+          <div className="flex items-center justify-between gap-2 w-full">
+            <Link href="/" onClick={navigate} aria-label="Menuju Akad" className="flex items-center gap-2 min-w-0">
+              <BrandLogo variant="cypress" width={compact ? 32 : 44} height={compact ? 15 : 21} className="h-auto shrink-0" />
+              {!compact && <span className="font-heading font-bold text-base tracking-tight text-foreground">Menuju Akad</span>}
             </Link>
-            {mobile && plan && (
-              <Link
-                href="/account/plans"
-                onClick={navigate}
-                className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-500/30 shrink-0"
-              >
-                <Sparkles size={11} className="text-emerald-600 dark:text-emerald-400" />
-                <span>{plan}</span>
-              </Link>
-            )}
+            <div className="flex items-center gap-2 shrink-0">
+              {mobile && plan && (
+                <Link href="/account/plans" onClick={navigate} className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-500/30">
+                  <Sparkles size={11} className="text-emerald-600 dark:text-emerald-400" />
+                  <span>{plan}</span>
+                </Link>
+              )}
+              {mobile && close && (
+                <button type="button" onClick={close} aria-label="Tutup navigasi" className={styles.mobileClose}>
+                  <X size={18} />
+                </button>
+              )}
+            </div>
           </div>
         </header>
         <button
@@ -172,16 +170,10 @@ export function CustomerSidebar({
           )}
         </nav>
         <footer className={styles.account}>
-          <Link
-            href="/account"
-            onClick={navigate}
-            aria-label="Pengaturan"
-            aria-current={pathname.startsWith("/account") ? "page" : undefined}
-            title={compact ? "Pengaturan" : undefined}
-            className={styles.link}
-          >
+          <Link href="/account" onClick={navigate} aria-label="Pengaturan" aria-current={pathname.startsWith("/account") ? "page" : undefined} title={compact ? "Pengaturan" : undefined} className={styles.link}>
             <Glyph name="gear-six" label="Pengaturan" />
             {!compact && <span className={styles.label}>Pengaturan</span>}
+            {mobile && <ChevronRight size={16} className="text-muted ml-auto" />}
           </Link>
         </footer>
       </aside>
