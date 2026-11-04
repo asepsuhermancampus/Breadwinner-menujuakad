@@ -1,0 +1,532 @@
+:root {
+    --brown: #795548;
+    --color-main: #f2f2f2;
+    --color-primary: #343a40;
+    --color-secondary: #343a40;
+    --color-dark: #1e1f1e;
+    --color-light: #fff;
+    --text-button: #fff;
+}
+
+.color-primary {
+    background-color: var(--color-primary);
+}
+
+.color-secondary {
+    background-color: var(--color-secondary);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+.custom-envelope {
+    background: linear-gradient(180deg, white 80%, black),
+        url(/templates/assets/common/aHR0cHM6Ly92aWRpbmcuc2dwMS5kaWdpdGFsb2NlYW5zcGFjZXMuY29tL2JhY2tncm91bmQvQk14QXVVYjk0ekxJYjZQZVVlU0hBUjhZWXdCbTVxeTByMGVCSlo3Uy5wbmc.webp) !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-color: white !important;
+}
+
+.btn-control {
+    border-radius: 50%;
+    height: 2.5em;
+    width: 2.5em;
+    text-align: center;
+    vertical-align: middle;
+    background: radial-gradient(rgba(255, 0, 128, 0.8) 60%,
+            rgba(255, 255, 255, 1) 62%) !important;
+    position: relative;
+    display: block;
+    margin: 100px auto;
+    box-shadow: 0px 0px 25px 3px rgba(255, 0, 128, 0.8);
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.btn-control:hover {
+    -webkit-animation: none;
+    -moz-animation: none;
+    -ms-animation: none;
+    animation: none;
+}
+
+.btn-pink {
+    background: #ff3190;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-pink:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.btn-custom {
+    color: var(--text-button);
+    background-color: var(--color-secondary);
+}
+
+.capitalize {
+    text-transform: capitalize !important;
+}
+
+.card-body p {
+    color: #343a40 !important;
+}
+
+.switchPayment {
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.activePay {
+    background-color: #ff3190;
+    transform: scaleX(1.2);
+    z-index: 2;
+    color: white;
+}
+
+#autoPay {
+    border-radius: 0 15px 15px 0;
+}
+
+#manualPay {
+    border-radius: 15px 0 0 15px;
+}
+
+#manualPay,
+#autoPay {
+    cursor: pointer;
+}
+
+.card-pay-method:hover {
+    border: 2px solid #ff3190;
+    cursor: pointer;
+}
+
+.pay-active {
+    border: 3px solid #ff3190;
+}
+
+.img-payment {
+    object-fit: contain;
+}
+
+.spanner {
+    z-index: 99999;
+}
+
+.h-100ios {
+    height: 100%;
+}
+
+#qrcode img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    object-position: center;
+    margin: 2rem;
+}
+
+/* fix iOS bug not displaying 100vh correctly */
+/* ipad */
+@supports (-webkit-touch-callout: none) {
+
+    .containers #couple,
+    .book,
+    .containers #gift,
+    .containers #apologize,
+    .containers #stream {
+        background-attachment: scroll;
+    }
+
+    /*iPhone 5 Portrait*/
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+        .h-100ios {
+            height: 568px;
+        }
+    }
+
+    /*iPhone 5 landscape*/
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+        .h-100ios {
+            height: 320px;
+        }
+    }
+
+    /*iPhone 6 Portrait*/
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+        .h-100ios {
+            height: 667px;
+        }
+    }
+
+    /*iPhone 6 landscape*/
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
+        .h-100ios {
+            height: 375px;
+        }
+    }
+
+    /*iPhone 6+ Portrait*/
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: portrait) {
+        .h-100ios {
+            height: 736px;
+        }
+    }
+
+    /*iPhone 6+ landscape*/
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
+        .h-100ios {
+            height: 414px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .img-couple {
+        width: 100%;
+    }
+
+    .empty-bride {
+        padding-top: 50%;
+    }
+
+    .custome-envelope {
+        background-size: contain !important;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .img-couple {
+        width: 320px;
+    }
+
+    .containers #sectionMain {
+        background-position: center center;
+        max-width: 100%;
+        max-height: 100%;
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+    }
+}
+
+.img-couple {
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 40% 0 40% 0;
+}
+
+/*pulse*/
+@-webkit-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@-moz-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@-ms-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+#sectionEnvelope {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 100;
+    overflow-y: hidden;
+    -webkit-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+}
+
+#sectionEnvelope::before {
+    /*position: absolute;*/
+    content: "";
+    background-color: #00000050;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.section-background {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+
+/** mouse scroll **/
+.mouse_scroll {
+    display: block;
+    margin: 0 auto;
+    width: 24px;
+    position: absolute;
+    bottom: 0px;
+    padding-bottom: 2rem;
+    left: 49%;
+}
+
+
+.m_scroll_arrows {
+    display: block;
+    width: 5px;
+    height: 5px;
+    -ms-transform: rotate(45deg);
+    /* IE 9 */
+    -webkit-transform: rotate(45deg);
+    /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    margin: 0 0 3px 4px;
+
+    width: 16px;
+    height: 16px;
+}
+
+
+.unu {
+    margin-top: 1px;
+}
+
+.unu,
+.doi,
+.trei {
+    -webkit-animation: mouse-scroll 1s infinite;
+    -moz-animation: mouse-scroll 1s infinite;
+    animation: mouse-scroll 1s infinite;
+
+}
+
+.unu {
+    -webkit-animation-delay: .1s;
+    -moz-animation-delay: .1s;
+    -webkit-animation-direction: alternate;
+
+    animation-direction: alternate;
+    animation-delay: alternate;
+}
+
+.doi {
+    -webkit-animation-delay: .2s;
+    -moz-animation-delay: .2s;
+    -webkit-animation-direction: alternate;
+
+    animation-delay: .2s;
+    animation-direction: alternate;
+
+    margin-top: -6px;
+}
+
+.trei {
+    -webkit-animation-delay: .3s;
+    -moz-animation-delay: .3s;
+    -webkit-animation-direction: alternate;
+
+    animation-delay: .3s;
+    animation-direction: alternate;
+
+
+    margin-top: -6px;
+}
+
+.mouse {
+    height: 42px;
+    width: 24px;
+    border-radius: 14px;
+    transform: none;
+    border: 2px solid white;
+    top: 170px;
+}
+
+.wheel {
+    height: 5px;
+    width: 2px;
+    display: block;
+    margin: 5px auto;
+    background: white;
+    position: relative;
+
+    height: 4px;
+    width: 4px;
+    border: 2px solid #fff;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.wheel {
+    -webkit-animation: mouse-wheel 0.6s linear infinite;
+    -moz-animation: mouse-wheel 0.6s linear infinite;
+    animation: mouse-wheel 0.6s linear infinite;
+}
+
+@-webkit-keyframes mouse-wheel {
+    0% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(6px);
+        -ms-transform: translateY(6px);
+        transform: translateY(6px);
+    }
+}
+
+@-moz-keyframes mouse-wheel {
+    0% {
+        top: 1px;
+    }
+
+    25% {
+        top: 2px;
+    }
+
+    50% {
+        top: 3px;
+    }
+
+    75% {
+        top: 2px;
+    }
+
+    100% {
+        top: 1px;
+    }
+}
+
+@-o-keyframes mouse-wheel {
+
+    0% {
+        top: 1px;
+    }
+
+    25% {
+        top: 2px;
+    }
+
+    50% {
+        top: 3px;
+    }
+
+    75% {
+        top: 2px;
+    }
+
+    100% {
+        top: 1px;
+    }
+}
+
+@keyframes mouse-wheel {
+
+    0% {
+        top: 1px;
+    }
+
+    25% {
+        top: 2px;
+    }
+
+    50% {
+        top: 3px;
+    }
+
+    75% {
+        top: 2px;
+    }
+
+    100% {
+        top: 1px;
+    }
+}
+
+@-webkit-keyframes mouse-scroll {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes mouse-scroll {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes mouse-scroll {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes mouse-scroll {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

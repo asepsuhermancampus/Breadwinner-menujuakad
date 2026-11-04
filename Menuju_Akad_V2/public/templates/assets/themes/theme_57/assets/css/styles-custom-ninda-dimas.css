@@ -1,0 +1,198 @@
+.ornaments-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.ornaments-wrapper.orn-front {
+    z-index: 5;
+}
+
+.ornaments-wrapper .orn-1 img,
+.ornaments-wrapper .orn-2 img,
+.ornaments-wrapper .orn-3 img,
+.ornaments-wrapper .orn-4 img {
+    animation: lambai 3000ms ease-in-out infinite alternate;
+    -o-transform-origin: 50% 85%;
+    -ms-transform-origin: 50% 85%;
+    transform-origin: 50% 85%;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.couple-section,
+.wishes-section {
+    background-color: var(--color-main);
+}
+
+.couple-section .orn-1 {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    width: 35%;
+    transform: translate(-35%, 0) rotate(20deg);
+}
+
+.couple-section .orn-2 {
+    position: absolute;
+    top: 28%;
+    right: 0;
+    width: 35%;
+    transform: translate(35%, 0) rotate(-20deg) scaleX(-1);
+    z-index: 5;
+}
+
+.couple-section .orn-3 {
+    position: absolute;
+    top: 70%;
+    left: 0;
+    width: 35%;
+    transform: translate(-35%, 0) rotate(20deg);
+}
+
+.venue-section {
+    color: var(--color-dark);
+}
+
+.venue-section .venue-content {
+    margin-top: 10rem;
+}
+
+@media (min-width: 768px) {
+    .venue-section .venue-content {
+        margin-top: 15rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .venue-section .venue-content {
+        margin-top: 25rem;
+    }
+}
+
+.venue-section .venue-wrapper .venue-content .card {
+    background-color: var(--color-primary);
+}
+
+.venue-section .venue-wrapper .venue-content .card .card-body {
+    color: var(--color-light);
+}
+
+.venue-section .event-place .btn-custom {
+    --color-button-trans: var(--color-light);
+}
+
+.venue-section .waves-fluid path {
+    fill: var(--color-primary);
+}
+
+.venue-section .bg {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    width: 130%;
+    transform: translateX(-50%);
+}
+
+@media (min-width: 768px) {
+    .venue-section .bg {
+        top: 0;
+        width: 110%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .venue-section .bg {
+        top: -5rem;
+        width: 110%;
+    }
+}
+
+.venue-section .orn-1 {
+    position: absolute;
+    left: 0;
+    top: 2rem;
+    width: 35%;
+    transform: translate(-35%, 0) rotate(20deg);
+}
+
+.venue-section .orn-2 {
+    position: absolute;
+    right: 0;
+    top: 2rem;
+    width: 35%;
+    transform: translate(35%, 0) rotate(-20deg) scaleX(-1);
+}
+
+.venue-section .orn-3 {
+    position: absolute;
+    top: 28%;
+    left: 0;
+    width: 35%;
+    transform: translate(-35%, 0) rotate(20deg);
+    z-index: 5;
+}
+
+.venue-section .orn-4 {
+    position: absolute;
+    top: 70%;
+    right: 0;
+    width: 35%;
+    transform: translate(35%, 0) rotate(-20deg) scaleX(-1);
+    z-index: 5;
+}
+
+@media (min-width: 768px) {
+    .couple-section .orn-1 {
+        width: 20%;
+    }
+
+    .couple-section .orn-2 {
+        top: 50%;
+        width: 20%;
+    }
+
+    .couple-section .orn-3 {
+        top: 60%;
+        width: 20%;
+    }
+
+    .venue-section .orn-1 {
+        width: 20%;
+    }
+
+    .venue-section .orn-2 {
+        width: 20%;
+    }
+
+    .venue-section .orn-3 {
+        top: 55%;
+        width: 20%;
+    }
+
+    .venue-section .orn-4 {
+        top: 55%;
+        width: 20%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .venue-section .venue-content {
+        margin-top: 25rem;
+    }
+}
+
+@keyframes lambai {
+    from {
+        transform: rotate(-5deg);
+    }
+
+    to {
+        transform: rotate(5deg);
+    }
+}

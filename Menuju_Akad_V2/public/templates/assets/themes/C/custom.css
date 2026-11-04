@@ -1,0 +1,359 @@
+          * {
+            scroll-behavior: smooth;
+          }
+
+          @font-face {
+            font-family: Brisely;
+            src: url('../../fonts/Brisely.ttf') format('ttf');
+          }
+
+          @font-face {
+            font-family: GreyQo;
+            src: url('../../fonts/GreyQo.ttf') format('ttf');
+
+          }
+
+          .moveable_section_wrapper {
+            overflow-y: hidden;
+            overflow-x: hidden;
+          }
+
+          section {
+            overflow-y: hidden;
+            overflow-x: hidden;
+
+          }
+
+          .image-cover{
+            object-fit: cover;
+          }
+
+          .alt-title {
+            font-family: Brisley;
+          }
+
+          .handwrite {
+            font-family: 'Dancing Script', cursive;
+          }
+
+          .monospace {
+            font-family: 'Cutive Mono', monospace;
+          }
+
+          .handwrite-alt {
+            font-family: GreyQo;
+          }
+
+          .empty-30 {
+            padding-top: 30rem;
+          }
+
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0;
+            /* <-- Apparently some margin are still there even though it's hidden */
+          }
+
+          input[type=number] {
+            -moz-appearance: textfield;
+            /* Firefox */
+          }
+
+          .btn-control {
+            border-radius: 50%;
+            height: 2.5em;
+            width: 2.5em;
+            text-align: center;
+            vertical-align: middle;
+            background: radial-gradient(rgba(255, 0, 128, 0.8) 60%, rgba(255, 255, 255, 1) 62%) !important;
+            position: relative;
+            display: block;
+            margin: 100px auto;
+            box-shadow: 0px 0px 25px 3px rgba(255, 0, 128, 0.8);
+            -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+            -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+            -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+            animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+          }
+
+          .btn-control:hover {
+            -webkit-animation: none;
+            -moz-animation: none;
+            -ms-animation: none;
+            animation: none;
+          }
+
+          .btn-pink {
+            background: #ff3190;
+            color: rgba(255, 255, 255, .4);
+          }
+
+          .btn-pink:hover {
+            color: rgba(255, 255, 255, 1);
+          }
+
+          .capitalize {
+            text-transform: capitalize !important;
+          }
+
+          .card-body p {
+            color: #343a40 !important;
+          }
+
+          .switchPayment {
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #e9ecef;
+          }
+
+          .activePay {
+            background-color: #ff3190;
+            transform: scaleX(1.2);
+            z-index: 2;
+            color: white;
+          }
+
+          #autoPay {
+            border-radius: 0 15px 15px 0;
+          }
+
+          #manualPay {
+            border-radius: 15px 0 0 15px;
+          }
+
+          #manualPay,
+          #autoPay {
+            cursor: pointer;
+          }
+
+          .card-pay-method:hover {
+            border: 2px solid #ff3190;
+            cursor: pointer;
+          }
+
+          .pay-active {
+            border: 3px solid #ff3190;
+          }
+
+          .img-payment {
+            object-fit: contain;
+          }
+
+          .spanner {
+            z-index: 99999;
+          }
+
+          .h-100ios {
+            height: 100%;
+          }
+
+          /*Masonry CSS*/
+          .masonry-wrapper {
+            padding: 1.5em;
+            max-width: 1200px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+
+          .masonry {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(100px, 1fr));
+            grid-gap: 10px;
+            grid-auto-rows: 0;
+          }
+
+          .masonry-item,
+          .masonry-content {
+            border-radius: 4px;
+            overflow: hidden;
+          }
+
+          .masonry-item {
+            filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, .3));
+            transition: filter .25s ease-in-out;
+          }
+
+          /*End Masonry*/
+
+          /*Icon Set*/
+
+          .logo {
+            height: 40px;
+            width: 100px;
+          }
+
+          .logo:before {
+            display: block;
+            content: url('/templates/assets/common/icon_set.svg');
+          }
+
+          /*End Icon set*/
+
+          /* fix iOS bug not displaying 100vh correctly */
+          /* ipad */
+          @supports (-webkit-touch-callout: none) {
+
+            .containers #couple,
+            .book,
+            .containers #gift,
+            .containers #apologize,
+            .containers #stream,
+            .containers #thankyou {
+              background-attachment: scroll;
+            }
+
+            /*iPhone 5 Portrait*/
+            @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation : portrait) {
+              .h-100ios {
+                height: 568px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+
+            /*iPhone 5 landscape*/
+            @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation : landscape) {
+              .h-100ios {
+                height: 320px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+
+            /*iPhone 6 Portrait*/
+            @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait) {
+              .h-100ios {
+                height: 667px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+
+            /*iPhone 6 landscape*/
+            @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : landscape) {
+              .h-100ios {
+                height: 375px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+
+            /*iPhone 6+ Portrait*/
+            @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait) {
+              .h-100ios {
+                height: 736px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+
+            /*iPhone 6+ landscape*/
+            @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : landscape) {
+              .h-100ios {
+                height: 414px;
+              }
+
+              html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+          }
+
+          @media only screen and (min-width: 320px) {
+            .img-couple {
+              width: 100%;
+              height: auto;
+            }
+          }
+
+          @media only screen and (min-width: 576px) {
+            .img-couple {
+              width: 320px;
+              height: auto;
+            }
+          }
+
+          .img-couple {
+            border-radius: 300px;
+            margin: 0 auto .75rem;
+          }
+
+          .img-couple img{
+            object-fit: cover;
+            border-radius: 300px;
+          }
+
+          .image-couple{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+
+          @media only screen and (max-width: 1023px) and (min-width: 768px) {
+            .masonry {
+              grid-template-columns: repeat(3, minmax(100px, 1fr));
+            }
+          }
+
+          @media only screen and (min-width: 1024px) {
+            .masonry {
+              grid-template-columns: repeat(3, minmax(100px, 1fr));
+            }
+          }
+
+          #gift form .input-group label {
+            width: 100%;
+          }
+
+          /*pulse*/
+          @-webkit-keyframes pulse {
+            to {
+              box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+            }
+          }
+
+          @-moz-keyframes pulse {
+            to {
+              box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+            }
+          }
+
+          @-ms-keyframes pulse {
+            to {
+              box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+            }
+          }
+
+          @keyframes pulse {
+            to {
+              box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+            }
+          }
+
+          .navbar {
+            transition: top 0.5s ease;
+          }
+
+          .navbar-hide {
+            top: -70px;
+          }
