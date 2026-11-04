@@ -65,9 +65,16 @@ export function renderClonedTemplate(
   html = html.replace(/Minggu,\s*5\s*Mei\s*2025/gi, date);
   html = html.replace(/05\s*May\s*2025/gi, date);
 
-  // 6. Platform Branding (Menuju Akad)
-  html = html.replace(/viding\.co/gi, "menujuakad.com");
-  html = html.replace(/Viding/g, "Menuju Akad");
+  // 6. Platform Branding (Menuju Akad) - preserve asset hostnames
+  html = html.replace(/Digital Invitation by Viding(\.co)?/gi, "Digital Invitation by Menuju Akad");
+  html = html.replace(/Powered by Viding(\.co)?/gi, "Powered by Menuju Akad");
+  html = html.replace(/Made with (?:love|care) by Viding(\.co)?/gi, "Made with love by Menuju Akad");
+  html = html.replace(/Created by Viding(\.co)?/gi, "Created by Menuju Akad");
+  html = html.replace(/Undangan Digital oleh Viding(\.co)?/gi, "Undangan Digital oleh Menuju Akad");
+
+  // 7. Fix unpopulated server-side JS placeholders in cloned themes
+  html = html.replace(/(?:let|const|var)\s+([a-zA-Z0-9_]+)\s*=\s*;/g, "const $1 = null;");
 
   return html;
 }
+

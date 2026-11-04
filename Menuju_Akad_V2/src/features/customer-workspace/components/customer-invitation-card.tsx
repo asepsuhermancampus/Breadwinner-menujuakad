@@ -46,7 +46,7 @@ export function CustomerInvitationCard(props: Props) {
             )}
             <Link
               target="_blank"
-              href={`/invitation/${item.id}?workspace=${encodeURIComponent(workspaceId)}`}
+              href={`/invitation/${item.id}?workspace=${encodeURIComponent(workspaceId)}&template=${encodeURIComponent(item.template)}&title=${encodeURIComponent(item.title)}&groom=${encodeURIComponent(item.groom ?? "")}&bride=${encodeURIComponent(item.bride ?? "")}&date=${encodeURIComponent(item.date ?? "")}&venue=${encodeURIComponent(item.venue ?? "")}`}
             >
               Lihat undangan ↗
             </Link>
