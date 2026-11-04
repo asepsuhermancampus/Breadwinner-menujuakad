@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHeading } from "@/components/ui/page-heading";
-import { PageSkeleton } from "@/components/ui/page-skeleton";
 import type { CustomerWorkspace } from "../types";
 import { useCustomerResource } from "../hooks/use-customer-resource";
 import { useTrialResource } from "@/features/dashboard-trial/hooks/use-trial-resource";
@@ -62,10 +61,6 @@ function Invitations({
   const premium = trial || workspace.subscription.capabilities.includes("premium-templates");
   const multi = trial || workspace.subscription.capabilities.includes("multi-invitation");
 
-  if (state.data === null && !state.error) {
-    return <PageSkeleton variant="cards" label="Memuat template undangan" />;
-  }
-
   const handleSelectTemplate = (template: VidingTemplate) => {
     setCreating({
       id: crypto.randomUUID(),
@@ -96,6 +91,12 @@ function Invitations({
           Tambah undangan
         </Button>
       </header>
+
+      {state.error && (
+        <div className="rounded-card border border-rose-200 bg-rose-50 p-4 text-xs text-rose-700" role="alert">
+          {state.error}
+        </div>
+      )}
 
       {creating && (
         <InvitationEditor

@@ -3,7 +3,7 @@ import type { VidingTemplate, CategoryFilter } from "../types/viding-template";
 
 export const vidingTemplates: VidingTemplate[] = rawData as VidingTemplate[];
 
-export const TEMPLATES_PER_PAGE = 20;
+export const TEMPLATES_PER_PAGE = 12;
 
 export const numericCategories: CategoryFilter[] = [
   { id: 0, label: "Semua", rangeText: "1 - 167", count: vidingTemplates.length },

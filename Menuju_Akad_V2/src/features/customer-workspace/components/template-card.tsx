@@ -24,6 +24,7 @@ export function TemplateCard({ template, onPreview, onSelect }: Props) {
           height={250}
           className={styles.thumbnailImage}
           loading="lazy"
+          unoptimized
           onError={() => {
             if (imgSrc !== template.remoteImage) {
               setImgSrc(template.remoteImage);
