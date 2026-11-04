@@ -28,3 +28,4 @@ export function TemplateNumericTabs({ selectedCategory, onSelectCategory }: Prop
     </nav>
   );
 }
+

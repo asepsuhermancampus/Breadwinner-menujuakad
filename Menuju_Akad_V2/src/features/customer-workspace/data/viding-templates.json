@@ -8,7 +8,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-1.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzAxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/1",
+    "previewUrl": "/api/templates/preview/1",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -34,7 +34,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-2.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzAyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/2",
+    "previewUrl": "/api/templates/preview/2",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -60,7 +60,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-3.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzAzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/3",
+    "previewUrl": "/api/templates/preview/3",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -86,7 +86,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-4.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/4",
+    "previewUrl": "/api/templates/preview/4",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -112,7 +112,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-5.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/5",
+    "previewUrl": "/api/templates/preview/5",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -138,7 +138,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-6.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/6",
+    "previewUrl": "/api/templates/preview/6",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -164,7 +164,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-7.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/7",
+    "previewUrl": "/api/templates/preview/7",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -190,7 +190,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-8.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/8",
+    "previewUrl": "/api/templates/preview/8",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -216,7 +216,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-9.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzA5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/9",
+    "previewUrl": "/api/templates/preview/9",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -242,7 +242,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-10.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/10",
+    "previewUrl": "/api/templates/preview/10",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -268,7 +268,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-11.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/11",
+    "previewUrl": "/api/templates/preview/11",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -294,7 +294,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-12.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/12",
+    "previewUrl": "/api/templates/preview/12",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -320,7 +320,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-13.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/13",
+    "previewUrl": "/api/templates/preview/13",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -346,7 +346,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-14.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/14",
+    "previewUrl": "/api/templates/preview/14",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -372,7 +372,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-15.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/15",
+    "previewUrl": "/api/templates/preview/15",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -398,7 +398,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-16.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/16",
+    "previewUrl": "/api/templates/preview/16",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -424,7 +424,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-17.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/17",
+    "previewUrl": "/api/templates/preview/17",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -450,7 +450,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-18.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/18",
+    "previewUrl": "/api/templates/preview/18",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -476,7 +476,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-19.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/19",
+    "previewUrl": "/api/templates/preview/19",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -502,7 +502,7 @@
     "categoryLabel": "1 - 20",
     "image": "/templates/previews/theme-20.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzIwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/20",
+    "previewUrl": "/api/templates/preview/20",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -528,7 +528,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-21.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzIxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/21",
+    "previewUrl": "/api/templates/preview/21",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -554,7 +554,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-22.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzIyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/22",
+    "previewUrl": "/api/templates/preview/22",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -580,7 +580,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-23.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzIzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/23",
+    "previewUrl": "/api/templates/preview/23",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -606,7 +606,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-24.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/24",
+    "previewUrl": "/api/templates/preview/24",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -632,7 +632,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-25.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/25",
+    "previewUrl": "/api/templates/preview/25",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -658,7 +658,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-26.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/26",
+    "previewUrl": "/api/templates/preview/26",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -684,7 +684,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-27.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/27",
+    "previewUrl": "/api/templates/preview/27",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -710,7 +710,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-28.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/28",
+    "previewUrl": "/api/templates/preview/28",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -736,7 +736,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-29.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzI5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/29",
+    "previewUrl": "/api/templates/preview/29",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -762,7 +762,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-30.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzMwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/30",
+    "previewUrl": "/api/templates/preview/30",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -788,7 +788,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-31.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzMxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/31",
+    "previewUrl": "/api/templates/preview/31",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -814,7 +814,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-32.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzMyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/32",
+    "previewUrl": "/api/templates/preview/32",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -840,7 +840,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-33.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzMzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/33",
+    "previewUrl": "/api/templates/preview/33",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -866,7 +866,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-34.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/34",
+    "previewUrl": "/api/templates/preview/34",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -892,7 +892,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-35.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/35",
+    "previewUrl": "/api/templates/preview/35",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -918,7 +918,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-36.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/36",
+    "previewUrl": "/api/templates/preview/36",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -944,7 +944,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-37.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/37",
+    "previewUrl": "/api/templates/preview/37",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -970,7 +970,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-38.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/38",
+    "previewUrl": "/api/templates/preview/38",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -996,7 +996,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-39.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzM5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/39",
+    "previewUrl": "/api/templates/preview/39",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1022,7 +1022,7 @@
     "categoryLabel": "21 - 40",
     "image": "/templates/previews/theme-40.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/40",
+    "previewUrl": "/api/templates/preview/40",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1048,7 +1048,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-41.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/41",
+    "previewUrl": "/api/templates/preview/41",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1074,7 +1074,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-42.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/42",
+    "previewUrl": "/api/templates/preview/42",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1100,7 +1100,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-43.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/43",
+    "previewUrl": "/api/templates/preview/43",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1126,7 +1126,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-44.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/44",
+    "previewUrl": "/api/templates/preview/44",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1152,7 +1152,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-45.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/45",
+    "previewUrl": "/api/templates/preview/45",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1178,7 +1178,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-46.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/46",
+    "previewUrl": "/api/templates/preview/46",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1204,7 +1204,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-47.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/47",
+    "previewUrl": "/api/templates/preview/47",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1230,7 +1230,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-48.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/48",
+    "previewUrl": "/api/templates/preview/48",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1256,7 +1256,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-49.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzQ5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/49",
+    "previewUrl": "/api/templates/preview/49",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1282,7 +1282,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-50.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzUwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/50",
+    "previewUrl": "/api/templates/preview/50",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1308,7 +1308,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-51.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzUxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/51",
+    "previewUrl": "/api/templates/preview/51",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1334,7 +1334,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-52.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzUyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/52",
+    "previewUrl": "/api/templates/preview/52",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1360,7 +1360,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-53.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzUzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/53",
+    "previewUrl": "/api/templates/preview/53",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1386,7 +1386,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-54.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/54",
+    "previewUrl": "/api/templates/preview/54",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1412,7 +1412,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-55.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/55",
+    "previewUrl": "/api/templates/preview/55",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1438,7 +1438,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-56.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/56",
+    "previewUrl": "/api/templates/preview/56",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1464,7 +1464,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-57.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/57",
+    "previewUrl": "/api/templates/preview/57",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1490,7 +1490,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-58.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/58",
+    "previewUrl": "/api/templates/preview/58",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1516,7 +1516,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-59.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzU5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/59",
+    "previewUrl": "/api/templates/preview/59",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1542,7 +1542,7 @@
     "categoryLabel": "41 - 60",
     "image": "/templates/previews/theme-60.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzYwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/60",
+    "previewUrl": "/api/templates/preview/60",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1568,7 +1568,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-61.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzYxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/61",
+    "previewUrl": "/api/templates/preview/61",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1594,7 +1594,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-62.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzYyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/62",
+    "previewUrl": "/api/templates/preview/62",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1620,7 +1620,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-63.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzYzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/63",
+    "previewUrl": "/api/templates/preview/63",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1646,7 +1646,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-64.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/64",
+    "previewUrl": "/api/templates/preview/64",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1672,7 +1672,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-65.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/65",
+    "previewUrl": "/api/templates/preview/65",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1698,7 +1698,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-66.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/66",
+    "previewUrl": "/api/templates/preview/66",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1724,7 +1724,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-67.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/67",
+    "previewUrl": "/api/templates/preview/67",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1750,7 +1750,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-68.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/68",
+    "previewUrl": "/api/templates/preview/68",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1776,7 +1776,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-69.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzY5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/69",
+    "previewUrl": "/api/templates/preview/69",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1802,7 +1802,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-70.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzcwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/70",
+    "previewUrl": "/api/templates/preview/70",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1828,7 +1828,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-71.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzcxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/71",
+    "previewUrl": "/api/templates/preview/71",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1854,7 +1854,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-72.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzcyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/72",
+    "previewUrl": "/api/templates/preview/72",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1880,7 +1880,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-73.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzczX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/73",
+    "previewUrl": "/api/templates/preview/73",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1906,7 +1906,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-74.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/74",
+    "previewUrl": "/api/templates/preview/74",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1932,7 +1932,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-75.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/75",
+    "previewUrl": "/api/templates/preview/75",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1958,7 +1958,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-76.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/76",
+    "previewUrl": "/api/templates/preview/76",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -1984,7 +1984,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-77.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/77",
+    "previewUrl": "/api/templates/preview/77",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2010,7 +2010,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-78.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/78",
+    "previewUrl": "/api/templates/preview/78",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2036,7 +2036,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-79.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzc5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/79",
+    "previewUrl": "/api/templates/preview/79",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2062,7 +2062,7 @@
     "categoryLabel": "61 - 80",
     "image": "/templates/previews/theme-80.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzgwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/80",
+    "previewUrl": "/api/templates/preview/80",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2088,7 +2088,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-81.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzgxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/81",
+    "previewUrl": "/api/templates/preview/81",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2114,7 +2114,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-82.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzgyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/82",
+    "previewUrl": "/api/templates/preview/82",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2140,7 +2140,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-83.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzgzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/83",
+    "previewUrl": "/api/templates/preview/83",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2166,7 +2166,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-84.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/84",
+    "previewUrl": "/api/templates/preview/84",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2192,7 +2192,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-85.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/85",
+    "previewUrl": "/api/templates/preview/85",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2218,7 +2218,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-86.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/86",
+    "previewUrl": "/api/templates/preview/86",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2244,7 +2244,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-87.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/87",
+    "previewUrl": "/api/templates/preview/87",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2270,7 +2270,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-88.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/88",
+    "previewUrl": "/api/templates/preview/88",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2296,7 +2296,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-89.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzg5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/89",
+    "previewUrl": "/api/templates/preview/89",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2322,7 +2322,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-90.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzkwX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/90",
+    "previewUrl": "/api/templates/preview/90",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2348,7 +2348,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-91.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzkxX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/91",
+    "previewUrl": "/api/templates/preview/91",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2374,7 +2374,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-92.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzkyX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/92",
+    "previewUrl": "/api/templates/preview/92",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2400,7 +2400,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-93.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzkzX1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/93",
+    "previewUrl": "/api/templates/preview/93",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2426,7 +2426,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-94.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk0X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/94",
+    "previewUrl": "/api/templates/preview/94",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2452,7 +2452,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-95.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk1X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/95",
+    "previewUrl": "/api/templates/preview/95",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2478,7 +2478,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-96.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk2X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/96",
+    "previewUrl": "/api/templates/preview/96",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2504,7 +2504,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-97.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk3X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/97",
+    "previewUrl": "/api/templates/preview/97",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2530,7 +2530,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-98.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk4X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/98",
+    "previewUrl": "/api/templates/preview/98",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2556,7 +2556,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-99.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzk5X1ByZXZpZXcuanBlZw.webp",
-    "previewUrl": "https://viding.co/theme/preview/99",
+    "previewUrl": "/api/templates/preview/99",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2582,7 +2582,7 @@
     "categoryLabel": "81 - 100",
     "image": "/templates/previews/theme-100.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwMF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/100",
+    "previewUrl": "/api/templates/preview/100",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2608,7 +2608,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-101.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwMV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/101",
+    "previewUrl": "/api/templates/preview/101",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2634,7 +2634,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-102.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwMl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/102",
+    "previewUrl": "/api/templates/preview/102",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2660,7 +2660,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-103.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwM19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/103",
+    "previewUrl": "/api/templates/preview/103",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2686,7 +2686,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-104.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwNF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/104",
+    "previewUrl": "/api/templates/preview/104",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2712,7 +2712,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-105.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwNV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/105",
+    "previewUrl": "/api/templates/preview/105",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2738,7 +2738,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-106.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwNl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/106",
+    "previewUrl": "/api/templates/preview/106",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2764,7 +2764,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-107.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwN19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/107",
+    "previewUrl": "/api/templates/preview/107",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2790,7 +2790,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-108.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwOF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/108",
+    "previewUrl": "/api/templates/preview/108",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2816,7 +2816,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-109.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEwOV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/109",
+    "previewUrl": "/api/templates/preview/109",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2842,7 +2842,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-110.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExMF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/110",
+    "previewUrl": "/api/templates/preview/110",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2868,7 +2868,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-111.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExMV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/111",
+    "previewUrl": "/api/templates/preview/111",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2894,7 +2894,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-112.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExMl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/112",
+    "previewUrl": "/api/templates/preview/112",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2920,7 +2920,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-113.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExM19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/113",
+    "previewUrl": "/api/templates/preview/113",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2946,7 +2946,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-114.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExNF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/114",
+    "previewUrl": "/api/templates/preview/114",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2972,7 +2972,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-115.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExNV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/115",
+    "previewUrl": "/api/templates/preview/115",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -2998,7 +2998,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-116.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExNl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/116",
+    "previewUrl": "/api/templates/preview/116",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3024,7 +3024,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-117.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExN19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/117",
+    "previewUrl": "/api/templates/preview/117",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3050,7 +3050,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-118.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExOF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/118",
+    "previewUrl": "/api/templates/preview/118",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3076,7 +3076,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-119.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzExOV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/119",
+    "previewUrl": "/api/templates/preview/119",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3102,7 +3102,7 @@
     "categoryLabel": "101 - 120",
     "image": "/templates/previews/theme-120.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyMF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/120",
+    "previewUrl": "/api/templates/preview/120",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3128,7 +3128,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-121.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyMV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/121",
+    "previewUrl": "/api/templates/preview/121",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3154,7 +3154,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-122.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyMl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/122",
+    "previewUrl": "/api/templates/preview/122",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3180,7 +3180,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-123.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyM19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/123",
+    "previewUrl": "/api/templates/preview/123",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3206,7 +3206,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-124.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyNF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/124",
+    "previewUrl": "/api/templates/preview/124",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3232,7 +3232,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-125.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyNV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/125",
+    "previewUrl": "/api/templates/preview/125",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3258,7 +3258,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-126.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyNl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/126",
+    "previewUrl": "/api/templates/preview/126",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3284,7 +3284,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-127.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyN19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/127",
+    "previewUrl": "/api/templates/preview/127",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3310,7 +3310,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-128.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyOF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/128",
+    "previewUrl": "/api/templates/preview/128",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3336,7 +3336,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-129.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEyOV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/129",
+    "previewUrl": "/api/templates/preview/129",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3362,7 +3362,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-130.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzMF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/130",
+    "previewUrl": "/api/templates/preview/130",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3388,7 +3388,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-131.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzMV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/131",
+    "previewUrl": "/api/templates/preview/131",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3414,7 +3414,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-132.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzMl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/132",
+    "previewUrl": "/api/templates/preview/132",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3440,7 +3440,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-133.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzM19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/133",
+    "previewUrl": "/api/templates/preview/133",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3466,7 +3466,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-134.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzNF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/134",
+    "previewUrl": "/api/templates/preview/134",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3492,7 +3492,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-135.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzNV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/135",
+    "previewUrl": "/api/templates/preview/135",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3518,7 +3518,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-136.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzNl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/136",
+    "previewUrl": "/api/templates/preview/136",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3544,7 +3544,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-137.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzN19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/137",
+    "previewUrl": "/api/templates/preview/137",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3570,7 +3570,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-138.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzOF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/138",
+    "previewUrl": "/api/templates/preview/138",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3596,7 +3596,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-139.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzEzOV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/139",
+    "previewUrl": "/api/templates/preview/139",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3622,7 +3622,7 @@
     "categoryLabel": "121 - 140",
     "image": "/templates/previews/theme-140.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0MF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/140",
+    "previewUrl": "/api/templates/preview/140",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3648,7 +3648,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-141.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0MV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/141",
+    "previewUrl": "/api/templates/preview/141",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3674,7 +3674,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-142.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0Ml9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/142",
+    "previewUrl": "/api/templates/preview/142",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3700,7 +3700,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-143.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0M19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/143",
+    "previewUrl": "/api/templates/preview/143",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3726,7 +3726,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-144.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0NF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/144",
+    "previewUrl": "/api/templates/preview/144",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3752,7 +3752,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-145.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0NV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/145",
+    "previewUrl": "/api/templates/preview/145",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3778,7 +3778,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-146.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0Nl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/146",
+    "previewUrl": "/api/templates/preview/146",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3804,7 +3804,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-147.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0N19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/147",
+    "previewUrl": "/api/templates/preview/147",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3830,7 +3830,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-148.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0OF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/148",
+    "previewUrl": "/api/templates/preview/148",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3856,7 +3856,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-149.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE0OV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/149",
+    "previewUrl": "/api/templates/preview/149",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3882,7 +3882,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-150.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1MF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/150",
+    "previewUrl": "/api/templates/preview/150",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3908,7 +3908,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-151.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1MV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/151",
+    "previewUrl": "/api/templates/preview/151",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3934,7 +3934,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-152.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1Ml9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/152",
+    "previewUrl": "/api/templates/preview/152",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3960,7 +3960,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-153.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1M19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/153",
+    "previewUrl": "/api/templates/preview/153",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -3986,7 +3986,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-154.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1NF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/154",
+    "previewUrl": "/api/templates/preview/154",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4012,7 +4012,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-155.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1NV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/155",
+    "previewUrl": "/api/templates/preview/155",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4038,7 +4038,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-156.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1Nl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/156",
+    "previewUrl": "/api/templates/preview/156",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4064,7 +4064,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-157.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1N19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/157",
+    "previewUrl": "/api/templates/preview/157",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4090,7 +4090,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-158.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1OF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/158",
+    "previewUrl": "/api/templates/preview/158",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4116,7 +4116,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-159.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE1OV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/159",
+    "previewUrl": "/api/templates/preview/159",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4142,7 +4142,7 @@
     "categoryLabel": "141 - 160",
     "image": "/templates/previews/theme-160.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2MF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/160",
+    "previewUrl": "/api/templates/preview/160",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4168,7 +4168,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-161.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2MV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/161",
+    "previewUrl": "/api/templates/preview/161",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4194,7 +4194,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-162.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2Ml9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/162",
+    "previewUrl": "/api/templates/preview/162",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4220,7 +4220,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-163.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2M19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/163",
+    "previewUrl": "/api/templates/preview/163",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4246,7 +4246,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-164.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2NF9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/164",
+    "previewUrl": "/api/templates/preview/164",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4272,7 +4272,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-165.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2NV9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/165",
+    "previewUrl": "/api/templates/preview/165",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4298,7 +4298,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-166.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2Nl9QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/166",
+    "previewUrl": "/api/templates/preview/166",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",
@@ -4324,7 +4324,7 @@
     "categoryLabel": "161 - 167",
     "image": "/templates/previews/theme-167.webp",
     "remoteImage": "https://media.viding.co/dmlkaW5nIGNvIGltYWdlIHByb3h5IGJ5IGZseS5pbw/rs:auto:720:0:1/g:no/aHR0cHM6Ly9wZXRyYS52aWRpbmcuY28vdGVtcGxhdGVzL1RoZW1lXzE2N19QcmV2aWV3LmpwZWc.webp",
-    "previewUrl": "https://viding.co/theme/preview/167",
+    "previewUrl": "/api/templates/preview/167",
     "tags": [
       "Responsif Mobile",
       "Musik Latar",

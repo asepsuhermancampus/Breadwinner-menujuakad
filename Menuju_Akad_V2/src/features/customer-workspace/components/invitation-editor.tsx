@@ -6,7 +6,7 @@ import { Dialog } from "@/components/ui/dialog";
 export type BasicInvitation = {
   id: string;
   title: string;
-  template: "basic" | "premium";
+  template: "basic" | "premium" | string;
   groom?: string;
   bride?: string;
   date?: string;
@@ -96,10 +96,11 @@ export function InvitationEditor({
           <select
             className="rounded-control border border-ux-border p-3"
             value={draft.template}
-            onChange={(e) =>
-              setDraft({ ...draft, template: e.target.value as "basic" | "premium" })
-            }
+            onChange={(e) => setDraft({ ...draft, template: e.target.value })}
           >
+            {draft.template !== "basic" && draft.template !== "premium" && (
+              <option value={draft.template}>{draft.template}</option>
+            )}
             <option value="basic">Dasar</option>
             <option value="premium" disabled={!premium}>
               Premium

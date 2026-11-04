@@ -64,7 +64,7 @@ const schemas = {
   invitations: z.object({
     id,
     title: z.string().trim().min(1).max(160),
-    template: z.enum(["basic", "premium"]),
+    template: z.string().trim().min(1).max(100),
     groom: text.optional(),
     bride: text.optional(),
     date: text.optional(),

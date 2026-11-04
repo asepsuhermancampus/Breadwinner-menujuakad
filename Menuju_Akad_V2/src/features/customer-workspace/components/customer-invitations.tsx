@@ -70,7 +70,7 @@ function Invitations({
     setCreating({
       id: crypto.randomUUID(),
       title: `Undangan ${template.name}`,
-      template: "premium",
+      template: template.name,
       published: false,
     });
   };

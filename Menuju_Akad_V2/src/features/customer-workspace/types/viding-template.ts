@@ -18,3 +18,4 @@ export type CategoryFilter = {
   rangeText: string;
   count: number;
 };
+

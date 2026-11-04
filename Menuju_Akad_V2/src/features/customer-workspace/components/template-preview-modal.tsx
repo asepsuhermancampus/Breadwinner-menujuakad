@@ -16,6 +16,8 @@ export function TemplatePreviewModal({ template, onClose, onSelect }: Props) {
 
   if (!template) return null;
 
+  const localPreviewUrl = `/api/templates/preview/${template.id}`;
+
   return (
     <div
       className={styles.modalOverlay}
@@ -105,7 +107,7 @@ export function TemplatePreviewModal({ template, onClose, onSelect }: Props) {
             )}
             <iframe
               key={template.id}
-              src={template.previewUrl}
+              src={localPreviewUrl}
               title={`Preview ${template.name}`}
               className="w-full h-full border-0"
               allow="autoplay; fullscreen"
@@ -116,13 +118,13 @@ export function TemplatePreviewModal({ template, onClose, onSelect }: Props) {
 
         <div className={styles.modalFooter}>
           <a
-            href={template.previewUrl}
+            href={localPreviewUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary hover:text-primary transition"
           >
             <ExternalLink size={14} />
-            <span>Buka di tab baru (viding.co)</span>
+            <span>Buka di tab baru</span>
           </a>
 
           <div className="flex items-center gap-2">

@@ -109,3 +109,4 @@ export function TemplateCatalogView({ onSelectTemplate }: Props) {
     </section>
   );
 }
+

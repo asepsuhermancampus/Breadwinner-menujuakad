@@ -49,7 +49,7 @@ const moodboard = z.object({
 const invitation = z.object({
   id,
   title: z.string().min(1).max(160),
-  template: z.enum(["basic", "premium"]),
+  template: z.string().min(1).max(100),
   groom: text.optional(),
   bride: text.optional(),
   date: text.optional(),
@@ -100,7 +100,7 @@ export function validateResource(
       throw new PaymentError("Multi-undangan tersedia pada Lifetime", 403);
     if (
       !has("premium-templates") &&
-      items.some((item) => "template" in item && item.template === "premium")
+      items.some((item) => "template" in item && item.template !== "basic")
     )
       throw new PaymentError("Template premium memerlukan paket Premium", 403);
   }

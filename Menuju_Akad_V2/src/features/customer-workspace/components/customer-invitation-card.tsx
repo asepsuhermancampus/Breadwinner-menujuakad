@@ -27,7 +27,10 @@ export function CustomerInvitationCard(props: Props) {
           <span>MENUJU AKAD</span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className={styles.status}>{item.published ? "● TERBIT" : "DRAF · BELUM TERBIT"}</p>
+          <p className={styles.status}>
+            {item.published ? "● TERBIT" : "DRAF · BELUM TERBIT"}
+            {item.template ? ` · ${item.template}` : ""}
+          </p>
           <h2 className={styles.title}>{item.title}</h2>
           <p className={styles.copy}>
             {[item.groom, item.bride].filter(Boolean).join(" & ") || "Lengkapi nama pasangan"}
@@ -41,14 +44,12 @@ export function CustomerInvitationCard(props: Props) {
                 Buka studio visual ↗
               </Link>
             )}
-            {!trial && item.published && (
-              <Link
-                target="_blank"
-                href={`/invitation/${item.id}?workspace=${encodeURIComponent(workspaceId)}`}
-              >
-                Lihat undangan ↗
-              </Link>
-            )}
+            <Link
+              target="_blank"
+              href={`/invitation/${item.id}?workspace=${encodeURIComponent(workspaceId)}`}
+            >
+              Lihat undangan ↗
+            </Link>
           </div>
         </div>
       </div>
