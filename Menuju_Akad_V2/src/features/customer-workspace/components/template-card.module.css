@@ -146,3 +146,9 @@
 .btnUse:hover {
   background: #066749;
 }
+
+.btnUse:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--ux-border, #cbd5e1);
+}

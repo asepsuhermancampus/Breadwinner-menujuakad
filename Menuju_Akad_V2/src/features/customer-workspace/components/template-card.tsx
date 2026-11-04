@@ -9,9 +9,10 @@ type Props = {
   template: VidingTemplate;
   onPreview: (template: VidingTemplate) => void;
   onSelect: (template: VidingTemplate) => void;
+  disabled?: boolean;
 };
 
-export function TemplateCard({ template, onPreview, onSelect }: Props) {
+export function TemplateCard({ template, onPreview, onSelect, disabled = false }: Props) {
   const [imgSrc, setImgSrc] = useState(template.image);
 
   return (
@@ -66,6 +67,7 @@ export function TemplateCard({ template, onPreview, onSelect }: Props) {
           <button
             type="button"
             className={styles.btnUse}
+            disabled={disabled}
             onClick={() => onSelect(template)}
             aria-label={`Gunakan ${template.name}`}
           >

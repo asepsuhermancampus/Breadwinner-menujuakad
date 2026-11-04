@@ -39,7 +39,7 @@ export function CustomerShell({
   const [compact, setCompact] = useState(false);
   const [narrow, setNarrow] = useState(false);
   const availability = useFeatureAvailabilityStatus(access);
-  const navigationAvailability = availability ?? defaultFeatureAvailability(false);
+  const navigationAvailability = availability ?? defaultFeatureAvailability(true);
   const [event] = useEventPreference();
   const invalidated = useDashboardSession(access);
   useWorkspaceMembership(access);

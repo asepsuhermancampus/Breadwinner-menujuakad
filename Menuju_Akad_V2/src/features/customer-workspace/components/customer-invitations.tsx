@@ -27,7 +27,7 @@ export function CustomerInvitations({
   workspace: CustomerWorkspace;
   studioAvailable?: boolean;
 }) {
-  const state = useCustomerResource("invitations", workspace.id);
+  const state = useCustomerResource("invitations", workspace.id, true, true);
   return <Invitations workspace={workspace} state={state} studioAvailable={studioAvailable} />;
 }
 
@@ -60,6 +60,7 @@ function Invitations({
   const current = state.data as BasicInvitation[] | null;
   const premium = trial || workspace.subscription.capabilities.includes("premium-templates");
   const multi = trial || workspace.subscription.capabilities.includes("multi-invitation");
+  const canAdd = Boolean(current) && !state.saving && (multi || (current ? current.length < 1 : true));
 
   const handleSelectTemplate = (template: VidingTemplate) => {
     setCreating({
@@ -78,7 +79,7 @@ function Invitations({
           description="167+ pilihan tema pernikahan eksklusif terinspirasi dari viding.co. Lihat pratinjau langsung dan gunakan tema pilihan kalian."
         />
         <Button
-          disabled={!current || state.saving || (!multi && current.length >= 1)}
+          disabled={!canAdd}
           onClick={() =>
             setCreating({
               id: crypto.randomUUID(),
@@ -98,6 +99,12 @@ function Invitations({
         </div>
       )}
 
+      {current === null && !state.error && (
+        <div className="rounded-card border border-ux-border bg-surface p-4 text-xs text-secondary animate-pulse" role="status">
+          Memuat daftar undangan kalian...
+        </div>
+      )}
+
       {creating && (
         <InvitationEditor
           item={creating}
@@ -106,8 +113,9 @@ function Invitations({
           trial={trial}
           onClose={() => setCreating(null)}
           save={(next) => {
-            if (!current || (!multi && current.length >= 1)) return Promise.resolve(false);
-            return state.save([...current, next]);
+            const list = current ?? [];
+            if (!multi && list.length >= 1) return Promise.resolve(false);
+            return state.save([...list, next]);
           }}
         />
       )}
@@ -137,7 +145,7 @@ function Invitations({
         </section>
       )}
 
-      <TemplateCatalogView onSelectTemplate={handleSelectTemplate} />
+      <TemplateCatalogView onSelectTemplate={handleSelectTemplate} canSelect={canAdd} />
     </section>
   );
 }

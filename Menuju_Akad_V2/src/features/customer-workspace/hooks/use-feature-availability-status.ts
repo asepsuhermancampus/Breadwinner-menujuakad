@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import {
   availabilityFeatures,
+  defaultFeatureAvailability,
   type AvailabilityFeature,
   type FeatureAvailability,
 } from "../domain/feature-availability-catalog";
@@ -27,7 +28,9 @@ export function useFeatureAvailabilityStatus(access: DashboardAccess) {
           if (!abort.signal.aborted && current === revision) setAvailability(parse(value));
         })
         .catch(() => {
-          if (!abort.signal.aborted && current === revision) setAvailability(parse({}));
+          if (!abort.signal.aborted && current === revision) {
+            setAvailability((prev) => prev ?? defaultFeatureAvailability(true));
+          }
         });
     };
     load();

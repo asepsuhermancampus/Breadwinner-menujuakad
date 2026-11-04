@@ -15,9 +15,10 @@ import styles from "./template-catalog.module.css";
 
 type Props = {
   onSelectTemplate: (template: VidingTemplate) => void;
+  canSelect?: boolean;
 };
 
-export function TemplateCatalogView({ onSelectTemplate }: Props) {
+export function TemplateCatalogView({ onSelectTemplate, canSelect = true }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -77,6 +78,7 @@ export function TemplateCatalogView({ onSelectTemplate }: Props) {
             template={template}
             onPreview={setPreviewTemplate}
             onSelect={onSelectTemplate}
+            disabled={!canSelect}
           />
         ))}
       </div>
